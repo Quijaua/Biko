@@ -38,6 +38,7 @@
     <link href="{{ asset('dist/css/tabler-vendors.min.css?1738096682') }}" rel="stylesheet">
     <link href="{{ asset('dist/css/tabler-marketing.min.css?1738096682') }}" rel="stylesheet">
     <link href="{{ asset('dist/css/demo.min.css?1738096682') }}" rel="stylesheet">
+    <link href="{{ asset('dist/css/custom.css') }}" rel="stylesheet">
 
 
     <!-- FontsAwesome -->
@@ -49,6 +50,7 @@
     <!-- Styles -->
     <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
+
 
 
 </head>

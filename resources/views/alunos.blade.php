@@ -109,22 +109,6 @@
         </form>
       </div>
     </div>
-
-    <div class="row">
-      <div class="col-6 m-auto">
-        <form action="/alunos/search" method="POST" role="search">
-          @csrf
-          <div class="input-group d-flex justify-content-center align-center">
-            <input type="text" class="form-control" name="inputQuery"
-              placeholder="Buscar por nome ou sobrenome do aluno" required> <span class="input-group-btn">
-              <button type="submit" class="btn-link text-decoration-none">
-                <i class="fas fa-search"></i>
-              </button>
-            </span>
-          </div>
-        </form>
-      </div>
-    </div>
     @endif
   </div>
   @if(\Session::has('success'))
@@ -145,75 +129,134 @@
     </div>
   </div>
   @endif
-  @if($alunos->isEmpty())
-  @if($user->role != 'aluno' && $user->role != 'professor')
-  <div class="col mt-4 text-center">
-    <a class="btn btn-success" href="/alunos/add">Adicionar novo aluno</a>
-  </div>
-  @endif
-  @else
-  @endif
-  <div class="row">
-    <div class="col mt-4">
-      @if($alunos->isEmpty())
-      <p>Nenhum registro encontrado.</p>
-      @else
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th scope="col">Foto</th>
-            <th scope="col">Nome</th>
-            <th scope="col">Núcleo</th>
-            <th scope="col">Situação</th>
-            <th scope="col">Lista de Espera</th>
-            <th scope="col">Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          @foreach($alunos as $aluno)
-          <tr>
-            @if($aluno->Foto)
-            <td><img class="rounded-circle avatar" src="{{ asset('storage') }}/{{ $aluno->Foto }}" alt="{{ $aluno->NomeAluno }}"></td>
-            @else
-            <td><img class="rounded-circle avatar" src="{{ asset('images') }}/user.png" alt="{{ $aluno->NomeAluno }}"></td>
-            @endif
-            @if($aluno->NomeSocial === null)
-            <td class="w25p">{{ $aluno->NomeAluno}}</td>
-            @else
-            <td class="w25p">{{ $aluno->NomeSocial}}</td>
-            @endif
-            @php $nomeNucleo = \App\Nucleo::where('id', $aluno->id_nucleo)->get('NomeNucleo'); @endphp
-            @if($nomeNucleo->isEmpty())
-            <td></td>
-            @else
-            <td>{{ $nomeNucleo[0]['NomeNucleo'] }}</td>
-            @endif
-            <td>
-              @if($aluno->Status === 1)
-              <span class="badge bg-success p-2 text-white">ATIVO</span>
-              @else
-              <span class="badge bg-danger p-2 text-white">INATIVO</span>
-              @endif
-            </td>
-            @if($aluno->ListaEspera === 'Sim')
-            <td>Sim</td>
-            @else
-            <td>Não</td>
-            @endif
-            <td>
-              <a class="btn btn-info text-light" href="/alunos/details/{{ $aluno->id }}">Detalhes</a>
-              <a class="btn btn-primary" href="/alunos/edit/{{ $aluno->id }}">Editar</a>
-              @if($aluno->Status === 1)
-              <a class="btn btn-danger disableBtn" href="/alunos/disable/{{ $aluno->id }}">Inativar</a>
-              @else
-              <a class="btn btn-success enableBtn" href="/alunos/enable/{{ $aluno->id }}">Ativar</a>
-              @endif
-            </td>
-          </tr>
-          @endforeach
-        </tbody>
-      </table>
-      @endif
+  <div class="container">
+    <div class="rounded border border-gray-300">
+      <form action="/alunos/search" method="POST" class="p-4 bg-white" role="search">
+        <div class="col-10 d-flex align-items-center gap-2">
+          @csrf
+          <input type="text" name="inputQuery" class="form-control"
+            placeholder="Digite o nome ou sobrenome para encontrar um aluno(a)" required />
+
+          <button type="submit" class="btn btn-outline-primary d-flex align-items-center gap-1">
+            <i class="fas fa-search"></i> Buscar
+          </button>
+
+          <a href="/alunos" class="btn btn-light text-secondary">
+            Limpar
+          </a>
+        </div>
+      </form>
+
+      <div>
+        @if($alunos->isEmpty())
+        <p>Nenhum registro encontrado.</p>
+        @else
+        <div class="table-responsive">
+          <table class="table table-hover table-vcenter">
+            <thead>
+              <tr>
+              <th class="text-nowrap text-black py-3"></th>
+                <th class="text-nowrap text-black py-3">Foto</th>
+                <th class="text-nowrap text-black py-3">Nome</th>
+                <th class="text-nowrap text-black py-3">Núcleo</th>
+                <th class="text-nowrap text-black py-3">Situação</th>
+                <th class="text-nowrap text-black py-3">Lista de Espera</th>
+                <th class="text-nowrap text-black py-3">Ações</th>
+              </tr>
+
+            </thead>
+            <tbody class="bg-white rounded">
+              @foreach($alunos as $aluno)
+              <tr>
+                <td><input type="checkbox" class="custom-checkbox" /></td>
+
+                {{-- Foto --}}
+                <td>
+                  <span class="avatar avatar-md rounded" style="background-image: url('{{ $aluno->Foto ? asset('storage/' . $aluno->Foto) : asset('images/user.png') }}')"></span>
+                </td>
+
+                {{-- Nome --}}
+                <td class="text-secondary">
+                  {{ $aluno->NomeSocial ?? $aluno->NomeAluno }}
+                </td>
+
+                {{-- Núcleo --}}
+                @php
+                $nomeNucleo = \App\Nucleo::find($aluno->id_nucleo);
+                @endphp
+                <td class="text-secondary">{{ $nomeNucleo->NomeNucleo ?? '' }}</td>
+
+                {{-- Situação --}}
+                <td>
+                  @if($aluno->Status === 1)
+                  <span class="status-badge status-ativo">
+                    Ativar
+                  </span>
+                  @else
+                  <span class="status-badge status-inativo">
+                    Inativar
+                  </span>
+                  @endif
+                </td>
+
+                {{-- Lista de Espera --}}
+                <td class="text-center">
+                  @if($aluno->ListaEspera === 'Sim')
+                  <span class="custom-status-yellow text-white"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-x">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M18 6l-12 12" />
+                      <path d="M6 6l12 12" />
+                    </svg></span>
+                  @else
+                  <span class="custom-status-purple text-white"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-check">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M5 12l5 5l10 -10" />
+                    </svg></span>
+                  @endif
+                </td>
+
+                {{-- Ações --}}
+                <td>
+                  <div class="btn-list flex-nowrap">
+                    <a href="/alunos/details/{{ $aluno->id }}" class="btn btn-outline-secondary">
+                      <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-eye">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                          <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
+                        </svg></span> Ver Detalhes
+                    </a>
+                    <a href="/alunos/edit/{{ $aluno->id }}" class="btn btn-primary">
+                      <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+                          <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
+                          <path d="M16 5l3 3" />
+                        </svg></span> Editar
+                    </a>
+                    @if($aluno->Status === 1)
+                    <a href="/alunos/disable/{{ $aluno->id }}">
+                      <span class="status-btn status-ativo">
+                        Ativar
+                        <span class="status-circle"></span>
+                      </span>
+                    </a>
+                    @else
+                    <a href="/alunos/enable/{{ $aluno->id }}">
+                      <span class="status-btn status-inativo">
+                        <span class="status-circle"></span>
+                        Inativar
+                      </span>
+                    </a>
+                    @endif
+                  </div>
+                </td>
+              </tr>
+              @endforeach
+            </tbody>
+          </table>
+        </div>
+        @endif
+      </div>
     </div>
   </div>
   <div class="row">
