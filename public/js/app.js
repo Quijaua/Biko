@@ -24,6 +24,7 @@ __webpack_require__.r(__webpack_exports__);
 var status_filter = document.getElementById('status');
 var nucleo_filter = document.getElementById('nucleo');
 var listaEspera_filter = document.getElementById('lista_espera');
+var limparFiltrosButton = document.getElementById('limparFiltros');
 var handleStatusChange = function handleStatusChange(status) {
   var handleUrlFormated = function handleUrlFormated() {
     var urlToFormate = new URL(window.location.href);
@@ -71,6 +72,11 @@ nucleo_filter.addEventListener('change', function () {
 });
 listaEspera_filter.addEventListener('change', function () {
   handleListaEsperaChange(listaEspera_filter.value);
+});
+limparFiltrosButton.addEventListener('click', function () {
+  var url = window.location.origin + window.location.pathname;
+  var baseUrl = url.replace(/\/search\/?$/, '');
+  window.location.href = baseUrl;
 });
 
 /***/ }),
