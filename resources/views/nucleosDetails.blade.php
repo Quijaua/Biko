@@ -49,6 +49,16 @@
         </div>
       </div>
     </div>
+    <div class="col">
+          <div class="mb-3">
+            <label class="form-label mb-2" for="permiteAmbienteVirtual">Permite acesso ao ambiente virtual?</label>
+            <select class="form-select" id="permiteAmbienteVirtual" name="permiteAmbienteVirtual" disabled>
+              <option selected disabled>Selecione</option>
+              <option value="1" <?php if($dados->permite_ambiente_virtual){ echo 'selected=selected';} ?>>Sim</option>
+              <option value="0" <?php if(!$dados->permite_ambiente_virtual){ echo 'selected=selected';} ?>>Não</option>
+            </select>
+          </div>
+    </div>
   </div>
   <div class="row">
     <div class="col">
@@ -204,7 +214,7 @@
     <div class="col">
       <div class="mb-3">
         <label class="form-label mb-2" for="inputDisciplinas">Disciplinas</label>
-        @if($disciplinas[0]['Disciplinas'] === null)
+        @if($disciplinas[0] && $disciplinas[0]['Disciplinas'] === null)
         <div class="form-check form-check-inline alert alert-danger">Sem disciplinas cadastradas.</div>
         @else
         <div class="form-check form-check-inline alert alert-success">

@@ -78,6 +78,7 @@
             <th scope="col">Telefone</th>
             <th scope="col">Situação</th>
             <th scope="col">Alunos Ativos</th>
+            <th scope="col">Ambiente Virtual</th>
             <th scope="col">Ações</th>
           </tr>
         </thead>
@@ -105,6 +106,13 @@
             @if($user->role !== 'coordenador')
             <td class="text-center"><span class="badge bg-info p-2"><a class="text-light" href="{{ route('alunos/nucleo/search') }}?nucleo={{ $nucleo->id }}&status=1">{{ $nucleo->alunos->where('Status', 1)->count() }}</a></span></td>
             @endif
+            <td class="text-center">
+              @if($nucleo->permite_ambiente_virtual === 1)
+              <span class="badge text-white bg-success p-2">SIM</span>
+              @else
+              <span class="badge text-white bg-danger p-2">NÃO</span>
+              @endif
+            </td>
             <td>
               <a class="btn btn-info text-light" href="/nucleos/details/{{ $nucleo->id }}">Detalhes</a>
               <a class="btn btn-primary" href="/nucleos/edit/{{ $nucleo->id }}">Editar</a>

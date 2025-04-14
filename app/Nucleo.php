@@ -35,6 +35,7 @@ class Nucleo extends Model
         'InicioAtividades',
         'whatsapp_url',
         'Regiao',
+        'permite_ambiente_virtual',
     ];
 
     public function alunos()
