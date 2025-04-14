@@ -37,7 +37,7 @@
         @endif
       </div>
     </div>
-    @if($user->role != 'aluno' && $user->role != 'professor')
+    @if($user->role != 'aluno')
     <div class="card mb-4 col-md-7">
       <div class="card-body">
         <form class="row g-2 align-items-end">
