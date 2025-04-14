@@ -23,8 +23,8 @@ class AmbienteVirtualController extends Controller
     {
         return view('ambiente-virtual.create')->with([
             'user' => Auth::user(),
-            'professores' => AmbienteVirtualService::getProfessores(Auth::user()->professor->id_nucleo ?? Auth::user()->coordenador->id_nucleo),
-            'disciplinas' => AmbienteVirtualService::getDisciplinas(/*Auth::user()->professor->id_nucleo ?? Auth::user()->coordenador->id_nucleo*/),
+            'professores' => AmbienteVirtualService::getProfessores(),
+            'disciplinas' => AmbienteVirtualService::getDisciplinas(),
         ]);
     }
 

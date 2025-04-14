@@ -97,6 +97,12 @@ Route::post('mensagens/store', 'MensagensController@store')->middleware('permiss
 Route::get('mensagens/{mensagem}/show', 'MensagensController@show')->middleware('permissions')->name('messages.show');
 Route::delete('mensagens/{mensagem}/destroy', 'MensagensController@destroy')->middleware('permissions')->name('messages.destroy');
 
+// ROUTES FOR DISCIPLINAS
+Route::group(['prefix' => 'disciplinas'], function () {
+    Route::get('/', 'DisciplinaController@index')->name('disciplinas.index');
+});
+Route::resource('/disciplinas', 'DisciplinaController')->except(['index']);
+
 // ROUTES FOR AMBIENTE VIRTUAL
 Route::group(['prefix' => 'ambiente-virtual'], function () {
     Route::get('/', 'AmbienteVirtualController@index')->name('ambiente-virtual.index');

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\AmbienteVirtual;
 use App\Nucleo;
+use App\Professores;
 
 use File;
 
@@ -76,9 +77,9 @@ class AmbienteVirtualService
         return $params;
     }
 
-    public static function getProfessores($nucleo_id)
+    public static function getProfessores($nucleo_id = null)
     {
-        return Nucleo::find($nucleo_id)->professores()->get();
+        return Professores::all();
     }
 
     public static function getDisciplinas()

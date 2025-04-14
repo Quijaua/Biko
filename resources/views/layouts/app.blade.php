@@ -1,10 +1,11 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
 
-	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-	<meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -12,7 +13,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <!-- <script src="{{ asset('js/app.js') }}" defer></script> -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
     <script src="{{ asset('js/jquery.mask.min.js') }}" defer></script>
     <script src="{{ asset('js/jquery.maskMoney.min.js') }}" defer></script>
@@ -24,8 +25,8 @@
     <script src="{{ asset('dist/libs/litepicker/dist/litepicker.js?1738096684') }}" defer></script>
 
 
-<script src="./dist/libs/litepicker/dist/litepicker.js?1738096684" defer></script>
-<script src="./dist/libs/tom-select/dist/js/tom-select.base.min.js?1738096684" defer></script>
+    <script src="./dist/libs/litepicker/dist/litepicker.js?1738096684" defer></script>
+    <script src="./dist/libs/tom-select/dist/js/tom-select.base.min.js?1738096684" defer></script>
 
 
     <!-- Tabler -->
@@ -37,6 +38,7 @@
     <link href="{{ asset('dist/css/tabler-vendors.min.css?1738096682') }}" rel="stylesheet">
     <link href="{{ asset('dist/css/tabler-marketing.min.css?1738096682') }}" rel="stylesheet">
     <link href="{{ asset('dist/css/demo.min.css?1738096682') }}" rel="stylesheet">
+    <link href="{{ asset('dist/css/custom.css') }}" rel="stylesheet">
 
 
     <!-- FontsAwesome -->
@@ -47,10 +49,12 @@
 
     <!-- Styles -->
     <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
-     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
+
 
 
 </head>
+
 <body>
     @auth
         @php
@@ -212,14 +216,24 @@
                             @endif
                         @endif
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('nucleo.material') }}">
-                            <span class="nav-link-icon d-md-none d-lg-inline-block">
-                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-bookmarks"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 10v11l-5 -3l-5 3v-11a3 3 0 0 1 3 -3h4a3 3 0 0 1 3 3z" /><path d="M11 3h5a3 3 0 0 1 3 3v11" /></svg>
-                            </span>
-                                {{ __('Material') }}
-                            </a>
-                        </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="{{ route('nucleo.material') }}">
+                                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                height="24" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="2"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="icon icon-tabler icons-tabler-outline icon-tabler-book-2">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                                <path
+                                                                    d="M19 4v16h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12z" />
+                                                                <path d="M19 16h-12a2 2 0 0 0 -2 2" />
+                                                                <path d="M9 8h6" />
+                                                            </svg>
+                                                        </span>
+                                                        {{ __('Material') }}
+                                                    </a>
+                                                </li>
 
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('messages.index') }}">
@@ -240,7 +254,14 @@
                         </li>
                         @endif
                         @endif
-                    
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('disciplinas.index') }}">
+                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-checklist"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9.615 20h-2.615a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8" /><path d="M14 19l2 2l4 -4" /><path d="M9 8h4" /><path d="M9 12h2" /></svg>
+                                </span>
+                                {{ __('Configurações') }}
+                            </a>
+                        </li>
                         </ul>
 						</div>
 					</div>
@@ -251,15 +272,17 @@
     @endauth
 
 
-    <main class="py-4">
-        @yield('content')
-    </main>
+            <main class="py-4">
+                @yield('content')
+            </main>
 
-    @yield('js')
-</div>
+            @yield('js')
+        </div>
+    </div>
 
 
-<script src="{{ asset('dist/js/tabler.min.js?1738096684') }}"></script>
-
+    <script src="{{ asset('dist/js/tabler.min.js?1738096684') }}"></script>
+    </div>
 </body>
+
 </html>

@@ -52,8 +52,7 @@
         <div class="col">
           <div class="mb-3">
             <label class="form-label mb-2" for="permiteAmbienteVirtual">Permite acesso ao ambiente virtual?</label>
-            <select class="form-select" id="permiteAmbienteVirtual" name="permiteAmbienteVirtual">
-              <option selected disabled>Selecione</option>
+            <select class="form-select" id="permiteAmbienteVirtual" name="permiteAmbienteVirtual" required>
               <option value="1">Sim</option>
               <option value="0">Não</option>
             </select>
