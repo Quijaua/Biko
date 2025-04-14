@@ -5,6 +5,7 @@ namespace App\Services;
 use App\AmbienteVirtual;
 use App\Nucleo;
 use App\Professores;
+use App\Disciplina;
 
 use File;
 
@@ -84,7 +85,7 @@ class AmbienteVirtualService
 
     public static function getDisciplinas()
     {
-        return [];
+        return Disciplina::all();
     }
 
     private static function getParams()
@@ -98,7 +99,7 @@ class AmbienteVirtualService
             'aluno_id' => request('aluno_id'),
             'professor_id' => request('professor_id'),
             'user_id' => request('user_id'),
-            //'disciplina_id' => request('disciplina_id'),
+            'disciplina_id' => request('disciplina_id'),
         ];
     }
 }

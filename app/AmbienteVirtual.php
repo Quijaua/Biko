@@ -24,4 +24,9 @@ class AmbienteVirtual extends Model
     {
         return $this->belongsTo('App\Professores', 'professor_id');
     }
+
+    public function disciplina()
+    {
+        return $this->belongsTo('App\Disciplina', 'disciplina_id');
+    }
 }

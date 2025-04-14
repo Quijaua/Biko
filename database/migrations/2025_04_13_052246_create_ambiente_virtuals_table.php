@@ -20,13 +20,9 @@ return new class extends Migration
             $table->string('yt_url');
             $table->longText('notas')->nullable();
             $table->longText('comentarios')->nullable();
-            // $table->unsignedBigInteger('aluno_id');
             $table->unsignedBigInteger('professor_id');
-            // $table->unsignedBigInteger('disciplina_id');
 
-            // $table->foreign('aluno_id')->references('id')->on('alunos')->onDelete('cascade');
             $table->foreign('professor_id')->references('id')->on('professores')->onDelete('cascade');
-            // $table->foreign('disciplina_id')->references('id')->on('disciplinas')->onDelete('cascade');
 
             $table->timestamps();
         });
