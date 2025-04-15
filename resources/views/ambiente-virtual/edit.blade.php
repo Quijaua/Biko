@@ -43,13 +43,6 @@
 
                     <div class="col">
                         <div class="mb-3">
-                            <label class="form-label mb-2" for="descricao">Descrição</label>
-                            <input type="textarea" class="form-control" id="descricao" name="descricao" aria-describedby="descricaoHelp" placeholder="Descrição da aula virtual" value="{{ $aula->descricao }}" required>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="mb-3">
                             <label class="form-label mb-2" for="imagem_capa">Imagem da capa @if($aula->imagem_capa) ({{ $aula->imagem_capa }}) @endif</label>
                             <input type="file" class="form-control" id="imagem_capa" name="imagem_capa" aria-describedby="imagem_capaHelp" placeholder="Imagem da capa da aula virtual" value="{{ $aula->imagem_capa }}" >
                         </div>
@@ -90,6 +83,15 @@
                 </div>
 
                 <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label class="form-label mb-2" for="descricao">Descrição</label>
+                            <input type="textarea" class="form-control" id="descricao" name="descricao" aria-describedby="descricaoHelp" placeholder="Descrição da aula virtual" value="{{ $aula->descricao }}" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
                     <div class="col-2">
                         <button type="submit" class="btn btn-success">Salvar</button>
                         <a class="btn btn-danger" href="{{ route('ambiente-virtual.index') }}">Voltar</a>
@@ -99,4 +101,20 @@
         </div>
     </div>
 </div>
+
+<script src="{{ asset('dist/libs/tinymce/tinymce.min.js') }}"></script>
+
+<script>
+    $(document).ready(function() {
+
+        let options = {
+            selector: "#descricao",
+            language: "pt_BR",
+            menubar: false,
+            license_key: 'gpl',
+        }
+
+        tinyMCE.init(options)
+    })
+</script>
 @endsection
