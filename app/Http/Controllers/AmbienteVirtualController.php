@@ -74,4 +74,9 @@ class AmbienteVirtualController extends Controller
     {
         return AmbienteVirtualService::comentar($id);
     }
+
+    public function anotar(Request $request, $id)
+    {
+        return AmbienteVirtualService::anotar($id);
+    }
 }

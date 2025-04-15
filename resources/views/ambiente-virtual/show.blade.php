@@ -44,16 +44,53 @@
 
     <div class="row">
         <div class="col mt-4">
-            <h1>Comentarios</h1><?php //dd($aula->comentario) ?>
-            @foreach($aula->comentario as $comentario)
+            <h1>Anotações</h1><?php //dd($aula->nota) ?>
+            @foreach($aula->nota as $nota)
+            @if(Auth::user()->id === $nota->user_id)
             <div class="card mb-2">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-10">
+                            <p>Nota: <?php echo strip_tags($nota->nota); ?></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
+            @endforeach
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <form action="{{ route('ambiente-virtual.anotar', $aula) }}" method="POST">
+                @csrf
+                <input type="hidden" name="user_id" value="{{ Auth::user()->id }}" />
+                <input type="hidden" name="ambiente_virtual_id" value="{{ $aula->id }}" />
+                <div class="form-group">
+                    <label class="mb-2" for="comentarios">Anotar</label>
+                    <textarea class="form-control" id="nota" name="nota" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Anotar</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col mt-4">
+            <h1>Comentarios</h1>
+            @foreach($aula->comentario as $comentario)
+            <div class="card mb-2">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-8">
                             <p>Comentario: <?php echo strip_tags($comentario->comentario); ?></p>
                         </div>
-                        <div class="col-2">
+                        <div class="col">
                             <p>Aluno: {{ $comentario->user->aluno->NomeAluno ?? $comentario->user->name }}</p>
+                        </div>
+                        <div class="col">
+                            <p>Data: {{ $comentario->created_at->format('d/m/Y') }}</p>
                         </div>
                     </div>
                 </div>
@@ -69,7 +106,7 @@
                             <label class="mb-2" for="comentarios">Comentar</label>
                             <textarea class="form-control" id="comentarios" name="comentario" rows="3"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary mt-2">Enviar</button>
+                        <button type="submit" class="btn btn-primary mt-2">Comentar</button>
                     </form>
                 </div>
             </div>
@@ -91,7 +128,16 @@
             license_key: 'gpl',
         }
 
+        let optionsNotas = {
+            selector: "#nota",
+            language: "pt_BR",
+            menubar: false,
+            license_key: 'gpl',
+        }
+
         tinyMCE.init(options)
+
+        tinyMCE.init(optionsNotas)
     })
 </script>
 @endsection

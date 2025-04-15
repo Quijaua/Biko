@@ -34,4 +34,9 @@ class AmbienteVirtual extends Model
     {
         return $this->hasMany('App\Comentario', 'ambiente_virtual_id');
     }
+
+    public function nota()
+    {
+        return $this->hasMany('App\Nota', 'ambiente_virtual_id');
+    }
 }

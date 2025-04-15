@@ -7,6 +7,7 @@ use App\Nucleo;
 use App\Professores;
 use App\Disciplina;
 use App\Comentario;
+use App\Nota;
 
 use File;
 
@@ -81,6 +82,15 @@ class AmbienteVirtualService
         return redirect()->route('ambiente-virtual.show', $id);
     }
 
+    public static function anotar($id)
+    {
+        $params = self::getParams();
+
+        Nota::create($params);
+
+        return redirect()->route('ambiente-virtual.show', $id);
+    }
+
     public static function getProfessores()
     {
         $professores = Professores::all()->map(function ($professor) {
@@ -109,6 +119,7 @@ class AmbienteVirtualService
             'disciplina_id' => request('disciplina_id'),
             'ambiente_virtual_id' => request('ambiente_virtual_id'),
             'comentario' => request('comentario'),
+            'nota' => request('nota')
         ];
     }
 }

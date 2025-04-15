@@ -107,6 +107,7 @@ Route::resource('/disciplinas', 'DisciplinaController')->except(['index']);
 Route::group(['prefix' => 'ambiente-virtual'], function () {
     Route::get('/', 'AmbienteVirtualController@index')->name('ambiente-virtual.index');
     Route::post('comentarios/adicionar/{id}', 'AmbienteVirtualController@comentar')->name('ambiente-virtual.comentar');
+    Route::post('notas/adicionar/{id}', 'AmbienteVirtualController@anotar')->name('ambiente-virtual.anotar');
 });
 Route::resource('/ambiente-virtual', 'AmbienteVirtualController')->except(['index']);
 
