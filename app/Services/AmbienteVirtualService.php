@@ -81,9 +81,15 @@ class AmbienteVirtualService
         return redirect()->route('ambiente-virtual.show', $id);
     }
 
-    public static function getProfessores($nucleo_id = null)
+    public static function getProfessores()
     {
-        return Professores::all();
+        $professores = Professores::all()->map(function ($professor) {
+            if ($professor->nucleo->permite_ambiente_virtual) {
+                return $professor;
+            }
+        });
+
+        return $professores->filter();
     }
 
     public static function getDisciplinas()
