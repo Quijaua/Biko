@@ -12,6 +12,7 @@ use App\Coordenadores;
 use App\Nucleo;
 use App\ListaPresenca;
 use App\Frequencia;
+use App\Disciplina;
 
 
 class NucleoController extends Controller
@@ -65,17 +66,23 @@ class NucleoController extends Controller
 
     public function showForm()
     {
-      return view('nucleosCreate');
+
+      return view('nucleosCreate')->with([
+        'disciplinas' => Disciplina::all(),
+      ]);
     }
 
     public function edit($id)
     {
       $dados = Nucleo::find($id);
+      $dados->disciplinas = json_decode($dados->disciplinas);
       $representantes = $dados->coordenadores()->where('id_nucleo', $id)->where('RepresentanteCGU', 'sim')->get('NomeCoordenador');
+      $disciplinas = Disciplina::all();
 
       return view('nucleosEdit')->with([
         'dados' => $dados,
         'representantes' => $representantes,
+        'disciplinas' => $disciplinas,
       ]);
     }
 
@@ -110,6 +117,8 @@ class NucleoController extends Controller
         'Status' => $request->input('inputStatus'),
         'whatsapp_url' => $request->input('inputWhatsapp'),
         'Regiao' => $request->input('inputRegiao'),
+        'permite_ambiente_virtual' => $request->input('permiteAmbienteVirtual'),
+        'disciplinas' => $request->input('disciplinas'),
       ]);
 
       return back()->with('success', 'DADOS SALVOS COM SUCESSO.');
@@ -143,6 +152,8 @@ class NucleoController extends Controller
       $nucleo->InicioAtividades = $request->input('inputInicioAtividades');
       $nucleo->whatsapp_url = $request->input('inputWhatsapp');
       $nucleo->Regiao = $request->input('inputRegiao');
+      $nucleo->permite_ambiente_virtual = $request->input('permiteAmbienteVirtual');
+      $nucleo->disciplinas = $request->input('disciplinas');
 
       $nucleo->save();
 
@@ -205,17 +216,18 @@ class NucleoController extends Controller
     public function details($id)
     {
       $dados = Nucleo::find($id);
+      $dados->disciplinas = json_decode($dados->disciplinas);
       $representantes = $dados->coordenadores()->where('id_nucleo', $id)->where('RepresentanteCGU', 'sim')->get('NomeCoordenador');
-      $disciplinas = $dados->professores()->where('id_nucleo', $id)->where('Status', 1)->get('Disciplinas');
+      //$disciplinas = $dados->professores()->where('id_nucleo', $id)->where('Status', 1)->get('Disciplinas');
 
-      if($disciplinas->isEmpty()){
+      /*if($disciplinas->isEmpty()){
         $disciplinas[] = null;
-      }
+      }*/
 
       return view('nucleosDetails')->with([
         'dados' => $dados,
         'representantes' => $representantes,
-        'disciplinas' => $disciplinas,
+        'disciplinas' => Disciplina::all(),
       ]);
     }
 

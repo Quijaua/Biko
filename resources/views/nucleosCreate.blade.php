@@ -29,27 +29,50 @@
           </div>
         </div>
         <div class="col">
+            <div class="mb-3">
+              <label class="form-label mb-3" for="inputAreaAtuacao">Área de atuação</label>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inputAreaAtuacao" id="inputAreaAtuacao1" value="educacao">
+                <label class="form-label mb-2 form-check-label" for="inputAreaAtuacao1">Educação</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inputAreaAtuacao" id="inputAreaAtuacao2" value="esporte">
+                <label class="form-label mb-2 form-check-label" for="inputAreaAtuacao2">Esporte</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inputAreaAtuacao" id="inputAreaAtuacao3" value="cultura">
+                <label class="form-label mb-2 form-check-label" for="inputAreaAtuacao3">Cultura</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inputAreaAtuacao" id="inputAreaAtuacao4" value="outro">
+                <label class="form-label mb-2 form-check-label" for="inputAreaAtuacao4">Outro</label>
+              </div>
+            </div>
+        </div>
+        <div class="col">
           <div class="mb-3">
-            <label class="form-label mb-3" for="inputAreaAtuacao">Área de atuação</label>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="inputAreaAtuacao" id="inputAreaAtuacao1" value="educacao">
-              <label class="form-label mb-2 form-check-label" for="inputAreaAtuacao1">Educação</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="inputAreaAtuacao" id="inputAreaAtuacao2" value="esporte">
-              <label class="form-label mb-2 form-check-label" for="inputAreaAtuacao2">Esporte</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="inputAreaAtuacao" id="inputAreaAtuacao3" value="cultura">
-              <label class="form-label mb-2 form-check-label" for="inputAreaAtuacao3">Cultura</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="inputAreaAtuacao" id="inputAreaAtuacao4" value="outro">
-              <label class="form-label mb-2 form-check-label" for="inputAreaAtuacao4">Outro</label>
-            </div>
+            <label class="form-label mb-2" for="permiteAmbienteVirtual">Permite acesso ao ambiente virtual?</label>
+            <select class="form-select" id="permiteAmbienteVirtual" name="permiteAmbienteVirtual" required>
+              <option value="1">Sim</option>
+              <option value="0">Não</option>
+            </select>
           </div>
         </div>
       </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="mb-3">
+            <label class="form-label mb-2" for="disciplinas">Disciplinas</label>
+            <select class="form-select" id="disciplinas" name="disciplinas[]" multiple>
+              @foreach($disciplinas as $disciplina)
+              <option value="{{ $disciplina->id }}" >{{ $disciplina->nome }}</option>
+              @endforeach
+            </select>
+          </div>
+        </div>
+      </div>
+
       <div class="row">
         <div class="col">
           <div class="mb-3">

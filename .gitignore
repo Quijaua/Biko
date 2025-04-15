@@ -2,6 +2,7 @@
 /public/hot
 /public/storage
 /public/uploads
+/public/aulas-virtuais
 /storage/*.key
 /vendor
 .idea

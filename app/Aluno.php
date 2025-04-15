@@ -85,7 +85,7 @@ class Aluno extends Model
 
     public function nucleo()
     {
-        return $this->belongsTo('App\Nucleo');
+        return $this->belongsTo('App\Nucleo', 'id_nucleo');
     }
 
     public function user()

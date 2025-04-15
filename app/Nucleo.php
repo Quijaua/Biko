@@ -35,6 +35,8 @@ class Nucleo extends Model
         'InicioAtividades',
         'whatsapp_url',
         'Regiao',
+        'permite_ambiente_virtual',
+        'diciplinas',
     ];
 
     public function alunos()
@@ -60,6 +62,11 @@ class Nucleo extends Model
     public function listas_presenca()
     {
       return $this->hasMany('App\ListaPresenca')->orderBy('date');
+    }
+
+    public function disciplina()
+    {
+        return $this->hasMany('App\Disciplina', 'nucleo_id');
     }
 
     public static function whereStatus($value = true)
