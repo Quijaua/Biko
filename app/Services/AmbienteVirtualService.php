@@ -46,7 +46,7 @@ class AmbienteVirtualService
     public static function update($id)
     {
         $params = self::getParams();
-        $aula = AmbienteVirtual::find($id)->first();
+        $aula = AmbienteVirtual::find($id);
 
         if (request()->hasFile('imagem_capa')) {
             $file = request()->file('imagem_capa');
@@ -95,8 +95,6 @@ class AmbienteVirtualService
             'descricao' => request('descricao'),
             'yt_url' => request('yt_url'),
             'notas' => request('notas'),
-            'comentarios' => request('comentarios'),
-            'aluno_id' => request('aluno_id'),
             'professor_id' => request('professor_id'),
             'user_id' => request('user_id'),
             'disciplina_id' => request('disciplina_id'),

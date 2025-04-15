@@ -73,9 +73,9 @@
                         <td><img class="rounded-circle avatar" src="{{ asset('aulas-virtuais/imagens/' . $aula->id . '/' . $aula->imagem_capa) }}" alt="{{ $aula->titulo }}"></td>
                         <td> {{ $aula->professor->NomeProfessor }}</td>
                         <td>
-                            <a class="btn btn-primary" href="{{route('ambiente-virtual.show', $aula->id)}}">Assistir</a>
+                            <a class="btn btn-primary" href="{{route('ambiente-virtual.show', $aula)}}">Assistir</a>
                             @if($user->role != 'aluno')
-                            <a class="btn btn-warning" href="{{route('ambiente-virtual.edit', $aula->id)}}">Editar</a>
+                            <a class="btn btn-warning" href="{{route('ambiente-virtual.edit', $aula)}}">Editar</a>
                             <form action="{{route('ambiente-virtual.destroy', $aula->id)}}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
