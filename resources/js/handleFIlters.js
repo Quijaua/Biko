@@ -4,6 +4,8 @@ const nucleo_filter = document.getElementById('nucleo');
 
 const listaEspera_filter = document.getElementById('lista_espera');
 
+const limparFiltrosButton = document.getElementById('limparFiltros');
+
 const handleStatusChange = (status) => {
     const handleUrlFormated = () => {
         const urlToFormate = new URL(window.location.href);
@@ -69,3 +71,12 @@ nucleo_filter.addEventListener('change', () => {
 listaEspera_filter.addEventListener('change', () => {
     handleListaEsperaChange(listaEspera_filter.value);
 });
+
+limparFiltrosButton.addEventListener('click', () => {
+    const url = window.location.origin + window.location.pathname;
+  
+    const baseUrl = url.replace(/\/search\/?$/, '');
+  
+    window.location.href = baseUrl;
+  });
+  
