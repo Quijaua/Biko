@@ -6,7 +6,7 @@
   <div class="container">
     <div class="row">
       <div class="col-8">
-        <h1 class="text-[34px]">Alunos (as)</h1>
+        <h1 class="text-[34px]">Estudantes</h1>
       </div>
       <div class="col-4  text-center">
         <a class="btn btn-primary" href="/alunos/add"><span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-user-plus">
