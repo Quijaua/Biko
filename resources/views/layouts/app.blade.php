@@ -254,6 +254,7 @@
                         </li>
                         @endif
                         @endif
+                        @if(Session::get('role') === 'administrador')
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('disciplinas.index') }}">
                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -262,6 +263,7 @@
                                 {{ __('Configurações') }}
                             </a>
                         </li>
+                        @endif
                         </ul>
 						</div>
 					</div>
