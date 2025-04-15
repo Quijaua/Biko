@@ -104,11 +104,12 @@ class AmbienteVirtualService
 
     public static function getDisciplinas()
     {
-        $disciplinas = Nucleo::where('permite_ambiente_virtual', true)->get()->map(function ($disciplina) {
+        /*$disciplinas = Nucleo::where('permite_ambiente_virtual', true)->get()->map(function ($disciplina) {
                 return $disciplina->disciplina;
         });
 
-        return $disciplinas;
+        return $disciplinas;*/
+        return Disciplina::all();
     }
 
     private static function getParams()
