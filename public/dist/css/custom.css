@@ -74,3 +74,12 @@
     height: 20px;
     cursor: pointer;
 }
+
+.btn-group {    
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    flex-direction: column;
+    max-width: 100%;
+    align-items: center;
+  }
