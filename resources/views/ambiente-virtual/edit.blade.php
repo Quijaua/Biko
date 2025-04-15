@@ -86,7 +86,7 @@
                     <div class="col">
                         <div class="mb-3">
                             <label class="form-label mb-2" for="descricao">Descrição</label>
-                            <input type="textarea" class="form-control" id="descricao" name="descricao" aria-describedby="descricaoHelp" placeholder="Descrição da aula virtual" value="{{ $aula->descricao }}" required>
+                            <input type="textarea" class="form-control" id="descricao" name="descricao" aria-describedby="descricaoHelp" placeholder="Descrição da aula virtual" value="{{ $aula->descricao }}" >
                         </div>
                     </div>
                 </div>
