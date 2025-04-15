@@ -15,9 +15,9 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
-    <script src="{{ asset('js/jquery.mask.min.js') }}" defer></script>
-    <script src="{{ asset('js/jquery.maskMoney.min.js') }}" defer></script>
-    <script src="{{ asset('js/jquery.cpf-validate.1.0.min.js') }}" defer></script>
+    <script src="{{ asset('js/jquery.mask.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.maskMoney.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.cpf-validate.1.0.min.js') }}"></script>
     <script src="{{ asset('js/select2.min.js') }}" defer></script>
     <script src="{{ asset('js/quill.min.js') }}" defer></script>
     <script src="{{ asset('js/functions.js') }}" defer></script>
