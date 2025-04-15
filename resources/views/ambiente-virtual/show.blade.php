@@ -44,15 +44,30 @@
 
     <div class="row">
         <div class="col mt-4">
-            <h1>Comentarios</h1>
+            <h1>Comentarios</h1><?php //dd($aula->comentario) ?>
+            @foreach($aula->comentario as $comentario)
+            <div class="card mb-2">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-10">
+                            <p>Comentario: <?php echo strip_tags($comentario->comentario); ?></p>
+                        </div>
+                        <div class="col-2">
+                            <p>Aluno: {{ $comentario->user->aluno->NomeAluno ?? $comentario->user->name }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endforeach
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('ambiente-virtual.comentar', $aula->id) }}" method="POST">
+                    <form action="{{ route('ambiente-virtual.comentar', $aula) }}" method="POST">
                         @csrf
                         <input type="hidden" name="user_id" value="{{ Auth::user()->id }}" />
+                        <input type="hidden" name="ambiente_virtual_id" value="{{ $aula->id }}" />
                         <div class="form-group">
                             <label class="mb-2" for="comentarios">Comentar</label>
-                            <textarea class="form-control" id="comentarios" name="comentarios" rows="3"></textarea>
+                            <textarea class="form-control" id="comentarios" name="comentario" rows="3"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary mt-2">Enviar</button>
                     </form>

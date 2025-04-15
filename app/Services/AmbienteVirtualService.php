@@ -6,6 +6,7 @@ use App\AmbienteVirtual;
 use App\Nucleo;
 use App\Professores;
 use App\Disciplina;
+use App\Comentario;
 
 use File;
 
@@ -75,7 +76,9 @@ class AmbienteVirtualService
     {
         $params = self::getParams();
 
-        return $params;
+        Comentario::create($params);
+
+        return redirect()->route('ambiente-virtual.show', $id);
     }
 
     public static function getProfessores($nucleo_id = null)
@@ -98,6 +101,8 @@ class AmbienteVirtualService
             'professor_id' => request('professor_id'),
             'user_id' => request('user_id'),
             'disciplina_id' => request('disciplina_id'),
+            'ambiente_virtual_id' => request('ambiente_virtual_id'),
+            'comentario' => request('comentario'),
         ];
     }
 }

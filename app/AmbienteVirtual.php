@@ -29,4 +29,9 @@ class AmbienteVirtual extends Model
     {
         return $this->belongsTo('App\Disciplina', 'disciplina_id');
     }
+
+    public function comentario()
+    {
+        return $this->hasMany('App\Comentario', 'ambiente_virtual_id');
+    }
 }
