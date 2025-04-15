@@ -117,13 +117,13 @@ class AmbienteVirtualService
             'titulo' => request('titulo'),
             'descricao' => request('descricao'),
             'yt_url' => request('yt_url'),
-            'notas' => request('notas'),
+            //'notas' => request('notas'),
             'professor_id' => request('professor_id'),
             'user_id' => request('user_id'),
             'disciplina_id' => request('disciplina_id'),
             'ambiente_virtual_id' => request('ambiente_virtual_id'),
             'comentario' => request('comentario'),
-            'nota' => request('nota')
+            //'nota' => request('nota')
         ];
     }
 }
