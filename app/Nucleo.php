@@ -36,6 +36,7 @@ class Nucleo extends Model
         'whatsapp_url',
         'Regiao',
         'permite_ambiente_virtual',
+        'diciplinas',
     ];
 
     public function alunos()

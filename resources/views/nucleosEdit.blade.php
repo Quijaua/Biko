@@ -58,8 +58,22 @@
               <option value="0" <?php if(!$dados->permite_ambiente_virtual){ echo 'selected=selected';} ?>>Não</option>
             </select>
           </div>
-    </div>
+        </div>
       </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="mb-3">
+            <label class="form-label mb-2" for="disciplinas">Disciplinas</label>
+            <select class="form-select" id="disciplinas" name="disciplinas[]" multiple>
+              @foreach($disciplinas as $disciplina)
+              <option value="{{ $disciplina->id }}" <?php if($dados->disciplinas && in_array($disciplina->id, $dados->disciplinas)){ echo 'selected=selected';} ?>>{{ $disciplina->nome }}</option>
+              @endforeach
+            </select>
+          </div>
+        </div>
+      </div>
+
       <div class="row">
         <div class="col">
           <div class="mb-3">
