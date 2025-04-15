@@ -58,12 +58,6 @@
             <p>Nenhum registro encontrado.</p>
             @else
                     @foreach($aulas as $aula)
-                        <td></td>
-                        <td> </td>
-                        <td>
-
-
-
                             <div class="col-md-6">
                 <div class="card">
                   <div class="card-header">
@@ -101,11 +95,9 @@
 
 
                             @endif
-                        </td>
-                    </tr>
+
                     @endforeach
-                </tbody>
-            </table>
+
             @endif
         </div>
     </div>
