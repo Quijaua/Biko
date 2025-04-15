@@ -73,8 +73,10 @@
                             <label class="form-label mb-2" for="disciplina_id">Disciplina</label>
                             <select name="disciplina_id" class="form-select" >
                                 <option value="" selected>Selecione</option>
-                                @foreach($disciplinas as $disciplina)
-                                <option value="{{ $disciplina->id }}">{{ $disciplina->nome }}</option>
+                                @foreach($disciplinas as $key => $value)
+                                @if(isset($value[$key]))
+                                <option value="{{ $value[$key]->id }}">{{ $value[$key]->nome }}</option>
+                                @endif
                                 @endforeach
                             </select>
                         </div>

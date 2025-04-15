@@ -64,6 +64,11 @@ class Nucleo extends Model
       return $this->hasMany('App\ListaPresenca')->orderBy('date');
     }
 
+    public function disciplina()
+    {
+        return $this->hasMany('App\Disciplina', 'nucleo_id');
+    }
+
     public static function whereStatus($value = true)
     {
         return self::query()->where('Status', $value);
