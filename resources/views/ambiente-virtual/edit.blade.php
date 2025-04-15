@@ -123,7 +123,16 @@
             license_key: 'gpl',
         }
 
+        let optionsNotas = {
+            selector: "#notas",
+            language: "pt_BR",
+            menubar: false,
+            license_key: 'gpl',
+        }
+
         tinyMCE.init(options)
+
+        tinyMCE.init(optionsNotas)
     })
 </script>
 @endsection
