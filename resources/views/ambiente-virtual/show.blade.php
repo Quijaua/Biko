@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-12 text-center">
             <h1>Aula: {{ $aula->titulo }} (Professor: {{ $aula->professor->NomeProfessor }})</h1>
-            <h3 class="text-muted">{{ $aula->descricao }}</h3>
+            <h3 class="text-muted">@php echo strip_tags($aula->descricao); @endphp</h3>
             <h3 class="text-muted">Disciplina: {{ $aula->disciplina->nome }}</h3>
         </div>
     </div>
