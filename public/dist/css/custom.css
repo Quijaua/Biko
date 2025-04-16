@@ -83,3 +83,38 @@
     max-width: 100%;
     align-items: center;
   }
+
+  .steps-tabs .nav-link {
+    display: flex;
+    align-items: center;
+    color: #6c757d;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: transparent;
+  }
+  
+  .steps-tabs .nav-link.active {
+    color: #1976d2; /* azul ativo */
+    border-bottom: 2px solid #1976d2;
+  }
+  
+  .step-circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: bold;
+    color: #6c757d;
+  }
+  
+  .nav-link.active .step-circle {
+    border-color: #1976d2;
+    color: #1976d2;
+  }
+  
