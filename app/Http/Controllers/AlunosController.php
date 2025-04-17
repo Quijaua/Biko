@@ -211,6 +211,7 @@ class AlunosController extends Controller
             'VestibularOutraCidade' => $request->input('inputVestibularOutraCidade'),
             'ComoSoube' => $request->input('inputComoSoube'),
             'ComoSoubeOutros' => $request->input('inputComoSoubeOutros'),
+            'localizacao_curso' => $request->input('localizacao_curso'),
         ]);
 
         if ($Foto) {

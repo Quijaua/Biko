@@ -153,6 +153,7 @@ class RegisterController extends Controller
             'VestibularOutraCidade' => $data['inputVestibularOutraCidade'],
             'ComoSoube' => $data['inputComoSoube'],
             'ComoSoubeOutros' => $data['inputComoSoubeOutros'],
+            'localizacao_curso' => $data['localizacao_curso'],
         ]);
 
         return User::find($user->id);
