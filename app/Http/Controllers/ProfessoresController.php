@@ -659,16 +659,16 @@ class ProfessoresController extends Controller
 
     public function search(Request $request)
     {
+      $params = self::getParams($request);
       $user = Auth::user();
-      $cpf = $request->input('cpf');
-      $status = $request->input('status');
-      $query = $request->input('inputQuery');
 
-      if($query){
+      if( $params['query'] ){
+        
         if($user->role === 'coordenador'){
+          
           $me = Coordenadores::where('id_user', $user->id)->first();
           //$results = Aluno::where('NomeAluno','LIKE','%'.$query.'%')->where('id_nucleo', $me->id_nucleo)->get();
-          $results = Professores::where('NomeProfessor','LIKE','%'.$query.'%')->where('id_nucleo', $me->id_nucleo)->paginate(25);
+          $results = Professores::where('NomeProfessor','LIKE','%'.$params['query'].'%')->where('id_nucleo', $me->id_nucleo)->paginate(25);
           if($results->isEmpty()){
             return back()->with('error', 'Nenhum resultado encontrado.');
           }else{
@@ -678,9 +678,10 @@ class ProfessoresController extends Controller
             ]);
           }
         }elseif($user->role === 'professor'){
+          
           $me = Professores::where('id_user', $user->id)->first();
           //$results = Aluno::where('NomeAluno','LIKE','%'.$query.'%')->where('id_nucleo', $me->id_nucleo)->get();
-          $results = Professores::where('NomeProfessor','LIKE','%'.$query.'%')->where('id_nucleo', $me->id_nucleo)->paginate(25);
+          $results = Professores::where('NomeProfessor','LIKE','%'.$params['query'].'%')->where('id_nucleo', $me->id_nucleo)->paginate(25);
           if($results->isEmpty()){
             return back()->with('error', 'Nenhum resultado encontrado.');
           }else{
@@ -690,9 +691,10 @@ class ProfessoresController extends Controller
             ]);
           }
         }else{
-          $query = $request->input('inputQuery');
+
+          //$query = $request->input('inputQuery');
           //$results = Aluno::where('NomeAluno','LIKE','%'.$query.'%')->get();
-          $results = Professores::where('NomeProfessor','LIKE','%'.$query.'%')->paginate(25);
+          $results = Professores::where('NomeProfessor','LIKE','%'.$params['query'].'%')->paginate(25);
           if($results->isEmpty()){
             return back()->with('error', 'Nenhum resultado encontrado.');
           }else{
@@ -703,31 +705,47 @@ class ProfessoresController extends Controller
           }
         }
       }
-
-      if($cpf){
-        if($cpf != ''){
-          $result = Professores::where('CPF', $cpf)->count();
+      
+      if($params['cpf'] && $params['cpf'] != ''){
+          $result = Professores::where('CPF', $params['cpf'])->count();
           if($result > 0){
             return \Response::json(true);
           }elseif($result === 0){
             return \Response::json(false);
           }
-        }
       }
 
-      if($status != ''){
-        $result = Professores::where('Status', 0)->get();
+      if($params['status'] !== 'undefined'){
+
+        $result = Professores::where('Status', $params['status'])->paginate(25);
         if($result->isEmpty()){
           return redirect('professores')->with([
             'error' => 'Não há professores inativos no momento.',
           ]);
         }
-
+        
         return view('professores')->with([
           'user' => $user,
           'professores' => $result,
         ]);
       }
+
+      if($params['nucleo_id'] !== 'undefined'){
+
+        $result = Professores::where('id_nucleo', $params['nucleo_id'])->paginate(25);
+        if($result->isEmpty()){
+          return redirect('professores')->with([
+            'error' => 'Nenhum resultado encontrado.',
+          ]);
+        }
+        
+        return view('professores')->with([
+          'user' => $user,
+          'professores' => $result,
+        ]);
+      }
+
+      return redirect()->route('professores.index');
 
     }
 
@@ -754,5 +772,15 @@ class ProfessoresController extends Controller
         }
 
         return (new ProfessoresExport($nucleo))->download('professores.xlsx');
+    }
+
+    private static function getParams($request)
+    {
+        return [
+            'nucleo_id' => $request->input('nucleo') ?? 'undefined',
+            'status' => $request->input('status') ?? 'undefined',
+            'cpf' => $request->input('cpf'),
+            'query' => $request->input('inputQuery'),
+        ];
     }
 }
