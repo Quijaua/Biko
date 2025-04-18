@@ -71,6 +71,8 @@ class Professores extends Model
         'CursoMestrado',
         'AnoCursoMestrado',
         'FormacaoAcademicaRecente',
+        'terra_indigenas_id',
+        'povo_indigenas_id',
     ];
 
     protected $casts = [
@@ -96,5 +98,15 @@ class Professores extends Model
     public function horarios()
     {
       return $this->hasMany('App\HorarioAula', 'professor_id');
+    }
+
+    public function povo_indigenas()
+    {
+      return $this->belongsTo('App\PovoIndigenas', 'povo_indigenas_id');
+    }
+
+    public function terra_indigenas()
+    {
+      return $this->belongsTo('App\TerraIndigenas', 'terra_indigenas_id');
     }
 }

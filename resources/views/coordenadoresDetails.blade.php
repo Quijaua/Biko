@@ -160,6 +160,41 @@
                                         </select>
                                       </div>
                                     </div>
+
+                                    <div class="col">
+                                        @if ($dados->Raca == 'indigena')
+                                        <div class="mb-3">
+                                            <label class="form-label mb-2" for="povo_indigenas_id">Povo Indígena</label>
+                                            <select name="povo_indigenas_id" class="form-select" disabled>
+                                                <option selected>Selecione</option>
+                                                @foreach ($povo_indigenas as $povo_indigena)
+                                                    <option <?php if ($povo_indigena->id == $dados->povo_indigenas_id) {
+                                                        echo 'selected=selected';
+                                                    } ?> value="{{ $povo_indigena->id }}">
+                                                        {{ $povo_indigena->label }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        @endif
+                                    </div>
+
+                                    <div class="col">
+                                        @if ($dados->Raca == 'indigena')
+                                        <div class="mb-3">
+                                            <label class="form-label mb-2" for="terra_indigenas_id">Terra Indígena</label>
+                                            <select name="terra_indigenas_id" class="form-select" disabled>
+                                                <option selected>Selecione</option>
+                                                @foreach ($terra_indigenas as $terra_indigena)
+                                                    <option <?php if ($terra_indigena->id == $dados->terra_indigenas_id) {
+                                                        echo 'selected=selected';
+                                                    } ?> value="{{ $terra_indigena->id }}">
+                                                        {{ $terra_indigena->label }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        @endif
+                                    </div>
+
                                     <div class="col">
                                       <div class="mb-3">
                                         <label class="form-label mb-2" for="inputGenero">Identidade de Gênero</label>

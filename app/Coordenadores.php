@@ -72,6 +72,8 @@ class Coordenadores extends Model
       'CursoMestrado',
       'AnoCursoMestrado',
       'FormacaoAcademicaRecente',
+      'terra_indigenas_id',
+      'povo_indigenas_id',
     ];
 
     public function nucleo()
@@ -82,5 +84,15 @@ class Coordenadores extends Model
     public function user()
     {
       return $this->hasOne('App\User');
+    }
+
+    public function povo_indigenas()
+    {
+      return $this->belongsTo('App\PovoIndigena', 'povo_indigenas_id');
+    }
+
+    public function terra_indigenas()
+    {
+      return $this->belongsTo('App\TerraIndigena', 'terra_indigenas_id');
     }
 }

@@ -176,7 +176,7 @@
                                     <div class="col">
                                         <div class="mb-3">
                                             <label class="form-label mb-2" for="inputRaca">Raça / Cor</label>
-                                            <select name="inputRaca" class="form-select">
+                                            <select id="raca" name="inputRaca" class="form-select">
                                                 <option value="" selected>Selecione</option>
                                                 <option value="negra">Preta</option>
                                                 <option value="branca">Branca</option>
@@ -186,6 +186,33 @@
                                             </select>
                                         </div>
                                     </div>
+
+                                    <div class="col">
+                                        <div id="povo_indigenas_wrapper" class="mb-3 d-none">
+                                            <label class="form-label mb-2" for="povo_indigenas_id">Povo Indígena</label>
+                                            <select name="povo_indigenas_id" class="form-select" >
+                                                <option selected disabled>Selecione</option>
+                                                @foreach ($povo_indigenas as $povo_indigena)
+                                                    <option value="{{ $povo_indigena->id }}">
+                                                        {{ $povo_indigena->label }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div id="terra_indigenas_wrapper" class="mb-3 d-none">
+                                            <label class="form-label mb-2" for="terra_indigenas_id">Terra Indígena</label>
+                                            <select name="terra_indigenas_id" class="form-select" >
+                                                <option selected disabled>Selecione</option>
+                                                @foreach ($terra_indigenas as $terra_indigena)
+                                                    <option value="{{ $terra_indigena->id }}">
+                                                        {{ $terra_indigena->label }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
                                     <div class="col">
                                         <div class="mb-3">
                                             <label class="form-label mb-2" for="inputGenero">Identidade de
@@ -753,6 +780,21 @@
                     }
                 }
             });
+
+            $(document).ready(function() {
+                $('#raca').on('change', function() {
+                    let raca = $(this).val();
+                    if (raca == 'indigena') {
+                        $('#povo_indigenas_wrapper').removeClass('d-none');
+                        $('#terra_indigenas_wrapper').removeClass('d-none');
+                    } else {
+                        $('#povo_indigenas_id').val(0);
+                        $('#terra_indigenas_id').val(0);
+                        $('#povo_indigenas_wrapper').addClass('d-none');
+                        $('#terra_indigenas_wrapper').addClass('d-none');
+                    }
+                })
+            })
         </script>
 
 

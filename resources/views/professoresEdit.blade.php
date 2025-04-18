@@ -146,7 +146,7 @@
                                     <div class="col">
                                       <div class="mb-3">
                                         <label for="inputRaca">Raça / Cor</label>
-                                        <select name="inputRaca" class="form-select" >
+                                        <select id="raca" name="inputRaca" class="form-select" >
                                           <option selected>Selecione</option>
                                           <option <?php if($dados->Raca == 'negra'){ echo 'selected=selected';} ?> value="negra">Preta</option>
                                           <option <?php if($dados->Raca == 'branca'){ echo 'selected=selected';} ?> value="branca">Branca</option>
@@ -156,6 +156,37 @@
                                         </select>
                                       </div>
                                     </div>
+
+                                    <div class="col">
+                                        <div id="povo_indigenas_wrapper" class="mb-3 <?php if ($dados->Raca != 'indigena') {echo 'd-none';} ?>">
+                                            <label for="povo_indigenas_id">Povo Indígena</label>
+                                            <select id="povo_indigenas_id" name="povo_indigenas_id" class="form-select" >
+                                                <option selected disabled>Selecione</option>
+                                                @foreach ($povo_indigenas as $povo_indigena)
+                                                    <option <?php if ($povo_indigena->id == $dados->povo_indigenas_id) {
+                                                        echo 'selected=selected';
+                                                    } ?> value="{{ $povo_indigena->id }}">
+                                                        {{ $povo_indigena->label }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div id="terra_indigenas_wrapper" class="mb-3 <?php if ($dados->Raca != 'indigena') {echo 'd-none';} ?>">
+                                            <label for="terra_indigenas_id">Terra Indígena</label>
+                                            <select id="terra_indigenas_id" name="terra_indigenas_id" class="form-select" >
+                                                <option selected disabled>Selecione</option>
+                                                @foreach ($terra_indigenas as $terra_indigena)
+                                                    <option <?php if ($terra_indigena->id == $dados->terra_indigenas_id) {
+                                                        echo 'selected=selected';
+                                                    } ?> value="{{ $terra_indigena->id }}">
+                                                        {{ $terra_indigena->label }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
                                     <div class="col">
                                       <div class="mb-3">
                                         <label for="inputGenero">Identidade de Gênero</label>
@@ -1049,6 +1080,21 @@
                     }
                 }
             });
+
+            $(document).ready(function() {
+                $('#raca').on('change', function() {
+                    let raca = $(this).val();
+                    if (raca == 'indigena') {
+                        $('#povo_indigenas_wrapper').removeClass('d-none');
+                        $('#terra_indigenas_wrapper').removeClass('d-none');
+                    } else {
+                        $('#povo_indigenas_id').val(0);
+                        $('#terra_indigenas_id').val(0);
+                        $('#povo_indigenas_wrapper').addClass('d-none');
+                        $('#terra_indigenas_wrapper').addClass('d-none');
+                    }
+                })
+            })
         </script>
 
 

@@ -13,6 +13,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Coordenadores;
 use App\Nucleo;
 use App\User;
+use App\PovoIndigena;
+use App\TerraIndigena;
 
 class CoordenadoresController extends Controller
 {
@@ -70,7 +72,11 @@ class CoordenadoresController extends Controller
     {
       $nucleos = Nucleo::get()->where('Status', 1);
 
-      return view('coordenadoresCreate')->with('nucleos', $nucleos);
+      return view('coordenadoresCreate')->with([
+        'nucleos' => $nucleos,
+        'povo_indigenas' => PovoIndigena::all(),
+        'terra_indigenas' => TerraIndigena::all(),
+      ]);
     }
 
     public function create(Request $request)
@@ -182,6 +188,8 @@ class CoordenadoresController extends Controller
         'CursoMestrado' => $request->input('inputCursoMestrado'),
         'AnoCursoMestrado' => $request->input('inputAnoCursoMestrado'),
         'FormacaoAcademicaRecente' => $request->input('inputFormacaoAcademicaRecente'),
+        'povo_indigenas_id' => $request->input('povo_indigenas_id'),
+        'terra_indigenas_id' => $request->input('terra_indigenas_id'),
       ]);
 
       if($Foto){
@@ -209,6 +217,8 @@ class CoordenadoresController extends Controller
       return view('coordenadoresEdit')->with([
         'dados' => $dados,
         'nucleos' => $nucleos,
+        'povo_indigenas' => PovoIndigena::all(),
+        'terra_indigenas' => TerraIndigena::all(),
       ]);
     }
 
@@ -295,6 +305,8 @@ class CoordenadoresController extends Controller
       $dados->CursoMestrado = $request->input('inputCursoMestrado');
       $dados->AnoCursoMestrado = $request->input('inputAnoCursoMestrado') ? $request->input('inputAnoCursoMestrado') : NULL;
       $dados->FormacaoAcademicaRecente = $request->input('inputFormacaoAcademicaRecente');
+      $dados->povo_indigenas_id = $request->input('povo_indigenas_id') ?? NULL;
+      $dados->terra_indigenas_id = $request->input('terra_indigenas_id') ?? NULL;
 
       $cgu = $dados->RepresentanteCGU;
       if($cgu){
@@ -477,14 +489,6 @@ class CoordenadoresController extends Controller
         };
       }
 
-
-
-
-dd($user);
-
-
-
-
       if($status === '0'){
         //$user = Auth::user();
         $result = Coordenadores::where('Status', 0)->get();
@@ -536,6 +540,8 @@ dd($user);
       return view('coordenadoresDetails')->with([
         'dados' => $dados,
         'nucleos' => $nucleos,
+        'povo_indigenas' => PovoIndigena::all(),
+        'terra_indigenas' => TerraIndigena::all(),
       ]);
     }
 

@@ -196,7 +196,7 @@
                                     <div class="col">
                                         <div class="mb-3">
                                             <label class="form-label mb-2" for="inputRaca">Raça / Cor</label>
-                                            <select name="inputRaca" class="form-select" >
+                                            <select id="raca" name="inputRaca" class="form-select" >
                                                 <option selected>Selecione</option>
                                                 <option <?php if ($dados->Raca == 'negra') {
                                                     echo 'selected=selected';
@@ -216,6 +216,37 @@
                                             </select>
                                         </div>
                                     </div>
+
+                                    <div class="col">
+                                        <div id="povo_indigenas_wrapper" class="mb-3 <?php if ($dados->Raca != 'indigena') {echo 'd-none';} ?>">
+                                            <label class="form-label mb-2" for="povo_indigenas_id">Povo Indígena</label>
+                                            <select id="povo_indigenas_id" name="povo_indigenas_id" class="form-select" >
+                                                <option selected disabled>Selecione</option>
+                                                @foreach ($povo_indigenas as $povo_indigena)
+                                                    <option <?php if ($povo_indigena->id == $dados->povo_indigenas_id) {
+                                                        echo 'selected=selected';
+                                                    } ?> value="{{ $povo_indigena->id }}">
+                                                        {{ $povo_indigena->label }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div id="terra_indigenas_wrapper" class="mb-3 <?php if ($dados->Raca != 'indigena') {echo 'd-none';} ?>">
+                                            <label class="form-label mb-2" for="terra_indigenas_id">Terra Indígena</label>
+                                            <select id="terra_indigenas_id" name="terra_indigenas_id" class="form-select" >
+                                                <option selected disabled>Selecione</option>
+                                                @foreach ($terra_indigenas as $terra_indigena)
+                                                    <option <?php if ($terra_indigena->id == $dados->terra_indigenas_id) {
+                                                        echo 'selected=selected';
+                                                    } ?> value="{{ $terra_indigena->id }}">
+                                                        {{ $terra_indigena->label }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
                                     <div class="col">
                                         <div class="mb-3">
                                             <label class="form-label mb-2" for="inputGenero">Identidade de
@@ -1033,37 +1064,52 @@
         </div>
         <script>
             document.getElementById('submitBtn').addEventListener('click', function(e) {
-                        const form = document.getElementById('editForm')
+                const form = document.getElementById('editForm')
 
-                            if (!form.checkValidity()) {
-                                e.preventDefault();
+                    if (!form.checkValidity()) {
+                        e.preventDefault();
 
-                                const invalido = form.querySelector(':invalid');
-                                if (invalido) {
-                                    const tabPane = invalido.closest('.tab-pane');
-                                    if (tabPane && tabPane.id) {
-                                        // Abas
-                                        document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active',
-                                            'show'));
-                                        tabPane.classList.add('active', 'show');
+                        const invalido = form.querySelector(':invalid');
+                        if (invalido) {
+                            const tabPane = invalido.closest('.tab-pane');
+                            if (tabPane && tabPane.id) {
+                                // Abas
+                                document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active',
+                                    'show'));
+                                tabPane.classList.add('active', 'show');
 
-                                        // Navegação
-                                        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove(
-                                            'active'));
-                                        const navLink = document.querySelector(`.nav-link[href="#${tabPane.id}"]`);
-                                        if (navLink) navLink.classList.add('active');
-                                    }
-
-                                    // Foco, scroll e aviso nativo do navegador
-                                    invalido.scrollIntoView({
-                                        behavior: 'smooth',
-                                        block: 'center'
-                                    });
-                                    invalido.focus();
-                                    invalido.reportValidity(); // <- mostra "preencha esse campo"
-                                }
+                                // Navegação
+                                document.querySelectorAll('.nav-link').forEach(link => link.classList.remove(
+                                    'active'));
+                                const navLink = document.querySelector(`.nav-link[href="#${tabPane.id}"]`);
+                                if (navLink) navLink.classList.add('active');
                             }
-                        });
+
+                            // Foco, scroll e aviso nativo do navegador
+                            invalido.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'center'
+                            });
+                            invalido.focus();
+                            invalido.reportValidity(); // <- mostra "preencha esse campo"
+                        }
+                    }
+            });
+
+            $(document).ready(function() {
+                $('#raca').on('change', function() {
+                    let raca = $(this).val();
+                    if (raca == 'indigena') {
+                        $('#povo_indigenas_wrapper').removeClass('d-none');
+                        $('#terra_indigenas_wrapper').removeClass('d-none');
+                    } else {
+                        $('#povo_indigenas_id').val(0);
+                        $('#terra_indigenas_id').val(0);
+                        $('#povo_indigenas_wrapper').addClass('d-none');
+                        $('#terra_indigenas_wrapper').addClass('d-none');
+                    }
+                })
+            })
         </script>
 
 
