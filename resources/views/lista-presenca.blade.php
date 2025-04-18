@@ -201,7 +201,7 @@
 
         <div class="row mt-5">
             <div class="col-12 text-center">
-                <h1>ALUNOS COM AUSÊNCIA</h1>
+                <h1>ESTUDANTES COM AUSÊNCIA</h1>
             </div>
         </div>
 
@@ -209,7 +209,7 @@
             <div class="col">
                 @foreach ($alunos as $aluno)
                     @if (count($aluno->ausencias) > 0)
-                        <p><b>Aluno: </b>{{ $aluno->NomeAluno }}</p>
+                        <p><b>Estudante: </b>{{ $aluno->NomeAluno }}</p>
                         <p><b>Faltas: </b>{{ count($aluno->ausencias) }}</p>
                         <hr>
                     @endif

@@ -18,7 +18,7 @@
                     @csrf
                     <div class="input-group d-flex justify-content-center align-center">
                         <input type="text" class="form-control" name="inputQuery"
-                            placeholder="Buscar por nome ou sobrenome do aluno" required> <span class="input-group-btn">
+                            placeholder="Buscar por nome ou sobrenome do estudante" required> <span class="input-group-btn">
                             <button type="submit" class="btn-link text-decoration-none">
                                 <i class="fas fa-search"></i>
                             </button>

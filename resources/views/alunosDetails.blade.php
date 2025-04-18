@@ -13,7 +13,7 @@
                             <path d="M8 12h8" />
                             <path d="M12 8l-4 4" />
                         </svg>
-                    </a></span> Detalhes aluno(a)</h2>
+                    </a></span> Detalhes do(a) estudante</h2>
         </div>
 
         <div class="card">
@@ -96,17 +96,17 @@
                                                     class="text-danger">*</span></label>
                                             <input type="text" class="form-control" id="inputNomeAluno"
                                                 name="inputNomeAluno" aria-describedby="inputNomeAlunoHelp"
-                                                placeholder="Nome do novo aluno" value="{{ $dados->NomeAluno }}" disabled
+                                                placeholder="Nome do novo estudante" value="{{ $dados->NomeAluno }}" disabled
                                                 required>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="mb-3">
                                             <label class="form-label mb-2" for="inputNomeSocial">Nome Social do
-                                                aluno</label>
+                                                estudante</label>
                                             <input value="{{ $dados->NomeSocial }}" disabled type="text"
                                                 class="form-control" id="inputNomeSocial" name="inputNomeSocial"
-                                                aria-describedby="inputNomeSocialHelp" placeholder="Nome social do aluno">
+                                                aria-describedby="inputNomeSocialHelp" placeholder="Nome social do estudante">
                                         </div>
                                     </div>
                                     <div class="col">

@@ -15,7 +15,7 @@
               <path d="M16 19h6" />
               <path d="M19 16v6" />
               <path d="M6 21v-2a4 4 0 0 1 4 -4h4" />
-            </svg></span>Adicionar novo aluno</a>
+            </svg></span>Adicionar novo estudante</a>
         @if($user->role === 'coordenador')
         <a class="btn btn-outline" href="{{ route('alunos/export/') }}/?nucleo={{ $nucleo ?? '' }}"><span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-arrow-right">
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -135,7 +135,7 @@
         <div class="col-10 d-flex align-items-center gap-2">
           @csrf
           <input type="text" name="inputQuery" class="form-control"
-            placeholder="Digite o nome ou sobrenome para encontrar um aluno(a)" required />
+            placeholder="Digite o nome ou sobrenome para encontrar um(a) estudante" required />
 
           <button type="submit" class="btn btn-outline-primary d-flex align-items-center gap-1">
             <i class="fas fa-search"></i> Buscar

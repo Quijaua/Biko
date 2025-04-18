@@ -13,7 +13,7 @@
                             <path d="M8 12h8" />
                             <path d="M12 8l-4 4" />
                         </svg>
-                    </a></span> Adicionar novo aluno</h2>
+                    </a></span> Adicionar novo estudante</h2>
         </div>
 
         <div class="card">
@@ -82,7 +82,7 @@
                                             <label class="form-label mb-2" for="inputNomeAluno">Nome Completo <span class="text-danger">*</span></label>
                                             <input type="text" class="form-control" id="inputNomeAluno"
                                                 name="inputNomeAluno" aria-describedby="inputNomeAlunoHelp"
-                                                placeholder="Nome do novo aluno" required>
+                                                placeholder="Nome do novo estudante" required>
                                         </div>
                                     </div>
                                     <div class="col">
@@ -91,7 +91,7 @@
                                                 aluno</label>
                                             <input type="text" class="form-control" id="inputNomeSocial"
                                                 name="inputNomeSocial" aria-describedby="inputNomeSocialHelp"
-                                                placeholder="Nome social do aluno">
+                                                placeholder="Nome social do estudante">
                                         </div>
                                     </div>
                                     <div class="col">

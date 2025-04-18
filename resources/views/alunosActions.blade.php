@@ -13,7 +13,7 @@
         <tr>
           <th scope="col">Usuário</th>
           <th scope="col">URL</th>
-          <th scope="col">Aluno</th>
+          <th scope="col">Estudante</th>
           <th scope="col">Data</th>
         </tr>
       </thead>

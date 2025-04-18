@@ -178,7 +178,7 @@
                                                     <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
                                                 </svg>
                                             </span>
-                                            {{ __('Alunos') }}
+                                            {{ __('Estudantes') }}
                                         </a>
                                     </li>
                                     <li
@@ -518,7 +518,7 @@
                                                         <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
                                                     </svg>
                                                 </span>
-                                                {{ __('Alunos') }}
+                                                {{ __('Estudantes') }}
                                             </a>
                                         </li>
                                         <li
@@ -884,7 +884,7 @@
                                                                             d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
                                                                     </svg>
                                                                 </span>
-                                                                {{ __('Alunos') }}
+                                                                {{ __('Estudantes') }}
                                                             </a>
                                                         </li>
                                                         <li class="nav-item">
