@@ -61,40 +61,69 @@
       </div>
 
       <div class="row">
-        <div class="col">
-          <div class="mb-3">
+        <div class="col-4">
+	  <div class="mb-3">
             <label class="form-label mb-2" for="disciplinas">Disciplinas</label>
-            <select class="form-select" id="disciplinas" name="disciplinas[]" multiple>
+            <select type="text" class="form-select" id="select-states" name="disciplinas[]" value="" multiple>
               @foreach($disciplinas as $disciplina)
               <option value="{{ $disciplina->id }}" >{{ $disciplina->nome }}</option>
               @endforeach
             </select>
-          </div>
+	</div>
         </div>
       </div>
 
-      <div class="row">
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var el;
+        window.TomSelect &&
+          new TomSelect((el = document.getElementById("select-states")), {
+            copyClassesToDropdown: false,
+            dropdownParent: "body",
+            controlInput: "<input>",
+            render: {
+              item: function (data, escape) {
+                if (data.customProperties) {
+                  return '<div><span class="dropdown-item-indicator">' + data.customProperties + "</span>" + escape(data.text) + "</div>";
+                }
+                return "<div>" + escape(data.text) + "</div>";
+              },
+              option: function (data, escape) {
+                if (data.customProperties) {
+                  return '<div><span class="dropdown-item-indicator">' + data.customProperties + "</span>" + escape(data.text) + "</div>";
+                }
+                return "<div>" + escape(data.text) + "</div>";
+              },
+            },
+          });
+      });
+    </script>
+
+       <div class="row">
         <div class="col">
           <div class="mb-3">
             <label class="form-label mb-2" for="inputInfoInscricao">Informação de inscrição</label>
             <input type="text" class="form-control" id="inputInfoInscricao" name="inputInfoInscricao" aria-describedby="inputInfoInscricaoHelp" placeholder="Informações sobre inscrição">
           </div>
         </div>
-      </div>
-      <div class="row">
+
         <div class="col">
           <div class="mb-3">
             <label class="form-label mb-2" for="inputWhatsapp">WhatsApp</label>
             <input type="text" class="form-control" id="inputWhatsapp" name="inputWhatsapp" aria-describedby="inputWhatsappHelp"  placeholder="Informe a URL do WhatsApp">
           </div>
         </div>
+
         <div class="col">
           <div class="mb-3">
             <label class="form-label mb-2" for="inputRegiao">Região</label>
             <input type="text" class="form-control" id="inputRegiao" name="inputRegiao" aria-describedby="inputRegiaoHelp"  placeholder="ex.: Grande SP, Interior, etc.">
           </div>
         </div>
+
       </div>
+
+
       <div class="row">
         <div class="col">
           <div class="mb-3">
@@ -214,8 +243,8 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-12 mt-2 mb-2 text-center">
-          <h4>Programação 2022</h4>
+        <div class="col-12 m-4 text-center">
+          <h2>Programação 2025</h2>
         </div>
         <div class="col">
           <div class="mb-3">

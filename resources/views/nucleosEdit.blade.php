@@ -61,7 +61,7 @@
         </div>
       </div>
 
-      <div class="row">
+<!--      <div class="row">
         <div class="col">
           <div class="mb-3">
             <label class="form-label mb-2" for="disciplinas">Disciplinas</label>
@@ -72,7 +72,46 @@
             </select>
           </div>
         </div>
+      </div> -->
+
+      <div class="row">
+        <div class="col-4">
+          <div class="mb-3">
+            <label class="form-label mb-2" for="disciplinas">Disciplinas</label>
+            <select type="text" class="form-select" id="select-states" name="disciplinas[]" value="" multiple>
+              @foreach($disciplinas as $disciplina)
+              <option value="{{ $disciplina->id }}" <?php if($dados->disciplinas && in_array($disciplina->id, $dados->disciplinas)){ echo 'selected=selected';} ?>>{{ $disciplina->nome }}</option>
+              @endforeach
+            </select>
+        </div>
+        </div>
       </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var el;
+        window.TomSelect &&
+          new TomSelect((el = document.getElementById("select-states")), {
+            copyClassesToDropdown: false,
+            dropdownParent: "body",
+            controlInput: "<input>",
+            render: {
+              item: function (data, escape) {
+                if (data.customProperties) {
+                  return '<div><span class="dropdown-item-indicator">' + data.customProperties + "</span>" + escape(data.text) + "</div>";
+                }
+                return "<div>" + escape(data.text) + "</div>";
+              },
+              option: function (data, escape) {
+                if (data.customProperties) {
+                  return '<div><span class="dropdown-item-indicator">' + data.customProperties + "</span>" + escape(data.text) + "</div>";
+                }
+                return "<div>" + escape(data.text) + "</div>";
+              },
+            },
+          });
+      });
+    </script>
 
       <div class="row">
         <div class="col">
@@ -272,26 +311,26 @@
       <div class="mb-3">
         <label>Período de inscrição</label>
         <div class="row">
-          <div class="col-6">
+          <div class="col-4">
             <label class="form-label mb-2" for="inputInscricaoFrom">De</label>
             <input type="date" class="form-control" id="inputInscricaoFrom" name="inputInscricaoFrom" aria-describedby="inputInscricaoFromHelp" value="{{ $dados->InscricaoFrom }}">
           </div>
-          <div class="col-6">
+          <div class="col-4">
             <label class="form-label mb-2" for="inputInscricaoTo">Até</label>
             <input type="date" class="form-control" id="inputInscricaoTo" name="inputInscricaoTo" aria-describedby="inputInscricaoToHelp" value="{{ $dados->InscricaoTo }}">
           </div>
-        </div>
+	  <div class="col-4">
+            <label class="form-label mb-2" for="inputInicioAtividades">Início das atividades</label>
+            <input type="date" class="form-control" id="inputInicioAtividades" name="inputInicioAtividades" aria-describedby="inputInicioAtividadesHelp" value="{{ $dados->InicioAtividades }}">
+          </div>
       </div>
-      <div class="mb-3">
-        <label class="form-label mb-2" for="inputInicioAtividades">Início das atividades</label>
-        <input type="date" class="form-control" id="inputInicioAtividades" name="inputInicioAtividades" aria-describedby="inputInicioAtividadesHelp" value="{{ $dados->InicioAtividades }}">
-      </div>
-      <div class="row mb-5">
+
+      <div class="row mb-5 mt-5">
         <div class="col-auto">
-          <button type="submit" class="btn btn-lg btn-block btn-danger">Atualizar Dados</button>
+          <button type="submit" class="btn btn-block btn-primary">Atualizar Dados</button>
         </div>
         <div class="col-auto">
-          <a class="btn btn-lg btn-block btn-success" href="/nucleos">Voltar</a>
+          <a class="btn btn-block btn-success" href="/nucleos">Voltar</a>
         </div>
       </div>
   </form>
