@@ -17,6 +17,8 @@ use App\User;
 use App\Aluno;
 use App\Coordenadores;
 use App\HorarioAula;
+use App\PovoIndigena;
+use App\TerraIndigena;
 
 class ProfessoresController extends Controller
 {
@@ -86,6 +88,8 @@ class ProfessoresController extends Controller
 
         return view('professoresCreate')->with([
           'nucleos' => $nucleos,
+          'povo_indigenas' => PovoIndigena::all(),
+          'terra_indigenas' => TerraIndigena::all(),
         ]);
       }
 
@@ -197,6 +201,8 @@ class ProfessoresController extends Controller
         'CursoMestrado' => $request->input('inputCursoMestrado'),
         'AnoCursoMestrado' => $request->input('inputAnoCursoMestrado'),
         'FormacaoAcademicaRecente' => $request->input('inputFormacaoAcademicaRecente'),
+        'povo_indigenas_id' => $request->input('povo_indigenas_id'),
+        'terra_indigenas_id' => $request->input('terra_indigenas_id'),
       ]);
 
       if($Foto){
@@ -349,6 +355,8 @@ class ProfessoresController extends Controller
         return view('professoresEdit')->with([
           'dados'     => $dados,
           'nucleos'   => $nucleos,
+          'povo_indigenas' => PovoIndigena::all(),
+          'terra_indigenas' => TerraIndigena::all(),
         ]);
       }
 
@@ -408,6 +416,8 @@ class ProfessoresController extends Controller
       $dados->BairroEmpresa = $request->input('inputBairroEmpresa');
       $dados->CidadeEmpresa = $request->input('inputCidadeEmpresa');
       $dados->EstadoEmpresa = $request->input('inputEstadoEmpresa');
+      $dados->povo_indigenas_id = $request->input('povo_indigenas_id') ?? NULL;
+      $dados->terra_indigenas_id = $request->input('terra_indigenas_id') ?? NULL;
       $ProjetosRealizados = $dados->ProjetosRealizados = $request->input('inputProjetosRealizados');
       if($ProjetosRealizados === 'nao'){
         $dados->ProjetosNome = NULL;
@@ -710,6 +720,8 @@ class ProfessoresController extends Controller
       return view('professoresDetails')->with([
         'dados' => $dados,
         'nucleos' => $nucleos,
+        'povo_indigenas' => PovoIndigena::all(),
+        'terra_indigenas' => TerraIndigena::all(),
       ]);
     }
 

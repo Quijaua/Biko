@@ -82,6 +82,8 @@ class Aluno extends Model
         'ComoSoube',
         'ComoSoubeOutros',
         'localizacao_curso',
+        'terra_indigenas_id',
+        'povo_indigenas_id',
     ];
 
     public function nucleo()
@@ -117,5 +119,15 @@ class Aluno extends Model
     public static function whereNucleo($nucleo)
     {
         return self::query()->where('id_nucleo', $nucleo);
+    }
+
+    public function povo_indigenas()
+    {
+        return $this->belongsTo('App\PovoIndigena', 'povo_indigenas_id');
+    }
+
+    public function terra_indigenas()
+    {
+        return $this->belongsTo('App\TerraIndigena', 'terra_indigenas_id');
     }
 }

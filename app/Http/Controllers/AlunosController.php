@@ -12,6 +12,8 @@ use App\Professores;
 use App\Coordenadores;
 use App\User;
 use App\AlunoInfoFamiliares;
+use App\PovoIndigena;
+use App\TerraIndigena;
 use Image;
 use Session;
 use Carbon\Carbon;
@@ -109,6 +111,8 @@ class AlunosController extends Controller
         return view('alunosCreate')->with([
             'nucleos' => $nucleos,
             'user' => $user,
+            'povo_indigenas' => PovoIndigena::all(),
+            'terra_indigenas' => TerraIndigena::all(),
         ]);
     }
 
@@ -212,6 +216,8 @@ class AlunosController extends Controller
             'ComoSoube' => $request->input('inputComoSoube'),
             'ComoSoubeOutros' => $request->input('inputComoSoubeOutros'),
             'localizacao_curso' => $request->input('localizacao_curso'),
+            'povo_indigenas_id' => $request->input('povo_indigenas_id'),
+            'terra_indigenas_id' => $request->input('terra_indigenas_id'),
         ]);
 
         if ($Foto) {
@@ -243,6 +249,9 @@ class AlunosController extends Controller
             'nucleos' => $nucleos,
             'user' => $user,
             'familiares' => $familiares,
+            'povo_indigenas' => PovoIndigena::all(),
+            'terra_indigenas' => TerraIndigena::all(),
+
         ]);
     }
 
@@ -336,6 +345,8 @@ class AlunosController extends Controller
         $dados->OpcoesVestibular2 = $request->input('inputOpcoesVestibular2');
         $dados->VestibularOutraCidade = $request->input('inputVestibularOutraCidade');
         $dados->ComoSoube = $request->input('inputComoSoube');
+        $dados->povo_indigenas_id = $request->input('povo_indigenas_id') ?? NULL;
+        $dados->terra_indigenas_id = $request->input('terra_indigenas_id') ?? NULL;
         if ($request->input('inputComoSoube') != 'outros') {
             $dados->ComoSoubeOutros = NULL;
         } else {
@@ -548,6 +559,8 @@ class AlunosController extends Controller
             'dados' => $dados,
             'nucleos' => $nucleos,
             'familiares' => $familiares,
+            'povo_indigenas' => PovoIndigena::all(),
+            'terra_indigenas' => TerraIndigena::all(),
         ]);
     }
 
