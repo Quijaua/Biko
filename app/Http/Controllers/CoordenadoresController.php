@@ -182,6 +182,7 @@ class CoordenadoresController extends Controller
         'CursoMestrado' => $request->input('inputCursoMestrado'),
         'AnoCursoMestrado' => $request->input('inputAnoCursoMestrado'),
         'FormacaoAcademicaRecente' => $request->input('inputFormacaoAcademicaRecente'),
+        'pessoa_com_deficiencia' => $request->input('pessoa_com_deficiencia'),
       ]);
 
       if($Foto){
@@ -295,6 +296,7 @@ class CoordenadoresController extends Controller
       $dados->CursoMestrado = $request->input('inputCursoMestrado');
       $dados->AnoCursoMestrado = $request->input('inputAnoCursoMestrado') ? $request->input('inputAnoCursoMestrado') : NULL;
       $dados->FormacaoAcademicaRecente = $request->input('inputFormacaoAcademicaRecente');
+      $dados->pessoa_com_deficiencia = $request->input('pessoa_com_deficiencia');
 
       $cgu = $dados->RepresentanteCGU;
       if($cgu){

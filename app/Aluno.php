@@ -81,6 +81,7 @@ class Aluno extends Model
         'VestibularOutraCidade',
         'ComoSoube',
         'ComoSoubeOutros',
+        'pessoa_com_deficiencia',
     ];
 
     public function nucleo()

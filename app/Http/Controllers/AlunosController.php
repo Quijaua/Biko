@@ -211,6 +211,7 @@ class AlunosController extends Controller
             'VestibularOutraCidade' => $request->input('inputVestibularOutraCidade'),
             'ComoSoube' => $request->input('inputComoSoube'),
             'ComoSoubeOutros' => $request->input('inputComoSoubeOutros'),
+            'pessoa_com_deficiencia' => $request->input('pessoa_com_deficiencia'),
         ]);
 
         if ($Foto) {
@@ -335,6 +336,7 @@ class AlunosController extends Controller
         $dados->OpcoesVestibular2 = $request->input('inputOpcoesVestibular2');
         $dados->VestibularOutraCidade = $request->input('inputVestibularOutraCidade');
         $dados->ComoSoube = $request->input('inputComoSoube');
+        $dados->pessoa_com_deficiencia = $request->input('pessoa_com_deficiencia');
         if ($request->input('inputComoSoube') != 'outros') {
             $dados->ComoSoubeOutros = NULL;
         } else {

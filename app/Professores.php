@@ -71,6 +71,7 @@ class Professores extends Model
         'CursoMestrado',
         'AnoCursoMestrado',
         'FormacaoAcademicaRecente',
+        'pessoa_com_deficiencia',
     ];
 
     protected $casts = [

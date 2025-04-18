@@ -72,6 +72,7 @@ class Coordenadores extends Model
       'CursoMestrado',
       'AnoCursoMestrado',
       'FormacaoAcademicaRecente',
+      'pessoa_com_deficiencia',
     ];
 
     public function nucleo()

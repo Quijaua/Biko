@@ -233,6 +233,41 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="row">
+                                        <div class="col-12 col-md-6">
+                                            <div class="mb-3">
+                                                <div class="form-label">É pessoa com deficiência?</div>
+                                                <div>
+                                                    <label class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="selecao-deficiencia" value="sim" />
+                                                        <span class="form-check-label">Sim</span>
+                                                    </label>
+                                                    <label class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="selecao-deficiencia" value="nao" checked />
+                                                        <span class="form-check-label">Não</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-12 col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label mb-2" for="pessoa_com_deficiencia">Qual a deficiência?</label>
+                                                <select class="form-select" name="pessoa_com_deficiencia" disabled>
+                                                    <option value="" selected>Selecione</option>
+                                                    <option value="A">Auditiva</option>
+                                                    <option value="FM">Física / Motora</option>
+                                                    <option value="V">Visual</option>
+                                                    <option value="I">Intelectual</option>
+                                                    <option value="TEA">TEA – Transtorno do Espectro Autista</option>
+                                                    <option value="S">Surdocegueira</option>
+                                                    <option value="M">Múltipla</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="row">
                                         <div class="col">
                                             <div class="mb-3">
@@ -1357,6 +1392,14 @@
     <script>
         $(document).ready(function() {
             $('#inputAnoInicioUneafro').mask('0000');
+
+            $('input[name=selecao-deficiencia]').change(function() {
+                if ($(this).val() === 'sim') {
+                    $('select[name=pessoa_com_deficiencia]').prop('disabled', false);
+                } else {
+                    $('select[name=pessoa_com_deficiencia]').prop('disabled', true);
+                }
+            })
         });
     </script>
 @endsection
