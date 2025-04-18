@@ -213,6 +213,7 @@ class ProfessoresController extends Controller
         'FormacaoAcademicaRecente' => $request->input('inputFormacaoAcademicaRecente'),
         'povo_indigenas_id' => $request->input('povo_indigenas_id'),
         'terra_indigenas_id' => $request->input('terra_indigenas_id'),
+        'pessoa_com_deficiencia' => $request->input('pessoa_com_deficiencia'),
       ]);
 
       if($Foto){
@@ -468,6 +469,7 @@ class ProfessoresController extends Controller
       $dados->CursoMestrado = $request->input('inputCursoMestrado');
       $dados->AnoCursoMestrado = $request->input('inputAnoCursoMestrado');
       $dados->FormacaoAcademicaRecente = $request->input('inputFormacaoAcademicaRecente');
+      $dados->pessoa_com_deficiencia = $request->input('pessoa_com_deficiencia');
 
       if($Foto){
         $filename = $Foto->getFilename().'.'.$Foto->getClientOriginalExtension();

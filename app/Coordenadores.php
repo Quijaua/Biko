@@ -74,6 +74,7 @@ class Coordenadores extends Model
       'FormacaoAcademicaRecente',
       'terra_indigenas_id',
       'povo_indigenas_id',
+      'pessoa_com_deficiencia',
     ];
 
     public function nucleo()

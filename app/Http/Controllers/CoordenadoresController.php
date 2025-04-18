@@ -200,6 +200,7 @@ class CoordenadoresController extends Controller
         'FormacaoAcademicaRecente' => $request->input('inputFormacaoAcademicaRecente'),
         'povo_indigenas_id' => $request->input('povo_indigenas_id'),
         'terra_indigenas_id' => $request->input('terra_indigenas_id'),
+        'pessoa_com_deficiencia' => $request->input('pessoa_com_deficiencia'),
       ]);
 
       if($Foto){
@@ -327,6 +328,7 @@ class CoordenadoresController extends Controller
       $dados->FormacaoAcademicaRecente = $request->input('inputFormacaoAcademicaRecente');
       $dados->povo_indigenas_id = $request->input('povo_indigenas_id') ?? NULL;
       $dados->terra_indigenas_id = $request->input('terra_indigenas_id') ?? NULL;
+      $dados->pessoa_com_deficiencia = $request->input('pessoa_com_deficiencia');
 
       $cgu = $dados->RepresentanteCGU;
       if($cgu){
