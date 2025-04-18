@@ -102,13 +102,14 @@
                                     <div class="col">
                                       <div class="mb-3">
                                         <label class="form-label mb-2" for="inputNucleo">Núcleo</label>
-                                        <select name="inputNucleo" class="form-select" required>
-                                          <option selected>Selecione</option>
+                                        <select id="nucleo" name="inputNucleo" class="form-select form-control is-invalid" required>
+                                          <option value="" selected>Selecione</option>
                                           @foreach($nucleos as $nucleo)
                                           <option <?php if($nucleo->id == old('inputNucleo')){ echo 'selected=selected';} ?> value="{{ $nucleo->id }}">{{ $nucleo->NomeNucleo }}</option>
                                           @endforeach
                                         </select>
                                       </div>
+                                      <div class="mb-3 invalid-feedback d-block">Por favor, selecione um núcleo.</div>
                                     </div>
                                     <div class="col">
                                       <div class="mb-3">
@@ -890,6 +891,22 @@
     <script>
         $(document).ready(function() {
             $('#inputAnoInicioUneafro').mask('0000');
+
+            const selectNucleo = $('#nucleo')
+
+            selectNucleo.on('change', function() {
+                if (selectNucleo.val() == '') {
+                    selectNucleo.removeClass('is-valid')
+                    selectNucleo.addClass('is-invalid')
+                    $('.invalid-feedback').removeClass('d-none')
+                    $('.invalid-feedback').addClass('d-block')
+                } else {
+                    selectNucleo.removeClass('is-invalid')
+                    selectNucleo.addClass('is-valid')
+                    $('.invalid-feedback').removeClass('d-block')
+                    $('.invalid-feedback').addClass('d-none')
+                }  
+            })
         });
     </script>
 @endsection

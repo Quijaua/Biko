@@ -81,6 +81,16 @@ class CoordenadoresController extends Controller
 
     public function create(Request $request)
     {
+      $validated = $request->validate([
+          'inputNucleo' => 'required',
+      ]);
+
+      if (!$validated) {
+          return back()->with([
+              'error' => 'O campo Núcleo deve ser preenchido.',
+          ]);
+      }
+      
       $Foto = $request->file('inputFoto');
       //$Extension = $Foto->getClientOriginalExtension();
       $today = \Carbon\Carbon::now();
@@ -224,6 +234,16 @@ class CoordenadoresController extends Controller
 
     public function update(Request $request, $id)
     {
+      $validated = $request->validate([
+          'inputNucleo' => 'required',
+      ]);
+
+      if (!$validated) {
+          return back()->with([
+              'error' => 'O campo Núcleo deve ser preenchido.',
+          ]);
+      }
+
       $dados = Coordenadores::find($id);
 
       $Foto = $request->file('inputFoto');
