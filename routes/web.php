@@ -77,7 +77,7 @@ Route::get('coordenadores/enable/{id}', 'CoordenadoresController@enable')->middl
 Route::any('coordenadores/search', 'CoordenadoresController@search')->name('coordenadores/search');
 
 // ROUTES FOR PROFESSORES MANAGEMENT
-Route::get('professores', 'ProfessoresController@index')->middleware('permissions');
+Route::get('professores', 'ProfessoresController@index')->middleware('permissions')->name('professores.index');
 Route::get('professores/details/{id}', 'ProfessoresController@details')->middleware('permissions');
 Route::get('professores/export/', 'ProfessoresController@export')->name('professores/export/');
 Route::get('professores/add', 'ProfessoresController@showForm')->middleware('permissions');
