@@ -48,7 +48,7 @@
                                     <p>Comentario: <?php echo strip_tags($comentario->comentario); ?></p>
                                 </div>
                                 <div class="col">
-                                    <p>Aluno: {{ $comentario->user->aluno->NomeAluno ?? $comentario->user->name }}</p>
+                                    <p>Estudante: {{ $comentario->user->aluno->NomeAluno ?? $comentario->user->name }}</p>
                                 </div>
                                 <div class="col">
                                     <p>Data: {{ $comentario->created_at->format('d/m/Y') }}</p>

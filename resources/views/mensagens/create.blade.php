@@ -24,10 +24,10 @@
                 <div class="row d-none" id="divAluno">
                     <div class="col">
                         <div class="mb-3">
-                            <label class="form-label mb-2" for="alunos">Para o alunos:</label>
+                            <label class="form-label mb-2" for="alunos">Para o estudante:</label>
                             <select name="alunos[]" id="inputParaAluno" class="form-select" multiple>
                             </select>
-                            <small class="form-text text-muted">Mantenha o campo vazio caso queira enviar para todos os alunos dos núcleos selecionados.</small>
+                            <small class="form-text text-muted">Mantenha o campo vazio caso queira enviar para todos os estudantes dos núcleos selecionados.</small>
                         </div>
                     </div>
                 </div>
