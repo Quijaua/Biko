@@ -114,6 +114,16 @@ class AlunosController extends Controller
 
     public function create(Request $request)
     {
+        $validated = $request->validate([
+            'inputNucleo' => 'required',
+        ]);
+
+        if (!$validated) {
+            return back()->with([
+                'error' => 'O campo Núcleo deve ser preenchido.',
+            ]);
+        }
+
         $nome_nucleo = Nucleo::find($request->input('inputNucleo'));
         $Fund = $request->input('inputEnsFundamental');
         $Fundamental = json_encode($Fund);
@@ -247,6 +257,16 @@ class AlunosController extends Controller
 
     public function update(Request $request, $id)
     {
+        $validated = $request->validate([
+            'inputNucleo' => 'required',
+        ]);
+
+        if (!$validated) {
+            return back()->with([
+                'error' => 'O campo Núcleo deve ser preenchido.',
+            ]);
+        }
+        
         $dados = Aluno::find($id);
 
         $Fund = $request->input('inputEnsFundamental');

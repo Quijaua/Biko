@@ -119,13 +119,14 @@
                                     <div class="col">
                                       <div class="mb-3">
                                         <label for="inputNucleo">Núcleo</label>
-                                        <select name="inputNucleo" class="form-select" >
-                                          <option selected>Selecione</option>
+                                        <select id="nucleo" name="inputNucleo" class="form-select form-control" <?php if (!$dados->id_nucleo) { echo 'is-invalid'; } else { echo 'is-valid'; } ?> required>
+                                          <option value="" selected>Selecione</option>
                                           @foreach($nucleos as $nucleo)
                                           <option <?php if($nucleo->id == $dados->id_nucleo){ echo 'selected=selected';} ?> value="{{ $nucleo->id }}">{{ $nucleo->NomeNucleo }}</option>
                                           @endforeach
                                         </select>
                                       </div>
+                                      <div class="mb-3 invalid-feedback <?php if (!$dados->id_nucleo) { echo 'd-block'; } else { echo 'd-none'; } ?>">Por favor, selecione um núcleo.</div>
                                     </div>
                                   </div>
                                   <div class="row">
@@ -1049,6 +1050,25 @@
                     }
                 }
             });
+
+            $(document).ready(function() {
+
+                const selectNucleo = $('#nucleo')
+
+                selectNucleo.on('change', function() {
+                    if (selectNucleo.val() == '') {
+                        selectNucleo.removeClass('is-valid')
+                        selectNucleo.addClass('is-invalid')
+                        $('.invalid-feedback').removeClass('d-none')
+                        $('.invalid-feedback').addClass('d-block')
+                    } else {
+                        selectNucleo.removeClass('is-invalid')
+                        selectNucleo.addClass('is-valid')
+                        $('.invalid-feedback').removeClass('d-block')
+                        $('.invalid-feedback').addClass('d-none')
+                    }  
+                })
+            })
         </script>
 
 
