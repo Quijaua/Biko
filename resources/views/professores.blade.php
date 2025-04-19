@@ -50,7 +50,7 @@
                     @endif
                 </div>
             </div>
-            <div class="card mb-4 col-md-5">
+            <div class="card col-md-5">
                 <div class="card-body">
                     <form class="row g-2 align-items-end">
 

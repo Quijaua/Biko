@@ -52,6 +52,9 @@
                     @endif
                 </div>
             </div>
+        
+
+
             <div class="card mb-4 col-md-5">
                 <div class="card-body">
                     <form class="row g-2 align-items-end">
@@ -120,6 +123,7 @@
                     </form>
                 </div>
             </div>
+        </div>
             <div class="container">
                 <div class="rounded border border-gray-300">
                     <form action="/coordenadores/search" method="POST" class="p-4 bg-white" role="search">
@@ -271,10 +275,11 @@
                 </div>
             </div>
         @endif
-        <div class="row">
+        <div class="row" id="coordenadores-links">
             <div class="col">
                 {{ $coordenadores->links() }}
             </div>
         </div>
     </div>
+
 @endsection

@@ -22,7 +22,7 @@
             </div>
         @endif
         <div class="container">
-            <div class="container">
+
                 <form name="listaPresencaForm" action="{{ route('nucleo/presences/new') }}" method="get">
                     @csrf
                     <div class="row">
@@ -54,7 +54,7 @@
                             @endif
                         </div>
                     </div>
-                    <div class="card mb-4 col-md-5">
+                    <div class="card col-md-5">
                         <div class="card-body">
                             <div class="col-md-12">
                                 <h3 class="card-title mb-3 d-flex align-items-center">
@@ -144,6 +144,8 @@
                     </div>
                 </form>
             </div>
+        <div class="container">
+        
             <div class="rounded border border-gray-300">
                 <form action="/nucleo/presences/search" method="POST" class="p-4 bg-white" role="search">
                     <div class="col-10 d-flex align-items-center gap-2">
