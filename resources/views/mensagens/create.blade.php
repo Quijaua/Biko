@@ -49,9 +49,9 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4 offset-md-8 text-right">
-                        <a class="btn btn-danger" href="{{ url()->previous() }}">Voltar</a>
-                        <button type="submit" class="btn btn-success">Enviar mensagem</button>
+                    <div class="col-md-4 soffset-md-8 text-right">
+                        <button type="submit" class="btn btn-primary btn-1">Enviar mensagem</button>
+                        <a class="btn btn-2" href="{{ url()->previous() }}">Voltar</a>
                     </div>
                 </div>
             </form>

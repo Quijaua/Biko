@@ -43,11 +43,14 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-2">
-                        <button type="submit" class="btn btn-success">Salvar</button>
-                        <a class="btn btn-danger" href="{{ route('disciplinas.index') }}">Voltar</a>
+                    <div class="col-12">
+                        <div class="btn-list">
+                        <button type="submit" class="btn btn-primary btn-2">Salvar</button>
+                        <a href="{{ route('disciplinas.index') }}" class="btn btn-1"> Voltar </a>
+                        </div>
                     </div>
                 </div>
+
             </form>
         </div>
     </div>

@@ -299,7 +299,7 @@
       <input type="hidden" name="inputStatus" value="1">
       <div class="row">
         <div class="col">
-          <button type="submit" class="btn btn-lg btn-primary">Salvar</button>
+          <button type="submit" class="btn btn-primary btn-1">Salvar</button>
         </div>
       </div>
   </form>
