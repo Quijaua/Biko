@@ -190,11 +190,11 @@
                 <td>
                   @if($aluno->Status === 1)
                   <span class="status-badge status-ativo">
-                    Ativar
+                    Ativo
                   </span>
                   @else
                   <span class="status-badge status-inativo">
-                    Inativar
+                    Inativo
                   </span>
                   @endif
                 </td>
@@ -235,16 +235,17 @@
                     </a>
                     @if($aluno->Status === 1)
                     <a href="/alunos/disable/{{ $aluno->id }}">
-                      <span class="status-btn status-ativo">
-                        Ativar
-                        <span class="status-circle"></span>
+                      <span class="status-btn status-inativo">
+                      <span class="status-circle"></span>
+                        Inativar
+                        
                       </span>
                     </a>
                     @else
                     <a href="/alunos/enable/{{ $aluno->id }}">
-                      <span class="status-btn status-inativo">
+                      <span class="status-btn status-ativo">
+                        Ativar
                         <span class="status-circle"></span>
-                        Inativar
                       </span>
                     </a>
                     @endif
