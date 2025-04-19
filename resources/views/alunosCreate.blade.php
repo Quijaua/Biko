@@ -290,7 +290,7 @@
                                     <div class="col">
                                         <div class="mb-3">
                                             <label class="form-label mb-2" for="inputAuxGoverno">A família recebe
-                                                algumn
+                                                algum
                                                 tipo
                                                 de
                                                 auxílio do Governo?</label>
