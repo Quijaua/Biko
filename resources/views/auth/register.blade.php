@@ -111,7 +111,7 @@
                                                     <div class="mb-3">
 
                                                         <label class="form-label mb-2"
-                                                            for="name">{{ __('Nome Complete') }}<span
+                                                            for="name">{{ __('Nome Completo') }}<span
                                                                 class="text-danger">*</span></label>
 
                                                         <input id="name" type="text"
@@ -130,7 +130,7 @@
 
                                             {{-- Email --}}
                                             <div class="row">
-                                                <div class="col-12">
+                                                <div class="col-6">
                                                     <div class="mb-3">
                                                         <label class="form-label" for="email">{{ __('Email') }}<span
                                                                 class="text-danger">*</span></label>
@@ -138,7 +138,7 @@
                                                             class="form-control @error('email') is-invalid @enderror"
                                                             name="email" value="{{ old('email') }}" required
                                                             autocomplete="email"
-                                                            placeholder="Todos os e-mails do sistema serão enviados para este endereço">
+                                                            placeholder="Seu e-mail principal">
                                                     </div>
                                                     @error('email')
                                                         <span class="invalid-feedback" role="alert">
@@ -148,7 +148,28 @@
                                                         </span>
                                                     @enderror
                                                 </div>
-                                            </div>
+
+                                            {{-- Telefone --}}
+                                                <div class="col-6">
+                                                    <div class="mb-3">
+                                                        <label class="form-label mb-2"
+                                                            for="phone">{{ __('Celular/WhatsApp') }}</label>
+                                                        <input id="phone" type="phone"
+                                                            class="form-control @error('phone') is-invalid @enderror"
+                                                            name="phone" value="{{ old('phone') }}"
+                                                            data-mask="(00) 0 0000-0000" required autocomplete="phone"
+                                                            autofocus>
+                                                        <small id="phoneHelp" class="form-text text-muted">Por favor,
+                                                            informe o número do
+                                                            seu celular, com DDD</small>
+                                                    </div>
+                                                    @error('phone')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
+                                                </div>
+                                              </div>
 
                                             {{-- Endereço --}}
                                             <div class="row">
@@ -239,28 +260,6 @@
                                                             <option value="EX">Estrangeiro</option>
                                                         </select>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            {{-- Telefone --}}
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <div class="mb-3">
-                                                        <label class="form-label mb-2"
-                                                            for="phone">{{ __('Celular/WhatsApp') }}</label><br><br>
-                                                        <input id="phone" type="phone"
-                                                            class="form-control @error('phone') is-invalid @enderror"
-                                                            name="phone" value="{{ old('phone') }}"
-                                                            data-mask="(00) 0 0000-0000" required autocomplete="phone"
-                                                            autofocus>
-                                                        <small id="phoneHelp" class="form-text text-muted">Por favor,
-                                                            informe o número do
-                                                            seu celular, com DDD</small>
-                                                    </div>
-                                                    @error('phone')
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
                                                 </div>
                                             </div>
 
@@ -406,21 +405,23 @@
                                             </div>
 
                                             <input id="role" type="hidden" name="role" value="aluno">
-
+					<div class="row">
+						<div class="col">
                                             <div class="h-captcha"
                                                 data-sitekey="{{ config('services.hcaptcha.site_key') }}"></div>
+						</div>
+					     </div>
+
 
                                             <div class="mb-3 row mt-3 mb-0">
-                                                <div class="col-md-6">
-                                                    <a href="/" class="btn btn-secondary w-100">
+						<div class="btn-list">
+                                                    <a href="javascript:history.back()" class="btn btn-1">
                                                         {{ __('voltar') }}
-                                                    </a>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <button type="submit" class="btn btn-primary w-100">
+						    </a>
+                                                    <button type="submit" class="btn btn-primary btn-2">
                                                         {{ __('Enviar pré-cadastrar') }}
                                                     </button>
-                                                </div>
+						</div>
                                             </div>
                                         </form>
                                     </div>
