@@ -11,18 +11,23 @@
             {{-- Card Header --}}
             <div class="card-header">
                 <ul class="nav nav-tabs card-header-tabs steps-tabs justify-content-center" data-bs-toggle="tabs">
+                <li id="step-back" class="nav-item d-none">
+                    <a id="step-back-link" href="javascript:void(0)" class="nav-link">
+                      <span class="step-circle"><-</span>
+                    </a>
+                  </li>
                   <li class="nav-item">
-                    <a href="#cidade_do_cursinho" class="nav-link active" data-bs-toggle="tab">
+                    <a id="step-1" href="#cidade_do_cursinho" class="nav-link active" data-bs-toggle="tab">
                       <span class="step-circle">1</span> Selecione seu Estado
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="#nucleo_do_cursinho" class="nav-link" data-bs-toggle="tab">
+                    <a id="step-2" href="#nucleo_do_cursinho" class="nav-link" data-bs-toggle="tab">
                       <span class="step-circle">2</span> Núcleo
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="#formulario_de_precadastro" class="nav-link" data-bs-toggle="tab">
+                    <a id="step-3" href="#formulario_de_precadastro" class="nav-link" data-bs-toggle="tab">
                       <span class="step-circle">3</span> Seus dados
                     </a>
                   </li>
@@ -438,7 +443,7 @@
         <script src='https://www.hCaptcha.com/1/api.js' async defer></script>
         <script>
             $(document).ready(function() {
-
+                console.log('ready');
                 $('select[name=temFilhos').change(function() {
                     if ($(this).val() === '1') {
                         $('#filhos_qt_wrapper').fadeIn();
@@ -454,17 +459,38 @@
                         $('select[name=pessoa_com_deficiencia]').prop('disabled', true);
                     }
                 })
-
             });
         </script>
         <script>
             let localSelecionado = "";
+            let stepFrom = 1;
 
             function selecionar(valor) {
+                console.log(valor);
                 localSelecionado = valor;
                 document.getElementById("resultado").innerText = localSelecionado;
                 const resultadoLocal = document.getElementById("resultadoLocal");
                 resultadoLocal.classList.remove("d-none");
+
+                if (valor === "Núcleo Virtual - Aulas online para todo Brasil") {
+                    document.getElementById("step-3").click();
+                    document.getElementById("step-back").classList.remove("d-none");
+                    document.getElementById("step-back").classList.add("d-block");
+                } else {
+                    document.getElementById("step-2").click();
+                    document.getElementById("step-back").classList.remove("d-none");
+                    document.getElementById("step-back").classList.add("d-block");
+                }
+            }
+
+            document.getElementById("step-back-link").addEventListener("click", function() {
+
+                back(stepFrom);
+                if (stepFrom > 1) stepFrom--;
+            })
+
+            function back(step) {
+                document.getElementById('step-' + step).click();
             }
 
             let nucleoSelecionadoId = "";
@@ -475,12 +501,15 @@
                 const select = document.getElementById("inputNucleoStep");
                 const selectedOption = select.options[select.selectedIndex];
 
-
+                console.log(selectedOption);
                 nucleoSelecionadoId = selectedOption.value;
                 nucleoSelecionadoTexto = selectedOption.text;
                 resultadoNucleo.classList.remove("d-none");
 
                 document.getElementById("nucleoSelecionadoTexto").innerText = nucleoSelecionadoTexto;
+
+                document.getElementById("step-3").click();
+                stepFrom++;
             }
         </script>
     @endsection

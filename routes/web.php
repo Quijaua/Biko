@@ -35,18 +35,18 @@ Route::get('nucleos/edit/{id}', 'NucleoController@edit')->middleware('permission
 Route::post('nucleos/update/{id}', 'NucleoController@update')->middleware('permissions');
 Route::get('nucleos/disable/{id}', 'NucleoController@disable')->middleware('permissions');
 Route::get('nucleos/enable/{id}', 'NucleoController@enable')->middleware('permissions');
-Route::any('nucleos/search', 'NucleoController@search')/*->middleware('permissions')*/;
+Route::any('nucleos/search', 'NucleoController@search')->middleware('permissions');
 Route::get('nucleo/presences', 'NucleoController@presences_index')->name('nucleo/presences');
 Route::get('nucleo/presences/new', 'NucleoController@presences_new')->name('nucleo/presences/new');
 Route::post('nucleo/presences/create', 'NucleoController@presences_create')->name('nucleo/presences/create');
 Route::get('nucleo/presences/destroy', 'NucleoController@presences_destroy')->name('nucleo/presences/destroy');
-Route::any('nucleo/presences/search', 'NucleoController@search_presences')/*->middleware('permissions')*/;
+Route::any('nucleo/presences/search', 'NucleoController@search_presences')->middleware('permissions');
 
 Route::get('nucleo/material', 'MaterialController@index')->name('nucleo.material');
 Route::post('nucleo/material/create', 'MaterialController@create')->name('nucleo.material.create');
 Route::get('nucleo/material/delete/{id}', 'MaterialController@delete')->name('nucleo.material.delete');
 Route::get('nucleo/material/restore/{id}', 'MaterialController@restore')->name('nucleo.material.restore');
-Route::get('nucleo/material/search', 'MaterialController@search')/*->middleware('permissions')*/;
+Route::get('nucleo/material/search', 'MaterialController@search')->middleware('permissions');
 
 // ROUTES FOR ALUNOS MANAGEMENT
 Route::get('alunos', 'AlunosController@index')->middleware('permissions');
@@ -88,7 +88,7 @@ Route::get('professores/edit/{id}' , 'ProfessoresController@edit')->middleware('
 Route::post('professores/update/{id}', 'ProfessoresController@update')->middleware('permissions');
 Route::get('professores/disable/{id}', 'ProfessoresController@disable')->middleware('permissions');
 Route::get('professores/enable/{id}', 'ProfessoresController@enable')->middleware('permissions');
-Route::any('professores/search', 'ProfessoresController@search')/*->middleware('permissions')*/->name('professores/search');
+Route::any('professores/search', 'ProfessoresController@search')->middleware('permissions')->name('professores/search');
 
 
 // ROUTES FOR MESSAGE MANAGEMENT
