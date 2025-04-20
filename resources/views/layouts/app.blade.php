@@ -24,9 +24,10 @@
 
     <script src="{{ asset('dist/libs/litepicker/dist/litepicker.js?1738096684') }}" defer></script>
 
-
+    
     <script src="{{ asset('dist/libs/litepicker/dist/litepicker.js') }}" defer></script>
     <script src="{{ asset('dist/libs/tom-select/dist/js/tom-select.base.min.js') }}"></script>
+
 
     <!-- Tabler -->
     <script src="{{ asset('dist/js/demo-theme.min.js?1738096682') }}" defer></script>

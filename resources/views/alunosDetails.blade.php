@@ -151,7 +151,7 @@
                                                 @if ($user->role === 'administrador' || $user->role === 'coordenador')
                                                     <input class="form-check-input" name="inputListaEspera"
                                                         type="checkbox" value="{{ $dados->ListaEspera }}"
-                                                        @if ($dados->ListaEspera) checked @else @endif disabled>
+                                                        @if ($dados->ListaEspera === 'Sim') checked @endif disabled>
                                                     <label class="form-label mb-2" class="form-check-label"
                                                         for="inputListaEspera">Lista de Espera</label>
                                                 @endif

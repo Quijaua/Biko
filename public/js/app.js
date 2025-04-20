@@ -24,6 +24,8 @@ __webpack_require__.r(__webpack_exports__);
 var status_filter = document.getElementById('status');
 var nucleo_filter = document.getElementById('nucleo');
 var listaEspera_filter = document.getElementById('lista_espera');
+var cidade_filter = document.getElementById('cidade');
+var date_filter = document.getElementById('date');
 var limparFiltrosButton = document.getElementById('limparFiltros');
 var handleStatusChange = function handleStatusChange(status) {
   var handleUrlFormated = function handleUrlFormated() {
@@ -61,23 +63,56 @@ var handleListaEsperaChange = function handleListaEsperaChange(listaEspera) {
     return urlToFormate;
   };
   var url = handleUrlFormated();
-  url.searchParams.set('listaEspera', listaEspera);
+  url.searchParams.set('lista_espera', listaEspera);
   window.location.href = url.toString();
 };
-status_filter.addEventListener('change', function () {
+var handleCidadeChange = function handleCidadeChange(cidade) {
+  var handleUrlFormated = function handleUrlFormated() {
+    var urlToFormate = new URL(window.location.href);
+    var shouldFormate = urlToFormate.pathname.includes('/search');
+    if (!shouldFormate) {
+      urlToFormate.pathname += '/search';
+    }
+    return urlToFormate;
+  };
+  var url = handleUrlFormated();
+  url.searchParams.set('cidade', cidade);
+  window.location.href = url.toString();
+};
+var handleDateChange = function handleDateChange(date) {
+  var handleUrlFormated = function handleUrlFormated() {
+    var urlToFormate = new URL(window.location.href);
+    var shouldFormate = urlToFormate.pathname.includes('/search');
+    if (!shouldFormate) {
+      urlToFormate.pathname += '/search';
+    }
+    return urlToFormate;
+  };
+  var url = handleUrlFormated();
+  url.searchParams.set('date', date);
+  window.location.href = url.toString();
+};
+status_filter ? status_filter.addEventListener('change', function () {
   handleStatusChange(status_filter.value);
-});
-nucleo_filter.addEventListener('change', function () {
+}) : null;
+nucleo_filter ? nucleo_filter.addEventListener('change', function () {
+  console.log('eventlistener on nucleo');
   handleNucleoChange(nucleo_filter.value);
-});
-listaEspera_filter.addEventListener('change', function () {
+}) : null;
+listaEspera_filter ? listaEspera_filter.addEventListener('change', function () {
   handleListaEsperaChange(listaEspera_filter.value);
-});
-limparFiltrosButton.addEventListener('click', function () {
+}) : null;
+cidade_filter ? cidade_filter.addEventListener('change', function () {
+  handleCidadeChange(cidade_filter.value);
+}) : null;
+date_filter ? date_filter.addEventListener('change', function () {
+  handleDateChange(date_filter.value);
+}) : null;
+limparFiltrosButton ? limparFiltrosButton.addEventListener('click', function () {
   var url = window.location.origin + window.location.pathname;
   var baseUrl = url.replace(/\/search\/?$/, '');
   window.location.href = baseUrl;
-});
+}) : null;
 
 /***/ }),
 

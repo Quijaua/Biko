@@ -429,113 +429,37 @@ class AlunosController extends Controller
     public function search(Request $request)
     {
         $user = Auth::user();
-        $cpf = $request->input('cpf');
-        $status = $request->input('status');
-        $query = $request->input('inputQuery');
+        $params = self::getParams($request);
 
-        if ($query) {
-            if ($user->role === 'coordenador') {
-                $me = Coordenadores::where('id_user', $user->id)->first();
-                //$results = Aluno::where('NomeAluno','LIKE','%'.$query.'%')->where('id_nucleo', $me->id_nucleo)->get();
-                $results = Aluno::where('NomeAluno', 'LIKE', '%' . $query . '%')->where('id_nucleo', $me->id_nucleo)->paginate(25);
-                if ($results->isEmpty()) {
-                    return back()->with('error', 'Nenhum resultado encontrado.');
-                } else {
-                    return view('alunos')->with([
-                        'user' => $user,
-                        'alunos' => $results,
-                    ]);
-                }
-            } elseif ($user->role === 'professor') {
-                $me = Professores::where('id_user', $user->id)->first();
-                //$results = Aluno::where('NomeAluno','LIKE','%'.$query.'%')->where('id_nucleo', $me->id_nucleo)->get();
-                $results = Aluno::where('NomeAluno', 'LIKE', '%' . $query . '%')->where('id_nucleo', $me->id_nucleo)->paginate(25);
-                if ($results->isEmpty()) {
-                    return back()->with('error', 'Nenhum resultado encontrado.');
-                } else {
-                    return view('alunos')->with([
-                        'user' => $user,
-                        'alunos' => $results,
-                    ]);
-                }
-            } else {
-                $query = $request->input('inputQuery');
-                //$results = Aluno::where('NomeAluno','LIKE','%'.$query.'%')->get();
-                $results = Aluno::where('NomeAluno', 'LIKE', '%' . $query . '%')->paginate(25);
-                if ($results->isEmpty()) {
-                    return back()->with('error', 'Nenhum resultado encontrado.');
-                } else {
-                    return view('alunos')->with([
-                        'user' => $user,
-                        'alunos' => $results,
-                    ]);
-                }
-            }
-        }
+        $alunos = DB::table('alunos')
+            ->when($params['inputQuery'], function ($query) use ($params) {
+                return $query->where('alunos.NomeAluno', 'LIKE', '%' . $params['inputQuery'] . '%');
+            })
+            ->when($params['nucleo'], function ($query) use ($params) {
+                return $query->where('alunos.id_nucleo', '=', $params['nucleo']);
+            })
+            ->when($params['status'], function ($query) use ($params) {
+                return $query->where('alunos.Status', '=', $params['status'] === 'ativo' ? 1 : 0);
+            })
+            ->when($params['listaEspera'], function ($query) use ($params) {
+                return $query->where('alunos.listaEspera', '=', $params['listaEspera']);
+            })
+            ->paginate(25);
 
-        if ($cpf) {
-            if ($cpf != '') {
-                $result = Aluno::where('CPF', $cpf)->count();
-                if ($result > 0) {
-                    return \Response::json(true);
-                } elseif ($result === 0) {
-                    return \Response::json(false);
-                }
-            }
-        }
+        return view('alunos')->with([
+            'user' => $user,
+            'alunos' => $alunos,
+        ]);
+    }
 
-        if ($user->role === 'coordenador') {
-            $myNucleo = Nucleo::find($user->coordenador->id_nucleo);
-            $nucleo = $myNucleo->id;
-        } else if ($user->role === 'professor') {
-            $myNucleo = Nucleo::find($user->professor->id_nucleo);
-            $nucleo = $myNucleo->id;
-        } else if ($user->role === 'aluno') {
-            $myNucleo = Nucleo::find($user->aluno->id_nucleo);
-            $nucleo = $myNucleo->id;
-        } else {
-            $nucleo = $request->input('nucleo');
-        }
-
-        if ($status === NULL && $nucleo === NULL) {
-            //$result = Aluno::get();
-            $result = Aluno::paginate(25);
-            return view('alunos')->with([
-                'nucleo' => $nucleo,
-                'user' => $user,
-                'alunos' => $result,
-            ]);
-        } else if ($status === NULL) {
-            $result = Aluno::where('id_nucleo', $nucleo)->paginate(25);
-            return view('alunos')->with([
-                'nucleo' => $nucleo,
-                'user' => $user,
-                'alunos' => $result,
-            ]);
-        } else if ($nucleo === NULL) {
-            $result = Aluno::where('Status', $status)->paginate(25);
-            return view('alunos')->with([
-                'nucleo' => $nucleo,
-                'user' => $user,
-                'alunos' => $result,
-            ]);
-        } else {
-            $result = Aluno::where('Status', $status)->where('id_nucleo', $nucleo)->paginate(25);
-            if ($result->isEmpty()) {
-                return redirect('alunos')->with([
-                    'nucleo' => $nucleo,
-                    'alunos' => $result,
-                    'error' => 'Não há alunos inativos no momento.',
-                ]);
-            } else {
-                return view('alunos')->with([
-                    'nucleo' => $nucleo,
-                    'user' => $user,
-                    'alunos' => $result,
-                ]);
-            };
-        }
-
+    private static function getParams($request)
+    {
+        return [
+            'inputQuery' => $request->input('inputQuery'),
+            'nucleo' => $request->input('nucleo'),
+            'status' => $request->input('status'),
+            'listaEspera' => $request->input('lista_espera'),
+        ];
     }
 
     public function searchByNucleo(Request $request)

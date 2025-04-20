@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
+use DB;
 
 use App\Nucleo;
 use App\Material;
@@ -72,5 +73,37 @@ class MaterialController extends Controller
     $file->restore();
 
     return back();
+  }
+
+  public function search(Request $request)
+  {
+    $user = Auth::user();
+    $params = self::getParams($request);
+
+    $files = DB::table('materials')
+      ->when($params['inputQuery'], function ($query) use ($params) {
+          return $query->where('materials.name', 'LIKE', '%' . $params['inputQuery'] . '%');
+      })
+      ->when($params['status'], function ($query) use ($params) {
+          return $query->where('materials.status', '=', $params['status'] === 'ativo' ? 1 : 0);
+      })
+      ->when($params['nucleo'], function ($query) use ($params) {
+          return $query->where('materials.nucleo_id', '=', $params['nucleo']);
+      })
+      ->paginate(25);
+
+    return view('material.index')->with([
+      'user' => $user,
+      'files' => $files,
+    ]);
+  }
+
+  private static function getParams($request)
+  {
+    return [
+      'inputQuery' => $request->input('inputQuery'),
+      'status' => $request->input('status'),
+      'nucleo' => $request->input('nucleo'),
+    ];
   }
 }

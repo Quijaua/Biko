@@ -10,6 +10,7 @@ use Session;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Exports\ProfessoresExport;
 use Maatwebsite\Excel\Facades\Excel;
+use DB;
 
 use App\Professores;
 use App\Nucleo;
@@ -664,91 +665,45 @@ class ProfessoresController extends Controller
       $params = self::getParams($request);
       $user = Auth::user();
 
-      if( $params['query'] ){
+      switch ($user->role) {
+        case 'coordenador':
+          if (!$params['nucleo_id']) {
+            $params['nucleo_id'] = $user->coordenador->id_nucleo;
+          }
+          break;
         
-        if($user->role === 'coordenador'){
-          
-          $me = Coordenadores::where('id_user', $user->id)->first();
-          //$results = Aluno::where('NomeAluno','LIKE','%'.$query.'%')->where('id_nucleo', $me->id_nucleo)->get();
-          $results = Professores::where('NomeProfessor','LIKE','%'.$params['query'].'%')->where('id_nucleo', $me->id_nucleo)->paginate(25);
-          if($results->isEmpty()){
-            return back()->with('error', 'Nenhum resultado encontrado.');
-          }else{
-            return view('professores')->with([
-              'user' => $user,
-              'professores' => $results,
-            ]);
+        case 'professor':
+          if (!$params['nucleo_id']) {
+            $params['nucleo_id'] = $user->professor->id_nucleo;
           }
-        }elseif($user->role === 'professor'){
-          
-          $me = Professores::where('id_user', $user->id)->first();
-          //$results = Aluno::where('NomeAluno','LIKE','%'.$query.'%')->where('id_nucleo', $me->id_nucleo)->get();
-          $results = Professores::where('NomeProfessor','LIKE','%'.$params['query'].'%')->where('id_nucleo', $me->id_nucleo)->paginate(25);
-          if($results->isEmpty()){
-            return back()->with('error', 'Nenhum resultado encontrado.');
-          }else{
-            return view('professores')->with([
-              'user' => $user,
-              'professores' => $results,
-            ]);
-          }
-        }else{
-
-          //$query = $request->input('inputQuery');
-          //$results = Aluno::where('NomeAluno','LIKE','%'.$query.'%')->get();
-          $results = Professores::where('NomeProfessor','LIKE','%'.$params['query'].'%')->paginate(25);
-          if($results->isEmpty()){
-            return back()->with('error', 'Nenhum resultado encontrado.');
-          }else{
-            return view('professores')->with([
-              'user' => $user,
-              'professores' => $results,
-            ]);
-          }
-        }
-      }
-      
-      if($params['cpf'] && $params['cpf'] != ''){
-          $result = Professores::where('CPF', $params['cpf'])->count();
-          if($result > 0){
-            return \Response::json(true);
-          }elseif($result === 0){
-            return \Response::json(false);
-          }
+          break;
       }
 
-      if($params['status'] !== 'undefined'){
+      $professores = DB::table('professores')
+        ->when($params['nucleo_id'], function ($query) use ($params) {
+          return $query->where('professores.id_nucleo', '=', $params['nucleo_id']);
+        })
+        ->when($params['status'], function ($query) use ($params) {
+          return $query->where('professores.Status', '=', $params['status'] === 'ativo' ? 1 : 0);
+        })
+        ->when($params['query'], function ($query) use ($params) {
+          return $query->where('professores.NomeProfessor', 'LIKE', '%' . $params['query'] . '%');
+        })
+        ->paginate(25);
 
-        $result = Professores::where('Status', $params['status'])->paginate(25);
-        if($result->isEmpty()){
-          return redirect('professores')->with([
-            'error' => 'Não há professores inativos no momento.',
-          ]);
-        }
-        
-        return view('professores')->with([
-          'user' => $user,
-          'professores' => $result,
-        ]);
-      }
+      return view('professores')->with([
+        'user' => $user,
+        'professores' => $professores,
+      ]);
+    }
 
-      if($params['nucleo_id'] !== 'undefined'){
-
-        $result = Professores::where('id_nucleo', $params['nucleo_id'])->paginate(25);
-        if($result->isEmpty()){
-          return redirect('professores')->with([
-            'error' => 'Nenhum resultado encontrado.',
-          ]);
-        }
-        
-        return view('professores')->with([
-          'user' => $user,
-          'professores' => $result,
-        ]);
-      }
-
-      return redirect()->route('professores.index');
-
+    private static function getParams($request)
+    {
+        return [
+            'nucleo_id' => $request->input('nucleo'),
+            'status' => $request->input('status'),
+            'query' => $request->input('inputQuery'),
+        ];
     }
 
     public function details($id)
@@ -774,15 +729,5 @@ class ProfessoresController extends Controller
         }
 
         return (new ProfessoresExport($nucleo))->download('professores.xlsx');
-    }
-
-    private static function getParams($request)
-    {
-        return [
-            'nucleo_id' => $request->input('nucleo') ?? 'undefined',
-            'status' => $request->input('status') ?? 'undefined',
-            'cpf' => $request->input('cpf'),
-            'query' => $request->input('inputQuery'),
-        ];
     }
 }

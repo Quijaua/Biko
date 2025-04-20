@@ -67,7 +67,8 @@
             <select class="form-select" id="nucleo" name="nucleo">
               <option value="" @selected(request('nucleo')=='' )>Núcleo</option>
               @foreach(\App\Nucleo::all() as $nuc)
-              <option value="{{ $nuc->id }}" @selected(request('nucleo')==$nuc->id)>
+              <!--option value="{{ $nuc->id }}" @selected(request('nucleo')==$nuc->id)-->
+              <option value="{{ $nuc->id }}" <?php if (request('nucleo') == $nuc->id) echo 'selected'; ?>>
                 {{ $nuc->NomeNucleo }}
               </option>
               @endforeach
@@ -78,8 +79,10 @@
           <div class="col-md-3">
             <select class="form-select" id="status" name="status">
               <option value="" @selected(request('status')=='' )>Situação</option>
-              <option value="1" @selected(request('status')=='1' )>Ativos</option>
-              <option value="0" @selected(request('status')=='0' )>Inativo</option>
+              <!--option value="ativo" @selected(request('status')=='ativo' )>Ativos</option-->
+              <option value="ativo" <?php if (request('status') == 'ativo') echo 'selected'; ?>>Ativos</option>
+              <!--option value="inativo" @selected(request('status')=='inativo' )>Inativo</option -->
+              <option value="inativo" <?php if (request('status') == 'inativo') echo 'selected'; ?>>Inativo</option>
             </select>
           </div>
 
@@ -87,8 +90,8 @@
           <div class="col-md-3">
             <select class="form-select" id="lista_espera" name="lista_espera">
               <option value="">Lista de espera</option>
-              <option value="Sim">Sim</option>
-              <option value="Não">Não</option>
+              <option value="Sim" @selected(request('lista_espera')=='Sim' )>Sim</option>
+              <option value="Não" @selected(request('lista_espera')=='Não' )>Não</option>
             </select>
           </div>
 
@@ -149,7 +152,9 @@
 
       <div>
         @if($alunos->isEmpty())
-        <p>Nenhum registro encontrado.</p>
+        <div class="row">
+          <div class="col text-center m-auto mt-4 mb-4">Nenhum registro encontrado.</div>
+        </div>
         @else
         <div class="table-responsive">
           <table class="table table-hover table-vcenter">
@@ -191,9 +196,11 @@
                   @if($aluno->Status === 1)
                   <span class="status-badge status-ativo">
                     Ativo
+                    Ativo
                   </span>
                   @else
                   <span class="status-badge status-inativo">
+                    Inativo
                     Inativo
                   </span>
                   @endif
@@ -201,7 +208,7 @@
 
                 {{-- Lista de Espera --}}
                 <td class="text-center">
-                  @if($aluno->ListaEspera === 'Sim')
+                  @if($aluno->ListaEspera === 'Não')
                   <span class="custom-status-yellow text-white"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-x">
                       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                       <path d="M18 6l-12 12" />
@@ -233,18 +240,16 @@
                           <path d="M16 5l3 3" />
                         </svg></span> Editar
                     </a>
-                    @if($aluno->Status === 1)
-                    <a href="/alunos/disable/{{ $aluno->id }}">
-                      <span class="status-btn status-inativo">
-                      <span class="status-circle"></span>
-                        Inativar
-                        
-                      </span>
-                    </a>
-                    @else
+                    @if($aluno->Status === 0)
                     <a href="/alunos/enable/{{ $aluno->id }}">
                       <span class="status-btn status-ativo">
                         Ativar
+                        <span class="status-circle"></span>
+                      </span>
+                    </a>
+                    @else
+                    <a href="/alunos/disable/{{ $aluno->id }}">
+                      <span class="status-btn status-inativo">
                         <span class="status-circle"></span>
                       </span>
                     </a>

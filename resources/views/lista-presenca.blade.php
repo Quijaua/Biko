@@ -32,12 +32,12 @@
                         <div class="col-5">
                             @if (Session::get('role') == 'professor')
                                 <div class="row">
-                                    <div class="col-5">
+                                    <!--div class="col-5">
                                         <?php $today = \Carbon\Carbon::now()->format('Y-m-d'); ?>
                                         <small>Período</small>
                                         <input type="date" class="form-control" id="date" name="date"
                                             aria-describedby="dateHelp" max="{{ $today }}">
-                                    </div>
+                                    </div-->
                                     <div class="col-5" style="margin-top: 20px;">
                                         <button class="btn btn-primary" type="submit"><svg
                                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -81,7 +81,7 @@
 
                             <div class="row">
                                 {{-- Núcleo --}}
-                                <div class="col-md-3" style="margin-top: 20px;">
+                                <div class="col-md-4" style="margin-top: 20px;">
                                     <select class="form-select" id="nucleo" name="nucleo">
                                         <option value="" @selected(request('nucleo') == '')>Núcleo</option>
                                         @foreach (\App\Nucleo::all() as $nuc)
@@ -95,13 +95,13 @@
                                 {{-- Periodo --}}
                                 <div class="col-4">
                                     <?php $today = \Carbon\Carbon::now()->format('Y-m-d'); ?>
-                                    <small>Período</small>
+                                    <small>Período de</small>
                                     <input type="date" class="form-control" id="date" name="date"
-                                        aria-describedby="dateHelp" max="{{ $today }}">
+                                        aria-describedby="dateHelp" max="{{ $today }}" value="{{ request('date') }}">
                                 </div>
 
                                 {{-- Botões --}}
-                                <div class="col-md-5" style="margin-top: 20px;">
+                                <div class="col-md-4" style="margin-top: 20px;">
                                     <a class="btn btn-light w-100" id="limparFiltros">
                                         <span>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
