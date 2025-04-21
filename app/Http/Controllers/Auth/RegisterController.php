@@ -117,7 +117,7 @@ class RegisterController extends Controller
 
         $aluno = Aluno::create([
             'NomeAluno' => $user->name,
-            'NomeSocial' => $data['NomeSocial'],
+            'NomeSocial' => isset($data['NomeSocial']) ? $data['NomeSocial'] : NULL,
             'id_user' => $user->id,
             'Status' => 0,
             'FoneCelular' => $user->phone,
