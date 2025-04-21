@@ -701,7 +701,7 @@
 
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="mb-3">
                                             <span for="inputFoneComercial">Telefone Comercial</span>
                                             <input type="phone" class="form-control" id="inputFoneComercial"
@@ -709,7 +709,7 @@
                                                 data-mask="(00) 0000-0000" value="{{ $dados->FoneComercial }}" disabled>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="mb-3">
                                             <span for="inputFoneResidencial">Telefone Residencial</span>
                                             <input type="phone" class="form-control" id="inputFoneResidencial"
@@ -718,7 +718,7 @@
                                                 disabled>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="mb-3">
                                             <span for="inputFoneCelular">Telefone Celular</span>
                                             <input type="phone" class="form-control" id="inputFoneCelular"
