@@ -79,13 +79,13 @@
                     <div class="tab-pane" id="nucleo_do_cursinho">
                         <div class="row justify-content-center">
                             <div class="mb-3 col-md-8">
-                                <label class="form-label" for="inputNucleoStep">
+                                <label class="form-label" for="inputNucleo">
                                     Selecione abaixo o núcleo que deseja se inscrever:
                                 </label>
 
                                 <?php $nucleos = DB::table('nucleos')->where('status', 1)->orderBy('Regiao', 'asc')->get(); ?>
 
-                                <select id="inputNucleoStep" name="inputNucleoStep" class="form-select" required
+                                <select id="inputNucleo" name="inputNucleo" class="form-select" required
                                     onchange="atualizarNucleo()">
                                     <option value="">Selecione</option>
                                     @foreach ($nucleos as $nucleo)
@@ -498,7 +498,7 @@
 
             function atualizarNucleo() {
                 const resultadoNucleo = document.getElementById("resultadoNucleo");
-                const select = document.getElementById("inputNucleoStep");
+                const select = document.getElementById("inputNucleo");
                 const selectedOption = select.options[select.selectedIndex];
 
                 console.log(selectedOption);
