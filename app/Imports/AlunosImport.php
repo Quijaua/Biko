@@ -38,7 +38,7 @@ class AlunosImport implements ToModel, WithHeadingRow
             'Raca' =>  $row['raca'],
             'Genero' =>  $row['genero'],
             'TemFilhos' =>  $row['filhos'],
-            // 'id_nucleo' => $this->id
+            'id_nucleo' => $this->id
         ]);
     }
 }
