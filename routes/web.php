@@ -27,8 +27,12 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('inscricoes-para-cursinho-pre-vestibular-nucleo-yabas', function () {
-    return view('auth.register');
+    return redirect()->route('pre-cadastro');
 })->name('register-slug');
+
+Route::get('pre-cadastro', function () {
+    return view('auth.register');
+})->name('pre-cadastro');
 
 // ROUTES FOR NUCLEOS MANAGEMENT
 Route::get('nucleos', 'NucleoController@index')->middleware('permissions');
