@@ -98,8 +98,8 @@
                         <div class="col-md-4">
                             <select class="form-select" id="status" name="status">
                                 <option value="" @selected(request('status') == '')>Situação</option>
-                                <option value="1" @selected(request('status') == '1')>Ativos</option>
-                                <option value="0" @selected(request('status') == '0')>Inativo</option>
+                                <option value="ativo" @selected(request('status') == 'ativo')>Ativos</option>
+                                <option value="inativo" @selected(request('status') == 'inativo')>Inativo</option>
                             </select>
                         </div>
 
@@ -144,9 +144,10 @@
 
                     <div>
                         @if ($coordenadores->isEmpty())
-                            <p>Nenhum registro encontrado.</p>
-                        @endif
-
+                        <div class="row">
+                            <div class="col text-center m-auto mt-4 mb-4">Nenhum registro encontrado.</div>
+                        </div>
+                        @else
                         <div class="table-responsive">
                             <table class="table table-hover table-vcenter">
                                 <thead>
@@ -253,6 +254,7 @@
                                 </tbody>
                             </table>
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>
