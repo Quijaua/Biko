@@ -3,9 +3,10 @@
 @section('content')
     <div class="container">
         <div>
-            <h2><span><a href="/alunos" class="text-primary" style="width: 45px; height: 45px;">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            <p style="font-size: 35px;"><span><a href="/alunos" class="text-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" style="width: 45px; height: 45px;" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round"
                             class="icon icon-tabler icons-tabler-outline icon-tabler-circle-arrow-left">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                             <path d="M12 21a9 9 0 1 0 0 -18a9 9 0 0 0 0 18" />
@@ -13,9 +14,8 @@
                             <path d="M8 12h8" />
                             <path d="M12 8l-4 4" />
                         </svg>
-                    </a></span> Detalhes do(a) estudante</h2>
+                    </a></span> Detalhes do(a) estudante</p>
         </div>
-
         <div class="card">
             <div class="row g-0">
                 <!-- Sidebar Tabs -->
@@ -36,32 +36,40 @@
 
 
                 <!-- Form content -->
-                <div class="col-md-9 p-4">
-                    <div class="row">
-                        <div class="col-6">
-                            <h3 class="mb-4">Meu Perfil</h3>
-                            <div class="mb-3">
+                <div class="col-md-10 p-4">
+                    <div class="row mb-3">
+                        <div class="col-7">
+                            <div>
+                                <h3 class="mb-0">Meu Perfil</h3>
                                 <small class="text-muted">
                                     Pré-cadastro feito em {{ $dados->created_at }} |
                                     Atualizado em {{ $dados->updated_at }}
                                 </small>
                             </div>
                         </div>
-                        <div class="row col-6 mt-4 mb-4">
-                        
-                            <div class="col-auto">
+                        <div class="col-5 d-flex gap-3 justify-content-end align-items-center">
+
+                            <div>
                                 <a class="btn btn-outline-primary" href="javascript:window.print()"><i
                                         class="me-2 fas fa-print"></i> Imprimir</a>
                             </div>
                             @if ($user->role === 'administrador')
-                                <div class="col-auto">
-                                    <a class="btn btn-outline-secondary" href="/alunos/log/{{ $dados->id }}"><span><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-history"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 8l0 4l2 2" /><path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5" /></svg></span> Histórico</a>
+                                <div>
+                                    <a class="btn btn-outline-secondary" href="/alunos/log/{{ $dados->id }}"><span><svg
+                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="icon icon-tabler icons-tabler-outline icon-tabler-history">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M12 8l0 4l2 2" />
+                                                <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5" />
+                                            </svg></span> Histórico</a>
                                 </div>
                             @endif
-                            <div class="col-auto">
-                              <a class="btn btn-primary" href="/alunos/edit/{{ $dados->id }}"><i
-                                      class="me-2 fas fa-user-edit"></i> Editar Dados</a>
-                          </div>
+                            <div>
+                                <a class="btn btn-primary" href="/alunos/edit/{{ $dados->id }}"><i
+                                        class="me-2 fas fa-user-edit"></i> Editar Dados</a>
+                            </div>
                         </div>
                     </div>
                     @if (\Session::has('success'))
@@ -87,151 +95,123 @@
 
                         @csrf
                         <div class="tab-content" id="form-tabs-content">
+
+
                             <!-- Dados Pessoais -->
                             <div class="tab-pane fade show active" id="pessoal" role="tabpanel">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="mb-3">
+                                {{-- FOTO --}}
+                                <div class="row mb-3">
+                                    <div>
+                                        <div class="d-flex justify-content-start align-items-center gap-2 mb-3">
+                                            <span class="text-primary"><svg xmlns="http://www.w3.org/2000/svg"
+                                                    style="width: 30px; height: 30px; h" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-photo">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M15 8h.01" />
+                                                    <path
+                                                        d="M3 6a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v12a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3v-12z" />
+                                                    <path d="M3 16l5 -5c.928 -.893 2.072 -.893 3 0l5 5" />
+                                                    <path d="M14 14l1 -1c.928 -.893 2.072 -.893 3 0l3 3" />
+                                                </svg></span>
+                                            <h3 class="mb-0">
+                                                Foto
+                                            </h3>
+                                        </div>
+
+                                        <div class="d-flex align-items-center">
+                                            <!-- Box do preview/ícone -->
+                                            <div class="avatar avatar-xl rounded border d-flex align-items-center justify-content-center me-3"
+                                                style="width: 96px; height: 96px; background-color: #f8f9fa; overflow: hidden; position: relative;">
+
+                                                <!-- Preview da imagem -->
+                                                @if ($dados->Foto)
+                                                    <img id="previewFoto" src="{{ asset('storage') }}/{{ $dados->Foto }}"
+                                                        alt="{{ $dados->Foto }}"
+                                                        class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover rounded" />
+                                                @else
+                                                    <img id="previewFoto" src="{{ asset('images') }}/user.png"
+                                                        alt="Avatar"
+                                                        class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover rounded" />
+                                                @endif
+                                            </div>
+                                            <!-- Botão e texto -->
+                                            <div>
+                                                <div class="text-muted mb-3" style="font-size: 12px;">
+                                                    Os arquivos devem estar nos formatos <strong>PDF, JPG ou PNG</strong>,
+                                                    com tamanho máximo de <strong>8 MB</strong>.
+                                                </div>
+                                                <input disabled type="file" id="inputFoto" name="inputFoto"
+                                                    class="d-none">
+                                                <label for="inputFoto" class="btn btn-disabled mb-2">Trocar
+                                                    foto</label>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- DADOS PESSOAIS --}}
+                                <div class="row mb-3">
+                                    <div class="d-flex justify-content-start align-items-center gap-2 mb-3">
+                                        <span class="text-primary"><svg xmlns="http://www.w3.org/2000/svg"
+                                                style="width: 30px; height: 30px; h" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                class="icon icon-tabler icons-tabler-outline icon-tabler-user-circle">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                                                <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                                                <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
+                                            </svg></span>
+                                        <h3 class="mb-0">
+                                            Dados Pessoais
+                                        </h3>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
                                             <label class="form-label mb-2" for="inputNomeAluno">Nome Completo <span
                                                     class="text-danger">*</span></label>
                                             <input type="text" class="form-control" id="inputNomeAluno"
                                                 name="inputNomeAluno" aria-describedby="inputNomeAlunoHelp"
-                                                placeholder="Nome do novo estudante" value="{{ $dados->NomeAluno }}" disabled
-                                                required>
+                                                placeholder="Nome do novo estudante" value="{{ $dados->NomeAluno }}"
+                                                disabled required>
                                         </div>
                                     </div>
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <label class="form-label mb-2" for="inputNomeSocial">Nome Social do
-                                                estudante</label>
-                                            <input value="{{ $dados->NomeSocial }}" disabled type="text"
-                                                class="form-control" id="inputNomeSocial" name="inputNomeSocial"
-                                                aria-describedby="inputNomeSocialHelp" placeholder="Nome social do estudante">
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <label class="form-label mb-2" for="inputNucleo">Núcleo</label>
-                                            <select name="inputNucleo" class="form-select" disabled>
-                                                <option selected>Selecione</option>
-                                                @foreach ($nucleos as $nucleo)
-                                                    <option <?php if ($nucleo->id == $dados->id_nucleo) {
-                                                        echo 'selected=selected';
-                                                    } ?> value="{{ $nucleo->id }}">
-                                                        {{ $nucleo->NomeNucleo }}</option>
-                                                @endforeach
-                                            </select>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label class="form-label mb-2" for="inputNomeSocial">Nome Social</label>
+                                            <input type="text" class="form-control" id="inputNomeSocial"
+                                                name="inputNomeSocial" aria-describedby="inputNomeSocialHelp"
+                                                placeholder="Nome social do estudante" value="{{ $dados->NomeSocial }}"
+                                                disabled>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="col text-center">
-                                            @if ($dados->Foto)
-                                                <td><img class="rounded-circle"
-                                                        src="{{ asset('storage') }}/{{ $dados->Foto }}"
-                                                        alt="{{ $dados->Foto }}"></td>
-                                            @else
-                                                <td><img class="rounded-circle" src="{{ asset('images') }}/user.png"
-                                                        alt="Avatar"></td>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="col mt-2">
-                                        <small class="form-text text-muted">Arquivos devem ter menos que <strong>8
-                                                MB</strong>.</small>
-                                        <small class="form-text text-muted">Tipos de arquivos permitidos: <strong>png
-                                                gif
-                                                jpg
-                                                jpeg</strong>.</small>
-                                    </div>
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <div class="form-check form-check-inline">
-                                                @if ($user->role === 'administrador' || $user->role === 'coordenador')
-                                                    <input class="form-check-input" name="inputListaEspera"
-                                                        type="checkbox" value="{{ $dados->ListaEspera }}"
-                                                        @if ($dados->ListaEspera === 'Sim') checked @endif disabled>
-                                                    <label class="form-label mb-2" class="form-check-label"
-                                                        for="inputListaEspera">Lista de Espera</label>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <label class="form-label mb-2" for="temFilhos">Tem filhos?</label>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="temFilhos"
-                                                id="temFilhos1" value="1"
-                                                @if ($dados->temFilhos === 1) {{ 'checked' }} @endif disabled>
-                                            <label class="form-label mb-2" class="form-check-label" for="temFilhos1">
-                                                Sim
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="temFilhos"
-                                                id="temFilhos2" value="0"
-                                                @if ($dados->temFilhos === 0) {{ 'checked' }} @endif disabled>
-                                            <label class="form-label mb-2" class="form-check-label" for="temFilhos2">
-                                                Não
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <label class="form-label mb-2" for="filhosQt">Quantos?</label>
-                                            <input class="form-control" type="number" id="filhosQt" name="filhosQt"
-                                                value="{{ $dados->filhosQt }}" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <label class="form-label mb-2" for="inputEmail">Email</label>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label class="form-label mb-2" for="inputEmail">Email <span
+                                                    class="text-danger">*</span></label>
                                             <input type="email" class="form-control" id="inputEmail" name="inputEmail"
-                                                aria-describedby="inputEmailHelp" value="{{ $dados->Email }}" disabled>
+                                                aria-describedby="inputEmailHelp" placeholder="Endereço de Email" required
+                                                value="{{ $dados->Email }}" disabled>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="row">
-                                    <div class="col-12 col-md-6">
-                                        <div class="mb-3">
-                                            <div class="form-label">É pessoa com deficiência?</div>
-                                            <div>
-                                                <label class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="selecao-deficiencia" value="sim" <?php if ($dados->pessoa_com_deficiencia) echo 'checked'; ?> disabled />
-                                                    <span class="form-check-label">Sim</span>
-                                                </label>
-                                                <label class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="selecao-deficiencia" value="nao" <?php if (!$dados->pessoa_com_deficiencia) echo 'checked'; ?> disabled />
-                                                    <span class="form-check-label">Não</span>
-                                                </label>
-                                            </div>
+                                    <div class="col-md-3">
+                                        <div>
+                                            <label class="form-label mb-2" for="inputNascimento">Data de
+                                                Nascimento <span class="text-danger">*</span></label>
+                                            <input type="date" class="form-control" id="inputNascimento"
+                                                name="inputNascimento" aria-describedby="inputNascimentoHelp"
+                                                onblur="getAge()" value="{{ $dados->Nascimento }}" disabled required>
                                         </div>
                                     </div>
-                                    
-                                    <div class="col-12 col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label mb-2" for="pessoa_com_deficiencia">Qual a deficiência?</label>
-                                            <select class="form-select" name="pessoa_com_deficiencia" disabled>
-                                                <option value="" selected>Selecione</option>
-                                                <option value="A"  <?php if ($dados->pessoa_com_deficiencia == 'A') echo 'selected'; ?>>Auditiva</option>
-                                                <option value="FM" <?php if ($dados->pessoa_com_deficiencia == 'FM') echo 'selected'; ?>>Física / Motora</option>
-                                                <option value="V" <?php if ($dados->pessoa_com_deficiencia == 'V') echo 'selected'; ?>>Visual</option>
-                                                <option value="I" <?php if ($dados->pessoa_com_deficiencia == 'I') echo 'selected'; ?>>Intelectual</option>
-                                                <option value="TEA" <?php if ($dados->pessoa_com_deficiencia == 'TEA') echo 'selected'; ?>>TEA – Transtorno do Espectro Autista</option>
-                                                <option value="S" <?php if ($dados->pessoa_com_deficiencia == 'S') echo 'selected'; ?>>Surdocegueira</option>
-                                                <option value="M" <?php if ($dados->pessoa_com_deficiencia == 'M') echo 'selected'; ?>>Múltipla</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="mb-3">
+                                    <div class="col-md-3">
+                                        <div>
                                             <label class="form-label mb-2" for="inputRaca">Raça / Cor</label>
                                             <select name="inputRaca" class="form-select" disabled>
                                                 <option selected>Selecione</option>
@@ -254,42 +234,50 @@
                                         </div>
                                     </div>
 
-                                    <div class="col">
+                                </div>
+
+                                <div class="row mb-3">
+
+                                    <div class="col-md-6">
                                         @if ($dados->Raca == 'indigena')
-                                        <div class="mb-3">
-                                            <label class="form-label mb-2" for="povo_indigenas_id">Povo Indígena</label>
-                                            <select name="povo_indigenas_id" class="form-select" disabled>
-                                                <option selected>Selecione</option>
-                                                @foreach ($povo_indigenas as $povo_indigena)
-                                                    <option <?php if ($povo_indigena->id == $dados->povo_indigenas_id) {
-                                                        echo 'selected=selected';
-                                                    } ?> value="{{ $povo_indigena->id }}">
-                                                        {{ $povo_indigena->label }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                                            <div class="mb-3">
+                                                <label class="form-label mb-2" for="povo_indigenas_id">Povo
+                                                    Indígena</label>
+                                                <select name="povo_indigenas_id" class="form-select" disabled>
+                                                    <option selected>Selecione</option>
+                                                    @foreach ($povo_indigenas as $povo_indigena)
+                                                        <option <?php if ($povo_indigena->id == $dados->povo_indigenas_id) {
+                                                            echo 'selected=selected';
+                                                        } ?> value="{{ $povo_indigena->id }}">
+                                                            {{ $povo_indigena->label }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
                                         @endif
                                     </div>
 
-                                    <div class="col">
+                                    <div class="col-md-6">
                                         @if ($dados->Raca == 'indigena')
-                                        <div class="mb-3">
-                                            <label class="form-label mb-2" for="terra_indigenas_id">Terra Indígena</label>
-                                            <select name="terra_indigenas_id" class="form-select" disabled>
-                                                <option selected>Selecione</option>
-                                                @foreach ($terra_indigenas as $terra_indigena)
-                                                    <option <?php if ($terra_indigena->id == $dados->terra_indigenas_id) {
-                                                        echo 'selected=selected';
-                                                    } ?> value="{{ $terra_indigena->id }}">
-                                                        {{ $terra_indigena->label }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                                            <div class="mb-3">
+                                                <label class="form-label mb-2" for="terra_indigenas_id">Terra
+                                                    Indígena</label>
+                                                <select name="terra_indigenas_id" class="form-select" disabled>
+                                                    <option selected>Selecione</option>
+                                                    @foreach ($terra_indigenas as $terra_indigena)
+                                                        <option <?php if ($terra_indigena->id == $dados->terra_indigenas_id) {
+                                                            echo 'selected=selected';
+                                                        } ?> value="{{ $terra_indigena->id }}">
+                                                            {{ $terra_indigena->label }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
                                         @endif
                                     </div>
+                                </div>
 
-                                    <div class="col">
-                                        <div class="mb-3">
+                                <div class="row mb-3">
+                                    <div class="col-md-3">
+                                        <div>
                                             <label class="form-label mb-2" for="inputGenero">Identidade de
                                                 Gênero</label>
                                             <select name="inputGenero" class="form-select" disabled>
@@ -306,10 +294,8 @@
                                             </select>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="mb-3">
+                                    <div class="col-md-3">
+                                        <div>
                                             <label class="form-label mb-2" for="inputEstadoCivil">Estado Civil</label>
                                             <select name="inputEstadoCivil" class="form-select" disabled>
                                                 <option selected>Selecione</option>
@@ -331,19 +317,61 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <label class="form-label mb-2" for="inputNascimento">Data de
-                                                Nascimento <span class="text-danger">*</span></label>
-                                            <input type="date" class="form-control" id="inputNascimento"
-                                                name="inputNascimento" aria-describedby="inputNascimentoHelp"
-                                                value="{{ $dados->Nascimento }}" onblur="getAge()" disabled>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label class="form-label mb-2" for="concordaSexoDesignado">Você se identifica
+                                                com o gênero designado ao nascer?</label>
+                                            <div class="form-check form-check-inline">
+                                                <input disabled class="form-check-input" type="radio"
+                                                    name="concordaSexoDesignado" id="concordaSexoDesignado1"
+                                                    value="1" checked>
+                                                <label class="form-label mb-2" class="form-check-label"
+                                                    for="concordaSexoDesignado1">
+                                                    Sim
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input disabled class="form-check-input" type="radio"
+                                                    name="concordaSexoDesignado" id="concordaSexoDesignado2"
+                                                    value="0">
+                                                <label class="form-label mb-2" class="form-check-label"
+                                                    for="concordaSexoDesignado2">
+                                                    Não
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="mb-3">
+
+                                <div class="row mb-3">
+                                    <div class="col-md-3">
+                                        <label class="form-label mb-2" for="temFilhos">Tem filhos?</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="temFilhos"
+                                                id="temFilhos1" value="1"
+                                                @if ($dados->temFilhos === 1) {{ 'checked' }} @endif disabled>
+                                            <label class="form-label mb-2" class="form-check-label" for="temFilhos1">
+                                                Sim
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="temFilhos"
+                                                id="temFilhos2" value="0"
+                                                @if ($dados->temFilhos === 0) {{ 'checked' }} @endif disabled>
+                                            <label class="form-label mb-2" class="form-check-label" for="temFilhos2">
+                                                Não
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div>
+                                            <label class="form-label mb-2" for="filhosQt">Quantos?</label>
+                                            <input class="form-control" type="number" id="filhosQt" name="filhosQt"
+                                                value="{{ $dados->filhosQt }}" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
                                             <label class="form-label mb-2" for="inputAuxGoverno">A família recebe algum
                                                 tipo de auxílio do Governo?</label>
                                             <div id="AuxGoverno" class="form-check form-check-inline">
@@ -366,18 +394,147 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col">
-                                        <div id="AuxTipo" class="mb-3" style="display:none;">
-                                            <label class="form-label mb-2" for="inputAuxTipo">Qual?</label>
-                                            <select name="inputAuxTipo" class="form-select">
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-12 col-md-6">
+                                        <div>
+                                            <div class="form-label">É pessoa com deficiência?</div>
+                                            <div>
+                                                <label class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio"
+                                                        name="selecao-deficiencia" value="sim" <?php if ($dados->pessoa_com_deficiencia) {
+                                                            echo 'checked';
+                                                        } ?>
+                                                        disabled />
+                                                    <span class="form-check-label">Sim</span>
+                                                </label>
+                                                <label class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio"
+                                                        name="selecao-deficiencia" value="nao" <?php if (!$dados->pessoa_com_deficiencia) {
+                                                            echo 'checked';
+                                                        } ?>
+                                                        disabled />
+                                                    <span class="form-check-label">Não</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <div>
+                                            <label class="form-label mb-2" for="pessoa_com_deficiencia">Qual a
+                                                deficiência?</label>
+                                            <select class="form-select" name="pessoa_com_deficiencia" disabled>
                                                 <option value="" selected>Selecione</option>
-                                                <option value="bolsa_familia">Programa Bolsa Família</option>
-                                                <option value="energia_eletrica">Tarifa Social de Energia Elétrica
-                                                </option>
-                                                <option value="emergencial_financeiro">Auxílio Emergencial Financeiro
-                                                </option>
-                                                <option value="bolsa_verde">Bolsa Verde</option>
+                                                <option value="A" <?php if ($dados->pessoa_com_deficiencia == 'A') {
+                                                    echo 'selected';
+                                                } ?>>Auditiva</option>
+                                                <option value="FM" <?php if ($dados->pessoa_com_deficiencia == 'FM') {
+                                                    echo 'selected';
+                                                } ?>>Física / Motora</option>
+                                                <option value="V" <?php if ($dados->pessoa_com_deficiencia == 'V') {
+                                                    echo 'selected';
+                                                } ?>>Visual</option>
+                                                <option value="I" <?php if ($dados->pessoa_com_deficiencia == 'I') {
+                                                    echo 'selected';
+                                                } ?>>Intelectual</option>
+                                                <option value="TEA" <?php if ($dados->pessoa_com_deficiencia == 'TEA') {
+                                                    echo 'selected';
+                                                } ?>>TEA – Transtorno do Espectro
+                                                    Autista</option>
+                                                <option value="S" <?php if ($dados->pessoa_com_deficiencia == 'S') {
+                                                    echo 'selected';
+                                                } ?>>Surdocegueira</option>
+                                                <option value="M" <?php if ($dados->pessoa_com_deficiencia == 'M') {
+                                                    echo 'selected';
+                                                } ?>>Múltipla</option>
                                             </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label class="form-label mb-2" for="responsavelCuidadoOutraPessoa">É
+                                                responsável
+                                                pelo cuidado de outra pessoa?</label>
+                                            <div class="form-check form-check-inline">
+                                                <input disabled class="form-check-input" type="radio"
+                                                    name="responsavelCuidadoOutraPessoa"
+                                                    id="responsavelCuidadoOutraPessoa1" value="1">
+                                                <label class="form-label mb-2" class="form-check-label"
+                                                    for="responsavelCuidadoOutraPessoa1">
+                                                    Sim
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input disabled class="form-check-input" type="radio"
+                                                    name="responsavelCuidadoOutraPessoa"
+                                                    id="responsavelCuidadoOutraPessoa2" value="0" checked>
+                                                <label class="form-label mb-2" class="form-check-label"
+                                                    for="responsavelCuidadoOutraPessoa2">
+                                                    Não
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- NUCLEO --}}
+                                <div class="row mb-3">
+                                    <div>
+                                        <div class="d-flex justify-content-start align-items-center gap-2 mb-3">
+                                            <span class="text-primary"><svg xmlns="http://www.w3.org/2000/svg"
+                                                    style="width: 30px; height: 30px; h" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-home">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
+                                                    <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+                                                    <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+                                                </svg></span>
+                                            <h3 class="mb-0">
+                                                Núcleo
+                                            </h3>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label class="form-label mb-2" for="inputNucleo">Núcleo</label>
+                                            <select name="inputNucleo" class="form-select" disabled>
+                                                <option selected>Selecione</option>
+                                                @foreach ($nucleos as $nucleo)
+                                                    <option <?php if ($nucleo->id == $dados->id_nucleo) {
+                                                        echo 'selected=selected';
+                                                    } ?> value="{{ $nucleo->id }}">
+                                                        {{ $nucleo->NomeNucleo }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="mb-3 invalid-feedback d-block d-none">Por favor, selecione um núcleo.
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label class="form-label mb-2 d-block">Lista de Espera</label>
+
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inputListaEspera"
+                                                    id="listaEsperaSim" value="Sim"
+                                                    @if ($dados->ListaEspera === 'Sim') checked @endif disabled>
+                                                <label class="form-check-label" for="listaEsperaSim">Sim</label>
+                                            </div>
+
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inputListaEspera"
+                                                    id="listaEsperaNao" value="Não"
+                                                    @if ($dados->ListaEspera === 'Não') checked @endif disabled>
+                                                <label class="form-check-label" for="listaEsperaNao">Não</label>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -386,9 +543,26 @@
 
                             {{-- Endereço --}}
                             <div class="tab-pane fade" id="endereco" role="tabpanel" aria-labelledby="tab-endereco">
-                                <h4>Endereço</h4>
+                                <div>
+                                    <div class="d-flex justify-content-start align-items-center gap-2 mb-3">
+                                        <span class="text-primary"><svg xmlns="http://www.w3.org/2000/svg"
+                                                style="width: 30px; height: 30px; h" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                class="icon icon-tabler icons-tabler-outline icon-tabler-map-pin">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+                                                <path
+                                                    d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z" />
+                                            </svg>
+                                        </span>
+                                        <h3 class="mb-0">
+                                            Endereço
+                                        </h3>
+                                    </div>
+                                </div>
                                 <div class="row">
-                                    <div class="col">
+                                    <div class="col-md-3">
                                         <div class="mb-3">
                                             <span for="inputCEP">CEP (Somente números)</span>
                                             <input type="text" class="form-control" id="inputCEP" name="inputCEP"
@@ -396,16 +570,16 @@
                                                 value="{{ $dados->CEP }}" onblur="checkCEP('#inputCEP')" disabled>
                                         </div>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-md-6">
                                         <div class="mb-3">
-                                            <span for="inputEndereco">Rua</span>
+                                            <span for="inputEndereco">Endereço</span>
                                             <input pattern="([^\s][A-zÀ-ž\s]+)" type="text" class="form-control"
                                                 id="inputEndereco" name="inputEndereco"
                                                 aria-describedby="inputEnderecoHelp" value="{{ $dados->Endereco }}"
                                                 disabled>
                                         </div>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-md-3">
                                         <div class="mb-3">
                                             <span for="inputNumero">Número</span>
                                             <input type="number" class="form-control" id="inputNumero"
@@ -415,15 +589,15 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col">
+                                    <div class="col-md-6">
                                         <div class="mb-3">
-                                            <span for="inputBairro">Distrito</span>
-                                            <input type="text" class="form-control" id="inputBairro"
-                                                name="inputBairro" aria-describedby="inputBairroHelp"
-                                                value="{{ $dados->Bairro }}" disabled>
+                                            <span for="inputComplemento">Complemento</span>
+                                            <input type="text" class="form-control" id="inputComplemento"
+                                                name="inputComplemento" aria-describedby="inputComplementoHelp"
+                                                value="{{ $dados->Complemento }}" disabled>
                                         </div>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-md-3">
                                         <div class="mb-3">
                                             <span for="inputCidade">Cidade</span>
                                             <input type="text" class="form-control" id="inputCidade"
@@ -431,9 +605,8 @@
                                                 value="{{ $dados->Cidade }}" disabled>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
+
+                                    <div class="col-md-3">
                                         <div class="mb-3">
                                             <span for="inputEstado">Estado</span>
                                             <select name="inputEstado" class="form-select" disabled>
@@ -525,17 +698,10 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <span for="inputComplemento">Complemento</span>
-                                            <input type="text" class="form-control" id="inputComplemento"
-                                                name="inputComplemento" aria-describedby="inputComplementoHelp"
-                                                value="{{ $dados->Complemento }}" disabled>
-                                        </div>
-                                    </div>
+
                                 </div>
                                 <div class="row">
-                                    <div class="col">
+                                    <div class="col-md-4">
                                         <div class="mb-3">
                                             <span for="inputFoneComercial">Telefone Comercial</span>
                                             <input type="phone" class="form-control" id="inputFoneComercial"
@@ -543,7 +709,7 @@
                                                 data-mask="(00) 0000-0000" value="{{ $dados->FoneComercial }}" disabled>
                                         </div>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-md-4">
                                         <div class="mb-3">
                                             <span for="inputFoneResidencial">Telefone Residencial</span>
                                             <input type="phone" class="form-control" id="inputFoneResidencial"
@@ -552,7 +718,7 @@
                                                 disabled>
                                         </div>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-md-4">
                                         <div class="mb-3">
                                             <span for="inputFoneCelular">Telefone Celular</span>
                                             <input type="phone" class="form-control" id="inputFoneCelular"
@@ -566,11 +732,33 @@
                             {{-- Dados profissionais --}}
                             <div class="tab-pane fade" id="profissionais" role="tabpanel"
                                 aria-labelledby="tab-profissionais">
+
+                                <div class="d-flex justify-content-start align-items-center gap-2 mb-3">
+                                    <span class="text-primary"><svg xmlns="http://www.w3.org/2000/svg"
+                                            style="width: 30px; height: 30px; h" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="icon icon-tabler icons-tabler-outline icon-tabler-address-book">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path
+                                                d="M20 6v12a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2z" />
+                                            <path d="M10 16h6" />
+                                            <path d="M13 11m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                            <path d="M4 8h3" />
+                                            <path d="M4 12h3" />
+                                            <path d="M4 16h3" />
+                                        </svg>
+                                    </span>
+                                    <h3 class="mb-0">
+                                        Dados Profissionais
+                                    </h3>
+                                </div>
+
                                 <div class="row">
                                     <div class="col-12 col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label mb-2" for="inputRamoAtuacao">Você trabalha no ramo
-                                                da:</label>
+                                            <label class="form-label mb-2" for="inputRamoAtuacao">Em qual ramo você
+                                                trabalha?</label>
                                             <select id="inputRamoAtuacao" name="inputRamoAtuacao" class="form-select"
                                                 disabled>
                                                 <option value="Educação"
@@ -634,9 +822,29 @@
 
                             {{-- Dados Acadêmicos --}}
                             <div class="tab-pane fade" id="academicos" role="tabpanel" aria-labelledby="tab-academicos">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="mb-3">
+                                <div>
+                                    <div class="d-flex justify-content-start align-items-center gap-2 mb-3">
+                                        <span class="text-primary"><svg xmlns="http://www.w3.org/2000/svg"
+                                                style="width: 30px; height: 30px; h" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                class="icon icon-tabler icons-tabler-outline icon-tabler-file-certificate">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                                                <path d="M5 8v-3a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2h-5" />
+                                                <path d="M6 14m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                                                <path d="M4.5 17l-1.5 5l3 -1.5l3 1.5l-1.5 -5" />
+                                            </svg>
+                                        </span>
+                                        <h3 class="mb-0">
+                                            Dados Acadêmicos
+                                        </h3>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-4">
+                                        <div>
                                             <label class="form-label mb-2" for="inputEscolaridade">Qual a sua
                                                 escolaridade</label>
                                             <select name="inputEscolaridade" class="form-select" disabled>
@@ -671,154 +879,233 @@
                                             </select>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <span for="inputEnsFundamental">Ensino Fundamental</span><br>
-                                            <div class="form-check form-check-inline">
-                                                <input <?php if (strpos($dados->EnsFundamental, 'rede publica') !== false) {
-                                                    echo 'checked=checked';
-                                                } ?> class="form-check-input"
-                                                    name="inputEnsFundamental[]" type="checkbox" id="rede_publica"
-                                                    value="rede publica" disabled>
-                                                <span class="form-check-span" for="inputEnsFundamental1">Rede
-                                                    Pública</span>
+                                    <div class="col-md-3">
+                                        <div>
+                                            <label class="form-label" for="inputVestibular">Já prestou algum
+                                                vestibular?</label>
+                                                <div id="Vestibular" class="form-check form-check-inline">
+                                                    <input <?php if ($dados->Vestibular == 'Sim') {
+                                                        echo 'checked=checked';
+                                                    } ?> class="form-check-input" type="radio"
+                                                        name="inputVestibular" id="inputVestibular1" value="Sim"
+                                                        onclick="showInput('.dados-faculdade')" disabled>
+                                                    <label class="form-label mb-2" class="form-check-label"
+                                                        for="inputVestibular1">Sim</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input <?php if ($dados->Vestibular == 'Não') {
+                                                        echo 'checked=checked';
+                                                    } ?> class="form-check-input" type="radio"
+                                                        name="inputVestibular" id="inputVestibular2" value="Não"
+                                                        onclick="hideInput('.dados-faculdade')" disabled>
+                                                    <label class="form-label mb-2" class="form-check-label"
+                                                        for="inputVestibular2">Não</label>
+                                                </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div>
+                                            <label class="form-label" for="inputEnem">Já prestou Enem?</label>
+                                            <div id="enem" class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inputEnem"
+                                                    id="inputEnem1" value="1"
+                                                    @if ($dados->Enem === 1) {{ 'checked' }} @endif
+                                                    disabled>
+                                                <label class="form-label mb-2" class="form-check-label"
+                                                    for="inputEnem1">Sim</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input <?php if (strpos($dados->EnsFundamental, 'particular sem bolsa') !== false) {
-                                                    echo 'checked=checked';
-                                                } ?> class="form-check-input"
-                                                    name="inputEnsFundamental[]" type="checkbox"
-                                                    id="particular_sem_bolsa" value="particular sem bolsa" disabled>
-                                                <span class="form-check-span" for="inputEnsFundamental2">Particular sem
-                                                    bolsa</span>
+                                                <input class="form-check-input" type="radio" name="inputEnem"
+                                                    id="inputEnem2" value="0"
+                                                    @if ($dados->Enem === 0) {{ 'checked' }} @endif
+                                                    disabled>
+                                                <label class="form-label mb-2" class="form-check-label"
+                                                    for="inputEnem2">Não</label>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <span for="inputPorcentagemBolsa">Particular com bolsa de:</span>
+
+                                    <div class="col-md-2">
+                                        <div>
+                                            <label class="form-label" for="inputAnoEnem">Ano</label>
+                                            <select disabled name="inputAnoEnem" class="form-select">
+                                                <option value="" selected>Selecione</option>
+                                                <option value="1969">1969</option>
+                                                <option value="1970">1970</option>
+                                                <option value="1971">1971</option>
+                                                <option value="1972">1972</option>
+                                                <option value="1973">1973</option>
+                                                <option value="1974">1974</option>
+                                                <option value="1975">1975</option>
+                                                <option value="1976">1976</option>
+                                                <option value="1977">1977</option>
+                                                <option value="1978">1978</option>
+                                                <option value="1979">1979</option>
+                                                <option value="1980">1980</option>
+                                                <option value="1981">1981</option>
+                                                <option value="1982">1982</option>
+                                                <option value="1983">1983</option>
+                                                <option value="1984">1984</option>
+                                                <option value="1985">1985</option>
+                                                <option value="1986">1986</option>
+                                                <option value="1987">1987</option>
+                                                <option value="1988">1988</option>
+                                                <option value="1989">1989</option>
+                                                <option value="1990">1990</option>
+                                                <option value="1991">1991</option>
+                                                <option value="1992">1992</option>
+                                                <option value="1993">1993</option>
+                                                <option value="1994">1994</option>
+                                                <option value="1995">1995</option>
+                                                <option value="1996">1996</option>
+                                                <option value="1997">1997</option>
+                                                <option value="1998">1998</option>
+                                                <option value="1999">1999</option>
+                                                <option value="2000">2000</option>
+                                                <option value="2001">2001</option>
+                                                <option value="2002">2002</option>
+                                                <option value="2003">2003</option>
+                                                <option value="2004">2004</option>
+                                                <option value="2005">2005</option>
+                                                <option value="2006">2006</option>
+                                                <option value="2007">2007</option>
+                                                <option value="2008">2008</option>
+                                                <option value="2009">2009</option>
+                                                <option value="2010">2010</option>
+                                                <option value="2011">2011</option>
+                                                <option value="2012">2012</option>
+                                                <option value="2013">2013</option>
+                                                <option value="2014">2014</option>
+                                                <option value="2015">2015</option>
+                                                <option value="2016">2016</option>
+                                                <option value="2017">2017</option>
+                                                <option value="2018">2018</option>
+                                                <option value="2019">2019</option>
+                                                <option value="2020">2020</option>
+                                                <option value="2021">2021</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-3">
+                                        <div>
+                                            <label class="form-label" for="inputEnsFundamental">Ensino
+                                                Fundamental</label>
+                                            <div class="form-check form-check-inline">
+                                                <input @if ($dados->EnsFundamental === "publica") {{ 'checked' }} @endif disabled class="form-check-input" name="inputEnsFundamental[]"
+                                                    type="radio" id="publica" value="rede publica">
+                                                <label class="form-label" class="form-check-label"
+                                                    for="inputEnsFundamental1">Pública</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input @if ($dados->EnsFundamental === "particular") {{ 'checked' }} @endif disabled class="form-check-input" name="inputEnsFundamental[]"
+                                                    type="radio" id="particular" value="particular">
+                                                <label class="form-label" class="form-check-label"
+                                                    for="inputEnsFundamental2">Particular</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div>
+                                            <label class="form-label" for="inputPorcentagemBolsa">Com bolsa
+                                                de:</label>
                                             <input max="100" pattern="[0-9]{1,3}" type="number"
                                                 class="form-control" id="inputPorcentagemBolsa"
                                                 name="inputPorcentagemBolsa" aria-describedby="inputPorcentagemBolsaHelp"
-                                                value="{{ $dados->PorcentagemBolsa }}" disabled>
+                                                placeholder="%" value="{{ $dados->PorcentagemBolsa }}" disabled>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <span for="inputEnsMedio">Ensino Médio</span><br>
+
+                                    <div class="col-md-3">
+                                        <div>
+                                            <label class="form-label" for="inputEnsMedio">Ensino
+                                                Médio</label>
                                             <div class="form-check form-check-inline">
-                                                <input <?php if (strpos($dados->EnsMedio, 'rede publica') !== false) {
-                                                    echo 'checked=checked';
-                                                } ?> class="form-check-input"
-                                                    name="inputEnsMedio[]" type="checkbox" id="rede_publica"
-                                                    value="rede publica" disabled>
-                                                <span class="form-check-span" for="inputEnsMedio1">Rede Pública</span>
+                                                <input @if ($dados->EnsMedio === "publica") {{ 'checked' }} @endif disabled class="form-check-input" name="inputEnsMedio[]" type="radio"
+                                                    id="rede_publica" value="rede publica">
+                                                <label class="form-label mb-2" class="form-check-label"
+                                                    for="inputEnsMedio1">Pública</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input <?php if (strpos($dados->EnsMedio, 'particular sem bolsa') !== false) {
-                                                    echo 'checked=checked';
-                                                } ?> class="form-check-input"
-                                                    name="inputEnsMedio[]" type="checkbox" id="particular_sem_bolsa"
-                                                    value="particular sem bolsa" disabled>
-                                                <span class="form-check-span" for="inputEnsMedio2">Particular sem
-                                                    bolsa</span>
+                                                <input @if ($dados->EnsMedio === "particular") {{ 'checked' }} @endif disabled class="form-check-input" name="inputinputEnsMedio[]"
+                                                    type="radio" id="particular_sem_bolsa"
+                                                    value="particular sem bolsa">
+                                                <label class="form-label mb-2" class="form-check-label"
+                                                    for="inputEnsMedio2">Particular</label>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <span for="inputPorcentagemBolsaMedio">Particular com bolsa de:</span>
+                                    <div class="col-md-3">
+                                        <div>
+                                            <label class="form-label mb-2" for="inputPorcentagemBolsaMedio">
+                                                Com
+                                                bolsa de:</label>
                                             <input max="100" pattern="[0-9]{1,3}" type="number"
                                                 class="form-control" id="inputPorcentagemBolsaMedio"
                                                 name="inputPorcentagemBolsaMedio"
-                                                aria-describedby="inputPorcentagemBolsaMedioHelp"
-                                                value="{{ $dados->PorcentagemBolsaMedio }}" disabled>
+                                                aria-describedby="inputPorcentagemBolsaMedioHelp" placeholder="%" value="{{ $dados->PorcentagemBolsaMedio }}" disabled>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="row">
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <label class="form-label mb-2" for="inputVestibular">Já prestou algum
-                                                vestibular?</label>
+                                    <div class="col-md-3">
+                                        @if ($dados->Vestibular == 'sim')
+                                        <div class="mb-3 dados-faculdade">
+                                            <label class="form-label mb-2" for="inputFaculdadeTipo">Faculdade
+                                                pública
+                                                ou particular?</label>
                                             <br>
-                                            <div id="Vestibular" class="form-check form-check-inline">
-                                                <input <?php if ($dados->Vestibular == 'Sim') {
+                                            <div class="form-check form-check-inline">
+                                                <input <?php if ($dados->FaculdadeTipo == 'publica') {
                                                     echo 'checked=checked';
                                                 } ?> class="form-check-input" type="radio"
-                                                    name="inputVestibular" id="inputVestibular1" value="Sim"
-                                                    onclick="showInput('.dados-faculdade')" disabled>
+                                                    name="inputFaculdadeTipo" id="inputFaculdadeTipo1"
+                                                    value="publica" disabled>
                                                 <label class="form-label mb-2" class="form-check-label"
-                                                    for="inputVestibular1">Sim</label>
+                                                    for="inputFaculdadeTipo1">Pública</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input <?php if ($dados->Vestibular == 'Não') {
+                                                <input <?php if ($dados->FaculdadeTipo == 'particular') {
                                                     echo 'checked=checked';
                                                 } ?> class="form-check-input" type="radio"
-                                                    name="inputVestibular" id="inputVestibular2" value="Não"
-                                                    onclick="hideInput('.dados-faculdade')" disabled>
+                                                    name="inputFaculdadeTipo" id="inputFaculdadeTipo2"
+                                                    value="particular" disabled>
                                                 <label class="form-label mb-2" class="form-check-label"
-                                                    for="inputVestibular2">Não</label>
+                                                    for="inputFaculdadeTipo2">Particular</label>
                                             </div>
                                         </div>
+                                    @endif
                                     </div>
-                                    <div class="col">
+                                    <div class="col-md-3">
                                         @if ($dados->Vestibular == 'sim')
-                                            <div class="mb-3 dados-faculdade">
-                                                <label class="form-label mb-2" for="inputFaculdadeTipo">Faculdade pública
-                                                    ou particular?</label>
-                                                <br>
-                                                <div class="form-check form-check-inline">
-                                                    <input <?php if ($dados->FaculdadeTipo == 'publica') {
-                                                        echo 'checked=checked';
-                                                    } ?> class="form-check-input" type="radio"
-                                                        name="inputFaculdadeTipo" id="inputFaculdadeTipo1"
-                                                        value="publica" disabled>
-                                                    <label class="form-label mb-2" class="form-check-label"
-                                                        for="inputFaculdadeTipo1">Pública</label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input <?php if ($dados->FaculdadeTipo == 'particular') {
-                                                        echo 'checked=checked';
-                                                    } ?> class="form-check-input" type="radio"
-                                                        name="inputFaculdadeTipo" id="inputFaculdadeTipo2"
-                                                        value="particular" disabled>
-                                                    <label class="form-label mb-2" class="form-check-label"
-                                                        for="inputFaculdadeTipo2">Particular</label>
-                                                </div>
-                                            </div>
-                                        @endif
+                                        <div class="mb-3 dados-faculdade">
+                                            <label class="form-label mb-2" for="inputNomeFaculdade">Qual nome da
+                                                Faculdade?</label>
+                                            <input type="text" class="form-control" id="inputNomeFaculdade"
+                                                name="inputNomeFaculdade" aria-describedby="inputNomeFaculdadeHelp"
+                                                value="{{ $dados->NomeFaculdade }}" disabled>
+                                        </div>
+                                    @endif
                                     </div>
-                                    <div class="col">
-                                        @if ($dados->Vestibular == 'sim')
-                                            <div class="mb-3 dados-faculdade">
-                                                <label class="form-label mb-2" for="inputNomeFaculdade">Qual nome da
-                                                    Faculdade?</label>
-                                                <input type="text" class="form-control" id="inputNomeFaculdade"
-                                                    name="inputNomeFaculdade" aria-describedby="inputNomeFaculdadeHelp"
-                                                    value="{{ $dados->NomeFaculdade }}" disabled>
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col">
+
+                                    <div class="col-md-3">
                                         @if ($dados->Vestibular == 'sim')
                                             <div class="mb-3 dados-faculdade">
                                                 <label class="form-label mb-2" for="inputCursoFaculdade">Curso</label>
                                                 <input type="text" class="form-control" id="inputCursoFaculdade"
-                                                    name="inputCursoFaculdade" aria-describedby="inputCursoFaculdadeHelp"
+                                                    name="inputCursoFaculdade"
+                                                    aria-describedby="inputCursoFaculdadeHelp"
                                                     value="{{ $dados->CursoFaculdade }}" disabled>
                                             </div>
                                         @endif
                                     </div>
-                                    <div class="col">
-                                        <div class="mb-3 dados-faculdade">
+                                    <div class="col-md-3">
+                                        <div class="mb-3 dados-faculdade" style="display:none;">
                                             <label class="form-label mb-2" for="inputAnoFaculdade">Ano</label>
                                             <select name="inputAnoFaculdade" class="form-select" disabled>
                                                 <option selected>Selecione</option>
@@ -986,106 +1273,107 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-12 col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label mb-2" for="inputEnem">Já prestou Enem?</label>
-                                            <br>
-                                            <div id="enem" class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="inputEnem"
-                                                    id="inputEnem1" value="1"
-                                                    @if ($dados->Enem === 1) {{ 'checked' }} @endif
-                                                    disabled>
-                                                <label class="form-label mb-2" class="form-check-label"
-                                                    for="inputEnem1">Sim</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="inputEnem"
-                                                    id="inputEnem2" value="0"
-                                                    @if ($dados->Enem === 0) {{ 'checked' }} @endif
-                                                    disabled>
-                                                <label class="form-label mb-2" class="form-check-label"
-                                                    for="inputEnem2">Não</label>
-                                            </div>
-                                        </div>
+                                <div>
+                                    <div class="d-flex justify-content-start align-items-center gap-2 mb-3">
+                                        <span class="text-primary"><svg xmlns="http://www.w3.org/2000/svg"
+                                                style="width: 30px; height: 30px; h" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                class="icon icon-tabler icons-tabler-outline icon-tabler-school">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M22 9l-10 -4l-10 4l10 4l10 -4v6" />
+                                                <path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4" />
+                                            </svg>
+                                        </span>
+                                        <h3 class="mb-0">
+                                            Meus Cursos
+                                        </h3>
                                     </div>
                                 </div>
 
-                                <div class="row">
+                                <div class="row mb-3">
                                     <div class="col-12">
                                         <p>Para qual (quais) curso(s) pretende prestar vestibular?</p>
                                     </div>
                                     <div class="col">
-                                        <div class="mb-3">
-                                            <span for="inputOpcoesVestibular1">Primeira Opção</span>
+                                        <div>
+                                            <label class="form-label mb-2" for="inputOpcoesVestibular1">Primeira
+                                                Opção</label>
                                             <input type="text" class="form-control" id="inputOpcoesVestibular1"
                                                 name="inputOpcoesVestibular1"
                                                 aria-describedby="inputOpcoesVestibular1Help"
-                                                value="{{ $dados->OpcoesVestibular1 }}" disabled>
+                                                placeholder="Informe a primeira opção" value="{{ $dados->OpcoesVestibular1 }}" disabled>
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <div class="mb-3">
-                                            <span for="inputOpcoesVestibular2">Segunda Opção</span>
+                                        <div>
+                                            <label class="form-label mb-2" for="inputOpcoesVestibular2">Segunda
+                                                Opção</label>
                                             <input type="text" class="form-control" id="inputOpcoesVestibular2"
                                                 name="inputOpcoesVestibular2"
                                                 aria-describedby="inputOpcoesVestibular2Help"
-                                                value="{{ $dados->OpcoesVestibular2 }}" disabled>
+                                                placeholder="Informe a segunda opção" value="{{ $dados->OpcoesVestibular2 }}" disabled>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <span for="inputVestibularOutraCidade">Quanto à Universidade, tem
-                                                disponibilidade/interesse de estudar em outras cidades?</span>
-                                            <select name="inputVestibularOutraCidade" class="form-select" disabled>
-                                                <option selected>Selecione</option>
-                                                <option <?php if ($dados->VestibularOutraCidade == 'sim') {
-                                                    echo 'selected=selected';
-                                                } ?> value="sim">Sim</option>
-                                                <option <?php if ($dados->VestibularOutraCidade == 'nao') {
-                                                    echo 'selected=selected';
-                                                } ?> value="nao">Não</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <span for="inputComoSoube">Como você ficou sabendo do cursinho pré-vestibular
-                                                da UNEafro Brasil?</span>
-                                            <select name="inputComoSoube" class="form-select" disabled>
-                                                <option selected>Selecione</option>
-                                                <option <?php if ($dados->ComoSoube == 'internet') {
-                                                    echo 'selected=selected';
-                                                } ?> value="internet">Internet</option>
-                                                <option <?php if ($dados->ComoSoube == 'panfleto') {
-                                                    echo 'selected=selected';
-                                                } ?> value="panfleto">Panfleto</option>
-                                                <option <?php if ($dados->ComoSoube == 'amigos') {
-                                                    echo 'selected=selected';
-                                                } ?> value="amigos">Amigos</option>
-                                                <option <?php if ($dados->ComoSoube == 'jornal') {
-                                                    echo 'selected=selected';
-                                                } ?> value="jornal">Jornal</option>
-                                                <option <?php if ($dados->ComoSoube == 'outros') {
-                                                    echo 'selected=selected';
-                                                } ?> value="outros">Outros</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        @if ($dados->ComoSoube == 'outros')
-                                            <div id="ComoSoubeOutros" class="mb-3">
-                                                <label class="form-label mb-2" class="pb-3"
-                                                    for="inputComoSoubeOutros">Qual?</label>
-                                                <input type="text" class="form-control" id="inputComoSoubeOutros"
-                                                    name="inputComoSoubeOutros"
-                                                    aria-describedby="inputComoSoubeOutrosHelp"
-                                                    value="{{ $dados->ComoSoubeOutros }}" disabled>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label class="form-label mb-2 d-block">Quanto à Universidade, tem
+                                                disponibilidade/interesse de estudar em outras cidades?</label>
+
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" disabled <?php if ($dados->VestibularOutraCidade == 'sim') {
+                                                    echo 'checked=checked';
+                                                } ?> type="radio"
+                                                    name="inputVestibularOutraCidade" id="vestibularSim" value="sim">
+                                                <label class="form-check-label" for="vestibularSim">Sim</label>
                                             </div>
-                                        @endif
+
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" disabled <?php if ($dados->VestibularOutraCidade == 'nao') {
+                                                    echo 'checked=checked';
+                                                } ?> type="radio"
+                                                    name="inputVestibularOutraCidade" id="vestibularNao" value="nao">
+                                                <label class="form-check-label" for="vestibularNao">Não</label>
+                                            </div>
+                                        </div>
+
                                     </div>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label class="form-label mb-2" for="inputComoSoube">Como você ficou
+                                                sabendo do
+                                                cursinho pré-vestibular da UNEafro Brasil?</label>
+                                                <select name="inputComoSoube" class="form-select" disabled>
+                                                    <option selected>Selecione</option>
+                                                    <option <?php if ($dados->ComoSoube == 'internet') {
+                                                        echo 'selected=selected';
+                                                    } ?> value="internet">Internet</option>
+                                                    <option <?php if ($dados->ComoSoube == 'panfleto') {
+                                                        echo 'selected=selected';
+                                                    } ?> value="panfleto">Panfleto</option>
+                                                    <option <?php if ($dados->ComoSoube == 'amigos') {
+                                                        echo 'selected=selected';
+                                                    } ?> value="amigos">Amigos</option>
+                                                    <option <?php if ($dados->ComoSoube == 'jornal') {
+                                                        echo 'selected=selected';
+                                                    } ?> value="jornal">Jornal</option>
+                                                    <option <?php if ($dados->ComoSoube == 'outros') {
+                                                        echo 'selected=selected';
+                                                    } ?> value="outros">Outros</option>
+                                                </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div id="ComoSoubeOutros" style="display:none;">
+                                            <label class="form-label" for="inputComoSoubeOutros">Qual?</label>
+                                            <input type="text" class="form-control" id="inputComoSoubeOutros"
+                                                name="inputComoSoubeOutros" aria-describedby="inputComoSoubeOutrosHelp">
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="inputStatus" value="1">
                                 </div>
                             </div>
 

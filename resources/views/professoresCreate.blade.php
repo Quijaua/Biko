@@ -3,9 +3,10 @@
 @section('content')
     <div class="container">
         <div>
-            <h2><span><a href="/professores" class="text-primary" style="width: 45px; height: 45px;">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            <p style="font-size: 35px;"><span><a href="/professores" class="text-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" style="width: 45px; height: 45px;" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round"
                             class="icon icon-tabler icons-tabler-outline icon-tabler-circle-arrow-left">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                             <path d="M12 21a9 9 0 1 0 0 -18a9 9 0 0 0 0 18" />
@@ -13,9 +14,8 @@
                             <path d="M8 12h8" />
                             <path d="M12 8l-4 4" />
                         </svg>
-                    </a></span> Adicionar novo professor(a)</h2>
+                    </a></span> Adicionar novo professor(a)</p>
         </div>
-
         <div class="card">
             <div class="row g-0">
                 <!-- Sidebar Tabs -->
@@ -36,18 +36,19 @@
 
 
                 <!-- Form content -->
-                <div class="col-md-9 p-4">
-                    <div class="row">
-                        <div class="col-8">
-                            <h3 class="mb-4">Meu Perfil</h3>
-                            <div class="mb-3">
+                <div class="col-md-10 p-4">
+                    <div class="row mb-3">
+                        <div class="col-9">
+                            <div>
+                                <h3 class="mb-0">Meu Perfil</h3>
                                 <small class="text-muted">
-                                    Pré-cadastro feito em 2025-03-07 08:58:22 | Atualizado em 2025-03-07 08:58:22
+                                    Pré-cadastro feito em <?php echo date('Y-m-d H:i:s'); ?> |
+                                    Atualizado em <?php echo date('Y-m-d H:i:s'); ?>
                                 </small>
                             </div>
                         </div>
-                        <div class="col-4">
-                            <a class="btn btn-secondary" href="/professores">voltar</a>
+                        <div class="col-3 d-flex gap-3 justify-content-end align-items-center">
+                            <a class="btn btn-light text-secondary" href="/professores">Cancelar</a>
                             <button type="submit" class="btn btn-primary" form="createdForm" id="submitBtn"><span><svg
                                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -86,78 +87,137 @@
 
                             <div class="tab-content" id="form-tabs-content">
                                 <div class="tab-pane fade show active" id="pessoal" role="tabpanel">
-                                    <h3>DADOS PESSOAIS</h3>
+
+                                    {{-- FOTO --}}
+                                    <div class="row mb-3">
+                                        <div>
+                                            <div class="d-flex justify-content-start align-items-center gap-2 mb-3">
+                                                <span class="text-primary"><svg xmlns="http://www.w3.org/2000/svg"
+                                                        style="width: 30px; height: 30px; h" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-photo">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                        <path d="M15 8h.01" />
+                                                        <path
+                                                            d="M3 6a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v12a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3v-12z" />
+                                                        <path d="M3 16l5 -5c.928 -.893 2.072 -.893 3 0l5 5" />
+                                                        <path d="M14 14l1 -1c.928 -.893 2.072 -.893 3 0l3 3" />
+                                                    </svg></span>
+                                                <h3 class="mb-0">
+                                                    Foto
+                                                </h3>
+                                            </div>
+
+                                            <div class="d-flex align-items-center">
+                                                <!-- Box do preview/ícone -->
+                                                <div class="avatar avatar-xl rounded border d-flex align-items-center justify-content-center me-3"
+                                                    style="width: 96px; height: 96px; background-color: #f8f9fa; overflow: hidden; position: relative;">
+
+                                                    <!-- SVG de câmera -->
+                                                    <i id="iconCamera" style="font-size: 24px; color: #ccc; z-index: 1;">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                            height="24" viewBox="0 0 24 24" fill="none"
+                                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            class="icon icon-tabler icons-tabler-outline icon-tabler-camera-plus">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                            <path
+                                                                d="M12 20h-7a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2h1a2 2 0 0 0 2 -2a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1a2 2 0 0 0 2 2h1a2 2 0 0 1 2 2v3.5" />
+                                                            <path d="M16 19h6" />
+                                                            <path d="M19 16v6" />
+                                                            <path d="M9 13a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+                                                        </svg>
+                                                    </i>
+
+                                                    <!-- Preview da imagem -->
+                                                    <img id="previewFoto" src="" alt="Prévia da foto"
+                                                        class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover rounded"
+                                                        style="display: none;" />
+                                                </div>
+                                                <!-- Botão e texto -->
+                                                <div>
+                                                    <div class="text-muted mb-3" style="font-size: 12px;">
+                                                        Os arquivos devem estar nos formatos <strong>PDF, JPG ou
+                                                            PNG</strong>,
+                                                        com tamanho máximo de <strong>8 MB</strong>.
+                                                    </div>
+                                                    <input type="file" id="inputFoto" name="inputFoto"
+                                                        class="d-none">
+                                                    <label for="inputFoto" class="btn btn-outline-primary mb-2">Trocar
+                                                        foto</label>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex justify-content-start align-items-center gap-2 mb-3">
+                                        <span class="text-primary"><svg xmlns="http://www.w3.org/2000/svg"
+                                                style="width: 30px; height: 30px; h" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                class="icon icon-tabler icons-tabler-outline icon-tabler-user-circle">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                                                <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                                                <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
+                                            </svg></span>
+                                        <h3 class="mb-0">
+                                            Dados Pessoais
+                                        </h3>
+                                    </div>
+
                                     <div class="row">
-                                        <div class="col">
+                                        <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label class="form-label mb-2" for="inputNomeProfessor">Nome do
-                                                    professor</label>
+                                                <label class="form-label mb-2" for="inputNomeProfessor">Nome Completo
+                                                    <span class="text-danger">*</span> </label>
                                                 <input type="text" class="form-control" id="inputNomeProfessor"
                                                     name="inputNomeProfessor" aria-describedby="inputNomeProfessorHelp"
                                                     placeholder="Nome do novo professor" required>
                                             </div>
                                         </div>
-                                        <div class="col">
+                                        <div class="col-md-3">
                                             <div class="mb-3">
-                                                <label class="form-label mb-2" for="inputNomeSocial">Nome Social do
-                                                    professor</label>
+                                                <label class="form-label mb-2" for="inputNomeSocial">Nome Social</label>
                                                 <input type="text" class="form-control" id="inputNomeSocial"
                                                     name="inputNomeSocial" aria-describedby="inputNomeSocialHelp"
                                                     placeholder="Nome social do professor">
                                             </div>
                                         </div>
-                                        <div class="col">
+                                        <div class="col-md-3">
                                             <div class="mb-3">
-                                                <label class="form-label mb-2" for="inputNucleo">Núcleo</label>
-                                                <select id="nucleo" name="inputNucleo" class="form-select form-control is-invalid" required>
-                                                    <option value="" selected>Selecione</option>
-                                                    @foreach ($nucleos as $nucleo)
-                                                        <option value="{{ $nucleo->id }}">{{ $nucleo->NomeNucleo }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="mb-3 invalid-feedback d-block">Por favor, selecione um núcleo.</div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="mb-3">
-                                                <label class="form-label mb-2" for="inputFoto">Foto</label>
-                                                <input name="inputFoto" type="file" class="form-control-file"
-                                                    id="inputFoto">
-                                            </div>
-                                        </div>
-                                        <div class="col mt-2">
-                                            <small class="form-text text-muted">Arquivos devem ter menos que <strong>8
-                                                    MB</strong>.</small>
-                                            <small class="form-text text-muted">Tipos de arquivos permitidos: <strong>png
-                                                    gif
-                                                    jpg
-                                                    jpeg</strong>.</small>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="mb-3">
-                                                <label class="form-label mb-2" for="inputCPF">CPF</label>
-                                                <input type="text" class="form-control" id="inputCPF"
+                                                <label class="form-label mb-2" for="inputCPF">CPF <span
+                                                        class="text-danger">*</span></label>
+                                                <input required type="text" class="form-control" id="inputCPF"
                                                     name="inputCPF" aria-describedby="inputCPFHelp"
                                                     data-mask="000.000.000-00" placeholder="xxx.xxx.xxx-xx"
                                                     onblur="checkCPF()">
                                             </div>
                                         </div>
-                                        <div class="col">
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label class="form-label mb-2" for="inputRG">RG</label>
-                                                <input type="text" class="form-control" id="inputRG" name="inputRG"
-                                                    aria-describedby="inputRGHelp" data-mask="00.000.000-00"
-                                                    placeholder="xx.xxx.xxx-x">
+                                                <label class="form-label mb-2" for="inputEmail">Email</label>
+                                                <input type="email" class="form-control" id="inputEmail"
+                                                    name="inputEmail" aria-describedby="inputEmailHelp"
+                                                    placeholder="Endereço de Email" required>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
+                                        <div class="col-md-3">
+                                            <div class="mb-3">
+                                                <label class="form-label mb-2" for="inputNascimento">Data de
+                                                    Nascimento</label>
+                                                <input type="date" class="form-control" id="inputNascimento"
+                                                    name="inputNascimento" aria-describedby="inputNascimentoHelp"
+                                                    onblur="getAge()">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label class="form-label mb-2" for="inputRaca">Raça / Cor</label>
                                                 <select id="raca" name="inputRaca" class="form-select">
@@ -170,11 +230,14 @@
                                                 </select>
                                             </div>
                                         </div>
+                                    </div>
 
-                                        <div class="col">
+                                    <div class="row">
+                                        <div class="col-md-6">
                                             <div id="povo_indigenas_wrapper" class="mb-3 d-none">
-                                                <label class="form-label mb-2" for="povo_indigenas_id">Povo Indígena</label>
-                                                <select name="povo_indigenas_id" class="form-select" >
+                                                <label class="form-label mb-2" for="povo_indigenas_id">Povo
+                                                    Indígena</label>
+                                                <select name="povo_indigenas_id" class="form-select">
                                                     <option selected disabled>Selecione</option>
                                                     @foreach ($povo_indigenas as $povo_indigena)
                                                         <option value="{{ $povo_indigena->id }}">
@@ -184,10 +247,11 @@
                                             </div>
                                         </div>
 
-                                        <div class="col">
+                                        <div class="col-md-6">
                                             <div id="terra_indigenas_wrapper" class="mb-3 d-none">
-                                                <label class="form-label mb-2" for="terra_indigenas_id">Terra Indígena</label>
-                                                <select name="terra_indigenas_id" class="form-select" >
+                                                <label class="form-label mb-2" for="terra_indigenas_id">Terra
+                                                    Indígena</label>
+                                                <select name="terra_indigenas_id" class="form-select">
                                                     <option selected disabled>Selecione</option>
                                                     @foreach ($terra_indigenas as $terra_indigena)
                                                         <option value="{{ $terra_indigena->id }}">
@@ -196,49 +260,10 @@
                                                 </select>
                                             </div>
                                         </div>
-
-                                        <div class="col">
-                                            <div class="mb-3">
-                                                <label class="form-label mb-2" for="inputGenero">Identidade de
-                                                    Gênero</label>
-                                                <select name="inputGenero" class="form-select">
-                                                    <option value="" selected>Selecione</option>
-                                                    <option value="mulher">Mulher</option>
-                                                    <option value="homem">Homem</option>
-                                                    <option value="mulher_trans_cis">Mulher (Trans ou Cis)</option>
-                                                    <option value="homem_trans_cis">Homem (Trans ou Cis)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="mb-3">
-                                                <label class="form-label mb-2" for="concordaSexoDesignado">Você se
-                                                    identifica
-                                                    com o sexo designado
-                                                    ao nascer?</label>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio"
-                                                        name="concordaSexoDesignado" id="concordaSexoDesignado1"
-                                                        value="1" checked>
-                                                    <label class="form-label mb-2" class="form-check-label"
-                                                        for="concordaSexoDesignado1">
-                                                        Sim
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio"
-                                                        name="concordaSexoDesignado" id="concordaSexoDesignado2"
-                                                        value="0">
-                                                    <label class="form-label mb-2" class="form-check-label"
-                                                        for="concordaSexoDesignado2">
-                                                        Não
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
+
                                     <div class="row">
-                                        <div class="col">
+                                        <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label class="form-label mb-2" for="inputEstadoCivil">Estado Civil</label>
                                                 <select name="inputEstadoCivil" class="form-select">
@@ -251,16 +276,47 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col">
+                                        <div class="col-md-3">
                                             <div class="mb-3">
-                                                <label class="form-label mb-2" for="inputNascimento">Data de
-                                                    Nascimento</label>
-                                                <input type="date" class="form-control" id="inputNascimento"
-                                                    name="inputNascimento" aria-describedby="inputNascimentoHelp"
-                                                    onblur="getAge()">
+                                                <label class="form-label mb-2" for="inputGenero">Identidade de
+                                                    Gênero</label>
+                                                <select name="inputGenero" class="form-select">
+                                                    <option value="" selected>Selecione</option>
+                                                    <option value="mulher">Mulher</option>
+                                                    <option value="homem">Homem</option>
+                                                    <option value="mulher_trans_cis">Mulher (Trans ou Cis)</option>
+                                                    <option value="homem_trans_cis">Homem (Trans ou Cis)</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label mb-2" for="concordaSexoDesignado">Você se
+                                                    identifica
+                                                    com o sexo designado
+                                                    ao nascer?</label>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio"
+                                                        name="concordaSexoDesignado" id="concordaSexoDesignado1"
+                                                        value="1" checked>
+                                                    <label class="form-label mb-2" class="form-check-label"
+                                                        for="concordaSexoDesignado1">
+                                                        Sim
+                                                    </label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio"
+                                                        name="concordaSexoDesignado" id="concordaSexoDesignado2"
+                                                        value="0">
+                                                    <label class="form-label mb-2" class="form-check-label"
+                                                        for="concordaSexoDesignado2">
+                                                        Não
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+
 
                                     <div class="row">
                                         <div class="col-12 col-md-6">
@@ -268,20 +324,23 @@
                                                 <div class="form-label">É pessoa com deficiência?</div>
                                                 <div>
                                                     <label class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="selecao-deficiencia" value="sim" />
+                                                        <input class="form-check-input" type="radio"
+                                                            name="selecao-deficiencia" value="sim" />
                                                         <span class="form-check-label">Sim</span>
                                                     </label>
                                                     <label class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="selecao-deficiencia" value="nao" checked />
+                                                        <input class="form-check-input" type="radio"
+                                                            name="selecao-deficiencia" value="nao" checked />
                                                         <span class="form-check-label">Não</span>
                                                     </label>
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="col-12 col-md-6">
                                             <div class="mb-3">
-                                                <label class="form-label mb-2" for="pessoa_com_deficiencia">Qual a deficiência?</label>
+                                                <label class="form-label mb-2" for="pessoa_com_deficiencia">Qual a
+                                                    deficiência?</label>
                                                 <select class="form-select" name="pessoa_com_deficiencia" disabled>
                                                     <option value="" selected>Selecione</option>
                                                     <option value="A">Auditiva</option>
@@ -295,9 +354,100 @@
                                             </div>
                                         </div>
                                     </div>
+                                    
+                                    <div>
+                                        <div class="d-flex justify-content-start align-items-center gap-2 mb-3">
+                                            <span class="text-primary"><svg xmlns="http://www.w3.org/2000/svg"
+                                                    style="width: 30px; height: 30px; h" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-home">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
+                                                    <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+                                                    <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+                                                </svg></span>
+                                            <h3 class="mb-0">
+                                                Núcleo
+                                            </h3>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="mb-3">
+                                                <label class="form-label mb-2" for="inputNucleo">Núcleo</label>
+                                                <select id="inputNucleo" name="inputNucleo"
+                                                    class="form-select form-control is-invalid" required>
+                                                    <option value="" selected>Selecione</option>
+                                                    @foreach ($nucleos as $nucleo)
+                                                        <option value="{{ $nucleo->id }}">{{ $nucleo->NomeNucleo }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="mb-3 invalid-feedback d-block">Por favor, selecione um núcleo.
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="mb-3">
+                                                <label class="form-label mb-2" for="inputOutrosNucleos">Você atua em mais
+                                                    de
+                                                    um núcleo?
+                                                    Qual?</label>
+                                                @foreach ($nucleos as $nucleo)
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" name="inputOutrosNucleos[]"
+                                                            type="checkbox" id="inputOutrosNucleos{{ $nucleo->id }}"
+                                                            value="{{ $nucleo->id }}">
+                                                        <label class="form-label mb-2" class="form-check-label"
+                                                            for="inputOutrosNucleos{{ $nucleo->id }}">{{ $nucleo->NomeNucleo }}</label>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label mb-2" for="inputAnoInicioUneafro">Desde que ano
+                                                    você
+                                                    está na
+                                                    UNEAFRO?</label>
+                                                <input type="text" class="form-control" id="inputAnoInicioUneafro"
+                                                    name="inputAnoInicioUneafro"
+                                                    aria-describedby="inputAnoInicioUneafroHelp"
+                                                    placeholder="4 dígitos (Ex. 2021)">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label mb-2" for="aulasForaUneafro">Fora da UNEAFRO,
+                                                    você dá
+                                                    aulas?</label>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="aulasForaUneafro" id="aulasForaUneafro1"
+                                                            value="sim" checked>
+                                                        <label class="form-label mb-2" class="form-check-label"
+                                                            for="aulasForaUneafro1">
+                                                            Sim
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="aulasForaUneafro" id="aulasForaUneafro2"
+                                                            value="nao">
+                                                        <label class="form-label mb-2" class="form-check-label"
+                                                            for="aulasForaUneafro2">
+                                                            Não
+                                                        </label>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                     <div class="row">
-                                        <div class="col">
+                                        <div class="col-12">
                                             <div class="mb-3">
                                                 <label class="form-label mb-2" for="inputDisciplinas">Disciplinas
                                                     Lecionadas</label><br>
@@ -527,99 +677,9 @@
                                             </div>
                                         </div>
                                     </div>
+                                    
                                     <div class="row">
-                                        <div class="col">
-                                            <div class="mb-3">
-                                                <label class="form-label mb-2" for="inputEscolaridade">Qual a sua
-                                                    escolaridade</label>
-                                                <select name="inputEscolaridade" class="form-select">
-                                                    <option value="" selected>Selecione</option>
-                                                    <option value="Ensino Médio Completo">Ensino Médio Completo</option>
-                                                    <option value="Ensino Médio Cursando">Ensino Médio Cursando</option>
-                                                    <option value="Ensino Médio Incompleto">Ensino Médio Incompleto
-                                                    </option>
-                                                    <option value="Ensino Superior Completo">Ensino Superior Completo
-                                                    </option>
-                                                    <option value="Ensino Superior Cursando">Ensino Superior Cursando
-                                                    </option>
-                                                    <option value="Ensino Superior Incompleto">Ensino Superior Incompleto
-                                                    </option>
-                                                    <option value="Pós Graduação Completa">Pós Graduação Completa</option>
-                                                    <option value="Pós Graduação Cursando">Pós Graduação Cursando</option>
-                                                    <option value="Pós Graduação Incompleta">Pós Graduação Incompleta
-                                                    </option>
-                                                    <option value="Ensino Técnico Completo">Ensino Técnico Completo
-                                                    </option>
-                                                    <option value="Ensino Técnico Cursando">Ensino Técnico Cursando
-                                                    </option>
-                                                    <option value="Ensino Técnico Incompleto">Ensino Técnico Incompleto
-                                                    </option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="mb-3">
-                                                <label class="form-label mb-2" for="inputOutrosNucleos">Você atua em mais
-                                                    de
-                                                    um núcleo?
-                                                    Qual?</label><br>
-                                                @foreach ($nucleos as $nucleo)
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" name="inputOutrosNucleos[]"
-                                                            type="checkbox" id="inputOutrosNucleos{{ $nucleo->id }}"
-                                                            value="{{ $nucleo->id }}">
-                                                        <label class="form-label mb-2" class="form-check-label"
-                                                            for="inputOutrosNucleos{{ $nucleo->id }}">{{ $nucleo->NomeNucleo }}</label>
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="mb-3">
-                                                <label class="form-label mb-2" for="inputFormacaoSuperior">Se você
-                                                    esteve/está
-                                                    no ensino superior,
-                                                    qual a sua formação?</label>
-                                                <input type="text" class="form-control" id="inputFormacaoSuperior"
-                                                    name="inputFormacaoSuperior"
-                                                    aria-describedby="inputFormacaoSuperiorHelp"
-                                                    placeholder="Sua formação no ensino superior">
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="mb-3">
-                                                <label class="form-label mb-2" for="inputAnoInicioUneafro">Desde que ano
-                                                    você
-                                                    está na
-                                                    UNEAFRO?</label>
-                                                <br><br>
-                                                <input type="text" class="form-control" id="inputAnoInicioUneafro"
-                                                    name="inputAnoInicioUneafro"
-                                                    aria-describedby="inputAnoInicioUneafroHelp"
-                                                    placeholder="4 dígitos (Ex. 2021)">
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="mb-3">
-                                                <label class="form-label mb-2" for="aulasForaUneafro">Fora da UNEAFRO,
-                                                    você dá
-                                                    aulas?</label>
-                                                <br><br>
-                                                <select name="aulasForaUneafro" class="form-select">
-                                                    <option selected>Selecione</option>
-                                                    <option value="Não" selected>Não</option>
-                                                    <option value="Sim, em cursos livres">Sim, em cursos livres</option>
-                                                    <option value="Sim, em escola pública ou privada">Sim, em escola
-                                                        pública ou
-                                                        privada</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
+                                        <div class="col-12">
                                             <div class="mb-3">
                                                 <label class="form-label mb-2" for="inputDiasHorarios">Quais são os dias e
                                                     horários das suas aulas
@@ -637,7 +697,7 @@
                                                     </div>
                                                     <div class="col-4 mb-2">
                                                         Até as
-                                                        <input <input name="inputDiasHorarios[diaSemana][Segunda][ate]"
+                                                        <input name="inputDiasHorarios[diaSemana][Segunda][ate]"
                                                             type="time" class="form-control">
                                                     </div>
                                                     <div class="col-4">
@@ -719,96 +779,76 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="mb-3">
-                                                <label class="form-label mb-2" for="inputGastoTransporte">Você tem gastos
-                                                    com
-                                                    transporte para
-                                                    chegar no cursinho? Se sim qual é o valor por dia?</label>
-                                                <input type="text" class="form-control" id="inputGastoTransporte"
-                                                    name="inputGastoTransporte"
-                                                    aria-describedby="inputGastoTransporteHelp"
-                                                    placeholder="Ex: Sim. Gasto com metrô - R$ 8,60/dia.">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="mb-3">
-                                                <label class="form-label mb-2" for="inputTempoChegada">Quanto tempo você
-                                                    gasta
-                                                    para chegar no
-                                                    núcleo?</label>
-                                                <input type="text" class="form-control" id="inputTempoChegada"
-                                                    name="inputTempoChegada" aria-describedby="inputTempoChegadaHelp"
-                                                    placeholder="Ex: 40 minutos">
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
 
                                 {{-- Endereço --}}
-                                <div class="tab-pane fade" id="endereco" role="tabpanel">
-                                    <h3>ENDEREÇO</h3>
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="mb-3">
-                                                <label class="form-label mb-2" for="inputCEP">CEP</label>
-                                                <input type="text" class="form-control" id="inputCEP"
-                                                    name="inputCEP" aria-describedby="inputCEPHelp" data-mask="00000-000"
-                                                    placeholder="xxxxx-xxx" onblur="checkCEP('#inputCEP')">
+                                <div class="tab-pane fade" id="endereco" role="tabpanel" aria-labelledby="tab-endereco">
+                                    <div>
+                                        <div class="d-flex justify-content-start align-items-center gap-2 mb-3">
+                                            <span class="text-primary"><svg xmlns="http://www.w3.org/2000/svg"
+                                                    style="width: 30px; height: 30px; h" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-map-pin">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+                                                    <path
+                                                        d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z" />
+                                                </svg>
+                                            </span>
+                                            <h3 class="mb-0">
+                                                Endereço
+                                            </h3>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-3">
+                                            <div>
+                                                <label class="form-label mb-2" for="inputCEP">CEP (Somente
+                                                    números)</label>
+                                                <input type="text" class="form-control" id="inputCEP" name="inputCEP"
+                                                    aria-describedby="inputCEPHelp" data-mask="00000-000"
+                                                    placeholder="xx.xxx-xxx" onblur="checkCEP('#inputCEP')">
                                             </div>
                                         </div>
-                                        <div class="col">
-                                            <div class="mb-3">
-                                                <label class="form-label mb-2" for="inputEndereco">Rua</label>
+                                        <div class="col-md-6">
+                                            <div>
+                                                <label class="form-label mb-2" for="inputEndereco">Endereço</label>
                                                 <input pattern="([^\s][A-zÀ-ž\s]+)" type="text" class="form-control"
                                                     id="inputEndereco" name="inputEndereco"
                                                     aria-describedby="inputEnderecoHelp"
-                                                    placeholder="Rua, Avenida, Logradouro">
+                                                    placeholder="Rua, Avenida, Logradoouro">
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="mb-3">
+                                        <div class="col-md-3">
+                                            <div>
                                                 <label class="form-label mb-2" for="inputNumero">Número</label>
-                                                <input type="text" class="form-control" id="inputNumero"
+                                                <input type="number" class="form-control" id="inputNumero"
                                                     name="inputNumero" aria-describedby="inputNumeroHelp"
                                                     placeholder="Número">
                                             </div>
                                         </div>
-                                        <div class="col">
-                                            <div class="mb-3">
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <div>
                                                 <label class="form-label mb-2" for="inputComplemento">Complemento</label>
                                                 <input type="text" class="form-control" id="inputComplemento"
                                                     name="inputComplemento" aria-describedby="inputComplementoHelp"
                                                     placeholder="Complemento">
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="mb-3">
-                                                <label class="form-label mb-2" for="inputBairro">Distrito</label>
-                                                <input type="text" class="form-control" id="inputBairro"
-                                                    name="inputBairro" aria-describedby="inputBairroHelp"
-                                                    placeholder="Bairro">
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="mb-3">
+                                        <div class="col-md-3">
+                                            <div>
                                                 <label class="form-label mb-2" for="inputCidade">Cidade</label>
                                                 <input type="text" class="form-control" id="inputCidade"
                                                     name="inputCidade" aria-describedby="inputCidadeHelp"
                                                     placeholder="Cidade/Município">
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="mb-3">
+    
+                                        <div class="col-md-3">
+                                            <div>
                                                 <label class="form-label mb-2" for="inputEstado">Estado</label>
                                                 <select id="inputEstado" name="inputEstado" class="form-select">
                                                     <option value="" selected>Selecione</option>
@@ -843,10 +883,11 @@
                                                 </select>
                                             </div>
                                         </div>
+    
                                     </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="mb-3">
+                                    <div class="row mb-3">
+                                        <div class="col-md-4">
+                                            <div>
                                                 <label class="form-label mb-2" for="inputFoneComercial">Telefone
                                                     Comercial</label>
                                                 <input type="text" class="form-control" id="inputFoneComercial"
@@ -854,18 +895,17 @@
                                                     data-mask="(00) 0000-0000" placeholder="(xx)xxxx-xxxx">
                                             </div>
                                         </div>
-                                        <div class="col">
-                                            <div class="mb-3">
+                                        <div class="col-md-4">
+                                            <div>
                                                 <label class="form-label mb-2" for="inputFoneResidencial">Telefone
                                                     Residencial</label>
                                                 <input type="text" class="form-control" id="inputFoneResidencial"
-                                                    name="inputFoneResidencial"
-                                                    aria-describedby="inputFoneResidencialHelp" data-mask="(00) 0000-0000"
-                                                    placeholder="(xx)xxxx-xxxx">
+                                                    name="inputFoneResidencial" aria-describedby="inputFoneResidencialHelp"
+                                                    data-mask="(00) 0000-0000" placeholder="(xx)xxxx-xxxx">
                                             </div>
                                         </div>
-                                        <div class="col">
-                                            <div class="mb-3">
+                                        <div class="col-md-4">
+                                            <div>
                                                 <label class="form-label mb-2" for="inputFoneCelular">Telefone
                                                     Celular</label>
                                                 <input type="text" class="form-control" id="inputFoneCelular"
@@ -873,26 +913,66 @@
                                                     data-mask="(00) 0 0000-0000" placeholder="(xx)xxxx-xxxx">
                                             </div>
                                         </div>
+                                    </div>
+
+                                    <div class="row">
                                         <div class="col">
                                             <div class="mb-3">
-                                                <label class="form-label mb-2" for="inputEmail">Email</label>
-                                                <input type="email" class="form-control" id="inputEmail"
-                                                    name="inputEmail" aria-describedby="inputEmailHelp"
-                                                    placeholder="Endereço de Email" required>
+                                                <label class="form-label mb-2" for="inputGastoTransporte">Você tem gastos
+                                                    com
+                                                    transporte para
+                                                    chegar no cursinho? Se sim qual é o valor por dia?</label>
+                                                <input type="text" class="form-control" id="inputGastoTransporte"
+                                                    name="inputGastoTransporte"
+                                                    aria-describedby="inputGastoTransporteHelp"
+                                                    placeholder="Ex: Sim. Gasto com metrô - R$ 8,60/dia.">
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                <label class="form-label mb-2" for="inputTempoChegada">Quanto tempo você
+                                                    gasta
+                                                    para chegar no
+                                                    núcleo?</label>
+                                                <input type="text" class="form-control" id="inputTempoChegada"
+                                                    name="inputTempoChegada" aria-describedby="inputTempoChegadaHelp"
+                                                    placeholder="Ex: 40 minutos">
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
 
                                 {{-- Profisssionais --}}
                                 <div class="tab-pane fade" id="profissionais" role="tabpanel">
-                                    <h3>DADOS PROFISSIONAIS</h3>
+                                    <div>
+                                        <div class="d-flex justify-content-start align-items-center gap-2 mb-3">
+                                            <span class="text-primary"><svg xmlns="http://www.w3.org/2000/svg"
+                                                    style="width: 30px; height: 30px; h" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-address-book">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path
+                                                        d="M20 6v12a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2z" />
+                                                    <path d="M10 16h6" />
+                                                    <path d="M13 11m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                                    <path d="M4 8h3" />
+                                                    <path d="M4 12h3" />
+                                                    <path d="M4 16h3" />
+                                                </svg>
+                                            </span>
+                                            <h3 class="mb-0">
+                                                Dados Profissionais
+                                            </h3>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-12 col-md-6">
                                             <div class="mb-3">
-                                                <label class="form-label mb-2" for="inputRamoAtuacao">Você trabalha no
-                                                    ramo
-                                                    da:</label>
+                                                <label class="form-label mb-2" for="inputRamoAtuacao">Em qual ramo você trabalha?</label>
                                                 <select id="inputRamoAtuacao" name="inputRamoAtuacao"
                                                     class="form-select">
                                                     <option value="Educação">Educação</option>
@@ -959,7 +1039,8 @@
                                                 <label class="form-label mb-2" for="inputProjetosFuncao">Função
                                                     exercida</label>
                                                 <input type="text" class="form-control" id="inputProjetosFuncao"
-                                                    name="inputProjetosFuncao" aria-describedby="inputProjetosFuncaoHelp"
+                                                    name="inputProjetosFuncao"
+                                                    aria-describedby="inputProjetosFuncaoHelp"
                                                     placeholder="Função exercida">
                                             </div>
                                         </div>
@@ -1005,7 +1086,25 @@
 
                                 {{-- Academicos --}}
                                 <div class="tab-pane fade" id="academicos" role="tabpanel">
-                                    <h3>DADOS ACADÊMICOS</h3>
+                                    <div>
+                                        <div class="d-flex justify-content-start align-items-center gap-2 mb-3">
+                                            <span class="text-primary"><svg xmlns="http://www.w3.org/2000/svg"
+                                                    style="width: 30px; height: 30px; h" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-file-certificate">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                                                    <path d="M5 8v-3a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2h-5" />
+                                                    <path d="M6 14m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                                                    <path d="M4.5 17l-1.5 5l3 -1.5l3 1.5l-1.5 -5" />
+                                                </svg>
+                                            </span>
+                                            <h3 class="mb-0">
+                                                Dados Acadêmicos
+                                            </h3>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col">
                                             <div class="mb-3">
@@ -1023,8 +1122,8 @@
                                             <div class="mb-3">
                                                 <label class="form-label mb-2"
                                                     for="inputInstituicaoSuperior">Instituição</label>
-                                                <input type="text" class="form-control" id="inputInstituicaoSuperior"
-                                                    name="inputInstituicaoSuperior"
+                                                <input type="text" class="form-control"
+                                                    id="inputInstituicaoSuperior" name="inputInstituicaoSuperior"
                                                     aria-describedby="inputInstituicaoSuperiorHelp"
                                                     placeholder="Instituição em qual cursou">
                                             </div>
@@ -1035,7 +1134,8 @@
                                             <div class="mb-3">
                                                 <label class="form-label mb-2" for="inputCursoSuperior1">Curso 1</label>
                                                 <input type="text" class="form-control" id="inputCursoSuperior1"
-                                                    name="inputCursoSuperior1" aria-describedby="inputCursoSuperior1Help"
+                                                    name="inputCursoSuperior1"
+                                                    aria-describedby="inputCursoSuperior1Help"
                                                     placeholder="Informe o curso">
                                             </div>
                                         </div>
@@ -1428,7 +1528,7 @@
 
             $(document).ready(function() {
 
-                const selectNucleo = $('#nucleo')
+                const selectNucleo = $('#inputNucleo')
 
                 selectNucleo.on('change', function() {
                     if (selectNucleo.val() == '') {
@@ -1441,11 +1541,31 @@
                         selectNucleo.addClass('is-valid')
                         $('.invalid-feedback').removeClass('d-block')
                         $('.invalid-feedback').addClass('d-none')
-                    }  
+                    }
                 })
             })
         </script>
+        <script>
+            const inputFoto = document.getElementById('inputFoto');
+            const previewFoto = document.getElementById('previewFoto');
+            const iconCamera = document.getElementById('iconCamera');
 
+            inputFoto.addEventListener('change', function() {
+                const file = this.files[0];
+
+                if (file) {
+                    const reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        previewFoto.setAttribute('src', e.target.result);
+                        previewFoto.style.display = 'block';
+                        iconCamera.style.display = 'none';
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+            });
+        </script>
 
     </div>
 @endsection

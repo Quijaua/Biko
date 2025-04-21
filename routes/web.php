@@ -26,6 +26,14 @@ Route::middleware(['auth'])->group(function () {
   Route::post('change_default_username', 'Auth\FirstLoginController@changeUsername')->name('change_default_username');
 });
 
+Route::get('inscricoes-para-cursinho-pre-vestibular-nucleo-yabas', function () {
+    return redirect()->route('pre-cadastro');
+})->name('register-slug');
+
+Route::get('pre-cadastro', function () {
+    return view('auth.register');
+})->name('pre-cadastro');
+
 // ROUTES FOR NUCLEOS MANAGEMENT
 Route::post('nucleos/importar_alunos/{id}', 'AlunosController@importar')->middleware('permissions')->name('alunos.importar');
 Route::get('nucleos', 'NucleoController@index')->middleware('permissions');

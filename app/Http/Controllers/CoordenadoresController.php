@@ -9,6 +9,7 @@ use Image;
 use Session;
 use App\Exports\CoordenadoresExport;
 use Maatwebsite\Excel\Facades\Excel;
+use DB;
 
 use App\Coordenadores;
 use App\Nucleo;
@@ -55,11 +56,12 @@ class CoordenadoresController extends Controller
       if($user->role === 'administrador'){
         $user = Auth::user();
         //$coordenadores = Coordenadores::where('Status', 1)->get();
-        $coordenadores = Coordenadores::where('Status', 1)->paginate(25);
+        /*$coordenadores = Coordenadores::where('Status', 1)->paginate(25);
         if($coordenadores->isEmpty()){
           //$coordenadores = Coordenadores::where('Status', 0)->get();
           $coordenadores = Coordenadores::where('Status', 0)->paginate(25);
-        }
+        }*/
+        $coordenadores = Coordenadores::paginate(25);
 
         return view('coordenadores')->with([
           'user' => $user,
@@ -396,162 +398,36 @@ class CoordenadoresController extends Controller
       return back()->with('success', 'Coordenador ativado com sucesso.');
     }
 
+    private static function getParams($request)
+    {
+      return [
+        'inputQuery' => $request->input('inputQuery'),
+        'nucleo' => $request->input('nucleo'),
+        'status' => $request->input('status'),
+      ];
+    }
+
     public function search(Request $request)
     {
       $user = Auth::user();
-      $cpf = $request->input('cpf');
-      $status = $request->input('status');
-      $query = $request->input('inputQuery');
+      $params = self::getParams($request);
 
-      if($query){
-        if($user->role === 'coordenador'){
-          $me = Coordenadores::where('id_user', $user->id)->first();
-          //$results = Aluno::where('NomeAluno','LIKE','%'.$query.'%')->where('id_nucleo', $me->id_nucleo)->get();
-          //$results = Coordenadores::where('NomeCoordenador','LIKE','%'.$query.'%')->where('id_nucleo', $me->id_nucleo)->paginate(25);
-          $results = Coordenadores::where('NomeCoordenador','LIKE','%'.$query.'%')->paginate(25);
-          //dd($results);
-          if($results->isEmpty()){
-            return back()->with('error', 'Nenhum resultado encontrado.');
-          }else{
-            return view('coordenadores')->with([
-              'user' => $user,
-              'coordenadores' => $results,
-            ]);
-          }
-        }elseif($user->role === 'professor'){
-          $me = Professores::where('id_user', $user->id)->first();
-          //$results = Aluno::where('NomeAluno','LIKE','%'.$query.'%')->where('id_nucleo', $me->id_nucleo)->get();
-          $results = Coordenadores::where('NomeCoordenador','LIKE','%'.$query.'%')->where('id_nucleo', $me->id_nucleo)->paginate(25);
-          if($results->isEmpty()){
-            return back()->with('error', 'Nenhum resultado encontrado.');
-          }else{
-            return view('coordenadores')->with([
-              'user' => $user,
-              'coordenadores' => $results,
-            ]);
-          }
-        }else{
-          $query = $request->input('inputQuery');
-          //$results = Aluno::where('NomeAluno','LIKE','%'.$query.'%')->get();
-          $results = Coordenadores::where('NomeCoordenador','LIKE','%'.$query.'%')->paginate(25);
-          if($results->isEmpty()){
-            return back()->with('error', 'Nenhum resultado encontrado.');
-          }else{
-            return view('coordenadores')->with([
-              'user' => $user,
-              'coordenadores' => $results,
-            ]);
-          }
-        }
-      }
+      $coordenadores = DB::table('coordenadores')
+        ->when($params['inputQuery'], function ($query) use ($params) {
+            return $query->where('coordenadores.NomeCoordenador', 'LIKE', '%' . $params['inputQuery'] . '%');
+        })
+        ->when($params['nucleo'], function ($query) use ($params) {
+            return $query->where('coordenadores.id_nucleo', '=', $params['nucleo']);
+        })
+        ->when($params['status'], function ($query) use ($params) {
+            return $query->where('coordenadores.Status', '=', $params['status'] === 'ativo' ? 1 : 0);
+        })
+        ->paginate(25);
 
-      if($cpf){
-        if($cpf != ''){
-          $result = Coordenadores::where('CPF', $cpf)->count();
-          if($result > 0){
-            return \Response::json(true);
-          }elseif($result === 0){
-            return \Response::json(false);
-          }
-        }
-      }
-
-      if($user->role === 'coordenador'){
-        $myNucleo = Nucleo::find($user->coordenador->id_nucleo);
-        $nucleo = $myNucleo->id;
-      }else if($user->role === 'professor'){
-        $myNucleo = Nucleo::find($user->professor->id_nucleo);
-        $nucleo = $myNucleo->id;
-      }else if($user->role === 'aluno'){
-        $myNucleo = Nucleo::find($user->aluno->id_nucleo);
-        $nucleo = $myNucleo->id;
-      }else{
-        $nucleo = $request->input('nucleo');
-      }
-
-      if($status === NULL && $nucleo === NULL){
-        //$result = Aluno::get();
-        $result = Coordenadores::paginate(25);
-        return view('coordenadores')->with([
-          'nucleo' => $nucleo,
-          'user' => $user,
-          'coordenadores' => $result,
-        ]);
-      }else if($status === NULL){
-        //$result = Aluno::where('id_nucleo', $nucleo)->get();
-        $result = Coordenadores::where('id_nucleo', $nucleo)->paginate(25);
-        return view('coordenadores')->with([
-          'nucleo' => $nucleo,
-          'user' => $user,
-          'coordenadores' => $result,
-        ]);
-      }else if($nucleo === NULL){
-        //$result = Aluno::where('Status', $status)->get();
-        $result = Coordenadores::where('Status', $status)->paginate(25);
-        return view('coordenadores')->with([
-          'nucleo' => $nucleo,
-          'user' => $user,
-          'coordenadores' => $result,
-        ]);
-      }else{
-        //$result = Aluno::where('Status', $status)->where('id_nucleo', $nucleo)->get();
-        $result = Coordenadores::where('Status', $status)->where('id_nucleo', $nucleo)->paginate(25);
-        if($result->isEmpty()){
-          return redirect('coordenadores')->with([
-            'nucleo' => $nucleo,
-            'coordenadores' => $result,
-            'error' => 'Não há coordenadores inativos no momento.',
-          ]);
-        }else{
-          return view('coordenadores')->with([
-            'nucleo' => $nucleo,
-            'user' => $user,
-            'coordenadores' => $result,
-          ]);
-        };
-      }
-
-      if($status === '0'){
-        //$user = Auth::user();
-        $result = Coordenadores::where('Status', 0)->get();
-        if($result->isEmpty()){
-          return redirect('coordenadores')->with([
-            'error' => 'Não há coordenadores inativos no momento.',
-          ]);
-        }
-
-        return view('coordenadores')->with([
-          'user' => $user,
-          'coordenadores' => $result,
-        ]);
-      }
-
-      if($status === '1'){
-        //$user = Auth::user();
-        $result = Coordenadores::where('Status', 1)->get();
-        if($result->isEmpty()){
-          return redirect('coordenadores')->with([
-            'error' => 'Não há coordenadores ativos no momento.',
-          ]);
-        }
-
-        return view('coordenadores')->with([
-          'user' => $user,
-          'coordenadores' => $result,
-        ]);
-      }
-
-      $query = $request->input('inputQuery');
-      $results = Coordenadores::where('NomeCoordenador','LIKE','%'.$query.'%')->get();
-
-      if($results->isEmpty()){
-        return back()->with('error', 'Nenhum resultado encontrado.');
-      }else{
-        return view('coordenadores')->with([
-          'user' => $user,
-          'coordenadores' => $results
-        ]);
-      }
+      return view('coordenadores')->with([
+        'user' => $user,
+        'coordenadores' => $coordenadores,
+      ]);
     }
 
     public function details($id)

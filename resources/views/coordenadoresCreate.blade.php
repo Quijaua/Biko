@@ -2,20 +2,20 @@
 
 @section('content')
     <div class="container">
-        <div>
-            <h2><span><a href="/coordenadores" class="text-primary" style="width: 45px; height: 45px;">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="icon icon-tabler icons-tabler-outline icon-tabler-circle-arrow-left">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M12 21a9 9 0 1 0 0 -18a9 9 0 0 0 0 18" />
-                            <path d="M8 12l4 4" />
-                            <path d="M8 12h8" />
-                            <path d="M12 8l-4 4" />
-                        </svg>
-                    </a></span> Adicionar novo Coordenador(a)</h2>
-        </div>
-
+      <div>
+        <p style="font-size: 35px;"><span><a href="/coordenadores" class="text-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="width: 45px; height: 45px;" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="icon icon-tabler icons-tabler-outline icon-tabler-circle-arrow-left">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M12 21a9 9 0 1 0 0 -18a9 9 0 0 0 0 18" />
+                        <path d="M8 12l4 4" />
+                        <path d="M8 12h8" />
+                        <path d="M12 8l-4 4" />
+                    </svg>
+                </a></span> Adicionar coordenador(a)</p>
+    </div>
         <div class="card">
             <div class="row g-0">
                 <!-- Sidebar Tabs -->
@@ -36,18 +36,20 @@
 
 
                 <!-- Form content -->
-                <div class="col-md-9 p-4">
-                    <div class="row">
-                        <div class="col-8">
-                            <h3 class="mb-4">Meu Perfil</h3>
-                            <div class="mb-3">
-                                <small class="text-muted">
-                                    Pré-cadastro feito em 2025-03-07 08:58:22 | Atualizado em 2025-03-07 08:58:22
-                                </small>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <a class="btn btn-secondary" href="/coordenadores">voltar</a>
+                <div class="col-md-10 p-4">
+               
+                    <div class="row mb-3">
+                      <div class="col-9">
+                          <div>
+                              <h3 class="mb-0">Meu Perfil</h3>
+                              <small class="text-muted">
+                                Pré-cadastro feito em <?php echo date('Y-m-d H:i:s'); ?> |
+                                Atualizado em <?php echo date('Y-m-d H:i:s'); ?>
+                              </small>
+                          </div>
+                      </div>
+                      <div class="col-3 d-flex gap-3 justify-content-end align-items-center">
+                        <a class="btn btn-secondary" href="/coordenadores">voltar</a>
                             <button type="submit" class="btn btn-primary" form="createdForm" id="submitBtn"><span><svg
                                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -58,8 +60,9 @@
                                         <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
                                         <path d="M14 4l0 4l-6 0l0 -4" />
                                     </svg></span> Salvar</button>
-                        </div>
-                    </div>
+                      </div>
+                  </div>
+
                     @if(\Session::has('success'))
                     <div class="row mt-2">
                       <div class="col">
@@ -84,91 +87,152 @@
                         @csrf
                         <div class="tab-content" id="form-tabs-content">
 
-                            <div class="tab-content" id="form-tabs-content">
-                                <div class="tab-pane fade show active" id="pessoal" role="tabpanel">
-                                  <div class="row">
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputNomeCoordenador">Nome do coordenador</label>
-                                        <input type="text" class="form-control" id="inputNomeCoordenador" name="inputNomeCoordenador" aria-describedby="inputNomeCoordenadorHelp" placeholder="Nome completo" value="{{ old('inputNomeCoordenador') }}" required>
+                          <div class="tab-content" id="form-tabs-content">
+                              <div class="tab-pane fade show active" id="pessoal" role="tabpanel">
+                                <div class="row mb-3">
+                                  <div>
+                                      <div class="d-flex justify-content-start align-items-center gap-2 mb-3">
+                                          <span class="text-primary"><svg xmlns="http://www.w3.org/2000/svg"
+                                                  style="width: 30px; height: 30px; h" width="24" height="24"
+                                                  viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                  class="icon icon-tabler icons-tabler-outline icon-tabler-photo">
+                                                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                  <path d="M15 8h.01" />
+                                                  <path
+                                                      d="M3 6a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v12a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3v-12z" />
+                                                  <path d="M3 16l5 -5c.928 -.893 2.072 -.893 3 0l5 5" />
+                                                  <path d="M14 14l1 -1c.928 -.893 2.072 -.893 3 0l3 3" />
+                                              </svg></span>
+                                          <h3 class="mb-0">
+                                              Foto
+                                          </h3>
                                       </div>
-                                    </div>
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputNomeSocial">Nome Social</label>
-                                        <input type="text" class="form-control" id="inputNomeSocial" name="inputNomeSocial" aria-describedby="inputNomeSocialHelp" placeholder="Nome social do coordenador" value="{{ old('inputNomeCoordenador') }}" required>
-                                      </div>
-                                    </div>
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputNucleo">Núcleo</label>
-                                        <select id="nucleo" name="inputNucleo" class="form-select form-control is-invalid" required>
-                                          <option value="" selected>Selecione</option>
-                                          @foreach($nucleos as $nucleo)
-                                          <option <?php if($nucleo->id == old('inputNucleo')){ echo 'selected=selected';} ?> value="{{ $nucleo->id }}">{{ $nucleo->NomeNucleo }}</option>
-                                          @endforeach
-                                        </select>
-                                      </div>
-                                      <div class="mb-3 invalid-feedback d-block">Por favor, selecione um núcleo.</div>
-                                    </div>
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputFuncaoCoordenador">Função</label>
-                                        <input type="text" class="form-control" id="inputFuncaoCoordenador" name="inputFuncaoCoordenador" aria-describedby="inputFuncaoCoordenadorHelp" placeholder="Função no núcleo" value="{{ old('inputFuncaoCoordenador') }}">
-                                      </div>
-                                    </div>
-                                    <div class="col">
-                                      <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="inputRepresentanteCGU" id="inputRepresentanteCGU" value="sim">
-                                        <label class="form-label mb-2" class="form-check-label" for="inputRepresentanteCGU">Representante no CGU</label>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputFoto">Foto</label>
-                                        <input name="inputFoto" type="file" class="form-control-file" id="inputFoto" value="{{ old('inputFoto') }}">
-                                      </div>
-                                    </div>
-                                    <div class="col mt-2">
-                                      <small class="form-text text-muted">Arquivos devem ter menos que <strong>8 MB</strong>.</small>
-                                      <small class="form-text text-muted">Tipos de arquivos permitidos: <strong>png gif jpg jpeg</strong>.</small>
-                                    </div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputCPF">CPF</label>
-                                        <input type="text" class="form-control" id="inputCPF" name="inputCPF" aria-describedby="inputCPFHelp" data-mask="000.000.000-00" placeholder="xxx.xxx.xxx-xx" onblur="checkCPF()" value="{{ old('inputCPF') }}">
-                                      </div>
-                                    </div>
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputRG">RG</label>
-                                        <input type="text" class="form-control" id="inputRG" name="inputRG" aria-describedby="inputRGHelp" data-mask="00.000.000-00" placeholder="xx.xxx.xxx-x" value="{{ old('inputRG') }}">
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputRaca">Raça / Cor</label>
-                                        <select id="raca" name="inputRaca" class="form-select">
-                                          <option selected>Selecione</option>
-                                          <option <?php if(old('inputRaca') == 'negra'){ echo 'selected=selected';} ?> value="negra">Negra</option>
-                                          <option <?php if(old('inputRaca') == 'branca'){ echo 'selected=selected';} ?> value="branca">Branca</option>
-                                          <option <?php if(old('inputRaca') == 'parda'){ echo 'selected=selected';} ?> value="parda">Parda</option>
-                                          <option <?php if(old('inputRaca') == 'amarela'){ echo 'selected=selected';} ?> value="amarela">Amarela</option>
-                                          <option <?php if(old('inputRaca') == 'indigena'){ echo 'selected=selected';} ?> value="indigena">Indígena</option>
-                                        </select>
-                                      </div>
-                                    </div>
 
-                                    <div class="col">
-                                        <div id="povo_indigenas_wrapper" class="mb-3 d-none">
+                                      <div class="d-flex align-items-center">
+                                          <!-- Box do preview/ícone -->
+                                          <div class="avatar avatar-xl rounded border d-flex align-items-center justify-content-center me-3"
+                                              style="width: 96px; height: 96px; background-color: #f8f9fa; overflow: hidden; position: relative;">
+
+                                              <!-- SVG de câmera -->
+                                              <i id="iconCamera" style="font-size: 24px; color: #ccc; z-index: 1;">
+                                                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                      viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                      class="icon icon-tabler icons-tabler-outline icon-tabler-camera-plus">
+                                                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                      <path
+                                                          d="M12 20h-7a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2h1a2 2 0 0 0 2 -2a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1a2 2 0 0 0 2 2h1a2 2 0 0 1 2 2v3.5" />
+                                                      <path d="M16 19h6" />
+                                                      <path d="M19 16v6" />
+                                                      <path d="M9 13a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+                                                  </svg>
+                                              </i>
+
+                                              <!-- Preview da imagem -->
+                                              <img id="previewFoto" src="" alt="Prévia da foto"
+                                                  class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover rounded"
+                                                  style="display: none;" />
+                                          </div>
+                                          <!-- Botão e texto -->
+                                          <div>
+                                              <div class="text-muted mb-3" style="font-size: 12px;">
+                                                  Os arquivos devem estar nos formatos <strong>PDF, JPG ou PNG</strong>,
+                                                  com tamanho máximo de <strong>8 MB</strong>.
+                                              </div>
+                                              <input type="file" id="inputFoto" name="inputFoto" class="d-none">
+                                              <label for="inputFoto" class="btn btn-outline-primary mb-2">Trocar
+                                                  foto</label>
+
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+
+                                  <div class="d-flex justify-content-start align-items-center gap-2 mb-3">
+                                      <span class="text-primary"><svg xmlns="http://www.w3.org/2000/svg"
+                                              style="width: 30px; height: 30px; h" width="24" height="24"
+                                              viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                              stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                              class="icon icon-tabler icons-tabler-outline icon-tabler-user-circle">
+                                              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                              <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                                              <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                                              <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
+                                          </svg></span>
+                                      <h3 class="mb-0">
+                                          Dados Pessoais
+                                      </h3>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-6">
+                                          <div class="mb-3">
+                                              <label for="inputNomeCoordenador">Nome Completo <span
+                                                      class="text-danger">*</span> </label>
+                                              <input type="text" class="form-control" id="inputNomeCoordenador"
+                                                  name="inputNomeCoordenador"
+                                                  aria-describedby="inputNomeCoordenadorHelp"
+                                                  >
+                                          </div>
+                                      </div>
+                                      <div class="col-md-3">
+                                          <div class="mb-3">
+                                              <label for="inputNomeSocial">Nome Social</label>
+                                              <input type="text" class="form-control" id="inputNomeSocial"
+                                                  name="inputNomeSocial" aria-describedby="inputNomeSocialHelp"
+                                                  >
+                                          </div>
+                                      </div>
+
+                                      <div class="col-md-3">
+                                          <div class="mb-3">
+                                              <label for="inputCPF">CPF  <span
+                                                class="text-danger">*</span></label>
+                                              <input type="text" class="form-control" id="inputCPF"
+                                                  name="inputCPF" aria-describedby="inputCPFHelp"
+                                                  data-mask="000.000.000-00" >
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                  <div class="row">
+                                      <div class="col-md-6">
+                                          <div class="mb-3">
+                                              <label for="inputEmail">Email</label>
+                                              <input type="email" class="form-control" id="inputEmail"
+                                                  name="inputEmail" aria-describedby="inputEmailHelp"
+                                                  >
+                                          </div>
+                                      </div>
+                                      <div class="col-md-3">
+                                          <div class="mb-3">
+                                              <label for="inputNascimento">Data de Nascimento</label>
+                                              <input type="date" class="form-control" id="inputNascimento"
+                                                  name="inputNascimento" aria-describedby="inputNascimentoHelp"
+                                                   onblur="getAge()">
+                                          </div>
+                                      </div>
+                                      <div class="col-md-3">
+                                          <div class="mb-3">
+                                              <label for="inputRaca">Raça / Cor</label>
+                                              <select id="raca" name="inputRaca" class="form-select">
+                                                  <option selected>Selecione</option>
+                                                  <option   value="negra">Preta</option>
+                                                  <option   value="branca">Branca</option>
+                                                  <option   value="parda">Parda</option>
+                                                  <option   value="amarela">Amarela</option>
+                                                  <option   value="indigena">Indígena</option>
+                                              </select>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                  <div class="row mb-3">
+
+                                    <div class="col-md-6">
+                                        <div id="povo_indigenas_wrapper" class="d-none">
                                             <label class="form-label mb-2" for="povo_indigenas_id">Povo Indígena</label>
-                                            <select name="povo_indigenas_id" class="form-select" >
+                                            <select name="povo_indigenas_id" class="form-select">
                                                 <option selected disabled>Selecione</option>
                                                 @foreach ($povo_indigenas as $povo_indigena)
                                                     <option value="{{ $povo_indigena->id }}">
@@ -178,10 +242,10 @@
                                         </div>
                                     </div>
 
-                                    <div class="col">
-                                        <div id="terra_indigenas_wrapper" class="mb-3 d-none">
+                                    <div class="col-md-6">
+                                        <div id="terra_indigenas_wrapper" class="d-none">
                                             <label class="form-label mb-2" for="terra_indigenas_id">Terra Indígena</label>
-                                            <select name="terra_indigenas_id" class="form-select" >
+                                            <select name="terra_indigenas_id" class="form-select">
                                                 <option selected disabled>Selecione</option>
                                                 @foreach ($terra_indigenas as $terra_indigena)
                                                     <option value="{{ $terra_indigena->id }}">
@@ -190,59 +254,64 @@
                                             </select>
                                         </div>
                                     </div>
-
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputGenero">Identidade de Gênero</label>
-                                        <select name="inputGenero" class="form-select">
-                                          <option selected>Selecione</option>
-                                          <option <?php if(old('inputGenero') == 'mulher'){ echo 'selected=selected';} ?> value="mulher">Mulher</option>
-                                          <option <?php if(old('inputGenero') == 'homem'){ echo 'selected=selected';} ?> value="homem">Homem</option>
-                                          <option <?php if(old('inputGenero') == 'mulher_trans_cis'){ echo 'selected=selected';} ?> value="mulher_trans_cis">Mulher (Trans ou Cis)</option>
-                                          <option <?php if(old('inputGenero') == 'homem_trans_cis'){ echo 'selected=selected';} ?> value="homem_trans_cis">Homem (Trans ou Cis)</option>
-                                          <option <?php if(old('inputGenero') == 'nao_binarie'){ echo 'selected=selected';} ?> value="nao_binarie">Não Binárie</option>
-                                        </select>
-                                      </div>
-                                    </div>
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="concordaSexoDesignado">Você se identifica com o sexo designado ao nascer?</label>
-                                        <div class="form-check">
-                                          <input class="form-check-input" type="radio" name="concordaSexoDesignado" id="concordaSexoDesignado1" value="1" checked>
-                                          <label class="form-label mb-2" class="form-check-label" for="concordaSexoDesignado1">
-                                            Sim
-                                          </label>
-                                        </div>
-                                        <div class="form-check">
-                                          <input class="form-check-input" type="radio" name="concordaSexoDesignado" id="concordaSexoDesignado2" value="0">
-                                          <label class="form-label mb-2" class="form-check-label" for="concordaSexoDesignado2">
-                                            Não
-                                          </label>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
+                                </div>
+                                
                                   <div class="row">
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputEstadoCivil">Estado Civil</label>
-                                        <select name="inputEstadoCivil" class="form-select">
-                                          <option selected>Selecione</option>
-                                          <option <?php if(old('inputEstadoCivil') == 'solteiro_a'){ echo 'selected=selected';} ?> value="solteiro_a">Solteiro(a)</option>
-                                          <option <?php if(old('inputEstadoCivil') == 'casado_a'){ echo 'selected=selected';} ?> value="casado_a">Casado(a)</option>
-                                          <option <?php if(old('inputEstadoCivil') == 'uniao_estavel'){ echo 'selected=selected';} ?> value="uniao_estavel">União Estável</option>
-                                          <option <?php if(old('inputEstadoCivil') == 'divorciado_a'){ echo 'selected=selected';} ?> value="divorciado_a">Divorciado(a)</option>
-                                          <option <?php if(old('inputEstadoCivil') == 'viuvo_a'){ echo 'selected=selected';} ?> value="viuvo_a">Viúvo(a)</option>
-                                        </select>
+                                      <div class="col-md-3">
+                                          <div class="mb-3">
+                                              <label for="inputEstadoCivil">Estado Civil</label>
+                                              <select name="inputEstadoCivil" class="form-select">
+                                                  <option selected>Selecione</option>
+                                                  <option   value="solteiro_a">Solteiro(a)</option>
+                                                  <option   value="casado_a">Casado(a)</option>
+                                                  <option   value="uniao_estavel">União Estável
+                                                  </option>
+                                                  <option   value="divorciado_a">Divorciado(a)
+                                                  </option>
+                                                  <option   value="viuvo_a">Viúvo(a)</option>
+                                              </select>
+                                          </div>
                                       </div>
-                                    </div>
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputNascimento">Data de Nascimento</label>
-                                        <input type="date" class="form-control" id="inputNascimento" name="inputNascimento" aria-describedby="inputNascimentoHelp" onblur="getAge()" value="{{ old('inputNascimento') }}">
+                                      <div class="col-md-3">
+                                          <div class="mb-3">
+                                              <label for="inputGenero">Identidade de Gênero</label>
+                                              <select name="inputGenero" class="form-select">
+                                                  <option selected>Selecione</option>
+                                                  <option   value="mulher">Mulher</option>
+                                                  <option   value="homem">Homem</option>
+                                                  <option   value="mulher_trans_cis">Mulher (Trans ou
+                                                      Cis)</option>
+                                                  <option   value="homem_trans_cis">Homem (Trans ou
+                                                      Cis)</option>
+                                              </select>
+                                          </div>
                                       </div>
-                                    </div>
+                                      <div class="col-md-6">
+                                          <div class="mb-3">
+                                              <label for="concordaSexoDesignado">Você se identifica com o sexo designado
+                                                  ao nascer?</label><br>
+                                              <div class="form-check form-check-inline">
+                                                  <input class="form-check-input" type="radio"
+                                                      name="concordaSexoDesignado" id="concordaSexoDesignado1"
+                                                      value="1"
+                                                      >
+                                                  <label class="form-check-label" for="concordaSexoDesignado1">
+                                                      Sim
+                                                  </label>
+                                              </div>
+                                              <div class="form-check form-check-inline">
+                                                  <input class="form-check-input" type="radio"
+                                                      name="concordaSexoDesignado" id="concordaSexoDesignado2"
+                                                      value="0"
+                                                      >
+                                                  <label class="form-check-label" for="concordaSexoDesignado2">
+                                                      Não
+                                                  </label>
+                                              </div>
+                                          </div>
+                                      </div>
                                   </div>
+
 
                                   <div class="row">
                                       <div class="col-12 col-md-6">
@@ -250,622 +319,839 @@
                                               <div class="form-label">É pessoa com deficiência?</div>
                                               <div>
                                                   <label class="form-check form-check-inline">
-                                                      <input class="form-check-input" type="radio" name="selecao-deficiencia" value="sim" />
+                                                      <input class="form-check-input" type="radio"
+                                                          name="selecao-deficiencia" value="sim"
+                                                           />
                                                       <span class="form-check-label">Sim</span>
                                                   </label>
                                                   <label class="form-check form-check-inline">
-                                                      <input class="form-check-input" type="radio" name="selecao-deficiencia" value="nao" checked />
+                                                      <input class="form-check-input" type="radio"
+                                                          name="selecao-deficiencia" value="nao"
+                                                         />
                                                       <span class="form-check-label">Não</span>
                                                   </label>
                                               </div>
                                           </div>
                                       </div>
-                                      
+
                                       <div class="col-12 col-md-6">
                                           <div class="mb-3">
-                                              <label class="form-label mb-2" for="pessoa_com_deficiencia">Qual a deficiência?</label>
-                                              <select class="form-select" name="pessoa_com_deficiencia" disabled>
+                                              <label class="form-label mb-2" for="pessoa_com_deficiencia">Qual a
+                                                  deficiência?</label>
+                                              <select class="form-select" name="pessoa_com_deficiencia">
                                                   <option value="" selected>Selecione</option>
-                                                  <option value="A">Auditiva</option>
-                                                  <option value="FM">Física / Motora</option>
-                                                  <option value="V">Visual</option>
-                                                  <option value="I">Intelectual</option>
-                                                  <option value="TEA">TEA – Transtorno do Espectro Autista</option>
-                                                  <option value="S">Surdocegueira</option>
-                                                  <option value="M">Múltipla</option>
+                                                  <option value="A" >Auditiva</option>
+                                                  <option value="FM" >Física / Motora</option>
+                                                  <option value="V" >Visual</option>
+                                                  <option value="I" >Intelectual</option>
+                                                  <option value="TEA" >TEA – Transtorno do
+                                                      Espectro Autista</option>
+                                                  <option value="S" >Surdocegueira</option>
+                                                  <option value="M" >Múltipla</option>
                                               </select>
                                           </div>
                                       </div>
                                   </div>
 
-                                  <div class="row">
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputEscolaridade">Qual a sua escolaridade</label>
-                                        <select name="inputEscolaridade" class="form-select">
-                                          <option selected>Selecione</option>
-                                          <option value="Ensino Médio">Ensino Médio</option>
-                                          <option value="Ensino Superior Completo">Graduação Completa</option>
-                                          <option value="Ensino Superior Cursando">Graduação Cursando</option>
-                                          <option value="Ensino Superior Incompleto">Graduação Incompleta</option>
-                                          <option value="Pós Graduação Completa">Pós Graduação Completa</option>
-                                          <option value="Pós Graduação Cursando">Pós Graduação Cursando</option>
-                                          <option value="Pós Graduação incompleta">Pós Graduação incompleta</option>
-                                          <option value="Ensino Técnico Completo">Ensino Técnico Completo</option>
-                                          <option value="Ensino Técnico Cursando">Ensino Técnico Cursando</option>
-                                          <option value="Ensino Técnico Incompleto">Ensino Técnico Incompleto</option>
-                                        </select>
-                                      </div>
-                                    </div>
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputFormacaoSuperior">Se você esteve/está no ensino superior, qual a sua formação?</label>
-                                        <input type="text" class="form-control" id="inputFormacaoSuperior" name="inputFormacaoSuperior" aria-describedby="inputFormacaoSuperiorHelp" placeholder="Sua formação no ensino superior">
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputAnoInicioUneafro">Desde que ano você está na UNEAFRO?</label>
-                                        <br><br>
-                                        <input type="text" class="form-control" id="inputAnoInicioUneafro" name="inputAnoInicioUneafro" aria-describedby="inputAnoInicioUneafroHelp" placeholder="4 dígitos (Ex. 2021)">
-                                      </div>
-                                    </div>
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="aulasForaUneafro">Fora da UNEAFRO, você dá aulas?</label>
-                                        <br><br>
-                                        <select name="aulasForaUneafro" class="form-select">
-                                          <option selected>Selecione</option>
-                                          <option value="Sim">Sim</option>
-                                          <option value="Não">Não</option>
-                                        </select>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
 
-                                {{-- Endereço --}}
-                                <div class="tab-pane fade" id="endereco" role="tabpanel">
-                                  <h3>ENDEREÇO</h3>
-                                  <div class="row">
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputCEP">CEP</label>
-                                        <input type="text" class="form-control" id="inputCEP" name="inputCEP" aria-describedby="inputCEPHelp" data-mask="00000-000" placeholder="xxxxx-xxx" onblur="checkCEP('#inputCEP')" value="{{ old('inputCEP') }}">
+                                  <div>
+                                      <div class="d-flex justify-content-start align-items-center gap-2 mb-3">
+                                          <span class="text-primary"><svg xmlns="http://www.w3.org/2000/svg"
+                                                  style="width: 30px; height: 30px; h" width="24" height="24"
+                                                  viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                  class="icon icon-tabler icons-tabler-outline icon-tabler-home">
+                                                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                  <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
+                                                  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+                                                  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+                                              </svg></span>
+                                          <h3 class="mb-0">
+                                              Núcleo
+                                          </h3>
                                       </div>
-                                    </div>
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputEndereco">Rua</label>
-                                        <input pattern="([^\s][A-zÀ-ž\s]+)" type="text" class="form-control" id="inputEndereco" name="inputEndereco" aria-describedby="inputEnderecoHelp" placeholder="Rua, Avenida, Logradouro" value="{{ old('inputEndereco') }}">
-                                      </div>
-                                    </div>
                                   </div>
                                   <div class="row">
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputNumero">Número</label>
-                                        <input type="text" class="form-control" id="inputNumero" name="inputNumero" aria-describedby="inputNumeroHelp" placeholder="Número" value="{{ old('inputNumero') }}">
+                                      <div class="col-md-5">
+                                          <div class="mb-3">
+                                              <label class="form-label mb-2" for="inputNucleo">Em qual/quais núcleo(s)
+                                                  que você atua?</label>
+                                              <select name="inputNucleo" class="form-select" required>
+                                                  <option selected>Selecione</option>
+                                                  @foreach ($nucleos as $nucleo)
+                                                      <option value="{{ $nucleo->id }}">
+                                                          {{ $nucleo->NomeNucleo }}</option>
+                                                  @endforeach
+                                              </select>
+                                          </div>
                                       </div>
-                                    </div>
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputComplemento">Complemento</label>
-                                        <input type="text" class="form-control" id="inputComplemento" name="inputComplemento" aria-describedby="inputComplementoHelp" placeholder="Complemento" value="{{ old('inputComplemento') }}">
+                                      <div class="col-3">
+                                          <div class="mb-3">
+                                              <label class="form-label mb-2" for="inputFuncaoCoordenador">Qual sua
+                                                  Função?</label>
+                                              <input type="text" class="form-control" id="inputFuncaoCoordenador"
+                                                  name="inputFuncaoCoordenador"
+                                                  aria-describedby="inputFuncaoCoordenadorHelp"
+                                                  >
+                                          </div>
                                       </div>
-                                    </div>
+                                      <div class="col-4">
+                                          <div class="mb-3">
+                                              <label class="form-label mb-2" for="inputAnoInicioUneafro">Desde que ano
+                                                  você está na UNEAFRO?</label>
+                                              <input type="text" class="form-control" id="inputAnoInicioUneafro"
+                                                  name="inputAnoInicioUneafro"
+                                                  aria-describedby="inputAnoInicioUneafroHelp"
+                                                  placeholder="Ano em que iniciou na UNEAFRO"
+                                                  >
+                                          </div>
+                                      </div>
                                   </div>
                                   <div class="row">
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputBairro">Distrito</label>
-                                        <input type="text" class="form-control" id="inputBairro" name="inputBairro" aria-describedby="inputBairroHelp" placeholder="Bairro" value="{{ old('inputBairro') }}">
+                                      <div class="col">
+                                          <div class="mb-3">
+                                              <label class="form-label mb-2" for="aulasForaUneafro">Fora da UNEAFRO,
+                                                  você dá aulas?</label>
+                                              <select name="aulasForaUneafro" class="form-select">
+                                                  <option selected>Selecione</option>
+                                                  <option value="Sim"
+                                                     >Sim
+                                                  </option>
+                                                  <option value="Não"
+                                                     >Não
+                                                  </option>
+                                              </select>
+                                          </div>
                                       </div>
-                                    </div>
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputCidade">Cidade</label>
-                                        <input type="text" class="form-control" id="inputCidade" name="inputCidade" aria-describedby="inputCidadeHelp" placeholder="Cidade/Município" value="{{ old('inputCidade') }}">
-                                      </div>
-                                    </div>
                                   </div>
-                                  <div class="row">
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputEstado">Estado</label>
-                                        <select id="inputEstado" name="inputEstado" class="form-select">
-                                          <option selected>Selecione</option>
-                                          <option <?php if(old('inputEstado') == 'AC'){ echo 'selected=selected';} ?> value="AC">Acre</option>
-                                          <option <?php if(old('inputEstado') == 'AL'){ echo 'selected=selected';} ?> value="AL">Alagoas</option>
-                                          <option <?php if(old('inputEstado') == 'AP'){ echo 'selected=selected';} ?> value="AP">Amapá</option>
-                                          <option <?php if(old('inputEstado') == 'AM'){ echo 'selected=selected';} ?> value="AM">Amazonas</option>
-                                          <option <?php if(old('inputEstado') == 'BA'){ echo 'selected=selected';} ?> value="BA">Bahia</option>
-                                          <option <?php if(old('inputEstado') == 'CE'){ echo 'selected=selected';} ?> value="CE">Ceará</option>
-                                          <option <?php if(old('inputEstado') == 'DF'){ echo 'selected=selected';} ?> value="DF">Distrito Federal</option>
-                                          <option <?php if(old('inputEstado') == 'ES'){ echo 'selected=selected';} ?> value="ES">Espírito Santo</option>
-                                          <option <?php if(old('inputEstado') == 'GO'){ echo 'selected=selected';} ?> value="GO">Goiás</option>
-                                          <option <?php if(old('inputEstado') == 'MA'){ echo 'selected=selected';} ?> value="MA">Maranhão</option>
-                                          <option <?php if(old('inputEstado') == 'MT'){ echo 'selected=selected';} ?> value="MT">Mato Grosso</option>
-                                          <option <?php if(old('inputEstado') == 'MS'){ echo 'selected=selected';} ?> value="MS">Mato Grosso do Sul</option>
-                                          <option <?php if(old('inputEstado') == 'MG'){ echo 'selected=selected';} ?> value="MG">Minas Gerais</option>
-                                          <option <?php if(old('inputEstado') == 'PA'){ echo 'selected=selected';} ?> value="PA">Pará</option>
-                                          <option <?php if(old('inputEstado') == 'PB'){ echo 'selected=selected';} ?> value="PB">Paraíba</option>
-                                          <option <?php if(old('inputEstado') == 'PR'){ echo 'selected=selected';} ?> value="PR">Paraná</option>
-                                          <option <?php if(old('inputEstado') == 'PE'){ echo 'selected=selected';} ?> value="PE">Pernambuco</option>
-                                          <option <?php if(old('inputEstado') == 'PI'){ echo 'selected=selected';} ?> value="PI">Piauí</option>
-                                          <option <?php if(old('inputEstado') == 'RJ'){ echo 'selected=selected';} ?> value="RJ">Rio de Janeiro</option>
-                                          <option <?php if(old('inputEstado') == 'RN'){ echo 'selected=selected';} ?> value="RN">Rio Grande do Norte</option>
-                                          <option <?php if(old('inputEstado') == 'RS'){ echo 'selected=selected';} ?> value="RS">Rio Grande do Sul</option>
-                                          <option <?php if(old('inputEstado') == 'RO'){ echo 'selected=selected';} ?> value="RO">Rondônia</option>
-                                          <option <?php if(old('inputEstado') == 'RR'){ echo 'selected=selected';} ?> value="RR">Roraima</option>
-                                          <option <?php if(old('inputEstado') == 'SC'){ echo 'selected=selected';} ?> value="SC">Santa Catarina</option>
-                                          <option <?php if(old('inputEstado') == 'SP'){ echo 'selected=selected';} ?> value="SP">São Paulo</option>
-                                          <option <?php if(old('inputEstado') == 'SE'){ echo 'selected=selected';} ?> value="SE">Sergipe</option>
-                                          <option <?php if(old('inputEstado') == 'TO'){ echo 'selected=selected';} ?> value="TO">Tocantins</option>
-                                          <option <?php if(old('inputEstado') == 'EX'){ echo 'selected=selected';} ?> value="EX">Estrangeiro</option>
-                                        </select>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputFoneComercial">Telefone Comercial</label>
-                                        <input type="text" class="form-control" id="inputFoneComercial" name="inputFoneComercial" aria-describedby="inputFoneComercialHelp" data-mask="(00) 0000-0000" placeholder="(xx)xxxx-xxxx" value="{{ old('inputFoneComercial') }}">
-                                      </div>
-                                    </div>
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputFoneResidencial">Telefone Residencial</label>
-                                        <input type="text" class="form-control" id="inputFoneResidencial" name="inputFoneResidencial" aria-describedby="inputFoneResidencialHelp" data-mask="(00) 0000-0000" placeholder="(xx)xxxx-xxxx" value="{{ old('inputFoneResidencial') }}">
-                                      </div>
-                                    </div>
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputFoneCelular">Telefone Celular</label>
-                                        <input type="text" class="form-control" id="inputFoneCelular" name="inputFoneCelular" aria-describedby="inputFoneCelularHelp" data-mask="(00) 0 0000-0000" placeholder="(xx)xxxx-xxxx" value="{{ old('inputFoneCelular') }}">
-                                      </div>
-                                    </div>
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputEmail">Email</label>
-                                        <input type="email" class="form-control" id="inputEmail" name="inputEmail" aria-describedby="inputEmailHelp" placeholder="Endereço de Email" value="{{ old('inputEmail') }}" required>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
 
-                                {{-- Profisssionais --}}
-                                <div class="tab-pane fade" id="profissionais" role="tabpanel">
-                                  <h3>DADOS PROFISSIONAIS</h3>
-                                  <div class="row">
-                                    <div class="col-12 col-md-6">
+                              </div>
+                          </div>
+
+                          {{-- Endereço --}}
+                          <div class="tab-pane fade" id="endereco" role="tabpanel" aria-labelledby="tab-endereco">
+                              <div>
+                                  <div class="d-flex justify-content-start align-items-center gap-2 mb-3">
+                                      <span class="text-primary"><svg xmlns="http://www.w3.org/2000/svg"
+                                              style="width: 30px; height: 30px; h" width="24" height="24"
+                                              viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                              stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                              class="icon icon-tabler icons-tabler-outline icon-tabler-map-pin">
+                                              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                              <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+                                              <path
+                                                  d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z" />
+                                          </svg>
+                                      </span>
+                                      <h3 class="mb-0">
+                                          Endereço
+                                      </h3>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col-md-3">
                                       <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputRamoAtuacao">Você trabalha no ramo da:</label>
-                                        <select id="inputRamoAtuacao" name="inputRamoAtuacao" class="form-select">
-                                          <option value="Educação">Educação</option>
-                                          <option value="Pesquisa">Pesquisa</option>
-                                          <option value="Telemarketing">Telemarketing</option>
-                                          <option value="Comércio">Comércio</option>
-                                          <option value="Indústria">Indústria</option>
-                                          <option value="Construção Civil">Construção Civil</option>
-                                          <option value="Beleza e Cuidados">Beleza e Cuidados</option>
-                                          <option value="Serviços gerais">Serviços gerais</option>
-                                          <option value="Limpeza e Higiene">Limpeza e Higiene</option>
-                                          <option value="Gastronomia/Alimentação">Gastronomia/Alimentação</option>
-                                          <option value="Entrega/Delivery">Entrega/Delivery</option>
-                                          <option value="Saúde/Bem-Estar">Saúde/Bem-Estar</option>
-                                          <option value="Segurança">Segurança</option>
-                                          <option value="Transporte de pessoas/Aplicativos">Transporte de pessoas/Aplicativos</option>
-                                          <option value="Outros">Outros</option>
-                                        </select>
+                                          <span for="inputCEP">CEP (Somente números)</span>
+                                          <input type="text" class="form-control" id="inputCEP" name="inputCEP"
+                                              aria-describedby="inputCEPHelp" data-mask="00000-000"
+                                               onblur="checkCEP('#inputCEP')">
                                       </div>
-                                    </div>
-                                    <div class="col-12 col-md-6">
+                                  </div>
+                                  <div class="col-md-6">
+                                      <div class="mb-3">
+                                          <span for="inputEndereco">Endereço</span>
+                                          <input pattern="([^\s][A-zÀ-ž\s]+)" type="text" class="form-control"
+                                              id="inputEndereco" name="inputEndereco"
+                                              aria-describedby="inputEnderecoHelp" >
+                                      </div>
+                                  </div>
+                                  <div class="col-md-3">
+                                      <div class="mb-3">
+                                          <span for="inputNumero">Número</span>
+                                          <input type="number" class="form-control" id="inputNumero"
+                                              name="inputNumero" aria-describedby="inputNumeroHelp"
+                                              >
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col-md-6">
+                                      <div class="mb-3">
+                                          <span for="inputComplemento">Complemento</span>
+                                          <input type="text" class="form-control" id="inputComplemento"
+                                              name="inputComplemento" aria-describedby="inputComplementoHelp"
+                                              >
+                                      </div>
+                                  </div>
+                                  <div class="col-md-3">
+                                      <div class="mb-3">
+                                          <span for="inputCidade">Cidade</span>
+                                          <input type="text" class="form-control" id="inputCidade"
+                                              name="inputCidade" aria-describedby="inputCidadeHelp"
+                                              >
+                                      </div>
+                                  </div>
+
+                                  <div class="col-md-3">
+                                      <div class="mb-3">
+                                          <span for="inputEstado">Estado</span>
+                                          <select name="inputEstado" class="form-select">
+                                              <option selected>Selecione</option>
+                                              <option  value="AC">Acre</option>
+                                              <option  value="AL">Alagoas</option>
+                                              <option  value="AP">Amapá</option>
+                                              <option  value="AM">Amazonas</option>
+                                              <option  value="BA">Bahia</option>
+                                              <option  value="CE">Ceará</option>
+                                              <option  value="DF">Distrito Federal</option>
+                                              <option  value="ES">Espírito Santo</option>
+                                              <option  value="GO">Goiás</option>
+                                              <option  value="MA">Maranhão</option>
+                                              <option  value="MT">Mato Grosso</option>
+                                              <option  value="MS">Mato Grosso do Sul</option>
+                                              <option  value="MG">Minas Gerais</option>
+                                              <option  value="PA">Pará</option>
+                                              <option  value="PB">Paraíba</option>
+                                              <option  value="PR">Paraná</option>
+                                              <option  value="PE">Pernambuco</option>
+                                              <option  value="PI">Piauí</option>
+                                              <option  value="RJ">Rio de Janeiro</option>
+                                              <option  value="RN">Rio Grande do Norte</option>
+                                              <option  value="RS">Rio Grande do Sul</option>
+                                              <option  value="RO">Rondônia</option>
+                                              <option  value="RR">Roraima</option>
+                                              <option  value="SC">Santa Catarina</option>
+                                              <option  value="SP">São Paulo</option>
+                                              <option  value="SE">Sergipe</option>
+                                              <option  value="TO">Tocantins</option>
+                                              <option  value="EX">Estrangeiro</option>
+                                          </select>
+                                      </div>
+                                  </div>
+
+                              </div>
+                              <div class="row">
+                                  <div class="col-md-4">
+                                      <div class="mb-3">
+                                          <span for="inputFoneComercial">Telefone Comercial</span>
+                                          <input type="phone" class="form-control" id="inputFoneComercial"
+                                              name="inputFoneComercial" aria-describedby="inputFoneComercialHelp"
+                                              data-mask="(00) 0000-0000" >
+                                      </div>
+                                  </div>
+                                  <div class="col-md-4">
+                                      <div class="mb-3">
+                                          <span for="inputFoneResidencial">Telefone Residencial</span>
+                                          <input type="phone" class="form-control" id="inputFoneResidencial"
+                                              name="inputFoneResidencial" aria-describedby="inputFoneResidencialHelp"
+                                              data-mask="(00) 0000-0000" >
+                                      </div>
+                                  </div>
+                                  <div class="col-md-4">
+                                      <div class="mb-3">
+                                          <span for="inputFoneCelular">Telefone Celular</span>
+                                          <input type="phone" class="form-control" id="inputFoneCelular"
+                                              name="inputFoneCelular" aria-describedby="inputFoneCelularHelp"
+                                              data-mask="(00) 0 0000-0000" >
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                          {{-- Profisssionais --}}
+                          <div class="tab-pane fade" id="profissionais" role="tabpanel">
+                              <div class="d-flex justify-content-start align-items-center gap-2 mb-3">
+                                  <span class="text-primary"><svg xmlns="http://www.w3.org/2000/svg"
+                                          style="width: 30px; height: 30px; h" width="24" height="24"
+                                          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                          stroke-linecap="round" stroke-linejoin="round"
+                                          class="icon icon-tabler icons-tabler-outline icon-tabler-address-book">
+                                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                          <path
+                                              d="M20 6v12a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2z" />
+                                          <path d="M10 16h6" />
+                                          <path d="M13 11m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                          <path d="M4 8h3" />
+                                          <path d="M4 12h3" />
+                                          <path d="M4 16h3" />
+                                      </svg>
+                                  </span>
+                                  <h3 class="mb-0">
+                                      Dados Profissionais
+                                  </h3>
+                              </div>
+                              <div class="row">
+                                  <div class="col-12 col-md-6">
+                                      <div class="mb-3">
+                                          <label class="form-label mb-2" for="inputRamoAtuacao">Você trabalha no ramo
+                                              da:</label>
+                                          <select id="inputRamoAtuacao" name="inputRamoAtuacao" class="form-select">
+                                              <option value="Educação"
+                                                  >Educação
+                                              </option>
+                                              <option value="Pesquisa"
+                                                  >Pesquisa
+                                              </option>
+                                              <option value="Telemarketing"
+                                                  >
+                                                  Telemarketing</option>
+                                              <option value="Comércio"
+                                                  >Comércio
+                                              </option>
+                                              <option value="Indústria"
+                                                  >Indústria
+                                              </option>
+                                              <option value="Construção Civil"
+                                                  >
+                                                  Construção Civil</option>
+                                              <option value="Beleza e Cuidados"
+                                                  >Beleza e
+                                                  Cuidados</option>
+                                              <option value="Serviços gerais"
+                                                  >Serviços
+                                                  gerais</option>
+                                              <option value="Limpeza e Higiene"
+                                                  >Limpeza
+                                                  e Higiene</option>
+                                              <option value="Gastronomia/Alimentação"
+                                                  >
+                                                  Gastronomia/Alimentação</option>
+                                              <option value="Entrega/Delivery"
+                                                  >
+                                                  Entrega/Delivery</option>
+                                              <option value="Saúde/Bem-Estar"
+                                                  >
+                                                  Saúde/Bem-Estar</option>
+                                              <option value="Segurança"
+                                                  >
+                                                  Segurança</option>
+                                              <option value="Transporte de pessoas/Aplicativos"
+                                                  >
+                                                  Transporte de pessoas/Aplicativos</option>
+                                              <option value="Outros"
+                                                  >Outros
+                                              </option>
+                                          </select>
+                                      </div>
+                                  </div>
+                                  <div class="col-12 col-md-6">
                                       <label class="form-label mb-2" for="inputRamoAtuacaoOutros">&nbsp;</label>
-                                      <input type="text" class="form-control" id="inputRamoAtuacaoOutros" name="inputRamoAtuacaoOutros" aria-describedby="inputRamoAtuacaoOutrosHelp" placeholder="Outros (Especifique)">
-                                    </div>
+                                      <input type="text" class="form-control" id="inputRamoAtuacaoOutros"
+                                          name="inputRamoAtuacaoOutros" aria-describedby="inputRamoAtuacaoOutrosHelp"
+                                          placeholder="Outros (Especifique)" >
                                   </div>
-                                  <hr>
-                                  <div class="row">
-                                    <div class="col-6">
-                                        <div class="mb-3">
-                                          <label class="form-label mb-2" for="inputProjetosRealizados">Já realizou trabalhos em projetos educacionais/Coletivos/Movimentos Sociais?</label>
+                              </div>
+                              <hr>
+                              <div class="row">
+                                  <div class="col-6">
+                                      <div class="mb-3">
+                                          <label class="form-label mb-2" for="inputProjetosRealizados">Já realizou
+                                              trabalhos em projetos educacionais/Coletivos/Movimentos Sociais?</label>
                                           <div class="form-check form-check-inline">
-                                            <input <?php if(old('inputProjetosRealizados') == 'sim'){ echo 'checked=checked';} ?> class="form-check-input" type="radio" name="inputProjetosRealizados" id="inputProjetosRealizados1" value="sim" onclick="showInput('.projeto-dados')">
-                                            <label class="form-label mb-2" class="form-check-label" for="inputProjetosRealizados1">Sim</label>
+                                              <input   class="form-check-input" type="radio"
+                                                  name="inputProjetosRealizados" id="inputProjetosRealizados1"
+                                                  value="sim" onclick="showInput('.projeto-dados')">
+                                              <label class="form-label mb-2" class="form-check-label"
+                                                  for="inputProjetosRealizados1">Sim</label>
                                           </div>
                                           <div class="form-check form-check-inline">
-                                            <input <?php if(old('inputProjetosRealizados') == 'nao'){ echo 'checked=checked';} ?> class="form-check-input" type="radio" name="inputProjetosRealizados" id="inputProjetosRealizados2" value="nao" onclick="hideInput('.projeto-dados')">
-                                            <label class="form-label mb-2" class="form-check-label" for="inputProjetosRealizados2">Não</label>
+                                              <input   class="form-check-input" type="radio"
+                                                  name="inputProjetosRealizados" id="inputProjetosRealizados2"
+                                                  value="nao" onclick="hideInput('.projeto-dados')">
+                                              <label class="form-label mb-2" class="form-check-label"
+                                                  for="inputProjetosRealizados2">Não</label>
                                           </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-3">
-                                      <div class="mb-3 projeto-dados" style="display:none;">
-                                        <label class="form-label mb-2" for="inputProjetosNome">Nome do projeto</label>
-                                        <input type="text" class="form-control" id="inputProjetosNome" name="inputProjetosNome" aria-describedby="inputProjetosNomeHelp" placeholder="Nome do projeto" value="{{ old('inputProjetosNome') }}">
                                       </div>
-                                    </div>
-                                    <div class="col-3">
-                                      <div id="ProjetosQual" class="mb-3 projeto-dados" style="display:none;">
-                                        <label class="form-label mb-2" for="inputProjetosFuncao">Função exercida</label>
-                                        <input type="text" class="form-control" id="inputProjetosFuncao" name="inputProjetosFuncao" aria-describedby="inputProjetosFuncaoHelp" placeholder="Função exercida" value="{{ old('inputProjetosFuncao') }}">
-                                      </div>
-                                    </div>
-                                    <div class="col-6">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputComoSoube">Como você ficou sabendo do cursinho pré-vestibular da UNEafro Brasil?</label>
-                                        <select id="comoSoube" name="inputComoSoube" class="form-select" onchange="checkComosoube()">
-                                          <option value="" selected>Selecione</option>
-                                          <option <?php if(old('inputComoSoube') == 'internet'){ echo 'selected=selected';} ?> value="internet">Internet</option>
-                                          <option <?php if(old('inputComoSoube') == 'panfleto'){ echo 'selected=selected';} ?> value="panfleto">Panfleto</option>
-                                          <option <?php if(old('inputComoSoube') == 'amigos'){ echo 'selected=selected';} ?> value="amigos">Amigos</option>
-                                          <option <?php if(old('inputComoSoube') == 'jornal'){ echo 'selected=selected';} ?> value="jornal">Jornal</option>
-                                          <option <?php if(old('inputComoSoube') == 'outros'){ echo 'selected=selected';} ?> value="outros">Outros</option>
-                                        </select>
-                                      </div>
-                                    </div>
-                                    <div class="col-6">
-                                      <div id="ComoSoubeOutros" class="mb-3" style="display:none;">
-                                        <label class="form-label mb-2" for="inputComoSoubeOutros">Qual?</label>
-                                        <input type="text" class="form-control" id="inputComoSoubeOutros" name="inputComoSoubeOutros" aria-describedby="inputComoSoubeOutrosHelp" placeholder="Qual" value="{{ old('inputComoSoubeOutros') }}">
-                                      </div>
-                                    </div>
                                   </div>
-                                  <div class="row">
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputMotivoPrincipal">Qual foi o principal motivo que o/a levou a participar do Uneafro?</label>
-                                        <br>
-                                        <textarea class="form-control" name="inputMotivoPrincipal" rows="8">{{ old('inputMotivoPrincipal') }}</textarea>
-                                      </div>
-                                    </div>
+                                  <div class="col-3">
+                                    
+                                          <div class="mb-3 projeto-dados" style="display:none;">
+                                              <label class="form-label mb-2" for="inputProjetosNome">Nome do
+                                                  projeto</label>
+                                              <input type="text" class="form-control" id="inputProjetosNome"
+                                                  name="inputProjetosNome" aria-describedby="inputProjetosNomeHelp"
+                                                  >
+                                          </div>
                                   </div>
-                                </div>
+                                  <div class="col-3">
+                                
+                                          <div id="ProjetosQual" class="mb-3 projeto-dados" style="display:none;">
+                                              <label class="form-label mb-2" for="inputProjetosFuncao">Função
+                                                  exercida</label>
+                                              <input type="text" class="form-control" id="inputProjetosFuncao"
+                                                  name="inputProjetosFuncao" aria-describedby="inputProjetosFuncaoHelp"
+                                                  >
+                                          </div>
+                                    
+                                  </div>
+                                  <div class="col-6">
+                                      <div class="mb-3">
+                                          <label class="form-label mb-2" for="inputComoSoube">Como você ficou sabendo do
+                                              cursinho pré-vestibular da UNEafro Brasil?</label>
+                                          <select id="comoSoube" name="inputComoSoube" class="form-select"
+                                              onchange="checkComosoube()">
+                                              <option selected>Selecione</option>
+                                              <option  value="internet">Internet</option>
+                                              <option  value="panfleto">Panfleto</option>
+                                              <option  value="amigos">Amigos</option>
+                                              <option  value="jornal">Jornal</option>
+                                              <option  value="outros">Outros</option>
+                                          </select>
+                                      </div>
+                                  </div>
+                                      <div class="col-6">
+                                          <div id="ComoSoubeOutros" class="mb-3">
+                                              <label class="form-label mb-2" for="inputComoSoubeOutros">Qual?</label>
+                                              <input type="text" class="form-control" id="inputComoSoubeOutros"
+                                                  name="inputComoSoubeOutros"
+                                                  aria-describedby="inputComoSoubeOutrosHelp"
+                                                  >
+                                          </div>
+                                      </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col">
+                                      <div class="mb-3">
+                                          <label class="form-label mb-2" for="inputMotivoPrincipal">Qual foi o principal
+                                              motivo que o/a levou a participar do Uneafro?</label>
+                                          <br>
+                                          <textarea class="form-control" name="inputMotivoPrincipal" rows="8"></textarea>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div>
+                                      <div class="d-flex justify-content-start align-items-center gap-2 mb-3">
+                                          <span class="text-primary"><svg xmlns="http://www.w3.org/2000/svg"
+                                                  style="width: 30px; height: 30px; h" width="24" height="24"
+                                                  viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                  class="icon icon-tabler icons-tabler-outline icon-tabler-file-certificate">
+                                                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                  <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                                                  <path d="M5 8v-3a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2h-5" />
+                                                  <path d="M6 14m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                                                  <path d="M4.5 17l-1.5 5l3 -1.5l3 1.5l-1.5 -5" />
+                                              </svg>
+                                          </span>
+                                          <h3 class="mb-0">
+                                              Representantes no CGU
+                                          </h3>
+                                      </div>
+                                  </div>
 
-                                {{-- Academicos --}}
-                                <div class="tab-pane fade" id="academicos" role="tabpanel">
-                                  <div class="row">
-                                    <div class="col">
+                                  <div class="col">
                                       <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputEnsinoSuperior"><strong>Ensino Superior</strong></label>
-                                        <select name="inputEnsinoSuperior" class="form-select">
-                                          <option value="" selected>Selecione</option>
-                                          <option <?php if(old('inputEnsinoSuperior') == 'em_curso'){ echo 'selected=selected';} ?> value="em_curso">Em curso</option>
-                                          <option <?php if(old('inputEnsinoSuperior') == 'completo'){ echo 'selected=selected';} ?> value="completo">Completo</option>
-                                          <option <?php if(old('inputEnsinoSuperior') == 'incompleto'){ echo 'selected=selected';} ?> value="incompleto">Incompleto</option>
-                                        </select>
+                                          <label class="form-label mb-2" for="inputRepresentantesCGU1">1º
+                                              Representante</label>
+                                          <input type="text" class="form-control" id="inputRepresentantesCGU1"
+                                              name="inputRepresentantesCGU1"
+                                              aria-describedby="inputRepresentantesCGU1Help"
+                                              >
                                       </div>
-                                    </div>
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputInstituicaoSuperior">Instituição</label>
-                                        <input type="text" class="form-control" id="inputInstituicaoSuperior" name="inputInstituicaoSuperior" aria-describedby="inputInstituicaoSuperiorHelp" placeholder="Instituição em qual cursou" value="{{ old('inputInstituicaoSuperior') }}">
-                                      </div>
-                                    </div>
                                   </div>
-                                  <div class="row">
-                                    <div class="col">
+                                  <div class="col">
                                       <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputCursoSuperior1">Curso 1</label>
-                                        <input type="text" class="form-control" id="inputCursoSuperior1" name="inputCursoSuperior1" aria-describedby="inputCursoSuperior1Help" placeholder="Informe o curso" value="{{ old('inputCursoSuperior1') }}">
+                                          <label class="form-label mb-2" for="inputRepresentantesCGU2">2º
+                                              Representante</label>
+                                          <input type="text" class="form-control" id="inputRepresentantesCGU2"
+                                              name="inputRepresentantesCGU2"
+                                              aria-describedby="inputRepresentantesCGU2Help"
+                                              >
                                       </div>
-                                    </div>
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputAnoCursoSuperior1">Ano</label>
-                                        <select name="inputAnoCursoSuperior1" class="form-select">
-                                          <option value="" selected>Selecione</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '1972'){ echo 'selected=selected';} ?> value="1972">1972</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '1973'){ echo 'selected=selected';} ?> value="1973">1973</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '1974'){ echo 'selected=selected';} ?> value="1974">1974</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '1975'){ echo 'selected=selected';} ?> value="1975">1975</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '1976'){ echo 'selected=selected';} ?> value="1976">1976</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '1977'){ echo 'selected=selected';} ?> value="1977">1977</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '1978'){ echo 'selected=selected';} ?> value="1978">1978</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '1979'){ echo 'selected=selected';} ?> value="1979">1979</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '1980'){ echo 'selected=selected';} ?> value="1980">1980</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '1981'){ echo 'selected=selected';} ?> value="1981">1981</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '1982'){ echo 'selected=selected';} ?> value="1982">1982</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '1983'){ echo 'selected=selected';} ?> value="1983">1983</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '1984'){ echo 'selected=selected';} ?> value="1984">1984</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '1985'){ echo 'selected=selected';} ?> value="1985">1985</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '1986'){ echo 'selected=selected';} ?> value="1986">1986</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '1987'){ echo 'selected=selected';} ?> value="1987">1987</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '1988'){ echo 'selected=selected';} ?> value="1988">1988</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '1989'){ echo 'selected=selected';} ?> value="1989">1989</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '1990'){ echo 'selected=selected';} ?> value="1990">1990</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '1991'){ echo 'selected=selected';} ?> value="1991">1991</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '1992'){ echo 'selected=selected';} ?> value="1992">1992</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '1993'){ echo 'selected=selected';} ?> value="1993">1993</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '1994'){ echo 'selected=selected';} ?> value="1994">1994</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '1995'){ echo 'selected=selected';} ?> value="1995">1995</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '1996'){ echo 'selected=selected';} ?> value="1996">1996</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '1997'){ echo 'selected=selected';} ?> value="1997">1997</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '1998'){ echo 'selected=selected';} ?> value="1998">1998</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '1999'){ echo 'selected=selected';} ?> value="1999">1999</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '2000'){ echo 'selected=selected';} ?> value="2000">2000</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '2001'){ echo 'selected=selected';} ?> value="2001">2001</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '2002'){ echo 'selected=selected';} ?> value="2002">2002</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '2003'){ echo 'selected=selected';} ?> value="2003">2003</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '2004'){ echo 'selected=selected';} ?> value="2004">2004</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '2005'){ echo 'selected=selected';} ?> value="2005">2005</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '2006'){ echo 'selected=selected';} ?> value="2006">2006</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '2007'){ echo 'selected=selected';} ?> value="2007">2007</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '2008'){ echo 'selected=selected';} ?> value="2008">2008</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '2009'){ echo 'selected=selected';} ?> value="2009">2009</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '2010'){ echo 'selected=selected';} ?> value="2010">2010</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '2011'){ echo 'selected=selected';} ?> value="2011">2011</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '2012'){ echo 'selected=selected';} ?> value="2012">2012</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '2013'){ echo 'selected=selected';} ?> value="2013">2013</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '2014'){ echo 'selected=selected';} ?> value="2014">2014</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '2015'){ echo 'selected=selected';} ?> value="2015">2015</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '2016'){ echo 'selected=selected';} ?> value="2016">2016</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '2017'){ echo 'selected=selected';} ?> value="2017">2017</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '2018'){ echo 'selected=selected';} ?> value="2018">2018</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '2019'){ echo 'selected=selected';} ?> value="2019">2019</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '2020'){ echo 'selected=selected';} ?> value="2020">2020</option>
-                                          <option <?php if(old('inputAnoCursoSuperior1') == '2021'){ echo 'selected=selected';} ?> value="2021">2021</option>
-                                        </select>
-                                      </div>
-                                    </div>
                                   </div>
-                                  <div class="row">
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputCursoSuperior2">Curso 2</label>
-                                        <input type="text" class="form-control" id="inputCursoSuperior2" name="inputCursoSuperior2" aria-describedby="inputCursoSuperior2Help" placeholder="Informe o curso" value="{{ old('inputCursoSuperior2') }}">
-                                      </div>
-                                    </div>
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputAnoCursoSuperior2">Ano</label>
-                                        <select name="inputAnoCursoSuperior2" class="form-select">
-                                          <option value="" selected>Selecione</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '1972'){ echo 'selected=selected';} ?> value="1972">1972</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '1973'){ echo 'selected=selected';} ?> value="1973">1973</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '1974'){ echo 'selected=selected';} ?> value="1974">1974</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '1975'){ echo 'selected=selected';} ?> value="1975">1975</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '1976'){ echo 'selected=selected';} ?> value="1976">1976</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '1977'){ echo 'selected=selected';} ?> value="1977">1977</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '1978'){ echo 'selected=selected';} ?> value="1978">1978</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '1979'){ echo 'selected=selected';} ?> value="1979">1979</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '1980'){ echo 'selected=selected';} ?> value="1980">1980</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '1981'){ echo 'selected=selected';} ?> value="1981">1981</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '1982'){ echo 'selected=selected';} ?> value="1982">1982</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '1983'){ echo 'selected=selected';} ?> value="1983">1983</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '1984'){ echo 'selected=selected';} ?> value="1984">1984</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '1985'){ echo 'selected=selected';} ?> value="1985">1985</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '1986'){ echo 'selected=selected';} ?> value="1986">1986</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '1987'){ echo 'selected=selected';} ?> value="1987">1987</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '1988'){ echo 'selected=selected';} ?> value="1988">1988</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '1989'){ echo 'selected=selected';} ?> value="1989">1989</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '1990'){ echo 'selected=selected';} ?> value="1990">1990</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '1991'){ echo 'selected=selected';} ?> value="1991">1991</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '1992'){ echo 'selected=selected';} ?> value="1992">1992</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '1993'){ echo 'selected=selected';} ?> value="1993">1993</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '1994'){ echo 'selected=selected';} ?> value="1994">1994</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '1995'){ echo 'selected=selected';} ?> value="1995">1995</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '1996'){ echo 'selected=selected';} ?> value="1996">1996</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '1997'){ echo 'selected=selected';} ?> value="1997">1997</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '1998'){ echo 'selected=selected';} ?> value="1998">1998</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '1999'){ echo 'selected=selected';} ?> value="1999">1999</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '2000'){ echo 'selected=selected';} ?> value="2000">2000</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '2001'){ echo 'selected=selected';} ?> value="2001">2001</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '2002'){ echo 'selected=selected';} ?> value="2002">2002</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '2003'){ echo 'selected=selected';} ?> value="2003">2003</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '2004'){ echo 'selected=selected';} ?> value="2004">2004</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '2005'){ echo 'selected=selected';} ?> value="2005">2005</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '2006'){ echo 'selected=selected';} ?> value="2006">2006</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '2007'){ echo 'selected=selected';} ?> value="2007">2007</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '2008'){ echo 'selected=selected';} ?> value="2008">2008</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '2009'){ echo 'selected=selected';} ?> value="2009">2009</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '2010'){ echo 'selected=selected';} ?> value="2010">2010</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '2011'){ echo 'selected=selected';} ?> value="2011">2011</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '2012'){ echo 'selected=selected';} ?> value="2012">2012</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '2013'){ echo 'selected=selected';} ?> value="2013">2013</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '2014'){ echo 'selected=selected';} ?> value="2014">2014</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '2015'){ echo 'selected=selected';} ?> value="2015">2015</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '2016'){ echo 'selected=selected';} ?> value="2016">2016</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '2017'){ echo 'selected=selected';} ?> value="2017">2017</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '2018'){ echo 'selected=selected';} ?> value="2018">2018</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '2019'){ echo 'selected=selected';} ?> value="2019">2019</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '2020'){ echo 'selected=selected';} ?> value="2020">2020</option>
-                                          <option <?php if(old('inputAnoCursoSuperior2') == '2021'){ echo 'selected=selected';} ?> value="2021">2021</option>
-                                        </select>
-                                      </div>
-                                    </div>
+                              </div>
+                          </div>
+
+                          {{-- Academicos --}}
+                          <div class="tab-pane fade" id="academicos" role="tabpanel">
+                              <div>
+                                  <div class="d-flex justify-content-start align-items-center gap-2 mb-3">
+                                      <span class="text-primary"><svg xmlns="http://www.w3.org/2000/svg"
+                                              style="width: 30px; height: 30px; h" width="24" height="24"
+                                              viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                              stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                              class="icon icon-tabler icons-tabler-outline icon-tabler-file-certificate">
+                                              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                              <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                                              <path d="M5 8v-3a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2h-5" />
+                                              <path d="M6 14m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                                              <path d="M4.5 17l-1.5 5l3 -1.5l3 1.5l-1.5 -5" />
+                                          </svg>
+                                      </span>
+                                      <h3 class="mb-0">
+                                          Dados Acadêmicos
+                                      </h3>
                                   </div>
-                                  <hr>
-                                  <div class="row">
-                                    <div class="col">
+                              </div>
+                              <div class="row">
+                                  <div class="col">
                                       <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputEspecializacao"><strong>Especialização</strong></label>
-                                        <select name="inputEspecializacao" class="form-select">
-                                          <option value="" selected>Selecione</option>
-                                          <option <?php if(old('inputEspecializacao') == 'em_curso'){ echo 'selected=selected';} ?> value="em_curso">Em curso</option>
-                                          <option <?php if(old('inputEspecializacao') == 'completo'){ echo 'selected=selected';} ?> value="completo">Completo</option>
-                                          <option <?php if(old('inputEspecializacao') == 'incompleto'){ echo 'selected=selected';} ?> value="incompleto">Incompleto</option>
-                                        </select>
+                                          <label class="form-label mb-2" for="inputEnsinoSuperior"><strong>Ensino
+                                                  Superior</strong></label>
+                                          <select name="inputEnsinoSuperior" class="form-select">
+                                              <option selected>Selecione</option>
+                                              <option  value="em_curso">Em curso</option>
+                                              <option  value="completo">Completo</option>
+                                              <option  value="incompleto">Incompleto</option>
+                                          </select>
                                       </div>
-                                    </div>
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputInstEspecializacao">Instituição</label>
-                                        <input type="text" class="form-control" id="inputInstEspecializacao" name="inputInstEspecializacao" aria-describedby="inputInstEspecializacaoHelp" placeholder="Informe a instituição" value="{{ old('inputInstEspecializacao') }}">
-                                      </div>
-                                    </div>
                                   </div>
-                                  <div class="row">
-                                    <div class="col">
+                                  <div class="col">
                                       <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputCursoEspecializacao">Curso</label>
-                                        <input type="text" class="form-control" id="inputCursoEspecializacao" name="inputCursoEspecializacao" aria-describedby="inputCursoEspecializacaoHelp" placeholder="Informe o curso" value="{{ old('inputCursoEspecializacao') }}">
+                                          <label class="form-label mb-2"
+                                              for="inputInstituicaoSuperior">Instituição</label>
+                                          <input type="text" class="form-control" id="inputInstituicaoSuperior"
+                                              name="inputInstituicaoSuperior"
+                                              aria-describedby="inputInstituicaoSuperiorHelp"
+                                              >
                                       </div>
-                                    </div>
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputAnoCursoEspecializacao">Ano de Conclusão</label>
-                                        <select name="inputAnoCursoEspecializacao" class="form-select">
-                                          <option value="" selected>Selecione</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '1972'){ echo 'selected=selected';} ?> value="1972">1972</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '1973'){ echo 'selected=selected';} ?> value="1973">1973</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '1974'){ echo 'selected=selected';} ?> value="1974">1974</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '1975'){ echo 'selected=selected';} ?> value="1975">1975</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '1976'){ echo 'selected=selected';} ?> value="1976">1976</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '1977'){ echo 'selected=selected';} ?> value="1977">1977</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '1978'){ echo 'selected=selected';} ?> value="1978">1978</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '1979'){ echo 'selected=selected';} ?> value="1979">1979</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '1980'){ echo 'selected=selected';} ?> value="1980">1980</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '1981'){ echo 'selected=selected';} ?> value="1981">1981</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '1982'){ echo 'selected=selected';} ?> value="1982">1982</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '1983'){ echo 'selected=selected';} ?> value="1983">1983</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '1984'){ echo 'selected=selected';} ?> value="1984">1984</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '1985'){ echo 'selected=selected';} ?> value="1985">1985</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '1986'){ echo 'selected=selected';} ?> value="1986">1986</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '1987'){ echo 'selected=selected';} ?> value="1987">1987</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '1988'){ echo 'selected=selected';} ?> value="1988">1988</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '1989'){ echo 'selected=selected';} ?> value="1989">1989</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '1990'){ echo 'selected=selected';} ?> value="1990">1990</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '1991'){ echo 'selected=selected';} ?> value="1991">1991</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '1992'){ echo 'selected=selected';} ?> value="1992">1992</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '1993'){ echo 'selected=selected';} ?> value="1993">1993</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '1994'){ echo 'selected=selected';} ?> value="1994">1994</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '1995'){ echo 'selected=selected';} ?> value="1995">1995</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '1996'){ echo 'selected=selected';} ?> value="1996">1996</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '1997'){ echo 'selected=selected';} ?> value="1997">1997</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '1998'){ echo 'selected=selected';} ?> value="1998">1998</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '1999'){ echo 'selected=selected';} ?> value="1999">1999</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '2000'){ echo 'selected=selected';} ?> value="2000">2000</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '2001'){ echo 'selected=selected';} ?> value="2001">2001</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '2002'){ echo 'selected=selected';} ?> value="2002">2002</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '2003'){ echo 'selected=selected';} ?> value="2003">2003</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '2004'){ echo 'selected=selected';} ?> value="2004">2004</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '2005'){ echo 'selected=selected';} ?> value="2005">2005</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '2006'){ echo 'selected=selected';} ?> value="2006">2006</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '2007'){ echo 'selected=selected';} ?> value="2007">2007</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '2008'){ echo 'selected=selected';} ?> value="2008">2008</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '2009'){ echo 'selected=selected';} ?> value="2009">2009</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '2010'){ echo 'selected=selected';} ?> value="2010">2010</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '2011'){ echo 'selected=selected';} ?> value="2011">2011</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '2012'){ echo 'selected=selected';} ?> value="2012">2012</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '2013'){ echo 'selected=selected';} ?> value="2013">2013</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '2014'){ echo 'selected=selected';} ?> value="2014">2014</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '2015'){ echo 'selected=selected';} ?> value="2015">2015</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '2016'){ echo 'selected=selected';} ?> value="2016">2016</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '2017'){ echo 'selected=selected';} ?> value="2017">2017</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '2018'){ echo 'selected=selected';} ?> value="2018">2018</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '2019'){ echo 'selected=selected';} ?> value="2019">2019</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '2020'){ echo 'selected=selected';} ?> value="2020">2020</option>
-                                          <option <?php if(old('inputAnoCursoEspecializacao') == '2021'){ echo 'selected=selected';} ?> value="2021">2021</option>
-                                        </select>
-                                      </div>
-                                    </div>
                                   </div>
-                                  <hr>
-                                  <div class="row">
-                                    <div class="col">
+                              </div>
+                              <div class="row">
+                                  <div class="col">
                                       <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputMestrado"><strong>Mestrado</strong></label>
-                                        <select name="inputMestrado" class="form-select">
-                                          <option value="" selected>Selecione</option>
-                                          <option value="em_curso">Em curso</option>
-                                          <option value="completo">Completo</option>
-                                          <option value="incompleto">Incompleto</option>
-                                        </select>
+                                          <label class="form-label mb-2" for="inputCursoSuperior1">Curso 1</label>
+                                          <input type="text" class="form-control" id="inputCursoSuperior1"
+                                              name="inputCursoSuperior1" aria-describedby="inputCursoSuperior1Help"
+                                              >
                                       </div>
-                                    </div>
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputInstMestrado">Instituição</label>
-                                        <input type="text" class="form-control" id="inputInstMestrado" name="inputInstMestrado" aria-describedby="inputInstMestradoHelp" placeholder="Informe a instituição" value="{{ old('inputInstMestrado') }}">
-                                      </div>
-                                    </div>
                                   </div>
-                                  <div class="row">
-                                    <div class="col">
+                                  <div class="col">
                                       <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputCursoMestrado">Curso</label>
-                                        <input type="text" class="form-control" id="inputCursoMestrado" name="inputCursoMestrado" aria-describedby="inputCursoMestradoHelp" placeholder="Informe o curso" value="{{ old('inputCursoMestrado') }}">
+                                          <label class="form-label mb-2" for="inputAnoCursoSuperior1">Ano</label>
+                                          <select name="inputAnoCursoSuperior1" class="form-select">
+                                              <option selected>Selecione</option>
+                                              <option  value="1972">1972</option>
+                                              <option  value="1973">1973</option>
+                                              <option  value="1974">1974</option>
+                                              <option  value="1975">1975</option>
+                                              <option  value="1976">1976</option>
+                                              <option  value="1977">1977</option>
+                                              <option  value="1978">1978</option>
+                                              <option  value="1979">1979</option>
+                                              <option  value="1980">1980</option>
+                                              <option  value="1981">1981</option>
+                                              <option  value="1982">1982</option>
+                                              <option  value="1983">1983</option>
+                                              <option  value="1984">1984</option>
+                                              <option  value="1985">1985</option>
+                                              <option  value="1986">1986</option>
+                                              <option  value="1987">1987</option>
+                                              <option  value="1988">1988</option>
+                                              <option  value="1989">1989</option>
+                                              <option  value="1990">1990</option>
+                                              <option  value="1991">1991</option>
+                                              <option  value="1992">1992</option>
+                                              <option  value="1993">1993</option>
+                                              <option  value="1994">1994</option>
+                                              <option  value="1995">1995</option>
+                                              <option  value="1996">1996</option>
+                                              <option  value="1997">1997</option>
+                                              <option  value="1998">1998</option>
+                                              <option  value="1999">1999</option>
+                                              <option  value="2000">2000</option>
+                                              <option  value="2001">2001</option>
+                                              <option  value="2002">2002</option>
+                                              <option  value="2003">2003</option>
+                                              <option  value="2004">2004</option>
+                                              <option  value="2005">2005</option>
+                                              <option  value="2006">2006</option>
+                                              <option  value="2007">2007</option>
+                                              <option  value="2008">2008</option>
+                                              <option  value="2009">2009</option>
+                                              <option  value="2010">2010</option>
+                                              <option  value="2011">2011</option>
+                                              <option  value="2012">2012</option>
+                                              <option  value="2013">2013</option>
+                                              <option  value="2014">2014</option>
+                                              <option  value="2015">2015</option>
+                                              <option  value="2016">2016</option>
+                                              <option  value="2017">2017</option>
+                                              <option  value="2018">2018</option>
+                                              <option  value="2019">2019</option>
+                                              <option  value="2020">2020</option>
+                                              <option  value="2021">2021</option>
+                                          </select>
                                       </div>
-                                    </div>
-                                    <div class="col">
-                                      <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputAnoCursoMestrado">Ano de Conclusão</label>
-                                        <select name="inputAnoCursoMestrado" class="form-select">
-                                          <option value="" selected>Selecione</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '1972'){ echo 'selected=selected';} ?> value="1972">1972</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '1973'){ echo 'selected=selected';} ?> value="1973">1973</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '1974'){ echo 'selected=selected';} ?> value="1974">1974</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '1975'){ echo 'selected=selected';} ?> value="1975">1975</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '1976'){ echo 'selected=selected';} ?> value="1976">1976</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '1977'){ echo 'selected=selected';} ?> value="1977">1977</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '1978'){ echo 'selected=selected';} ?> value="1978">1978</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '1979'){ echo 'selected=selected';} ?> value="1979">1979</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '1980'){ echo 'selected=selected';} ?> value="1980">1980</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '1981'){ echo 'selected=selected';} ?> value="1981">1981</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '1982'){ echo 'selected=selected';} ?> value="1982">1982</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '1983'){ echo 'selected=selected';} ?> value="1983">1983</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '1984'){ echo 'selected=selected';} ?> value="1984">1984</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '1985'){ echo 'selected=selected';} ?> value="1985">1985</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '1986'){ echo 'selected=selected';} ?> value="1986">1986</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '1987'){ echo 'selected=selected';} ?> value="1987">1987</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '1988'){ echo 'selected=selected';} ?> value="1988">1988</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '1989'){ echo 'selected=selected';} ?> value="1989">1989</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '1990'){ echo 'selected=selected';} ?> value="1990">1990</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '1991'){ echo 'selected=selected';} ?> value="1991">1991</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '1992'){ echo 'selected=selected';} ?> value="1992">1992</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '1993'){ echo 'selected=selected';} ?> value="1993">1993</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '1994'){ echo 'selected=selected';} ?> value="1994">1994</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '1995'){ echo 'selected=selected';} ?> value="1995">1995</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '1996'){ echo 'selected=selected';} ?> value="1996">1996</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '1997'){ echo 'selected=selected';} ?> value="1997">1997</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '1998'){ echo 'selected=selected';} ?> value="1998">1998</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '1999'){ echo 'selected=selected';} ?> value="1999">1999</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '2000'){ echo 'selected=selected';} ?> value="2000">2000</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '2001'){ echo 'selected=selected';} ?> value="2001">2001</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '2002'){ echo 'selected=selected';} ?> value="2002">2002</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '2003'){ echo 'selected=selected';} ?> value="2003">2003</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '2004'){ echo 'selected=selected';} ?> value="2004">2004</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '2005'){ echo 'selected=selected';} ?> value="2005">2005</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '2006'){ echo 'selected=selected';} ?> value="2006">2006</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '2007'){ echo 'selected=selected';} ?> value="2007">2007</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '2008'){ echo 'selected=selected';} ?> value="2008">2008</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '2009'){ echo 'selected=selected';} ?> value="2009">2009</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '2010'){ echo 'selected=selected';} ?> value="2010">2010</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '2011'){ echo 'selected=selected';} ?> value="2011">2011</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '2012'){ echo 'selected=selected';} ?> value="2012">2012</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '2013'){ echo 'selected=selected';} ?> value="2013">2013</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '2014'){ echo 'selected=selected';} ?> value="2014">2014</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '2015'){ echo 'selected=selected';} ?> value="2015">2015</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '2016'){ echo 'selected=selected';} ?> value="2016">2016</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '2017'){ echo 'selected=selected';} ?> value="2017">2017</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '2018'){ echo 'selected=selected';} ?> value="2018">2018</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '2019'){ echo 'selected=selected';} ?> value="2019">2019</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '2020'){ echo 'selected=selected';} ?> value="2020">2020</option>
-                                          <option <?php if(old('inputAnoCursoMestrado') == '2021'){ echo 'selected=selected';} ?> value="2021">2021</option>
-                                        </select>
-                                      </div>
-                                    </div>
-                                    <input type="hidden" name="inputStatus" value="1">
                                   </div>
-                                  <hr>
-                                  <div class="row">
-                                    <div class="col">
+                              </div>
+                              <div class="row">
+                                  <div class="col">
                                       <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputFormacaoAcademicaRecente">Sua formação acadêmica mais recente é ou foi em instituição pública ou privada?</label>
-                                        <select id="inputFormacaoAcademicaRecente" name="inputFormacaoAcademicaRecente" class="form-select">
-                                          <option value="Sim">Sim</option>
-                                          <option value="Não">Não</option>
-                                        </select>
+                                          <label class="form-label mb-2" for="inputCursoSuperior2">Curso 2</label>
+                                          <input type="text" class="form-control" id="inputCursoSuperior2"
+                                              name="inputCursoSuperior2" aria-describedby="inputCursoSuperior2Help"
+                                              >
                                       </div>
-                                    </div>
                                   </div>
-                                </div>
-                            </div>
+                                  <div class="col">
+                                      <div class="mb-3">
+                                          <label class="form-label mb-2" for="inputAnoCursoSuperior2">Ano</label>
+                                          <select name="inputAnoCursoSuperior2" class="form-select">
+                                              <option selected>Selecione</option>
+                                              <option  value="1972">1972</option>
+                                              <option  value="1973">1973</option>
+                                              <option  value="1974">1974</option>
+                                              <option  value="1975">1975</option>
+                                              <option  value="1976">1976</option>
+                                              <option  value="1977">1977</option>
+                                              <option  value="1978">1978</option>
+                                              <option  value="1979">1979</option>
+                                              <option  value="1980">1980</option>
+                                              <option  value="1981">1981</option>
+                                              <option  value="1982">1982</option>
+                                              <option  value="1983">1983</option>
+                                              <option  value="1984">1984</option>
+                                              <option  value="1985">1985</option>
+                                              <option  value="1986">1986</option>
+                                              <option  value="1987">1987</option>
+                                              <option  value="1988">1988</option>
+                                              <option  value="1989">1989</option>
+                                              <option  value="1990">1990</option>
+                                              <option  value="1991">1991</option>
+                                              <option  value="1992">1992</option>
+                                              <option  value="1993">1993</option>
+                                              <option  value="1994">1994</option>
+                                              <option  value="1995">1995</option>
+                                              <option  value="1996">1996</option>
+                                              <option  value="1997">1997</option>
+                                              <option  value="1998">1998</option>
+                                              <option  value="1999">1999</option>
+                                              <option  value="2000">2000</option>
+                                              <option  value="2001">2001</option>
+                                              <option  value="2002">2002</option>
+                                              <option  value="2003">2003</option>
+                                              <option  value="2004">2004</option>
+                                              <option  value="2005">2005</option>
+                                              <option  value="2006">2006</option>
+                                              <option  value="2007">2007</option>
+                                              <option  value="2008">2008</option>
+                                              <option  value="2009">2009</option>
+                                              <option  value="2010">2010</option>
+                                              <option  value="2011">2011</option>
+                                              <option  value="2012">2012</option>
+                                              <option  value="2013">2013</option>
+                                              <option  value="2014">2014</option>
+                                              <option  value="2015">2015</option>
+                                              <option  value="2016">2016</option>
+                                              <option  value="2017">2017</option>
+                                              <option  value="2018">2018</option>
+                                              <option  value="2019">2019</option>
+                                              <option  value="2020">2020</option>
+                                              <option  value="2021">2021</option>
+                                          </select>
+                                      </div>
+                                  </div>
+                              </div>
+                              <hr>
+                              <div class="row">
+                                  <div class="col">
+                                      <div class="mb-3">
+                                          <label class="form-label mb-2"
+                                              for="inputEspecializacao"><strong>Especialização</strong></label>
+                                          <select name="inputEspecializacao" class="form-select">
+                                              <option selected>Selecione</option>
+                                              <option  value="em_curso">Em curso</option>
+                                              <option  value="completo">Completo</option>
+                                              <option  value="incompleto">Incompleto</option>
+                                          </select>
+                                      </div>
+                                  </div>
+                                  <div class="col">
+                                      <div class="mb-3">
+                                          <label class="form-label mb-2"
+                                              for="inputInstEspecializacao">Instituição</label>
+                                          <input type="text" class="form-control" id="inputInstEspecializacao"
+                                              name="inputInstEspecializacao"
+                                              aria-describedby="inputInstEspecializacaoHelp"
+                                              >
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col">
+                                      <div class="mb-3">
+                                          <label class="form-label mb-2" for="inputCursoEspecializacao">Curso</label>
+                                          <input type="text" class="form-control" id="inputCursoEspecializacao"
+                                              name="inputCursoEspecializacao"
+                                              aria-describedby="inputCursoEspecializacaoHelp"
+                                              >
+                                      </div>
+                                  </div>
+                                  <div class="col">
+                                      <div class="mb-3">
+                                          <label class="form-label mb-2" for="inputAnoCursoEspecializacao">Ano de
+                                              Conclusão</label>
+                                          <select name="inputAnoCursoEspecializacao" class="form-select">
+                                              <option selected>Selecione</option>
+                                              <option  value="1972">1972</option>
+                                              <option  value="1973">1973</option>
+                                              <option  value="1974">1974</option>
+                                              <option  value="1975">1975</option>
+                                              <option  value="1976">1976</option>
+                                              <option  value="1977">1977</option>
+                                              <option  value="1978">1978</option>
+                                              <option  value="1979">1979</option>
+                                              <option  value="1980">1980</option>
+                                              <option  value="1981">1981</option>
+                                              <option  value="1982">1982</option>
+                                              <option  value="1983">1983</option>
+                                              <option  value="1984">1984</option>
+                                              <option  value="1985">1985</option>
+                                              <option  value="1986">1986</option>
+                                              <option  value="1987">1987</option>
+                                              <option  value="1988">1988</option>
+                                              <option  value="1989">1989</option>
+                                              <option  value="1990">1990</option>
+                                              <option  value="1991">1991</option>
+                                              <option  value="1992">1992</option>
+                                              <option  value="1993">1993</option>
+                                              <option  value="1994">1994</option>
+                                              <option  value="1995">1995</option>
+                                              <option  value="1996">1996</option>
+                                              <option  value="1997">1997</option>
+                                              <option  value="1998">1998</option>
+                                              <option  value="1999">1999</option>
+                                              <option  value="2000">2000</option>
+                                              <option  value="2001">2001</option>
+                                              <option  value="2002">2002</option>
+                                              <option  value="2003">2003</option>
+                                              <option  value="2004">2004</option>
+                                              <option  value="2005">2005</option>
+                                              <option  value="2006">2006</option>
+                                              <option  value="2007">2007</option>
+                                              <option  value="2008">2008</option>
+                                              <option  value="2009">2009</option>
+                                              <option  value="2010">2010</option>
+                                              <option  value="2011">2011</option>
+                                              <option  value="2012">2012</option>
+                                              <option  value="2013">2013</option>
+                                              <option  value="2014">2014</option>
+                                              <option  value="2015">2015</option>
+                                              <option  value="2016">2016</option>
+                                              <option  value="2017">2017</option>
+                                              <option  value="2018">2018</option>
+                                              <option  value="2019">2019</option>
+                                              <option  value="2020">2020</option>
+                                              <option  value="2021">2021</option>
+                                          </select>
+                                      </div>
+                                  </div>
+                              </div>
+                              <hr>
+                              <div class="row">
+                                  <div class="col">
+                                      <div class="mb-3">
+                                          <label class="form-label mb-2"
+                                              for="inputMestrado"><strong>Mestrado</strong></label>
+                                          <select name="inputMestrado" class="form-select">
+                                              <option selected>Selecione</option>
+                                              <option  value="em_curso">Em curso</option>
+                                              <option  value="completo">Completo</option>
+                                              <option  value="incompleto">Incompleto</option>
+                                          </select>
+                                      </div>
+                                  </div>
+                                  <div class="col">
+                                      <div class="mb-3">
+                                          <label class="form-label mb-2" for="inputInstMestrado">Instituição</label>
+                                          <input type="text" class="form-control" id="inputInstMestrado"
+                                              name="inputInstMestrado" aria-describedby="inputInstMestradoHelp"
+                                              >
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col">
+                                      <div class="mb-3">
+                                          <label class="form-label mb-2" for="inputCursoMestrado">Curso</label>
+                                          <input type="text" class="form-control" id="inputCursoMestrado"
+                                              name="inputCursoMestrado" aria-describedby="inputCursoMestradoHelp"
+                                              >
+                                      </div>
+                                  </div>
+                                  <div class="col">
+                                      <div class="mb-3">
+                                          <label class="form-label mb-2" for="inputAnoCursoMestrado">Ano de
+                                              Conclusão</label>
+                                          <select name="inputAnoCursoMestrado" class="form-select">
+                                              <option selected>Selecione</option>
+                                              <option  value="1972">1972</option>
+                                              <option  value="1973">1973</option>
+                                              <option  value="1974">1974</option>
+                                              <option  value="1975">1975</option>
+                                              <option  value="1976">1976</option>
+                                              <option  value="1977">1977</option>
+                                              <option  value="1978">1978</option>
+                                              <option  value="1979">1979</option>
+                                              <option  value="1980">1980</option>
+                                              <option  value="1981">1981</option>
+                                              <option  value="1982">1982</option>
+                                              <option  value="1983">1983</option>
+                                              <option  value="1984">1984</option>
+                                              <option  value="1985">1985</option>
+                                              <option  value="1986">1986</option>
+                                              <option  value="1987">1987</option>
+                                              <option  value="1988">1988</option>
+                                              <option  value="1989">1989</option>
+                                              <option  value="1990">1990</option>
+                                              <option  value="1991">1991</option>
+                                              <option  value="1992">1992</option>
+                                              <option  value="1993">1993</option>
+                                              <option  value="1994">1994</option>
+                                              <option  value="1995">1995</option>
+                                              <option  value="1996">1996</option>
+                                              <option  value="1997">1997</option>
+                                              <option  value="1998">1998</option>
+                                              <option  value="1999">1999</option>
+                                              <option  value="2000">2000</option>
+                                              <option  value="2001">2001</option>
+                                              <option  value="2002">2002</option>
+                                              <option  value="2003">2003</option>
+                                              <option  value="2004">2004</option>
+                                              <option  value="2005">2005</option>
+                                              <option  value="2006">2006</option>
+                                              <option  value="2007">2007</option>
+                                              <option  value="2008">2008</option>
+                                              <option  value="2009">2009</option>
+                                              <option  value="2010">2010</option>
+                                              <option  value="2011">2011</option>
+                                              <option  value="2012">2012</option>
+                                              <option  value="2013">2013</option>
+                                              <option  value="2014">2014</option>
+                                              <option  value="2015">2015</option>
+                                              <option  value="2016">2016</option>
+                                              <option  value="2017">2017</option>
+                                              <option  value="2018">2018</option>
+                                              <option  value="2019">2019</option>
+                                              <option  value="2020">2020</option>
+                                              <option  value="2021">2021</option>
+                                          </select>
+                                      </div>
+                                  </div>
+                              </div>
+                              <hr>
+                              <div class="row">
+                                  <div class="col">
+                                      <div class="mb-3">
+                                          <label class="form-label mb-2" for="inputFormacaoAcademicaRecente">Sua
+                                              formação acadêmica mais recente é ou foi em instituição pública ou
+                                              privada?</label>
+                                          <select id="inputFormacaoAcademicaRecente"
+                                              name="inputFormacaoAcademicaRecente" class="form-select">
+                                              <option value="Sim"
+                                                  >Sim
+                                              </option>
+                                              <option value="Não"
+                                                  >Não
+                                              </option>
+                                          </select>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
                     </form>
                 </div>
             </div>
@@ -918,7 +1204,27 @@
             })
         </script>
 
+<script>
+  const inputFoto = document.getElementById('inputFoto');
+  const previewFoto = document.getElementById('previewFoto');
+  const iconCamera = document.getElementById('iconCamera');
 
+  inputFoto.addEventListener('change', function() {
+      const file = this.files[0];
+
+      if (file) {
+          const reader = new FileReader();
+
+          reader.onload = function(e) {
+              previewFoto.setAttribute('src', e.target.result);
+              previewFoto.style.display = 'block';
+              iconCamera.style.display = 'none';
+          };
+
+          reader.readAsDataURL(file);
+      }
+  });
+</script>
     </div>
 @endsection
 

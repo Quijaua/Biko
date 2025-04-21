@@ -26,19 +26,19 @@
                 <form name="listaPresencaForm" action="{{ route('nucleo/presences/new') }}" method="get">
                     @csrf
                     <div class="row">
-                        <div class="col-7">
+                        <div class="col-10">
                             <h1 class="text-[34px]">Listas de Presença</h1>
                         </div>
-                        <div class="col-5">
+                        <div class="col-2">
                             @if (Session::get('role') == 'professor')
                                 <div class="row">
-                                    <!--div class="col-5">
+                                    {{-- <!--div class="col-5">
                                         <?php $today = \Carbon\Carbon::now()->format('Y-m-d'); ?>
                                         <small>Período</small>
                                         <input type="date" class="form-control" id="date" name="date"
                                             aria-describedby="dateHelp" max="{{ $today }}">
-                                    </div-->
-                                    <div class="col-5" style="margin-top: 20px;">
+                                    </div--> --}}
+                                    <div>
                                         <button class="btn btn-primary" type="submit"><svg
                                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -119,7 +119,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row mb-4">
                         @if (Session::get('role') === 'administrador')
                             <div class="col-12">
                                 <div class="mb-3 d-flex justify-content-end">
@@ -144,7 +144,6 @@
                     </div>
                 </form>
             </div>
-        <div class="container">
         
             <div class="rounded border border-gray-300">
                 <form action="/nucleo/presences/search" method="POST" class="p-4 bg-white" role="search">
@@ -188,8 +187,34 @@
                                             @else
                                                 <a class="btn btn-primary mb-2"
                                                     href="{{ route('nucleo/presences/new', ['date' => $lista->date->format('Y-m-d')]) }}"><span><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye-edit"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M11.192 17.966c-3.242 -.28 -5.972 -2.269 -8.192 -5.966c2.4 -4 5.4 -6 9 -6c3.326 0 6.14 1.707 8.442 5.122" /><path d="M18.42 15.61a2.1 2.1 0 0 1 2.97 2.97l-3.39 3.42h-3v-3l3.42 -3.39z" /></svg></span>Ver/Editar</a>
-                                                <a class="btn btn-outline-danger mb-2"
-                                                    href="{{ route('nucleo/presences/destroy', ['id' => $lista->id]) }}">Excluir</a>
+                                                
+                                                    <div class="modal modal-blur fade" id="modalConfirmarExclusao" tabindex="-1" role="dialog" aria-hidden="true">
+                                                        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                                                          <div class="modal-content">
+                                                            <div class="modal-header">
+                                                              <h5 class="modal-title text-danger">Excluir Núcleo</h5>
+                                                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                                                            </div>
+                                                            <div class="modal-body text-center">
+                                                              <p class="mb-0">Deseja excluir este núcleo?
+                                                                Esta ação não podera ser desfeita após a confirmação.</p>
+                                                            </div>
+                                                            
+                                                            <div class="modal-footer">
+                                                              <button type="button" class="btn btn-light" data-bs-dismiss="modal">cancelar</button>
+                                                              <a href="{{ route('nucleo/presences/destroy', ['id' => $lista->id]) }} " class="btn btn-danger" id="btnConfirmarExclusao"><span><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-xbox-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 21a9 9 0 0 0 9 -9a9 9 0 0 0 -9 -9a9 9 0 0 0 -9 9a9 9 0 0 0 9 9z" /><path d="M9 8l6 8" /><path d="M15 8l-6 8" /></svg></span> excluir</a>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                      <a href="#" class="btn btn-outline-danger mb-2"
+                                                      data-bs-toggle="modal"
+                                                      data-bs-target="#modalConfirmarExclusao"
+                                                      data-file-id="{{ $lista->id }}">
+                                                      Excluir
+                                                   </a>
+                                                
+                                                
                                             @endif
                                         </td>
                                     </tr>
@@ -199,7 +224,6 @@
                     </div>
                 </div>
             </div>
-        </div>
 
         <div class="row mt-5">
             <div class="col-12 text-center">
