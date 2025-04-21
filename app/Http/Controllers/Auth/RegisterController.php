@@ -135,7 +135,7 @@ class RegisterController extends Controller
             'filhosQt' => $data['filhosQt'],
             /*'filhosIdade' => $data['filhosIdade'],*/
             'CEP' => $data['inputCEP'],
-            'CEPProprio' => $data['inputCEPProprio'],
+            'CEPProprio' => isset($data['inputCEPProprio']) ? $data['inputCEPProprio'] : NULL,
             'Endereco' => $data['inputEndereco'],
             'Numero' => $data['inputNumero'],
             'Bairro' => isset($data['inputBairro']) ? $data['inputBairro'] : NULL,
