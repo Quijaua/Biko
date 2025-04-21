@@ -27,6 +27,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // ROUTES FOR NUCLEOS MANAGEMENT
+Route::post('nucleos/importar_alunos/{id}', 'AlunosController@importar')->middleware('permissions')->name('alunos.importar');
 Route::get('nucleos', 'NucleoController@index')->middleware('permissions');
 Route::get('nucleos/details/{id}', 'NucleoController@details')->middleware('permissions');
 Route::get('nucleos/add', 'NucleoController@showForm')->middleware('permissions');

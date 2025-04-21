@@ -20,6 +20,7 @@ use Carbon\Carbon;
 use App\Exports\AlunosExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Traits\ActionLogTrait;
+use App\Imports\AlunosImport;
 
 class AlunosController extends Controller
 {
@@ -29,6 +30,15 @@ class AlunosController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+    }
+
+    public function importar(Request $request, $id) {
+        $request->validate([
+            'arquivo' => 'required|mimes:xlsx,xls'
+        ]);
+
+        Excel::import(new AlunosImport($id), $request->file('arquivo'));
+        return back()->with('success', 'Alunos importados com sucesso!');
     }
 
     public function index()
