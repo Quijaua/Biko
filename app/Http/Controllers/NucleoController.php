@@ -56,7 +56,8 @@ class NucleoController extends Controller
       if($user->role === 'administrador'){
         $user = Auth::user();
         //$nucleos = Nucleo::where('Status', 1)->get();
-        $nucleos = Nucleo::where('Status', 1)->paginate(25);
+        //$nucleos = Nucleo::where('Status', 1)->paginate(25);
+        $nucleos = Nucleo::paginate(25);
 
         return view('nucleos')->with([
           'user' => $user,

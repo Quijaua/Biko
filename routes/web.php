@@ -26,6 +26,10 @@ Route::middleware(['auth'])->group(function () {
   Route::post('change_default_username', 'Auth\FirstLoginController@changeUsername')->name('change_default_username');
 });
 
+Route::get('inscricoes-para-cursinho-pre-vestibular-nucleo-yabas', function () {
+    return view('auth.register');
+})->name('register-slug');
+
 // ROUTES FOR NUCLEOS MANAGEMENT
 Route::get('nucleos', 'NucleoController@index')->middleware('permissions');
 Route::get('nucleos/details/{id}', 'NucleoController@details')->middleware('permissions');

@@ -97,7 +97,7 @@
                                         {{ __('Login') }}
                                     </a>
                                     @if (Route::has('register'))
-                                        <a href="{{ route('register') }}" class="btn btn-6" rel="noreferrer">
+                                        <a href="{{ route('register-slug') }}" class="btn btn-6" rel="noreferrer">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                                 stroke-linecap="round" stroke-linejoin="round"

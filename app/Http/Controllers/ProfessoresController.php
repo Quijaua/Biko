@@ -61,7 +61,8 @@ class ProfessoresController extends Controller
       if($user->role === 'administrador'){
         $user = Auth::user();
         //$professores = Professores::where('Status', 1)->get();
-        $professores = Professores::where('Status', 1)->paginate(25);
+        //$professores = Professores::where('Status', 1)->paginate(25);
+        $professores = Professores::paginate(25);
 
         return view('professores')->with([
           'user' => $user,
