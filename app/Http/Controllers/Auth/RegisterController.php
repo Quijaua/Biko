@@ -155,6 +155,8 @@ class RegisterController extends Controller
             'ComoSoubeOutros' => $data['inputComoSoubeOutros'],
             'localizacao_curso' => $data['localizacao_curso'],
             'pessoa_com_deficiencia' => $data['pessoa_com_deficiencia'],
+            'povo_indigenas_id' => $request->input('povo_indigenas_id'),
+            'terra_indigenas_id' => $request->input('terra_indigenas_id'),
         ]);
 
         return User::find($user->id);

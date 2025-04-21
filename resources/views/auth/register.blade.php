@@ -66,14 +66,14 @@
                         <div class="tab-pane active show" id="cidade_do_cursinho">
                             <div class="btn-group mb-4">
                                 <input type="button" class="btn btn-primary w-100" style="max-width: 600px" value="São Paulo"
-                                    onclick="selecionar('São Paulo')">
+                                    onclick="selecionar('São Paulo')" form="registration-form">
                                 <input type="button" class="btn btn-primary w-100" style="max-width: 600px"
-                                    value="Rio de Janeiro" onclick="selecionar('Rio de Janeiro')">
+                                    value="Rio de Janeiro" onclick="selecionar('Rio de Janeiro')" form="registration-form">
                                 <input type="button" class="btn btn-primary w-100" style="max-width: 600px"
-                                    value="Minas Gerais" onclick="selecionar('Minas Gerais')">
+                                    value="Minas Gerais" onclick="selecionar('Minas Gerais')" form="registration-form">
                                 <input type="button" class="btn btn-primary w-100" style="max-width: 600px"
                                     value="Núcleo Virtual - Aulas online para todo Brasil"
-                                    onclick="selecionar('Núcleo Virtual - Aulas online para todo Brasil')">
+                                    onclick="selecionar('Núcleo Virtual - Aulas online para todo Brasil')" form="registration-form">
                             </div>
                         </div>
                         <div class="tab-pane" id="nucleo_do_cursinho">
@@ -285,7 +285,7 @@
                                                         <div class="mb-3">
                                                             <label class="form-label mb-2" for="inputRaca">Raça /
                                                                 Cor</label>
-                                                            <select name="inputRaca" class="form-select">
+                                                            <select id="raca" name="inputRaca" class="form-select">
                                                                 <option value="" selected>Selecione</option>
                                                                 <option value="preta">Preta</option>
                                                                 <option value="branca">Branca</option>
@@ -293,6 +293,34 @@
                                                                 <option value="amarela">Amarela</option>
                                                                 <option value="indigena">Indígena</option>
                                                             </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row mb-3">
+                                                        <div class="col-md-6">
+                                                            <div id="povo_indigenas_wrapper" class="d-none">
+                                                                <label class="form-label mb-2" for="povo_indigenas_id">Povo Indígena</label>
+                                                                <select name="povo_indigenas_id" class="form-select">
+                                                                    <option selected disabled>Selecione</option>
+                                                                    @foreach (\App\PovoIndigena::all() as $povo_indigena)
+                                                                        <option value="{{ $povo_indigena->id }}">
+                                                                            {{ $povo_indigena->label }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div id="terra_indigenas_wrapper" class="d-none">
+                                                                <label class="form-label mb-2" for="terra_indigenas_id">Terra Indígena</label>
+                                                                <select name="terra_indigenas_id" class="form-select">
+                                                                    <option selected disabled>Selecione</option>
+                                                                    @foreach (\App\TerraIndigena::all() as $terra_indigena)
+                                                                        <option value="{{ $terra_indigena->id }}">
+                                                                            {{ $terra_indigena->label }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                     </div>
 
@@ -443,7 +471,6 @@
             <script src='https://www.hCaptcha.com/1/api.js' async defer></script>
             <script>
                 $(document).ready(function() {
-                    console.log('ready');
                     $('select[name=temFilhos').change(function() {
                         if ($(this).val() === '1') {
                             $('#filhos_qt_wrapper').fadeIn();
@@ -457,6 +484,19 @@
                             $('select[name=pessoa_com_deficiencia]').prop('disabled', false);
                         } else {
                             $('select[name=pessoa_com_deficiencia]').prop('disabled', true);
+                        }
+                    })
+
+                    $('#raca').on('change', function() {
+                        let raca = $(this).val();
+                        if (raca == 'indigena') {
+                            $('#povo_indigenas_wrapper').removeClass('d-none');
+                            $('#terra_indigenas_wrapper').removeClass('d-none');
+                        } else {
+                            $('#povo_indigenas_id').val(0);
+                            $('#terra_indigenas_id').val(0);
+                            $('#povo_indigenas_wrapper').addClass('d-none');
+                            $('#terra_indigenas_wrapper').addClass('d-none');
                         }
                     })
                 });

@@ -221,7 +221,6 @@
                                 </div>
 
                                 <div class="row mb-3">
-
                                     <div class="col-md-6">
                                         <div id="povo_indigenas_wrapper" class="d-none">
                                             <label class="form-label mb-2" for="povo_indigenas_id">Povo Indígena</label>
