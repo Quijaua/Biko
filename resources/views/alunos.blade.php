@@ -196,11 +196,9 @@
                   @if($aluno->Status === 1)
                   <span class="status-badge status-ativo">
                     Ativo
-                    Ativo
                   </span>
                   @else
                   <span class="status-badge status-inativo">
-                    Inativo
                     Inativo
                   </span>
                   @endif
@@ -251,6 +249,7 @@
                     <a href="/alunos/disable/{{ $aluno->id }}">
                       <span class="status-btn status-inativo">
                         <span class="status-circle"></span>
+                        Inativar
                       </span>
                     </a>
                     @endif
