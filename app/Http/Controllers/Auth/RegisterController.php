@@ -111,7 +111,7 @@ class RegisterController extends Controller
 
         $my_token = app('auth.password.broker')->createToken($user);
 
-        $nucleo = $data['inputNucleo'];
+        $nucleo = $data['inputNucleoStep'];
         $myNucleo = Nucleo::find($nucleo);
         Session::put('verified',$user->email_verified_at);
 
