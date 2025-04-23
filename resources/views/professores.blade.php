@@ -93,7 +93,7 @@
                         <div class="col-md-4">
                             <select class="form-select" id="status" name="status">
                                 <option value="" @selected(request('status') == '')>Situação</option>
-                                <option value="ativo" @selected(request('status') == 'ativo')>Ativos</option>
+                                <option value="ativo" @selected(request('status') == 'ativo')>Ativo</option>
                                 <option value="inativo" @selected(request('status') == 'inativo')>Inativo</option>
                             </select>
                         </div>
@@ -204,11 +204,11 @@
                                                 <td>
                                                     @if ($professor->Status === 1)
                                                         <span class="status-badge status-ativo">
-                                                            Ativar
+                                                            Ativo
                                                         </span>
                                                     @else
                                                         <span class="status-badge status-inativo">
-                                                            Inativar
+                                                            Inativo
                                                         </span>
                                                     @endif
                                                 </td>
@@ -246,18 +246,22 @@
                                                                     <path d="M16 5l3 3" />
                                                                 </svg></span> Editar
                                                         </a>
+
                                                         @if ($professor->Status === 1)
-                                                            <a href="/professores/disable/{{ $professor->id }}">
-                                                                <span class="status-btn status-ativo">
-                                                                    Ativar
+<!--                                                            <a href="/professores/disable/{{ $professor->id }}"> -->
+                                                            <a onclick="modalShow('Inativar professor', 'Tem certeza que deseja inativar esse professor?', 'danger', e => window.location.href = '/professores/disable/{{ $professor->id }}');">
+
+                                                                <span class="status-btn status-inativo ms-8">
                                                                     <span class="status-circle"></span>
+                                                                    Inativar
                                                                 </span>
                                                             </a>
                                                         @else
-                                                            <a onclick="modalShow('Inativar professor', 'Tem certeza que deseja inativar esse professor?', 'danger', e => window.location.href = '/professores/enable/{{ $professor->id }}');">
-                                                                <span class="status-btn status-inativo">
+                                                            <a href="/professores/enable/{{ $professor->id }}">
+<!--                                                            <a onclick="modalShow('Inativar professor', 'Tem certeza que deseja inativar esse professor?', 'danger', e => window.location.href = '/professores/enable/{{ $professor->id }}');"> -->
+                                                                <span class="status-btn status-ativo ms-8">
+                                                                    Ativar
                                                                     <span class="status-circle"></span>
-                                                                    Inativar
                                                                 </span>
                                                             </a>
                                                         @endif
