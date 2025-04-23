@@ -335,32 +335,36 @@
                                 </div>
 
                                 <div class="row mb-3">
-                                    <div class="col-md-3">
-                                        <label class="form-label mb-2" for="temFilhos">Tem filhos?</label>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="temFilhos"
-                                                id="temFilhos1" value="1"
-                                                @if ($dados->temFilhos === 1) {{ 'checked' }} @endif >
-                                            <label class="form-label mb-2" class="form-check-label" for="temFilhos1">
-                                                Sim
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="temFilhos"
-                                                id="temFilhos2" value="0"
-                                                @if ($dados->temFilhos === 0) {{ 'checked' }} @endif >
-                                            <label class="form-label mb-2" class="form-check-label" for="temFilhos2">
-                                                Não
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div>
-                                            <label class="form-label mb-2" for="filhosQt">Quantos?</label>
-                                            <input class="form-control" type="number" id="filhosQt" name="filhosQt"
-                                                value="{{ $dados->filhosQt }}" >
-                                        </div>
-                                    </div>
+<div class="col-md-3">
+    <label class="form-label mb-2" for="temFilhos">Tem filhos?</label>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="temFilhos"
+            id="temFilhos1" value="1"
+            @if ($dados->temFilhos === 1) checked @endif >
+        <label class="form-label mb-2" class="form-check-label" for="temFilhos1">
+            Sim
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="temFilhos"
+            id="temFilhos2" value="0"
+            @if ($dados->temFilhos === 0) checked @endif >
+        <label class="form-label mb-2" class="form-check-label" for="temFilhos2">
+            Não
+        </label>
+    </div>
+</div>
+
+<div class="col-md-3" id="quantosWrapper" style="{{ $dados->temFilhos === 1 ? '' : 'display:none;' }}">
+    <div>
+        <label class="form-label mb-2" for="filhosQt">Quantos?</label>
+        <input class="form-control" type="number" id="filhosQt" name="filhosQt"
+            value="{{ $dados->filhosQt }}" >
+    </div>
+</div>
+
+
+
                                     <div class="col-md-6">
                                         <div>
                                             <label class="form-label mb-2" for="inputAuxGoverno">A família recebe algum
@@ -1481,6 +1485,22 @@
 
             reader.readAsDataURL(file);
         }
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const temFilhosRadios = document.querySelectorAll('input[name="temFilhos"]');
+        const quantosWrapper = document.getElementById('quantosWrapper');
+
+        temFilhosRadios.forEach(radio => {
+            radio.addEventListener('change', function () {
+                if (this.value === '1') {
+                    quantosWrapper.style.display = 'block';
+                } else {
+                    quantosWrapper.style.display = 'none';
+                }
+            });
+        });
     });
 </script>
     </div>
