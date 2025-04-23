@@ -544,7 +544,6 @@
                     inputNucleo.innerHTML = `
                     <option value="">Selecione</option>
                     <option value="${nucleo.id}">${nucleo.Regiao ?? ''} - ${nucleo.NomeNucleo} - ${nucleo.InfoInscricao ?? ''}</option>`
-                    inputNucleo.appendChild(createOption)
                   }
                 }
 
@@ -586,7 +585,6 @@
                     const select = document.getElementById("inputNucleo");
                     const selectedOption = select.options[select.selectedIndex];
 
-                    console.log(selectedOption);
                     nucleoSelecionadoId = selectedOption.value;
                     nucleoSelecionadoTexto = selectedOption.text;
                     resultadoNucleo.classList.remove("d-none");

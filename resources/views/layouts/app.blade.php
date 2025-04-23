@@ -1220,11 +1220,6 @@
     </div>
     </div>
 
-    <!-- Botão para abrir o modal -->
-<button class="btn btn-primary" id="openModalBtn">
-    Abrir Modal
-  </button>
-  
   <!-- Modal -->
   <div class="modal fade" id="modalInfo" tabindex="-1" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
