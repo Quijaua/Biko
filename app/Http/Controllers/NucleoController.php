@@ -15,12 +15,15 @@ use App\ListaPresenca;
 use App\Frequencia;
 use App\Disciplina;
 
-
 class NucleoController extends Controller
 {
     public function __construct()
     {
       $this->middleware('auth');
+    }
+
+    public function estado(Request $request, $estado) {
+      return response()->json(DB::table('nucleos')->where('status', 1)->where('estado', $estado)->get());
     }
 
     public function index()

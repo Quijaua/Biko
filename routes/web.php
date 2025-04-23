@@ -39,6 +39,7 @@ Route::post('nucleos/importar_alunos/{id}', 'AlunosController@importar')->middle
 Route::get('nucleos', 'NucleoController@index')->middleware('permissions');
 Route::get('nucleos/details/{id}', 'NucleoController@details')->middleware('permissions');
 Route::get('nucleos/add', 'NucleoController@showForm')->middleware('permissions');
+Route::get("nucleo/{estado}", 'NucleoController@estado');
 Route::post('nucleos/create', 'NucleoController@create')->middleware('permissions');
 Route::get('nucleos/edit/{id}', 'NucleoController@edit')->middleware('permissions');
 Route::post('nucleos/update/{id}', 'NucleoController@update')->middleware('permissions');

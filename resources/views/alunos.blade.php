@@ -246,7 +246,7 @@
                       </span>
                     </a>
                     @else
-                    <a href="/alunos/disable/{{ $aluno->id }}">
+                    <a onclick="e => e.preventDefault(); modalShow('Inativar aluno', 'Tem certeza que deseja inativar esse aluno?', 'danger', e => window.location.href = '/alunos/disable/{{ $aluno->id }}');">
                       <span class="status-btn status-inativo">
                         <span class="status-circle"></span>
                         Inativar

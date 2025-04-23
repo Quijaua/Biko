@@ -1220,6 +1220,32 @@
     </div>
     </div>
 
+    <!-- Botão para abrir o modal -->
+<button class="btn btn-primary" id="openModalBtn">
+    Abrir Modal
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="modalInfo" tabindex="-1" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        
+        <div class="modal-header">
+          <h5 class="modal-title">Título do Modal</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+  
+        <div class="modal-body">
+          <p>Conteúdo do modal aqui.</p>
+        </div>
+  
+        <div class="modal-footer">
+          <button type="button" class="btn btn-link" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="modalConfirm">Confirmar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
     <script src="{{ asset('dist/js/tabler.min.js?1738096684') }}"></script>
     </div>
