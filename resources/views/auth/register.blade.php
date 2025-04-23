@@ -13,7 +13,8 @@
                     <ul class="nav nav-tabs card-header-tabs steps-tabs justify-content-center" data-bs-toggle="tabs">
                     <li id="step-back" class="nav-item d-none">
                         <a id="step-back-link" href="javascript:void(0)" class="nav-link">
-                        <span class="step-circle"><-</span>
+                        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-left"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M5 12l6 6" /><path d="M5 12l6 -6" /></svg>
+                        <!-- <span class="step-circle"><-</span> -->
                         </a>
                     </li>
                     <li class="nav-item">
@@ -35,7 +36,7 @@
                 </div>
                 
                 <div class="card-body">
-                    {{-- REsultados --}}
+                    {{-- Resultados --}}
                     <div class="d-flex flex-column justify-content-center align-items-center mb-4">
 
                         <div id="resultadoLocal"
@@ -98,6 +99,7 @@
                                     <small id="nucleoHelp" class="form-text text-muted">
                                         Por favor, informe o núcleo do seu interesse.
                                     </small>
+                                  </a>
 
                                 </div>
                             </div>
@@ -383,7 +385,7 @@
                                                     </div>
 
                                                     {{-- Tem filhos --}}
-                                                    <div class="col-12 col-md-6">
+                                                    <div class="col-12 col-md-3">
                                                         <div class="mb-3">
                                                             <label class="form-label mb-2" for="temFilhos">Tem
                                                                 filhos?</label>
@@ -393,7 +395,7 @@
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    <div class="col-12 col-md-6">
+                                                    <div class="col-12 col-md-3">
                                                         <div id="filhos_qt_wrapper" style="display: none;">
                                                             <div class="mb-3">
                                                                 <label class="form-label mb-2" for="filhosQt">Quantos?</label>
@@ -438,24 +440,20 @@
                                                 </div>
 
                                                 <input id="role" type="hidden" name="role" value="aluno">
-                        <div class="row">
-                            <div class="col">
-                                                <div class="h-captcha"
-                                                    data-sitekey="{{ config('services.hcaptcha.site_key') }}"></div>
-                            </div>
-                            </div>
-
-
-                                                <div class="mb-3 row mt-3 mb-0">
-                            <div class="btn-list">
-                                                        <a href="javascript:history.back()" class="btn btn-1">
-                                                            {{ __('voltar') }}
-                                </a>
-                                                        <button type="submit" class="btn btn-primary btn-2">
-                                                            {{ __('Enviar pré-cadastrar') }}
-                                                        </button>
-                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="h-captcha"
+                                                        data-sitekey="{{ config('services.hcaptcha.site_key') }}"></div>
                                                 </div>
+                                            </div>
+
+                                            <div class="mb-3 row mt-3 mb-0">
+                                                <div class="btn-list">
+                                                    <button type="submit" class="btn btn-primary btn-2">
+                                                        {{ __('Enviar pré-cadastrar') }}
+                                                    </button>
+                                                </div>
+                                            </div>
                                             </form>
                                         </div>
                                     </div>
