@@ -22,10 +22,6 @@ class NucleoController extends Controller
       $this->middleware('auth');
     }
 
-    public function estado(Request $request, $estado) {
-      return response()->json(DB::table('nucleos')->where('status', 1)->where('estado', $estado)->get());
-    }
-
     public function index()
     {
       $user = Auth::user();

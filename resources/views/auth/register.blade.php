@@ -536,20 +536,26 @@
                 let estadoSelecionado = ''
 
                 async function buscarNucleos(estado) {
-                  const nucleos = await fetch(`nucleo/${estado}`, {
+                  const nucleos = await fetch(`nucleo/estados/${estado}`, {
                     method: 'GET'
                   }).then(response => response.json())
 
-                  for(let nucleo of nucleos) {
+
                     inputNucleo.innerHTML = `
-                    <option value="">Selecione</option>
+                    <option value="">Selecione</option>`
+                  for(let nucleo of nucleos) {
+                    inputNucleo.innerHTML += `
                     <option value="${nucleo.id}">${nucleo.Regiao ?? ''} - ${nucleo.NomeNucleo} - ${nucleo.InfoInscricao ?? ''}</option>`
                   }
                 }
 
                 function selecionar(valor) {
                     let indexEstado = estados.findIndex(el => el.nome == valor)
-                    estadoSelecionado = estados[indexEstado].sigla
+                    if(indexEstado >= 0) {
+                        estadoSelecionado = estados[indexEstado].sigla
+                    } else {
+                        estadoSelecionado = 'all'
+                    }
                     buscarNucleos(estadoSelecionado)
                     localSelecionado = valor;
                     document.getElementById("resultado").innerText = localSelecionado;

@@ -39,7 +39,13 @@ Route::post('nucleos/importar_alunos/{id}', 'AlunosController@importar')->middle
 Route::get('nucleos', 'NucleoController@index')->middleware('permissions');
 Route::get('nucleos/details/{id}', 'NucleoController@details')->middleware('permissions');
 Route::get('nucleos/add', 'NucleoController@showForm')->middleware('permissions');
-Route::get("nucleo/{estado}", 'NucleoController@estado');
+Route::get("nucleo/estados/{estado}", function(Request $request, $estado) {
+    $query = DB::table('nucleos')->where('status', 1);
+    if($estado != 'all') {
+      $query->where('estado', $estado);
+    }
+    return response()->json($query->get());
+});
 Route::post('nucleos/create', 'NucleoController@create')->middleware('permissions');
 Route::get('nucleos/edit/{id}', 'NucleoController@edit')->middleware('permissions');
 Route::post('nucleos/update/{id}', 'NucleoController@update')->middleware('permissions');
