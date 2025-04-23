@@ -88,11 +88,11 @@
                                     <select id="inputNucleo" name="inputNucleo" class="form-select" required
                                         onchange="atualizarNucleo()" form="registration-form">
                                         <option value="">Selecione</option>
-                                        @foreach ($nucleos as $nucleo)
+                                        {{-- @foreach ($nucleos as $nucleo)
                                             <option value="{{ $nucleo->id }}">
                                                 {{ $nucleo->Regiao }} - {{ $nucleo->NomeNucleo }} - {{ $nucleo->InfoInscricao }}
                                             </option>
-                                        @endforeach
+                                        @endforeach --}}
                                     </select>
 
                                     <small id="nucleoHelp" class="form-text text-muted">
@@ -502,11 +502,56 @@
                 });
             </script>
             <script>
+                const estados = [
+                    {"nome": "Acre", "sigla": "AC"},
+                    {"nome": "Alagoas", "sigla": "AL"},
+                    {"nome": "Amapá", "sigla": "AP"},
+                    {"nome": "Amazonas", "sigla": "AM"},
+                    {"nome": "Bahia", "sigla": "BA"},
+                    {"nome": "Ceará", "sigla": "CE"},
+                    {"nome": "Distrito Federal", "sigla": "DF"},
+                    {"nome": "Espírito Santo", "sigla": "ES"},
+                    {"nome": "Goiás", "sigla": "GO"},
+                    {"nome": "Maranhão", "sigla": "MA"},
+                    {"nome": "Mato Grosso", "sigla": "MT"},
+                    {"nome": "Mato Grosso do Sul", "sigla": "MS"},
+                    {"nome": "Minas Gerais", "sigla": "MG"},
+                    {"nome": "Pará", "sigla": "PA"},
+                    {"nome": "Paraíba", "sigla": "PB"},
+                    {"nome": "Paraná", "sigla": "PR"},
+                    {"nome": "Pernambuco", "sigla": "PE"},
+                    {"nome": "Piauí", "sigla": "PI"},
+                    {"nome": "Rio de Janeiro", "sigla": "RJ"},
+                    {"nome": "Rio Grande do Norte", "sigla": "RN"},
+                    {"nome": "Rio Grande do Sul", "sigla": "RS"},
+                    {"nome": "Rondônia", "sigla": "RO"},
+                    {"nome": "Roraima", "sigla": "RR"},
+                    {"nome": "Santa Catarina", "sigla": "SC"},
+                    {"nome": "São Paulo", "sigla": "SP"},
+                    {"nome": "Sergipe", "sigla": "SE"},
+                    {"nome": "Tocantins", "sigla": "TO"}
+                ]
                 let localSelecionado = "";
                 let stepFrom = 1;
+                let estadoSelecionado = ''
+
+                async function buscarNucleos(estado) {
+                  const nucleos = await fetch(`nucleo/${estado}`, {
+                    method: 'GET'
+                  }).then(response => response.json())
+
+                  for(let nucleo of nucleos) {
+                    inputNucleo.innerHTML = `
+                    <option value="">Selecione</option>
+                    <option value="${nucleo.id}">${nucleo.Regiao ?? ''} - ${nucleo.NomeNucleo} - ${nucleo.InfoInscricao ?? ''}</option>`
+                    inputNucleo.appendChild(createOption)
+                  }
+                }
 
                 function selecionar(valor) {
-                    console.log(valor);
+                    let indexEstado = estados.findIndex(el => el.nome == valor)
+                    estadoSelecionado = estados[indexEstado].sigla
+                    buscarNucleos(estadoSelecionado)
                     localSelecionado = valor;
                     document.getElementById("resultado").innerText = localSelecionado;
                     const resultadoLocal = document.getElementById("resultadoLocal");

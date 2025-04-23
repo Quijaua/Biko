@@ -254,7 +254,7 @@
                                                                 </span>
                                                             </a>
                                                         @else
-                                                            <a href="/professores/enable/{{ $professor->id }}">
+                                                            <a onclick="modalShow('Inativar professor', 'Tem certeza que deseja inativar esse professor?', 'danger', e => window.location.href = '/professores/enable/{{ $professor->id }}');">
                                                                 <span class="status-btn status-inativo">
                                                                     <span class="status-circle"></span>
                                                                     Inativar
