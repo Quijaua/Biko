@@ -22,28 +22,6 @@
         @endif
       </div>
     </div>
-   
-
-
-    <div class="container">
-        @if($user->role != 'aluno' && $user->role != 'professor')
-        <div class="row">
-            <div class="col-6 m-auto">
-                <form action="" method="POST" role="search">
-                    @csrf
-                    <div class="input-group d-flex justify-content-center align-center">
-                        <input type="text" class="form-control" name="inputQuery"
-                            placeholder="Buscar aula" required> <span class="input-group-btn">
-                            <button type="submit" class="btn-link text-decoration-none">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </span>
-                    </div>
-                </form>
-            </div>
-        </div>
-        @endif
-    </div>
     @if(session::has('success'))
     <div class="row mt-2">
         <div class="col-6 m-auto">
@@ -62,7 +40,8 @@
             </div>
     </div>
     @endif
- 
+</div></div>
+
     <div class="container">
     <div class="row drow-deck drow-cards">
         <div class="col-12">
@@ -70,7 +49,7 @@
             <p>Nenhum registro encontrado.</p>
             @else
                 @foreach($aulas as $aula)
-                <div class="col-md-6 p-2 h-25" style="float:left;margin-bottom:150px">
+                <div class="col-md-6 p-2 h-25" style="float:left;margin-bottom:50px">
                 <div class="card mb-8">
                     <div class="card-header">
                         <div class="col-6">
