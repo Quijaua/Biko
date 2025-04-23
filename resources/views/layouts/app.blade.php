@@ -1221,7 +1221,7 @@
     </div>
 
   <!-- Modal -->
-  <div class="modal fade" id="modalInfo" tabindex="-1" style="display: none;" aria-hidden="true">
+  <!-- <div class="modal fade" id="modalInfo" tabindex="-1" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         
@@ -1240,7 +1240,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
     <script src="{{ asset('dist/js/tabler.min.js?1738096684') }}"></script>
     </div>

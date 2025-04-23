@@ -330,7 +330,7 @@
           <button type="submit" class="btn btn-block btn-primary">Atualizar Dados</button>
         </div>
         <div class="col-auto">
-          <a class="btn btn-block btn-success" href="/nucleos">Voltar</a>
+          <a class="btn btn-block btn-outline-primary" href="/nucleos">Voltar</a>
         </div>
       </div>
   </form>

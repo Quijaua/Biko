@@ -49,7 +49,6 @@
                             </div>
                         </div>
                         <div class="col-3 d-flex gap-3 justify-content-end align-items-center">
-                            <a class="btn btn-secondary" href="/professores">voltar</a>
                             <button type="submit" class="btn btn-primary" form="createdForm" id="submitBtn"><span><svg
                                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -60,6 +59,7 @@
                                         <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
                                         <path d="M14 4l0 4l-6 0l0 -4" />
                                     </svg></span> Salvar</button>
+                                    <a class="btn btn-outline-primary ms-3" href="/professores">Voltar</a>
                         </div>
                     </div>
                     @if (\Session::has('success'))

@@ -24,7 +24,7 @@
                                 </svg></span>Adicionar novo coordenador</a>
                     @endif
                     @if ($user->role === 'coordenador')
-                        <a class="btn btn-outline"
+                        <a class="btn btn-outline d-none"
                             href="{{ route('coordenadores/export/') }}/?nucleo={{ $nucleo ?? '' }}"><span><svg
                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -37,7 +37,7 @@
                                     <path d="M12.5 17.5l2.5 -2.5l-2.5 -2.5" />
                                 </svg></span> Exportar</a>
                     @else
-                        <a class="btn btn-outline-primary" href="{{ route('coordenadores/export/') }}/?nucleo=0">
+                        <a class="btn btn-outline-primary d-none" href="{{ route('coordenadores/export/') }}/?nucleo=0">
                             <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round"

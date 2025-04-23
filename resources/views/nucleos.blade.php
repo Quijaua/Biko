@@ -10,16 +10,15 @@
       </div>
       <div class="col-6" style="text-align: right;">
         @if($user->role != 'aluno' && $user->role != 'professor')
-        <a class="btn btn-primary" href="/nucleos/add"><span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-user-plus">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
-              <path d="M16 19h6" />
-              <path d="M19 16v6" />
-              <path d="M6 21v-2a4 4 0 0 1 4 -4h4" />
-            </svg></span>Adicionar novo núcleos</a>
+        <a class="btn btn-primary" href="/nucleos/add">
+          <span>
+            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-home-spark"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12h-2l9 -9l9 9h-2" /><path d="M5 12v7a2 2 0 0 0 2 2h5" /><path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2" /><path d="M19 22.5a4.75 4.75 0 0 1 3.5 -3.5a4.75 4.75 0 0 1 -3.5 -3.5a4.75 4.75 0 0 1 -3.5 3.5a4.75 4.75 0 0 1 3.5 3.5" /></svg>
+          </span>
+          Adicionar novo núcleo
+        </a>
         @endif
         @if($user->role === 'coordenador')
-        <a class="btn btn-outline"><span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-arrow-right">
+        <a class="btn btn-outline d-none"><span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-arrow-right">
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path d="M14 3v4a1 1 0 0 0 1 1h4" />
               <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
@@ -27,7 +26,7 @@
               <path d="M12.5 17.5l2.5 -2.5l-2.5 -2.5" />
             </svg></span> Exportar</a>
         @else
-        <a class="btn btn-outline-primary">
+        <a class="btn btn-outline-primary d-none">
           <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-arrow-right">
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path d="M14 3v4a1 1 0 0 0 1 1h4" />
