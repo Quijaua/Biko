@@ -79,7 +79,7 @@
           <div class="col-md-4">
             <select class="form-select" id="status" name="status">
               <option value="" @selected(request('status')=='' )>Situação</option>
-              <option value="ativo" @selected(request('status')=='ativo' )>Ativos</option>
+              <option value="ativo" @selected(request('status')=='ativo' )>Ativo</option>
               <option value="inativo" @selected(request('status')=='inativo' )>Inativo</option>
             </select>
           </div>
@@ -189,9 +189,9 @@
 
                                 <td class="text-center">
                                   @if($nucleo->Status === 1)
-                                  <span class="badge text-white bg-success p-2">ATIVO</span>
+                                  <span class="badge text-white bg-success p-2">Ativo</span>
                                   @else
-                                  <span class="badge text-white bg-danger p-2">INATIVO</span>
+                                  <span class="badge text-white bg-danger p-2">Inativo</span>
                                   @endif
                                 </td>
                                 
@@ -239,14 +239,14 @@
                                          </a>
                                         @if ($nucleo->Status === 1)
                                             <a href="/nucleos/disable/{{ $nucleo->id }}">
-                                                <span class="status-btn status-ativo">
+                                                <span class="status-btn status-ativo ms-8">
                                                     Ativar
                                                     <span class="status-circle"></span>
                                                 </span>
                                             </a>
                                         @else
                                             <a href="/nucleos/enable/{{ $nucleo->id }}">
-                                                <span class="status-btn status-inativo">
+                                                <span class="status-btn status-inativo ms-8">
                                                     <span class="status-circle"></span>
                                                     Inativar
                                                 </span>

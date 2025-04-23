@@ -234,14 +234,14 @@
                                                     </a>
                                                     @if ($coordenador->Status === 1)
                                                         <a href="/coordenadores/disable/{{ $coordenador->id }}">
-                                                            <span class="status-btn status-ativo">
+                                                            <span class="status-btn status-ativo ms-8">
                                                                 Ativar
                                                                 <span class="status-circle"></span>
                                                             </span>
                                                         </a>
                                                     @else
                                                         <a onclick="modalShow('Inativar coordenador', 'Tem certeza que deseja inativar esse coordenador?', 'danger', e => window.location.href = '/coordenadores/enable/{{ $coordenador->id }}');">
-                                                            <span class="status-btn status-inativo">
+                                                            <span class="status-btn status-inativo ms-8">
                                                                 <span class="status-circle"></span>
                                                                 Inativar
                                                             </span>

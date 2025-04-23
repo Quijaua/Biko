@@ -240,14 +240,14 @@
                     </a>
                     @if($aluno->Status === 0)
                     <a href="/alunos/enable/{{ $aluno->id }}">
-                      <span class="status-btn status-ativo">
+                      <span class="status-btn status-ativo ms-8">
                         Ativar
                         <span class="status-circle"></span>
                       </span>
                     </a>
                     @else
                     <a onclick="e => e.preventDefault(); modalShow('Inativar aluno', 'Tem certeza que deseja inativar esse aluno?', 'danger', e => window.location.href = '/alunos/disable/{{ $aluno->id }}');">
-                      <span class="status-btn status-inativo">
+                      <span class="status-btn status-inativo ms-8">
                         <span class="status-circle"></span>
                         Inativar
                       </span>
