@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div>
-            <p style="font-size: 35px;"><span><a href="/alunos" class="text-primary">
+            <p style="font-size: 35px;"><span><a href="{{ Auth::user()->role === 'aluno' ? '/home' : '/alunos' }}" class="text-primary">
                         <svg xmlns="http://www.w3.org/2000/svg" style="width: 45px; height: 45px;" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round"
@@ -49,7 +49,7 @@
                             </div>
                         </div>
                         <div class="col-4 d-flex gap-3 justify-content-end align-items-center">
-                            <a class="btn btn-secondary" href="/alunos">voltar</a>
+                            <a class="btn btn-secondary" href="{{ Auth::user()->role === 'aluno' ? '/home' : '/alunos' }}">voltar</a>
                             <button type="submit" class="btn btn-primary" form="editForm" id="submitBtn"><span><svg
                                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"

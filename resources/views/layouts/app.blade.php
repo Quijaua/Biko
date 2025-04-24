@@ -24,7 +24,7 @@
 
     <script src="{{ asset('dist/libs/litepicker/dist/litepicker.js?1738096684') }}" defer></script>
 
-    
+
     <script src="{{ asset('dist/libs/litepicker/dist/litepicker.js') }}" defer></script>
     <script src="{{ asset('dist/libs/tom-select/dist/js/tom-select.base.min.js') }}"></script>
 
@@ -146,27 +146,43 @@
                 <div class="offcanvas-body">
                     <ul class="navbar-nav">
                         @if (!\Auth()->user()->first_login)
+                            <li class="nav-item {{ request()->is('home') ? 'bg-primary text-white rounded' : '' }}">
+                                <a class="nav-link" href="/home">
+                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="icon icon-tabler icons-tabler-outline icon-tabler-home">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
+                                            <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+                                            <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+                                        </svg>
+                                    </span>
+                                    {{ __('Home') }}
+                                </a>
+                            </li>
+                            @if (Session::get('role') === 'aluno')
+                                <li class="nav-item {{ request()->is('alunos/*') ? 'bg-primary text-white rounded' : '' }}">
+                                    <a class="nav-link" href="/alunos">
+                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                class="icon icon-tabler icons-tabler-outline icon-tabler-user">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+                                                <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                                            </svg>
+                                        </span>
+                                        {{ __('Meus dados') }}
+                                    </a>
+                                </li>
+                            @endif
                             @if (Session::get('role') !== 'aluno')
                                 @if (Session::get('verified'))
                                     <li
-                                        class="nav-item {{ request()->is('home') ? 'bg-primary text-white rounded' : '' }}">
-                                        <a class="nav-link" href="/home">
-                                            <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-home">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                    <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
-                                                    <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
-                                                    <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
-                                                </svg>
-                                            </span>
-                                            {{ __('Home') }}
-                                        </a>
-                                    </li>
-                                    <li
-                                        class="nav-item {{ request()->is('alunos') ? 'bg-primary text-white rounded' : '' }}">
+                                        class="nav-item {{ request()->is('alunos/*') ? 'bg-primary text-white rounded' : '' }}">
                                         <a class="nav-link" href="/alunos">
                                             <span class="nav-link-icon d-md-none d-lg-inline-block">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -486,27 +502,44 @@
                     <div class="collapse navbar-collapse" id="sidebar-menu">
                         <ul class="navbar-nav">
                             @if (!\Auth()->user()->first_login)
+                            <li class="nav-item {{ request()->is('home') ? 'bg-primary text-white rounded' : '' }}">
+                                <a class="nav-link" href="/home">
+                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="icon icon-tabler icons-tabler-outline icon-tabler-home">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
+                                            <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+                                            <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+                                        </svg>
+                                    </span>
+                                    {{ __('Home') }}
+                                </a>
+                            </li>
+                            @if (Session::get('role') === 'aluno')
+                                <li class="nav-item {{ request()->is('alunos/*') ? 'bg-primary text-white rounded' : '' }}">
+                                    <a class="nav-link" href="/alunos">
+                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                class="icon icon-tabler icons-tabler-outline icon-tabler-user">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+                                                <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                                            </svg>
+                                        </span>
+                                        {{ __('Meus dados') }}
+                                    </a>
+                                </li>
+                                @endif
                                 @if (Session::get('role') !== 'aluno')
                                     @if (Session::get('verified'))
+                                     
                                         <li
-                                            class="nav-item {{ request()->is('home') ? 'bg-primary text-white rounded' : '' }}">
-                                            <a class="nav-link" href="/home">
-                                                <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-home">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                        <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
-                                                        <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
-                                                        <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
-                                                    </svg>
-                                                </span>
-                                                {{ __('Home') }}
-                                            </a>
-                                        </li>
-                                        <li
-                                            class="nav-item {{ request()->is('alunos') ? 'bg-primary text-white rounded' : '' }}">
+                                            class="nav-item {{ request()->is('alunos/*') ? 'bg-primary text-white rounded' : '' }}">
                                             <a class="nav-link" href="/alunos">
                                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -828,47 +861,46 @@
                                 <div class="row flex-fill align-items-center">
                                     <div class="col">
                                         <ul class="navbar-nav">
+                                            @if (!\Auth()->user()->first_login)
 
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="/home">
+                                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                            height="24" viewBox="0 0 24 24" fill="none"
+                                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            class="icon icon-tabler icons-tabler-outline icon-tabler-home">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                            <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
+                                                            <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+                                                            <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+                                                        </svg>
+                                                    </span>
+                                                    {{ __('Home') }}
+                                                </a>
+                                            </li>
                                             @if (Session::get('role') === 'aluno')
-                                                @if (Session::get('cpf') === 'OK')
-                                                    <li class="nav-item">
-                                                        <a class="nav-link" href="/alunos">
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="/alunos">
+                                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                height="24" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="2"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="icon icon-tabler icons-tabler-outline icon-tabler-user">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                                <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+                                                                <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                                                            </svg>
+                                                        </span>
                                                             {{ __('Meus dados') }}
                                                         </a>
-                                                    </li>
-                                                @endif
-                                                @if (Session::get('cpf') === 'null')
-                                                    <li class="nav-item">
-                                                        <a class="nav-link btn-danger text-light" href="/alunos">
-                                                            {{ __('Informe seus dados') }}
-                                                        </a>
-                                                    </li>
-                                                @endif
+                                                </li>
                                             @endif
 
-                                            @if (!\Auth()->user()->first_login)
                                                 @if (Session::get('role') !== 'aluno')
                                                     @if (Session::get('verified'))
-                                                        <li class="nav-item">
-                                                            <a class="nav-link" href="/home">
-                                                                <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                                        height="24" viewBox="0 0 24 24" fill="none"
-                                                                        stroke="currentColor" stroke-width="2"
-                                                                        stroke-linecap="round" stroke-linejoin="round"
-                                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-home">
-                                                                        <path stroke="none" d="M0 0h24v24H0z"
-                                                                            fill="none" />
-                                                                        <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
-                                                                        <path
-                                                                            d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
-                                                                        <path
-                                                                            d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
-                                                                    </svg>
-                                                                </span>
-                                                                {{ __('Home') }}
-                                                            </a>
-                                                        </li>
                                                         <li class="nav-item">
                                                             <a class="nav-link" href="/alunos">
                                                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -1208,20 +1240,20 @@
                     </div>
 
                 </header>
-                @endauth
-                
-                <main class="py-4">
-                    @yield('content')
-                </main>
-            </div>
+            @endauth
+
+            <main class="py-4">
+                @yield('content')
+            </main>
+        </div>
 
 
         @yield('js')
     </div>
     </div>
 
-  <!-- Modal -->
-  <!-- <div class="modal fade" id="modalInfo" tabindex="-1" style="display: none;" aria-hidden="true">
+    <!-- Modal -->
+    <!-- <div class="modal fade" id="modalInfo" tabindex="-1" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         
