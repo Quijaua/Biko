@@ -171,7 +171,7 @@
                                                       class="text-danger">*</span> </label>
                                               <input type="text" class="form-control" id="inputNomeCoordenador"
                                                   name="inputNomeCoordenador"
-                                                  aria-describedby="inputNomeCoordenadorHelp"
+                                                  aria-describedby="inputNomeCoordenadorHelp" required
                                                   >
                                           </div>
                                       </div>
@@ -186,11 +186,11 @@
 
                                       <div class="col-md-3">
                                           <div class="mb-3">
-                                              <label for="inputCPF">CPF  <span
+                                              <label for="inputCPF">CPF <span
                                                 class="text-danger">*</span></label>
                                               <input type="text" class="form-control" id="inputCPF"
                                                   name="inputCPF" aria-describedby="inputCPFHelp"
-                                                  data-mask="000.000.000-00" >
+                                                  data-mask="000.000.000-00" required pattern="\d{3}\.\d{3}\.\d{3}-\d{2}">
                                           </div>
                                       </div>
                                   </div>
@@ -198,10 +198,11 @@
                                   <div class="row">
                                       <div class="col-md-6">
                                           <div class="mb-3">
-                                              <label for="inputEmail">Email</label>
+                                              <label for="inputEmail">Email   <span
+                                                class="text-danger">*</span></label>
                                               <input type="email" class="form-control" id="inputEmail"
                                                   name="inputEmail" aria-describedby="inputEmailHelp"
-                                                  >
+                                                  required>
                                           </div>
                                       </div>
                                       <div class="col-md-3">
@@ -375,9 +376,10 @@
                                       <div class="col-md-5">
                                           <div class="mb-3">
                                               <label class="form-label mb-2" for="inputNucleo">Em qual/quais núcleo(s)
-                                                  que você atua?</label>
-                                              <select name="inputNucleo" class="form-select" required>
-                                                  <option selected>Selecione</option>
+                                                  que você atua?   <span
+                                                  class="text-danger">*</span></label>
+                                              <select name="inputNucleo" id="inputNucleo" class="form-select form-control" required>
+                                                  <option value="" selected>Selecione</option>
                                                   @foreach ($nucleos as $nucleo)
                                                       <option value="{{ $nucleo->id }}">
                                                           {{ $nucleo->NomeNucleo }}</option>
@@ -1233,7 +1235,7 @@
         $(document).ready(function() {
             $('#inputAnoInicioUneafro').mask('0000');
 
-            const selectNucleo = $('#nucleo')
+            const selectNucleo = $('#inputnucleo')
 
             selectNucleo.on('change', function() {
                 if (selectNucleo.val() == '') {

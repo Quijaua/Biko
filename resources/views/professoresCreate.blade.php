@@ -190,10 +190,10 @@
                                             <div class="mb-3">
                                                 <label class="form-label mb-2" for="inputCPF">CPF <span
                                                         class="text-danger">*</span></label>
-                                                <input required type="text" class="form-control" id="inputCPF"
+                                                <input type="text" class="form-control" id="inputCPF"
                                                     name="inputCPF" aria-describedby="inputCPFHelp"
                                                     data-mask="000.000.000-00" placeholder="xxx.xxx.xxx-xx"
-                                                    onblur="checkCPF()">
+                                                    onblur="checkCPF()" required pattern="\d{3}\.\d{3}\.\d{3}-\d{2}">
                                             </div>
                                         </div>
 
@@ -202,7 +202,8 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label class="form-label mb-2" for="inputEmail">Email</label>
+                                                <label class="form-label mb-2" for="inputEmail">Email <span
+                                                    class="text-danger">*</span></label>
                                                 <input type="email" class="form-control" id="inputEmail"
                                                     name="inputEmail" aria-describedby="inputEmailHelp"
                                                     placeholder="Endereço de Email" required>
@@ -377,15 +378,13 @@
                                             <div class="mb-3">
                                                 <label class="form-label mb-2" for="inputNucleo">Núcleo</label>
                                                 <select id="inputNucleo" name="inputNucleo"
-                                                    class="form-select form-control is-invalid" required>
+                                                    class="form-select form-control" required>
                                                     <option value="" selected>Selecione</option>
                                                     @foreach ($nucleos as $nucleo)
                                                         <option value="{{ $nucleo->id }}">{{ $nucleo->NomeNucleo }}
                                                         </option>
                                                     @endforeach
                                                 </select>
-                                            </div>
-                                            <div class="mb-3 invalid-feedback d-block">Por favor, selecione um núcleo.
                                             </div>
                                         </div>
                                         <div class="col-12">
