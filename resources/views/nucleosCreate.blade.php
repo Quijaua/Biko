@@ -102,9 +102,10 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label mb-2" for="inputNomeNucleo">Nome do núcleo</label>
+                                            <label class="form-label mb-2" for="inputNomeNucleo">Nome do núcleo <span
+                                              class="text-danger">*</span></label>
                                             <input type="text" class="form-control" id="inputNomeNucleo"
-                                                name="inputNomeNucleo" aria-describedby="inputNomeNucleoHelp">
+                                                name="inputNomeNucleo" aria-describedby="inputNomeNucleoHelp" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -210,12 +211,12 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label mb-2" for="permiteAmbienteVirtual">Permite acesso ao
-                                                ambiente virtual?</label>
+                                                ambiente virtual? <span
+                                                class="text-danger">*</span></label>
                                             <select class="form-select" id="permiteAmbienteVirtual"
-                                                name="permiteAmbienteVirtual">
-                                                <option selected>Selecione</option>
-                                                <option>Sim</option>
-                                                <option>Não</option>
+                                                name="permiteAmbienteVirtual" required>
+                                                <option value="1">Sim</option>
+                                                <option value="0" selected>Não</option>
                                             </select>
                                         </div>
                                     </div>

@@ -103,10 +103,11 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label mb-2" for="inputNomeNucleo">Nome do núcleo</label>
+                                            <label class="form-label mb-2" for="inputNomeNucleo">Nome do núcleo <span
+                                                class="text-danger">*</span></label>
                                             <input type="text" class="form-control" id="inputNomeNucleo"
                                                 name="inputNomeNucleo" aria-describedby="inputNomeNucleoHelp"
-                                                value="{{ $dados->NomeNucleo }}" >
+                                                value="{{ $dados->NomeNucleo }}" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -230,8 +231,9 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label mb-2" for="permiteAmbienteVirtual">Permite acesso ao
-                                                ambiente virtual?</label>
-                                            <select class="form-select" id="permiteAmbienteVirtual"
+                                                ambiente virtual? <span
+                                                class="text-danger">*</span></label>
+                                            <select class="form-select" id="permiteAmbienteVirtual" required
                                                 name="permiteAmbienteVirtual" >
                                                 <option selected >Selecione</option>
                                                 <option value="1" <?php if ($dados->permite_ambiente_virtual) {
