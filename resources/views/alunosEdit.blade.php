@@ -204,7 +204,7 @@
                                     <div class="col-md-3">
                                         <div>
                                             <label class="form-label mb-2" for="inputRaca">Raça / Cor</label>
-                                            <select name="inputRaca" class="form-select" >
+                                            <select id="raca" name="inputRaca" class="form-select" >
                                                 <option selected>Selecione</option>
                                                 <option <?php if ($dados->Raca == 'negra') {
                                                     echo 'selected=selected';
@@ -230,7 +230,8 @@
                                 <div class="row mb-3">
 
                                     <div class="col-md-6">
-                                        @if ($dados->Raca == 'indigena')
+                                        <div id="povo_indigenas_wrapper" class="<?php if ($dados->Raca != 'indigena') { echo 'd-none'; } ?>">
+
                                             <div class="mb-3">
                                                 <label class="form-label mb-2" for="povo_indigenas_id">Povo
                                                     Indígena</label>
@@ -244,11 +245,12 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                        @endif
+
+                                        </div>
                                     </div>
 
                                     <div class="col-md-6">
-                                        @if ($dados->Raca == 'indigena')
+                                        <div id="terra_indigenas_wrapper" class="<?php if ($dados->Raca != 'indigena') { echo 'd-none'; } ?>">
                                             <div class="mb-3">
                                                 <label class="form-label mb-2" for="terra_indigenas_id">Terra
                                                     Indígena</label>
@@ -262,7 +264,7 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                        @endif
+                                        </div>
                                     </div>
                                 </div>
 

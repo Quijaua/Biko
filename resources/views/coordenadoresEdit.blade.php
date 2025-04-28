@@ -214,7 +214,7 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="inputRaca">Raça / Cor</label>
-                                                <select name="inputRaca" class="form-select">
+                                                <select id="raca" name="inputRaca" class="form-select">
                                                     <option selected>Selecione</option>
                                                     <option <?php if ($dados->Raca == 'negra') {
                                                         echo 'selected=selected';
@@ -238,8 +238,8 @@
                                     <div class="row">
 
                                         <div class="col-md-6">
-                                            @if ($dados->Raca == 'indigena')
-                                                <div class="mb-3">
+
+                                                <div id="povo_indigenas_wrapper" class="mb-3 <?php if ($dados->Raca != 'indigena') { echo 'd-none'; } ?> ">
                                                     <label for="povo_indigenas_id">Povo Indígena</label>
                                                     <select name="povo_indigenas_id" class="form-select">
                                                         <option selected>Selecione</option>
@@ -251,12 +251,12 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                            @endif
+
                                         </div>
 
                                         <div class="col-md-6">
-                                            @if ($dados->Raca == 'indigena')
-                                                <div class="mb-3">
+
+                                                <div id="terra_indigenas_wrapper" class="mb-3 <?php if ($dados->Raca != 'indigena') { echo 'd-none'; } ?> ">
                                                     <label for="terra_indigenas_id">Terra Indígena</label>
                                                     <select name="terra_indigenas_id" class="form-select">
                                                         <option selected>Selecione</option>
@@ -268,7 +268,7 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                            @endif
+
                                         </div>
                                     </div>
                                     <div class="row">
