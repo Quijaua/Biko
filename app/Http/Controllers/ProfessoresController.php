@@ -402,7 +402,7 @@ class ProfessoresController extends Controller
       if($Foto){
         $dados->Foto = $Foto->getFilename() . '.' . $Extension;
       }
-      $dados->CPF = $dados->CPF;
+      $dados->CPF = $request->input('inputCPF');
       $dados->RG = $request->input('inputRG');
       $dados->Raca = $request->input('inputRaca');
       $dados->Genero = $request->input('inputGenero');

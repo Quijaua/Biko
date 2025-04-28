@@ -237,7 +237,7 @@
                                                 <div id="povo_indigenas_wrapper" class="mb-3 <?php if ($dados->Raca != 'indigena') { echo 'd-none'; } ?>" >
                                                     <label for="povo_indigenas_id">Povo Indígena</label>
                                                     <select name="povo_indigenas_id" class="form-select">
-                                                        <option selected>Selecione</option>
+                                                        <option selected disabled>Selecione</option>
                                                         @foreach ($povo_indigenas as $povo_indigena)
                                                             <option <?php if ($povo_indigena->id == $dados->povo_indigenas_id) {
                                                                 echo 'selected=selected';
@@ -254,7 +254,7 @@
                                                 <div id="terra_indigenas_wrapper" class="mb-3 <?php if ($dados->Raca != 'indigena') { echo 'd-none'; } ?>" >
                                                     <label for="terra_indigenas_id">Terra Indígena</label>
                                                     <select name="terra_indigenas_id" class="form-select">
-                                                        <option selected>Selecione</option>
+                                                        <option selected disabled>Selecione</option>
                                                         @foreach ($terra_indigenas as $terra_indigena)
                                                             <option <?php if ($terra_indigena->id == $dados->terra_indigenas_id) {
                                                                 echo 'selected=selected';
