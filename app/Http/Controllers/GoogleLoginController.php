@@ -30,6 +30,6 @@ class GoogleLoginController extends Controller
 
         Auth::login($user);
 
-        return route()->redirect('dashboard');
+        return redirect()->route('dashboard');
     }
 }
