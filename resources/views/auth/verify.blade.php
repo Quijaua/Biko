@@ -21,7 +21,6 @@
                     use App\Aluno;
                     use App\Nucleo;
                     $user = Auth::user();
-                    dd($user);
                     $aluno = Aluno::where('id_user', $user->id)->get('id_nucleo') ?? null;
                     $nucleo = $aluno ? Nucleo::find($aluno[0]['id_nucleo']) : null;
                     $wa_url = $nucleo ? $nucleo->whatsapp_url : null;
