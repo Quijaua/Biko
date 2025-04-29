@@ -23,7 +23,7 @@ Route::middleware(['auth'])->group(function () {
 
   Route::get('/dashboard', function () {
       return view('dashboard');
-  });
+  })->name('dashboard');
 
   Route::post('change_default_password', 'Auth\FirstLoginController@changePassword')->name('change_default_password');
   Route::get('default_username', 'Auth\FirstLoginController@username')->name('default_username');

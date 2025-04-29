@@ -30,6 +30,6 @@ class GoogleLoginController extends Controller
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return route()->redirect('dashboard');
     }
 }
