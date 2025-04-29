@@ -39,7 +39,7 @@ class MessageOtpLogin extends Mailable
 
         return $this->markdown('mensagens._mensagem_otp', [
             'email' => request()->email,
-            'token' => request()->token,
+            'token' => request()->otp_hash,
         ]);
     }
 
