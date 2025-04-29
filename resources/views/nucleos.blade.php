@@ -66,7 +66,7 @@
           <div class="col-md-3">
             <select class="form-select" id="cidade" name="cidade">
               <option value="" @selected(request('cidade')=='')>Cidade</option>
-              @foreach(\App\Nucleo::all() as $nuc)
+              @foreach(\App\Nucleo::whereNotNull('Cidade')->get() as $nuc)
               <option value="{{ $nuc->Cidade }}" @selected(request('cidade')==$nuc->Cidade)>
                 {{ $nuc->Cidade }}
               </option>
