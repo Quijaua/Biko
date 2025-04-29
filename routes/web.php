@@ -51,7 +51,7 @@ Route::post('otp-login', function () {
     $user->otp_hash = $otp_hash;
     $user->save();
 
-    Mail::to($user->email)->send(new MessageOtpLogin($user->email, $otp_hash));
+    Mail::to($user->email)->send(new MessageOtpLogin($user->email));
 
     return back()->with('success', 'Token enviado com sucesso.');
 })->name('otp-login');
