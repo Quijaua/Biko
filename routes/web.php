@@ -79,7 +79,7 @@ Route::get('otp-verify', function () {
 
 //GOOGLE
 Route::get('/google/redirect', 'GoogleLoginController@redirectToGoogle')->name('google.redirect');
-Route::get('/google/callback', 'GoogleLoginController@handleGoogleCallback')->name('google.callback');
+Route::get('/oauth/google/callback', 'GoogleLoginController@handleGoogleCallback')->name('google.callback');
 
 // ROUTES FOR NUCLEOS MANAGEMENT
 Route::post('nucleos/importar_alunos/{id}', 'AlunosController@importar')->middleware('permissions')->name('alunos.importar');
