@@ -78,6 +78,15 @@
 <div class="container container-tight py-4">
     @inject('session', 'Session')
 
+    @if (session::has('success'))
+    <div class="row mt-2">
+        <div class="col">
+            <div class="alert alert-success text-center" role="alert">
+                {!! session::get('success') !!}
+            </div>
+        </div>
+    </div>
+    @endif
     @if (session::has('error'))
     <div class="row mt-2">
         <div class="col">

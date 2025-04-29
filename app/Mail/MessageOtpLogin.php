@@ -22,10 +22,12 @@ class MessageOtpLogin extends Mailable
         $this->subject($titulo);
         $otp_hash = User::where('email', request()->email)->first()->otp_hash;
 
-        return $this->markdown('mensagens._mensagem_otp', [
+        $this->markdown('mensagens._mensagem_otp', [
             'email' => request()->email,
             'token' => $otp_hash,
         ]);
+
+        return true;
     }
 
 }
