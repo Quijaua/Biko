@@ -39,6 +39,7 @@ Route::get('pre-cadastro', function () {
 })->name('pre-cadastro');
 
 // ROUTES FOR ALTERNATIVE LOGIN
+//OTP
 Route::post('otp-login', function () {
     $user = User::where('email', request()->email)->first();
 
@@ -75,6 +76,10 @@ Route::get('otp-verify', function () {
 
     return redirect()->route('home');
 })->name('otp-verify');
+
+//GOOGLE
+Route::get('/google/redirect', 'GoogleLoginController@redirectToGoogle')->name('google.redirect');
+Route::get('/google/callback', 'GoogleLoginController@handleGoogleCallback')->name('google.callback');
 
 // ROUTES FOR NUCLEOS MANAGEMENT
 Route::post('nucleos/importar_alunos/{id}', 'AlunosController@importar')->middleware('permissions')->name('alunos.importar');

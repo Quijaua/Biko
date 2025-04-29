@@ -34,5 +34,9 @@ return [
         'site_key'  =>  env('HCAPTCHA_SITE_KEY'),
         'secret'    =>  env('HCAPTCHA_SECRET'),
     ],
-
+    'google' => [
+        'client_id' => env('OAUTH_GOOGLE_CLIENTID'),
+        'client_secret' => env('OAUTH_GOOGLE_SECRET'),
+        'redirect' => env('OAUTH_GOOGLE_REDIRECT_URL'),
+    ],
 ];
