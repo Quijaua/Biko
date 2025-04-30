@@ -12,6 +12,9 @@ use App\User;
 use App\Aluno;
 use App\Nucleo;
 use App\Http\Repository\HcaptchaRepository;
+use App\Mail\EmailFormularioCoordenador;
+use App\Mail\EmailFormularioEstudante;
+use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
 {
@@ -158,6 +161,20 @@ class RegisterController extends Controller
             'povo_indigenas_id' => $data['povo_indigenas_id'] ?? NULL,
             'terra_indigenas_id' => $data['terra_indigenas_id'] ?? NULL,
         ]);
+
+        // Envia e-mail
+        $coordenadores = $myNucleo->coordenadores();
+        foreach($coordenadores as $coordenador) {
+          if($coordenador['Email']) {
+            Mail::to($coordenador->Email)->send(new EmailFormularioCoordenador([
+              'message' => 'Olá, coordenador! Um novo estudante foi inserido!'
+            ]));
+          }
+        }
+
+        Mail::to($data['email'])->send(new EmailFormularioEstudante([
+          'message' => 'Olá, estudante! Seja bem-vindo.'
+        ]));
 
         return User::find($user->id);
     }
