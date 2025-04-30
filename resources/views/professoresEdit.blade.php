@@ -49,7 +49,6 @@
                             </div>
                         </div>
                         <div class="col-3 d-flex gap-3 justify-content-end align-items-center">
-                            <a class="btn btn-secondary" href="/professores">voltar</a>
                             <button type="submit" class="btn btn-primary" form="createdForm" id="submitBtn"><span><svg
                                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -60,6 +59,7 @@
                                         <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
                                         <path d="M14 4l0 4l-6 0l0 -4" />
                                     </svg></span> Salvar</button>
+                                    <a class="btn btn-outline-primary ms-3" href="/professores">Voltar</a>
                         </div>
                     </div>
                     @if (\Session::has('success'))
@@ -179,10 +179,11 @@
 
                                         <div class="col-md-3">
                                             <div class="mb-3">
-                                                <label for="inputCPF">CPF</label>
+                                                <label for="inputCPF">CPF <span
+                                                    class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" id="inputCPF"
                                                     name="inputCPF" aria-describedby="inputCPFHelp"
-                                                    data-mask="000.000.000-00" value="{{ $dados->CPF }}">
+                                                    data-mask="000.000.000-00" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" required value="{{ $dados->CPF }}">
                                             </div>
                                         </div>
                                     </div>
@@ -190,10 +191,11 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label for="inputEmail">Email</label>
+                                                <label for="inputEmail">Email <span
+                                                    class="text-danger">*</span></label>
                                                 <input type="email" class="form-control" id="inputEmail"
                                                     name="inputEmail" aria-describedby="inputEmailHelp"
-                                                    value="{{ $dados->Email }}">
+                                                    value="{{ $dados->Email }}" required>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -207,7 +209,7 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="inputRaca">Raça / Cor</label>
-                                                <select name="inputRaca" class="form-select">
+                                                <select id="raca" name="inputRaca" class="form-select">
                                                     <option selected>Selecione</option>
                                                     <option <?php if ($dados->Raca == 'negra') {
                                                         echo 'selected=selected';
@@ -231,11 +233,11 @@
                                     <div class="row">
 
                                         <div class="col-md-6">
-                                            @if ($dados->Raca == 'indigena')
-                                                <div class="mb-3">
+
+                                                <div id="povo_indigenas_wrapper" class="mb-3 <?php if ($dados->Raca != 'indigena') { echo 'd-none'; } ?>" >
                                                     <label for="povo_indigenas_id">Povo Indígena</label>
                                                     <select name="povo_indigenas_id" class="form-select">
-                                                        <option selected>Selecione</option>
+                                                        <option selected disabled>Selecione</option>
                                                         @foreach ($povo_indigenas as $povo_indigena)
                                                             <option <?php if ($povo_indigena->id == $dados->povo_indigenas_id) {
                                                                 echo 'selected=selected';
@@ -244,15 +246,15 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                            @endif
+
                                         </div>
 
                                         <div class="col-md-6">
-                                            @if ($dados->Raca == 'indigena')
-                                                <div class="mb-3">
+
+                                                <div id="terra_indigenas_wrapper" class="mb-3 <?php if ($dados->Raca != 'indigena') { echo 'd-none'; } ?>" >
                                                     <label for="terra_indigenas_id">Terra Indígena</label>
                                                     <select name="terra_indigenas_id" class="form-select">
-                                                        <option selected>Selecione</option>
+                                                        <option selected disabled>Selecione</option>
                                                         @foreach ($terra_indigenas as $terra_indigena)
                                                             <option <?php if ($terra_indigena->id == $dados->terra_indigenas_id) {
                                                                 echo 'selected=selected';
@@ -261,7 +263,7 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                            @endif
+
                                         </div>
                                     </div>
                                     <div class="row">
@@ -418,19 +420,22 @@
 
                                     <div class="row">
 
-                                        <div class="col">
+                                        <div class="col-12">
                                             <div class="mb-3">
-                                                <label for="inputNucleo">Núcleo</label>
-                                                <select name="inputNucleo" class="form-select">
-                                                    <option selected>Selecione</option>
+                                                <label class="form-label mb-2" for="inputNucleo">Núcleo <span
+                                                    class="text-danger">*</span></label>
+                                                <select id="inputNucleo" name="inputNucleo"
+                                                    class="form-select form-control" required>
+                                                    <option value="" selected>Selecione</option>
                                                     @foreach ($nucleos as $nucleo)
-                                                        <option <?php if ($nucleo->id == $dados->id_nucleo) {
-                                                            echo 'selected=selected';
-                                                        } ?> value="{{ $nucleo->id }}">
-                                                            {{ $nucleo->NomeNucleo }}</option>
-                                                    @endforeach
+                                                    <option <?php if ($nucleo->id == $dados->id_nucleo) {
+                                                        echo 'selected=selected';
+                                                    } ?> value="{{ $nucleo->id }}">
+                                                        {{ $nucleo->NomeNucleo }}</option>
+                                                @endforeach
                                                 </select>
                                             </div>
+                                          
                                         </div>
                                     </div>
                                     <div class="row">
@@ -2128,7 +2133,7 @@
 
             $(document).ready(function() {
 
-                const selectNucleo = $('#nucleo')
+                const selectNucleo = $('#inputNucleo')
 
                 selectNucleo.on('change', function() {
                     if (selectNucleo.val() == '') {

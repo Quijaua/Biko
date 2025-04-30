@@ -9,24 +9,24 @@
                     <h1 class="text-[34px]">Material</h1>
                 </div>
                 <div class="col-4 text-center">
-                  @if ($user->role != 'aluno')
-                      <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAdicionarMaterial">
-                          <span>
-                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                  viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                  class="icon icon-tabler icon-tabler-user-plus">
-                                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                  <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
-                                  <path d="M16 19h6" />
-                                  <path d="M19 16v6" />
-                                  <path d="M6 21v-2a4 4 0 0 1 4 -4h4" />
-                              </svg>
-                          </span>
-                          Adicionar novo material
-                      </a>
-                  @endif
-              </div>
+                    @if ($user->role != 'aluno')
+                        <a href="#" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#modalAdicionarMaterial">
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="icon icon-tabler icon-tabler-user-plus">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+                                    <path d="M16 19h6" />
+                                    <path d="M19 16v6" />
+                                    <path d="M6 21v-2a4 4 0 0 1 4 -4h4" />
+                                </svg>
+                            </span>
+                            Adicionar novo material
+                        </a>
+                    @endif
+                </div>
             </div>
             <div class="card mb-4 col-md-5">
                 <div class="card-body">
@@ -138,9 +138,9 @@
 
                 <div>
                     @if ($files->isEmpty())
-                    <div class="row">
-                        <div class="col text-center m-auto mt-4 mb-4">Nenhum registro encontrado.</div>
-                    </div>
+                        <div class="row">
+                            <div class="col text-center m-auto mt-4 mb-4">Nenhum registro encontrado.</div>
+                        </div>
                     @endif
 
                     <div class="table-responsive">
@@ -211,31 +211,53 @@
                                                     </svg></span>Baixar</a>
                                             @if ($user->role === 'professor' || $user->role === 'administrador' || $user->role === 'coordenador')
                                                 @if (($user->role === 'administrador' && $file->status) || $user->id === $file->user_id)
-                                                <div class="modal modal-blur fade" id="modalConfirmarExclusao" tabindex="-1" role="dialog" aria-hidden="true">
-                                                  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-                                                    <div class="modal-content">
-                                                      <div class="modal-header">
-                                                        <h5 class="modal-title text-danger">Excluir Material</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-                                                      </div>
-                                                      <div class="modal-body text-center">
-                                                        <p class="mb-0">Deseja excluir este material?
-                                                          Esta ação não podera ser desfeita após a confirmação.</p>
-                                                      </div>
-                                                      
-                                                      <div class="modal-footer">
-                                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">cancelar</button>
-                                                        <a href="{{ route('nucleo.material.delete', ['id' => $file->id]) }} " class="btn btn-danger" id="btnConfirmarExclusao"><span><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-xbox-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 21a9 9 0 0 0 9 -9a9 9 0 0 0 -9 -9a9 9 0 0 0 -9 9a9 9 0 0 0 9 9z" /><path d="M9 8l6 8" /><path d="M15 8l-6 8" /></svg></span> excluir</a>
-                                                      </div>
+                                                    <div class="modal modal-blur fade" id="modalConfirmarExclusao"
+                                                        tabindex="-1" role="dialog" aria-hidden="true">
+                                                        <div class="modal-dialog modal-sm modal-dialog-centered"
+                                                            role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title text-danger">Excluir Material
+                                                                    </h5>
+                                                                    <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal"
+                                                                        aria-label="Fechar"></button>
+                                                                </div>
+                                                                <div class="modal-body text-center">
+                                                                    <p class="mb-0">Deseja excluir este material?
+                                                                        Esta ação não podera ser desfeita após a
+                                                                        confirmação.</p>
+                                                                </div>
+
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-light"
+                                                                        data-bs-dismiss="modal">cancelar</button>
+                                                                    <a href="{{ route('nucleo.material.delete', ['id' => $file->id]) }} "
+                                                                        class="btn btn-danger"
+                                                                        id="btnConfirmarExclusao"><span><svg
+                                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                                width="24" height="24"
+                                                                                viewBox="0 0 24 24" fill="none"
+                                                                                stroke="currentColor" stroke-width="2"
+                                                                                stroke-linecap="round"
+                                                                                stroke-linejoin="round"
+                                                                                class="icon icon-tabler icons-tabler-outline icon-tabler-xbox-x">
+                                                                                <path stroke="none" d="M0 0h24v24H0z"
+                                                                                    fill="none" />
+                                                                                <path
+                                                                                    d="M12 21a9 9 0 0 0 9 -9a9 9 0 0 0 -9 -9a9 9 0 0 0 -9 9a9 9 0 0 0 9 9z" />
+                                                                                <path d="M9 8l6 8" />
+                                                                                <path d="M15 8l-6 8" />
+                                                                            </svg></span> excluir</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                  </div>
-                                                </div>
-                                                <a href="#" class="btn btn-outline-danger p-2"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#modalConfirmarExclusao"
-                                                data-file-id="{{ $file->id }}">
-                                                Excluir
-                                             </a>
+                                                    <a href="#" class="btn btn-outline-danger p-2"
+                                                        data-bs-toggle="modal" data-bs-target="#modalConfirmarExclusao"
+                                                        data-file-id="{{ $file->id }}">
+                                                        Excluir
+                                                    </a>
                                                 @elseif($user->role === 'administrador' && !$file->status)
                                                     <a class="btn  btn-outline-warning p-2"
                                                         href="{{ route('nucleo.material.restore', ['id' => $file->id]) }}">Restaurar</a>
@@ -252,46 +274,64 @@
 
             </div>
         </div>
-        <div class="modal modal-blur fade" id="modalAdicionarMaterial" tabindex="-1" role="dialog" aria-hidden="true">
-          <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <h5 class="modal-title text-primary">Adicionar novo material</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-                  </div>
-                  <div class="modal-body">
-                      <form action="{{ route('nucleo.material.create') }}" method="post" enctype="multipart/form-data">
-                          @csrf
-                          <div class="row">
-                              <div class="col-12 mb-6">
-                                  <label for="file" class="form-label">Escolher arquivo</label>
-                                  <input class="form-control" type="file" name="file" id="file" required>
-                              </div>
-                              @if($user->role === 'administrador')
-                              <div class="col-12 col-md-6 mb-3">
-                                  <label class="form-label">Núcleo</label>
-                                  <select class="form-select" name="nucleo_id" required>
-                                      @foreach($nucleos as $nucleo)
-                                          <option value="{{ $nucleo->id }}">{{ $nucleo->NomeNucleo }}</option>
-                                      @endforeach
-                                  </select>
-                              </div>
-                          @else
-                              <input type="hidden" name="nucleo_id" value="{{ $nucleos->id }}">
-                          @endif
-                              <div class="col-12  text-end">
-                                  <button class="btn btn-primary" type="submit">
-                                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-file-upload"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><path d="M12 11v6" /><path d="M9.5 13.5l2.5 -2.5l2.5 2.5" /></svg>
-                                      Enviar
-                                  </button>
-                              </div>
-                          </div>
-                      </form>
-                  </div>
-              </div>
-          </div>
-      </div>
+        @if ($user->role === 'professor' || $user->role === 'administrador' || $user->role === 'coordenador')
+            <div class="modal modal-blur fade" id="modalAdicionarMaterial" tabindex="-1" role="dialog"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-primary">Adicionar novo material</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Fechar"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ route('nucleo.material.create') }}" method="post"
+                                enctype="multipart/form-data">
+                                @csrf
+                                <div class="row">
+                                    <div class="col-12 mb-6">
+                                        <label for="file" class="form-label">Escolher arquivo</label>
+                                        <input class="form-control" type="file" name="file" id="file"
+                                            required>
+                                    </div>
+                                    @if ($user->role === 'administrador')
+                                        <div class="col-12 col-md-6 mb-3">
+                                            <label class="form-label">Núcleo</label>
+                                            <select class="form-select" name="nucleo_id" required>
+                                                @foreach ($nucleos as $nucleo)
+                                                    <option value="{{ $nucleo->id }}">{{ $nucleo->NomeNucleo }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    @else
+                                        <input type="hidden" name="nucleo_id" value="{{ $nucleos->id }}">
+                                    @endif
+                                    <div class="col-12  text-end">
+                                        <button class="btn btn-primary" type="submit">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                class="icon icon-tabler icons-tabler-outline icon-tabler-file-upload">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                                                <path
+                                                    d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+                                                <path d="M12 11v6" />
+                                                <path d="M9.5 13.5l2.5 -2.5l2.5 2.5" />
+                                            </svg>
+                                            Enviar
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
 
+<<<<<<< HEAD
       <div class="modal modal-blur fade" id="modaleditar" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
           <div class="modal-content">
@@ -331,5 +371,7 @@
         })
       </script>
       
+=======
+>>>>>>> upstream/develop
     </div>
 @endsection

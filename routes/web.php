@@ -1,5 +1,9 @@
 <?php
 
+use App\User;
+use App\Mail\MessageOtpLogin;
+use Carbon\Carbon;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,7 +23,7 @@ Route::middleware(['auth'])->group(function () {
 
   Route::get('/dashboard', function () {
       return view('dashboard');
-  });
+  })->name('dashboard');
 
   Route::post('change_default_password', 'Auth\FirstLoginController@changePassword')->name('change_default_password');
   Route::get('default_username', 'Auth\FirstLoginController@username')->name('default_username');
@@ -33,6 +37,49 @@ Route::get('inscricoes-para-cursinho-pre-vestibular-nucleo-yabas', function () {
 Route::get('pre-cadastro', function () {
     return view('auth.register');
 })->name('pre-cadastro');
+
+// ROUTES FOR ALTERNATIVE LOGIN
+//OTP
+Route::post('otp-login', function () {
+    $user = User::where('email', request()->email)->first();
+
+    if (!$user) {
+        return back()->with('error', 'Email não cadastrado.');
+    }
+
+    $otp_hash = Hash::make(Carbon::now());
+
+    $user->otp_hash = $otp_hash;
+    $user->save();
+
+    Mail::to($user->email)->send(new MessageOtpLogin($user->email));
+
+    return back()->with('success', 'Token enviado com sucesso.');
+})->name('otp-login');
+
+Route::get('otp-verify', function () {
+    $user = User::where('email', request()->email)->first();
+    $otp_hash = request()->token;
+
+    if (!$user) {
+        return redirect()->route('login')->with('error', 'Usuário não encontrado.');
+    }
+
+    if (!$otp_hash || $user->otp_hash != $otp_hash) {
+        return redirect()->route('login')->with('error', 'Token inválido.');
+    }
+
+    Auth::login($user);
+
+    $user->otp_hash = null;
+    $user->save();
+
+    return redirect()->route('home');
+})->name('otp-verify');
+
+//GOOGLE
+Route::get('/google/redirect', 'GoogleLoginController@redirectToGoogle')->name('google.redirect');
+Route::get('/oauth/google/callback', 'GoogleLoginController@handleGoogleCallback')->name('google.callback');
 
 // ROUTES FOR NUCLEOS MANAGEMENT
 Route::post('nucleos/importar_alunos/{id}', 'AlunosController@importar')->middleware('permissions')->name('alunos.importar');

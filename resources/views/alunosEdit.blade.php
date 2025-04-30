@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div>
-            <p style="font-size: 35px;"><span><a href="/alunos" class="text-primary">
+            <p style="font-size: 35px;"><span><a href="{{ Auth::user()->role === 'aluno' ? '/home' : '/alunos' }}" class="text-primary">
                         <svg xmlns="http://www.w3.org/2000/svg" style="width: 45px; height: 45px;" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round"
@@ -49,7 +49,7 @@
                             </div>
                         </div>
                         <div class="col-4 d-flex gap-3 justify-content-end align-items-center">
-                            <a class="btn btn-secondary" href="/alunos">voltar</a>
+                            <a class="btn btn-secondary" href="{{ Auth::user()->role === 'aluno' ? '/home' : '/alunos' }}">voltar</a>
                             <button type="submit" class="btn btn-primary" form="editForm" id="submitBtn"><span><svg
                                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -204,7 +204,7 @@
                                     <div class="col-md-3">
                                         <div>
                                             <label class="form-label mb-2" for="inputRaca">Raça / Cor</label>
-                                            <select name="inputRaca" class="form-select" >
+                                            <select id="raca" name="inputRaca" class="form-select" >
                                                 <option selected>Selecione</option>
                                                 <option <?php if ($dados->Raca == 'negra') {
                                                     echo 'selected=selected';
@@ -230,7 +230,8 @@
                                 <div class="row mb-3">
 
                                     <div class="col-md-6">
-                                        @if ($dados->Raca == 'indigena')
+                                        <div id="povo_indigenas_wrapper" class="<?php if ($dados->Raca != 'indigena') { echo 'd-none'; } ?>">
+
                                             <div class="mb-3">
                                                 <label class="form-label mb-2" for="povo_indigenas_id">Povo
                                                     Indígena</label>
@@ -244,11 +245,12 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                        @endif
+
+                                        </div>
                                     </div>
 
                                     <div class="col-md-6">
-                                        @if ($dados->Raca == 'indigena')
+                                        <div id="terra_indigenas_wrapper" class="<?php if ($dados->Raca != 'indigena') { echo 'd-none'; } ?>">
                                             <div class="mb-3">
                                                 <label class="form-label mb-2" for="terra_indigenas_id">Terra
                                                     Indígena</label>
@@ -262,7 +264,7 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                        @endif
+                                        </div>
                                     </div>
                                 </div>
 
@@ -335,32 +337,36 @@
                                 </div>
 
                                 <div class="row mb-3">
-                                    <div class="col-md-3">
-                                        <label class="form-label mb-2" for="temFilhos">Tem filhos?</label>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="temFilhos"
-                                                id="temFilhos1" value="1"
-                                                @if ($dados->temFilhos === 1) {{ 'checked' }} @endif >
-                                            <label class="form-label mb-2" class="form-check-label" for="temFilhos1">
-                                                Sim
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="temFilhos"
-                                                id="temFilhos2" value="0"
-                                                @if ($dados->temFilhos === 0) {{ 'checked' }} @endif >
-                                            <label class="form-label mb-2" class="form-check-label" for="temFilhos2">
-                                                Não
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div>
-                                            <label class="form-label mb-2" for="filhosQt">Quantos?</label>
-                                            <input class="form-control" type="number" id="filhosQt" name="filhosQt"
-                                                value="{{ $dados->filhosQt }}" >
-                                        </div>
-                                    </div>
+<div class="col-md-3">
+    <label class="form-label mb-2" for="temFilhos">Tem filhos?</label>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="temFilhos"
+            id="temFilhos1" value="1"
+            @if ($dados->temFilhos === 1) checked @endif >
+        <label class="form-label mb-2" class="form-check-label" for="temFilhos1">
+            Sim
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="temFilhos"
+            id="temFilhos2" value="0"
+            @if ($dados->temFilhos === 0) checked @endif >
+        <label class="form-label mb-2" class="form-check-label" for="temFilhos2">
+            Não
+        </label>
+    </div>
+</div>
+
+<div class="col-md-3" id="quantosWrapper" style="{{ $dados->temFilhos === 1 ? '' : 'display:none;' }}">
+    <div>
+        <label class="form-label mb-2" for="filhosQt">Quantos?</label>
+        <input class="form-control" type="number" id="filhosQt" name="filhosQt"
+            value="{{ $dados->filhosQt }}" >
+    </div>
+</div>
+
+
+
                                     <div class="col-md-6">
                                         <div>
                                             <label class="form-label mb-2" for="inputAuxGoverno">A família recebe algum
@@ -1481,6 +1487,22 @@
 
             reader.readAsDataURL(file);
         }
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const temFilhosRadios = document.querySelectorAll('input[name="temFilhos"]');
+        const quantosWrapper = document.getElementById('quantosWrapper');
+
+        temFilhosRadios.forEach(radio => {
+            radio.addEventListener('change', function () {
+                if (this.value === '1') {
+                    quantosWrapper.style.display = 'block';
+                } else {
+                    quantosWrapper.style.display = 'none';
+                }
+            });
+        });
     });
 </script>
     </div>

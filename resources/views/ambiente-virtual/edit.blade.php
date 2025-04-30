@@ -106,8 +106,8 @@
 
                 <div class="row">
                     <div class="col-2">
-                        <button type="submit" class="btn btn-success">Salvar</button>
-                        <a class="btn btn-danger" href="{{ route('ambiente-virtual.index') }}">Voltar</a>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                        <a class="btn btn-outline-primary" href="{{ route('ambiente-virtual.index') }}">Voltar</a>
                     </div>
                 </div>
             </form>

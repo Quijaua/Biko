@@ -4,30 +4,23 @@
 
 @section('content')
 <div class="container">
-    <!-- PAGE HEADER -->
-    <div class="row">
-        <div class="col-12 text-center">
-            <h1>AULAS VIRTUAIS</h1>
-        </div>
-    </div>
-    <div class="container">
-        @if($user->role != 'aluno' && $user->role != 'professor')
-        <div class="row">
-            <div class="col-6 m-auto">
-                <form action="" method="POST" role="search">
-                    @csrf
-                    <div class="input-group d-flex justify-content-center align-center">
-                        <input type="text" class="form-control" name="inputQuery"
-                            placeholder="Buscar por nome ou sobrenome do estudante" required> <span class="input-group-btn">
-                            <button type="submit" class="btn-link text-decoration-none">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </span>
-                    </div>
-                </form>
-            </div>
-        </div>
+<div class="container">
+  <!-- PAGE HEADER -->
+
+  <div class="row">
+      <div class="col-6">
+        <h1 class="text-[34px]">Ambiente Virtual</h1>
+      </div>
+      <div class="col-6" style="text-align: right;">
+        @if($aulas->isEmpty() || $user->role !== 'aluno')
+        <a class="btn btn-primary" href="{{route('ambiente-virtual.create')}}">
+            <span>
+                <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-video"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 10l4.553 -2.276a1 1 0 0 1 1.447 .894v6.764a1 1 0 0 1 -1.447 .894l-4.553 -2.276v-4z" /><path d="M3 6m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z" /></svg>      
+            </span>
+            Adicionar nova aula
+        </a>
         @endif
+      </div>
     </div>
     @if(session::has('success'))
     <div class="row mt-2">
@@ -47,20 +40,17 @@
             </div>
     </div>
     @endif
-    @if($aulas->isEmpty() || $user->role !== 'aluno')
-    <div class="col mt-4 text-center">
-        <a class="btn btn-success" href="{{route('ambiente-virtual.create')}}">Adicionar nova aula</a>
-    </div>
-    @endif
-    <div class="container-xl">
-    <div class="row row-deck row-cards">
+</div></div>
+
+    <div class="container">
+    <div class="row drow-deck drow-cards">
         <div class="col-12">
             @if($aulas->isEmpty())
             <p>Nenhum registro encontrado.</p>
             @else
-                    @foreach($aulas as $aula)
-                            <div class="col-6 p-2">
-                <div class="card">
+                @foreach($aulas as $aula)
+                <div class="col-md-6 p-2 h-25" style="float:left;margin-bottom:50px">
+                <div class="card mb-8">
                     <div class="card-header">
                         <div class="col-6">
                             <h3 class="card-title">{{ $aula->titulo }}</h3>

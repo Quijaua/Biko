@@ -24,7 +24,7 @@
                                 </svg></span>Adicionar novo coordenador</a>
                     @endif
                     @if ($user->role === 'coordenador')
-                        <a class="btn btn-outline"
+                        <a class="btn btn-outline d-none"
                             href="{{ route('coordenadores/export/') }}/?nucleo={{ $nucleo ?? '' }}"><span><svg
                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -37,7 +37,7 @@
                                     <path d="M12.5 17.5l2.5 -2.5l-2.5 -2.5" />
                                 </svg></span> Exportar</a>
                     @else
-                        <a class="btn btn-outline-primary" href="{{ route('coordenadores/export/') }}/?nucleo=0">
+                        <a class="btn btn-outline-primary d-none" href="{{ route('coordenadores/export/') }}/?nucleo=0">
                             <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round"
@@ -98,7 +98,7 @@
                         <div class="col-md-4">
                             <select class="form-select" id="status" name="status">
                                 <option value="" @selected(request('status') == '')>Situação</option>
-                                <option value="ativo" @selected(request('status') == 'ativo')>Ativos</option>
+                                <option value="ativo" @selected(request('status') == 'ativo')>Ativo</option>
                                 <option value="inativo" @selected(request('status') == 'inativo')>Inativo</option>
                             </select>
                         </div>
@@ -192,11 +192,13 @@
                                             <td>
                                                 @if ($coordenador->Status === 1)
                                                     <span class="status-badge status-ativo">
-                                                        Ativar
+                                                        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-checkbox me-1"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 11l3 3l8 -8" /><path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" /></svg>
+                                                        Ativo
                                                     </span>
                                                 @else
                                                     <span class="status-badge status-inativo">
-                                                        Inativar
+                                                        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-off me-1"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M20.042 16.045a9 9 0 0 0 -12.087 -12.087m-2.318 1.677a9 9 0 1 0 12.725 12.73" /><path d="M3 3l18 18" /></svg>
+                                                        Inativo
                                                     </span>
                                                 @endif
                                             </td>
@@ -233,17 +235,17 @@
                                                             </svg></span> Editar
                                                     </a>
                                                     @if ($coordenador->Status === 1)
-                                                        <a href="/coordenadores/disable/{{ $coordenador->id }}">
-                                                            <span class="status-btn status-ativo">
-                                                                Ativar
+                                                    <a onclick="modalShow('Inativar coordenador', 'Tem certeza que deseja inativar esse coordenador?', 'danger', e => window.location.href = '/coordenadores/disable/{{ $coordenador->id }}');">
+                                                            <span class="status-btn status-inativo ms-8">
                                                                 <span class="status-circle"></span>
+                                                                Inativar
                                                             </span>
                                                         </a>
                                                     @else
-                                                        <a onclick="modalShow('Inativar coordenador', 'Tem certeza que deseja inativar esse coordenador?', 'danger', e => window.location.href = '/coordenadores/enable/{{ $coordenador->id }}');">
-                                                            <span class="status-btn status-inativo">
+                                                        <a href="/coordenadores/enable/{{ $coordenador->id }}">
+                                                            <span class="status-btn status-ativo ms-8">
+                                                                Ativar
                                                                 <span class="status-circle"></span>
-                                                                Inativar
                                                             </span>
                                                         </a>
                                                     @endif

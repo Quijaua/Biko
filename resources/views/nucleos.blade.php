@@ -10,16 +10,15 @@
       </div>
       <div class="col-6" style="text-align: right;">
         @if($user->role != 'aluno' && $user->role != 'professor')
-        <a class="btn btn-primary" href="/nucleos/add"><span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-user-plus">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
-              <path d="M16 19h6" />
-              <path d="M19 16v6" />
-              <path d="M6 21v-2a4 4 0 0 1 4 -4h4" />
-            </svg></span>Adicionar novo núcleos</a>
+        <a class="btn btn-primary" href="/nucleos/add">
+          <span>
+            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-home-spark"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12h-2l9 -9l9 9h-2" /><path d="M5 12v7a2 2 0 0 0 2 2h5" /><path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2" /><path d="M19 22.5a4.75 4.75 0 0 1 3.5 -3.5a4.75 4.75 0 0 1 -3.5 -3.5a4.75 4.75 0 0 1 -3.5 3.5a4.75 4.75 0 0 1 3.5 3.5" /></svg>
+          </span>
+          Adicionar novo núcleo
+        </a>
         @endif
         @if($user->role === 'coordenador')
-        <a class="btn btn-outline"><span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-arrow-right">
+        <a class="btn btn-outline d-none"><span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-arrow-right">
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path d="M14 3v4a1 1 0 0 0 1 1h4" />
               <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
@@ -27,7 +26,7 @@
               <path d="M12.5 17.5l2.5 -2.5l-2.5 -2.5" />
             </svg></span> Exportar</a>
         @else
-        <a class="btn btn-outline-primary">
+        <a class="btn btn-outline-primary d-none">
           <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-arrow-right">
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path d="M14 3v4a1 1 0 0 0 1 1h4" />
@@ -67,7 +66,7 @@
           <div class="col-md-3">
             <select class="form-select" id="cidade" name="cidade">
               <option value="" @selected(request('cidade')=='')>Cidade</option>
-              @foreach(\App\Nucleo::all() as $nuc)
+              @foreach(\App\Nucleo::whereNotNull('Cidade')->get() as $nuc)
               <option value="{{ $nuc->Cidade }}" @selected(request('cidade')==$nuc->Cidade)>
                 {{ $nuc->Cidade }}
               </option>
@@ -79,7 +78,7 @@
           <div class="col-md-4">
             <select class="form-select" id="status" name="status">
               <option value="" @selected(request('status')=='' )>Situação</option>
-              <option value="ativo" @selected(request('status')=='ativo' )>Ativos</option>
+              <option value="ativo" @selected(request('status')=='ativo' )>Ativo</option>
               <option value="inativo" @selected(request('status')=='inativo' )>Inativo</option>
             </select>
           </div>
@@ -189,13 +188,17 @@
 
                                 <td class="text-center">
                                   @if($nucleo->Status === 1)
-                                  <span class="badge text-white bg-success p-2">ATIVO</span>
+                                  <span class="status-badge status-ativo">
+                                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-checkbox me-1"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 11l3 3l8 -8" /><path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" /></svg>
+                                    Ativo
+                                  </span>
                                   @else
-                                  <span class="badge text-white bg-danger p-2">INATIVO</span>
+                                  <span class="status-badge status-inativo">
+                                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-off me-1"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M20.042 16.045a9 9 0 0 0 -12.087 -12.087m-2.318 1.677a9 9 0 1 0 12.725 12.73" /><path d="M3 3l18 18" /></svg>
+                                    Inativo
+                                  </span>
                                   @endif
                                 </td>
-                                
-                         
 
                                 {{-- Ações --}}
                                 <td>
@@ -239,16 +242,16 @@
                                          </a>
                                         @if ($nucleo->Status === 1)
                                             <a href="/nucleos/disable/{{ $nucleo->id }}">
-                                                <span class="status-btn status-ativo">
-                                                    Ativar
+                                                <span class="status-btn status-inativo ms-8">
                                                     <span class="status-circle"></span>
+                                                    Inativar
                                                 </span>
                                             </a>
                                         @else
                                             <a href="/nucleos/enable/{{ $nucleo->id }}">
-                                                <span class="status-btn status-inativo">
+                                                <span class="status-btn status-ativo ms-8">
+                                                    Ativar
                                                     <span class="status-circle"></span>
-                                                    Inativar
                                                 </span>
                                             </a>
                                         @endif

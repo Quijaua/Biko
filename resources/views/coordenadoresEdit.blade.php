@@ -184,10 +184,11 @@
 
                                         <div class="col-md-3">
                                             <div class="mb-3">
-                                                <label for="inputCPF">CPF</label>
+                                                <label for="inputCPF">CPF <span
+                                                    class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" id="inputCPF"
                                                     name="inputCPF" aria-describedby="inputCPFHelp"
-                                                    data-mask="000.000.000-00" value="{{ $dados->CPF }}">
+                                                    data-mask="000.000.000-00" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" required value="{{ $dados->CPF }}">
                                             </div>
                                         </div>
                                     </div>
@@ -195,10 +196,11 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label for="inputEmail">Email</label>
+                                                <label for="inputEmail">Email <span
+                                                    class="text-danger">*</span></label>
                                                 <input type="email" class="form-control" id="inputEmail"
                                                     name="inputEmail" aria-describedby="inputEmailHelp"
-                                                    value="{{ $dados->Email }}">
+                                                    value="{{ $dados->Email }}" required>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -212,7 +214,7 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="inputRaca">Raça / Cor</label>
-                                                <select name="inputRaca" class="form-select">
+                                                <select id="raca" name="inputRaca" class="form-select">
                                                     <option selected>Selecione</option>
                                                     <option <?php if ($dados->Raca == 'negra') {
                                                         echo 'selected=selected';
@@ -236,11 +238,11 @@
                                     <div class="row">
 
                                         <div class="col-md-6">
-                                            @if ($dados->Raca == 'indigena')
-                                                <div class="mb-3">
+
+                                                <div id="povo_indigenas_wrapper" class="mb-3 <?php if ($dados->Raca != 'indigena') { echo 'd-none'; } ?> ">
                                                     <label for="povo_indigenas_id">Povo Indígena</label>
                                                     <select name="povo_indigenas_id" class="form-select">
-                                                        <option selected>Selecione</option>
+                                                        <option selected disabled>Selecione</option>
                                                         @foreach ($povo_indigenas as $povo_indigena)
                                                             <option <?php if ($povo_indigena->id == $dados->povo_indigenas_id) {
                                                                 echo 'selected=selected';
@@ -249,15 +251,15 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                            @endif
+
                                         </div>
 
                                         <div class="col-md-6">
-                                            @if ($dados->Raca == 'indigena')
-                                                <div class="mb-3">
+
+                                                <div id="terra_indigenas_wrapper" class="mb-3 <?php if ($dados->Raca != 'indigena') { echo 'd-none'; } ?> ">
                                                     <label for="terra_indigenas_id">Terra Indígena</label>
                                                     <select name="terra_indigenas_id" class="form-select">
-                                                        <option selected>Selecione</option>
+                                                        <option selected disabled>Selecione</option>
                                                         @foreach ($terra_indigenas as $terra_indigena)
                                                             <option <?php if ($terra_indigena->id == $dados->terra_indigenas_id) {
                                                                 echo 'selected=selected';
@@ -266,7 +268,7 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                            @endif
+
                                         </div>
                                     </div>
                                     <div class="row">
@@ -425,7 +427,7 @@
                                             <div class="mb-3">
                                                 <label class="form-label mb-2" for="inputNucleo">Em qual/quais núcleo(s)
                                                     que você atua?</label>
-                                                <select name="inputNucleo" class="form-select">
+                                                <select name="inputNucleo" id="inputNucleo" class="form-control form-select">
                                                     <option selected>Selecione</option>
                                                     @foreach ($nucleos as $nucleo)
                                                         <option <?php if ($nucleo->id == $dados->id_nucleo) {
@@ -1791,7 +1793,7 @@
         $(document).ready(function() {
             $('#inputAnoInicioUneafro').mask('0000');
 
-            const selectNucleo = $('#nucleo')
+            const selectNucleo = $('#inputNucleo')
 
             selectNucleo.on('change', function() {
                 if (selectNucleo.val() == '') {

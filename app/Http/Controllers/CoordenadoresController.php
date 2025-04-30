@@ -263,7 +263,7 @@ class CoordenadoresController extends Controller
       $dados->FuncaoCoordenador = $request->input('inputFuncaoCoordenador');
       $dados->AnoIngresso = $request->input('inputAnoIngresso');
       $dados->RepresentanteCGU = $request->input('inputRepresentanteCGU');
-      $dados->CPF = $dados->CPF;
+      $dados->CPF = $request->input('inputCPF');
       $dados->RG = $request->input('inputRG');
       $dados->Raca = $request->input('inputRaca') ? $request->input('inputRaca') : NULL;
       $dados->Genero = $request->input('inputGenero') ? $request->input('inputGenero') : NULL;

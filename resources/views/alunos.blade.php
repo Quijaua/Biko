@@ -17,7 +17,7 @@
               <path d="M6 21v-2a4 4 0 0 1 4 -4h4" />
             </svg></span>Adicionar novo estudante</a>
         @if($user->role === 'coordenador')
-        <a class="btn btn-outline" href="{{ route('alunos/export/') }}/?nucleo={{ $nucleo ?? '' }}"><span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-arrow-right">
+        <a class="btn btn-outline d-none" href="{{ route('alunos/export/') }}/?nucleo={{ $nucleo ?? '' }}"><span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-arrow-right">
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path d="M14 3v4a1 1 0 0 0 1 1h4" />
               <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
@@ -25,7 +25,7 @@
               <path d="M12.5 17.5l2.5 -2.5l-2.5 -2.5" />
             </svg></span> Exportar</a>
         @else
-        <a class="btn btn-outline-primary" href="{{ route('alunos/export/') }}/?nucleo=0">
+        <a class="btn btn-outline-primary d-none" href="{{ route('alunos/export/') }}/?nucleo=0">
           <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-arrow-right">
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path d="M14 3v4a1 1 0 0 0 1 1h4" />
@@ -80,7 +80,7 @@
             <select class="form-select" id="status" name="status">
               <option value="" @selected(request('status')=='' )>Situação</option>
               <!--option value="ativo" @selected(request('status')=='ativo' )>Ativos</option-->
-              <option value="ativo" <?php if (request('status') == 'ativo') echo 'selected'; ?>>Ativos</option>
+              <option value="ativo" <?php if (request('status') == 'ativo') echo 'selected'; ?>>Ativo</option>
               <!--option value="inativo" @selected(request('status')=='inativo' )>Inativo</option -->
               <option value="inativo" <?php if (request('status') == 'inativo') echo 'selected'; ?>>Inativo</option>
             </select>
@@ -195,10 +195,12 @@
                 <td>
                   @if($aluno->Status === 1)
                   <span class="status-badge status-ativo">
+                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-checkbox me-1"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 11l3 3l8 -8" /><path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" /></svg>
                     Ativo
                   </span>
                   @else
                   <span class="status-badge status-inativo">
+                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-off me-1"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M20.042 16.045a9 9 0 0 0 -12.087 -12.087m-2.318 1.677a9 9 0 1 0 12.725 12.73" /><path d="M3 3l18 18" /></svg>
                     Inativo
                   </span>
                   @endif
@@ -240,14 +242,14 @@
                     </a>
                     @if($aluno->Status === 0)
                     <a href="/alunos/enable/{{ $aluno->id }}">
-                      <span class="status-btn status-ativo">
+                      <span class="status-btn status-ativo ms-8">
                         Ativar
                         <span class="status-circle"></span>
                       </span>
                     </a>
                     @else
                     <a onclick="e => e.preventDefault(); modalShow('Inativar aluno', 'Tem certeza que deseja inativar esse aluno?', 'danger', e => window.location.href = '/alunos/disable/{{ $aluno->id }}');">
-                      <span class="status-btn status-inativo">
+                      <span class="status-btn status-inativo ms-8">
                         <span class="status-circle"></span>
                         Inativar
                       </span>
