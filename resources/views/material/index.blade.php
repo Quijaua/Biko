@@ -360,13 +360,15 @@
       </div>
 
       <script>
-        const btnEditar = document.querySelector('.open-modal-editar')
-        btnEditar.addEventListener('click', e => {
-            const modal = new bootstrap.Modal(modaleditar);
-            modal.show();
-            const urlModal = btnEditar.dataset.url
-            const formModal = modaleditar.querySelector('form')
-            formModal.action = urlModal
+        const btnsEditar = document.querySelectorAll('.open-modal-editar')
+        btnsEditar.forEach(btnEditar => {
+            btnEditar.addEventListener('click', e => {
+                const modal = new bootstrap.Modal(modaleditar);
+                modal.show();
+                const urlModal = btnEditar.dataset.url
+                const formModal = modaleditar.querySelector('form')
+                formModal.action = urlModal
+            })
         })
       </script>
       
