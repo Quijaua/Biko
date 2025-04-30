@@ -63,6 +63,7 @@ Route::post('nucleo/material/create', 'MaterialController@create')->name('nucleo
 Route::get('nucleo/material/delete/{id}', 'MaterialController@delete')->name('nucleo.material.delete');
 Route::get('nucleo/material/restore/{id}', 'MaterialController@restore')->name('nucleo.material.restore');
 Route::get('nucleo/material/search', 'MaterialController@search')->middleware('permissions');
+Route::put('nucleo/material/edit/{id}', 'MaterialController@edit')->middleware('permissions')->name('material.edit');
 
 // ROUTES FOR ALUNOS MANAGEMENT
 Route::get('alunos', 'AlunosController@index')->middleware('permissions');

@@ -8,6 +8,8 @@ use DB;
 
 use App\Nucleo;
 use App\Material;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class MaterialController extends Controller
 {
@@ -51,6 +53,24 @@ class MaterialController extends Controller
     ]);
 
     return back();
+  }
+
+  public function edit($id, Request $request) {
+    $material = Material::find($id);
+    if(
+      !Schema::hasColumn('materials', 'file')
+    ) {
+      Schema::table('materials', function(Blueprint $table) {
+        $table->string('file')->nullable();
+      });
+    }
+
+    $material->file = $material->name;
+    $material->name = $request->input('title');
+    $material->save();
+    return redirect('/nucleo/material')->with([
+      'success' => "DADOS SALVOS COM SUCESSO."
+    ]);
   }
 
   public function delete($id)

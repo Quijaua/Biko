@@ -186,6 +186,17 @@
                                             @endif
                                         </td>
                                         <td class="text-secondary">
+                                            <a href="#" class="btn btn-outline-primary p-2 open-modal-editar"
+                                            data-url="{{ route('material.edit', ['id' => $file->id]) }}"
+                                            data-file-id="{{ $file->id }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" style="width: 16px;" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                                                <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
+                                                <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
+                                              </svg>
+                                              
+                                            Editar
+                                         </a>
+
                                             <a class="btn btn-outline-primary p-2"
                                                 href="{{ asset('uploads') . '/' . $file->name }}"
                                                 target="_blank"><span><svg xmlns="http://www.w3.org/2000/svg"
@@ -281,6 +292,44 @@
           </div>
       </div>
 
+      <div class="modal modal-blur fade" id="modaleditar" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title text-primary">Editar material</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <form action="" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="modal-body text-center">
+                <label class="form-label" style="text-align: left;">Editar título do material:</label>
+                    <input type="text" name="title" class="form-control">
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">cancelar</button>
+                    <button id="modaleditar_url" class="btn btn-primary"><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6" style="width: 16px;">
+                        <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
+                        <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
+                      </svg>
+                      </span> salvar</button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        const btnEditar = document.querySelector('.open-modal-editar')
+        btnEditar.addEventListener('click', e => {
+            const modal = new bootstrap.Modal(modaleditar);
+            modal.show();
+            const urlModal = btnEditar.dataset.url
+            const formModal = modaleditar.querySelector('form')
+            formModal.action = urlModal
+        })
+      </script>
       
     </div>
 @endsection
