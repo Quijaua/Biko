@@ -157,7 +157,7 @@ class RegisterController extends Controller
             'ComoSoube' => isset($data['inputComoSoube']) ? $data['inputComoSoube'] : NULL,
             'ComoSoubeOutros' => isset($data['inputComoSoubeOutros']) ? $data['inputComoSoubeOutros'] : NULL,
             'localizacao_curso' => isset($data['localizacao_curso']) ? $data['localizacao_curso'] : NULL,
-            'pessoa_com_deficiencia' => $data['pessoa_com_deficiencia'],
+            'pessoa_com_deficiencia' => $data['pessoa_com_deficiencia'] ?? NULL,
             'povo_indigenas_id' => $data['povo_indigenas_id'] ?? NULL,
             'terra_indigenas_id' => $data['terra_indigenas_id'] ?? NULL,
         ]);
