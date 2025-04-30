@@ -63,9 +63,9 @@ class MaterialController extends Controller
       Schema::table('materials', function(Blueprint $table) {
         $table->string('file')->nullable();
       });
+      $material->file = $material->name;
     }
 
-    $material->file = $material->name;
     $material->name = $request->input('title');
     $material->save();
     return redirect('/nucleo/material')->with([
