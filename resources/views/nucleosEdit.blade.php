@@ -524,7 +524,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-3">
-                                        <div class="mb-3">
+                                        <div id="TaxaInscricaoValor" class="mb-3 <?php if (!$dados->TaxaInscricao || $dados->TaxaInscricao == 'nao') echo 'd-none'; ?> ">
                                             <label class="form-label mb-2" for="inputTaxaInscricaoValor">Qual o valor da
                                                 taxa?</label>
                                             <input type="text" class="form-control currency"
@@ -635,6 +635,17 @@
                         },
                     });
             });
+
+            $(document).ready(function() {
+                $('#inputTaxaInscricao1').click(function() {
+                    $('#TaxaInscricaoValor').removeClass('d-none');
+                    $('#TaxaInscricaoValor').addClass('d-block');
+                });
+                $('#inputTaxaInscricao2').click(function() {
+                    $('#TaxaInscricaoValor').removeClass('d-block');
+                    $('#TaxaInscricaoValor').addClass('d-none');
+                });
+            })
         </script>
     </div>
 @endsection

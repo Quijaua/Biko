@@ -418,7 +418,7 @@
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" type="radio" name="inputTaxaInscricao"
                                                     id="inputTaxaInscricao1" value="sim"
-                                                    onclick="showInput('#TaxaInscricaoValor')">
+                                                    onclick="showInput('#TaxaInscricaoValor')" checked>
                                                 <label class="form-label mb-2 form-check-label"
                                                     for="inputTaxaInscricao1">Sim</label>
                                             </div>
@@ -432,7 +432,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-3">
-                                        <div class="mb-3">
+                                        <div id="TaxaInscricaoValor" class="mb-3 d-block">
                                             <label class="form-label mb-2" for="inputTaxaInscricaoValor">Qual o valor da
                                                 taxa?</label>
                                             <input type="text" class="form-control currency"
@@ -538,6 +538,17 @@
                         },
                     });
             });
+
+            $(document).ready(function() {
+                $('#inputTaxaInscricao1').click(function() {
+                    $('#TaxaInscricaoValor').removeClass('d-none');
+                    $('#TaxaInscricaoValor').addClass('d-block');
+                });
+                $('#inputTaxaInscricao2').click(function() {
+                    $('#TaxaInscricaoValor').removeClass('d-block');
+                    $('#TaxaInscricaoValor').addClass('d-none');
+                });
+            })
         </script>
     </div>
 @endsection
