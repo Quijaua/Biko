@@ -158,10 +158,10 @@
                             <tbody class="bg-white rounded">
                                 @foreach ($files as $file)
                                     <tr>
-                                        <td class="text-secondary">{{ $file->created_at->format('d/m/Y') }}</td>
+                                        <td class="text-secondary">{{ \Carbon\Carbon::parse($file->created_at)->format('d/m/Y') }}</td>
                                         <td class="text-secondary">{{ $file->name }}</td>
-                                        <td class="text-secondary">{{ $file->user->name }}</td>
-                                        <td class="text-secondary">{{ $file->nucleo->NomeNucleo }}</td>
+                                        <td class="text-secondary">{{ $file->user->name ?? 'Desconhecido' }}</td>
+                                        <td class="text-secondary">{{ $file->nucleo->NomeNucleo ?? 'Desconhecido' }}</td>
                                         <td class="text-secondary">
                                             @if ($file->status)
                                                 <span class="d-flex align-center gap-2"> <svg

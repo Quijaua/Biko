@@ -124,9 +124,20 @@ class MaterialController extends Controller
       })
       ->paginate(25);
 
+    if ( $user->role === 'administrador' ) {
+      $nucleos = Nucleo::where('Status', 1)->get();
+    }
+    if ( $user->role === 'coordenador' ) {
+      $nucleos = Nucleo::where('Status', 1)->where('id', $user->coordenador->id_nucleo)->first();
+    }
+    if ( $user->role === 'professor' ) {
+      $nucleos = Nucleo::where('Status', 1)->where('id', $user->professor->id_nucleo)->first();
+    }
+
     return view('material.index')->with([
       'user' => $user,
       'files' => $files,
+      'nucleos' => $nucleos,
     ]);
   }
 
