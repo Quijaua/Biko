@@ -326,6 +326,8 @@ class NucleoController extends Controller
         case 'coordenador':
           $professor = Coordenadores::where('id_user', Auth::user()->id)->first();
           break;
+        default:
+          $professor = Professores::where('Status', 1)->first();
       };
 
       $nucleos = DB::table('nucleos')

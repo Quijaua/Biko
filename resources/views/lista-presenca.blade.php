@@ -32,12 +32,6 @@
                     <div class="col-2">
                         @if (Session::get('role') == 'professor')
                             <div class="row">
-                                {{-- <!--div class="col-5">
-                                        <?php $today = \Carbon\Carbon::now()->format('Y-m-d'); ?>
-                                        <small>Período</small>
-                                        <input type="date" class="form-control" id="date" name="date"
-                                            aria-describedby="dateHelp" max="{{ $today }}">
-                                    </div--> --}}
                                 <div>
                                     <button class="btn btn-primary" type="submit"><svg xmlns="http://www.w3.org/2000/svg"
                                             width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -121,26 +115,25 @@
                 </div>
                 <div class="row mb-4">
                     @if (Session::get('role') === 'administrador')
-                        <div class="col-12">
-                            <div class="mb-3 d-flex justify-content-end">
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                        {{ $nucleo->NomeNucleo }}
-                                    </button>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        @foreach ($nucleos as $nucleo_id => $nucleo_name)
-                                            <li>
-                                                <a class="dropdown-item"
-                                                    href="{{ route('nucleo/presences', ['nid' => $nucleo_id]) }}">{{ $nucleo_name }}</a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
+                    <div class="col-12">
+                        <div class="mb-3 d-flex justify-content-end">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{ $nucleo->NomeNucleo }}
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    @foreach (\App\Nucleo::all() as $nucleo)
+                                        <li>
+                                            <a class="dropdown-item"
+                                                href="{{ route('nucleo/presences', ['nid' => $nucleo->id]) }}">{{ $nucleo->NomeNucleo }}</a>
+                                        </li>
+                                    @endforeach
+                                </ul>
                             </div>
                         </div>
+                    </div>
                     @endif
-
                 </div>
             </form>
         </div>

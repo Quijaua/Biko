@@ -98,18 +98,18 @@ Route::get('nucleos/edit/{id}', 'NucleoController@edit')->middleware('permission
 Route::post('nucleos/update/{id}', 'NucleoController@update')->middleware('permissions');
 Route::get('nucleos/disable/{id}', 'NucleoController@disable')->middleware('permissions');
 Route::get('nucleos/enable/{id}', 'NucleoController@enable')->middleware('permissions');
-Route::any('nucleos/search', 'NucleoController@search')->middleware('permissions');
+Route::any('nucleos/search', 'NucleoController@search');
 Route::get('nucleo/presences', 'NucleoController@presences_index')->name('nucleo/presences');
 Route::get('nucleo/presences/new', 'NucleoController@presences_new')->name('nucleo/presences/new');
 Route::post('nucleo/presences/create', 'NucleoController@presences_create')->name('nucleo/presences/create');
 Route::get('nucleo/presences/destroy', 'NucleoController@presences_destroy')->name('nucleo/presences/destroy');
-Route::any('nucleo/presences/search', 'NucleoController@search_presences')->middleware('permissions');
+Route::any('nucleo/presences/search', 'NucleoController@search_presences');
 
 Route::get('nucleo/material', 'MaterialController@index')->name('nucleo.material');
 Route::post('nucleo/material/create', 'MaterialController@create')->name('nucleo.material.create');
 Route::get('nucleo/material/delete/{id}', 'MaterialController@delete')->name('nucleo.material.delete');
 Route::get('nucleo/material/restore/{id}', 'MaterialController@restore')->name('nucleo.material.restore');
-Route::get('nucleo/material/search', 'MaterialController@search')->middleware('permissions');
+Route::get('nucleo/material/search', 'MaterialController@search');
 Route::put('nucleo/material/edit/{id}', 'MaterialController@edit')->middleware('permissions')->name('material.edit');
 
 // ROUTES FOR ALUNOS MANAGEMENT
@@ -121,9 +121,9 @@ Route::get('alunos/edit/{id}', 'AlunosController@edit')->middleware('permissions
 Route::post('alunos/update/{id}', 'AlunosController@update')->middleware('permissions');
 Route::get('alunos/disable/{id}', 'AlunosController@disable')->middleware('permissions');
 Route::get('alunos/enable/{id}', 'AlunosController@enable')->middleware('permissions');
-Route::any('alunos/search', 'AlunosController@search')->middleware('permissions')->name('alunos/search');
-Route::any('alunos/nucleo/search', 'AlunosController@searchByNucleo')->middleware('permissions')->name('alunos/nucleo/search');
-Route::any('api/alunos/nucleo/search', 'AlunosController@searchByNucleoAPI')->middleware('permissions')->name('alunos/nucleo/search.api');
+Route::any('alunos/search', 'AlunosController@search')->name('alunos/search');
+Route::any('alunos/nucleo/search', 'AlunosController@searchByNucleo')->name('alunos/nucleo/search');
+Route::any('api/alunos/nucleo/search', 'AlunosController@searchByNucleoAPI')->name('alunos/nucleo/search.api');
 Route::post('alunos/familiares/add', 'AlunoInfoFamiliaresController@add')->name('alunos/familiares/add');
 Route::post('alunos/familiares/update/{id}', 'AlunoInfoFamiliaresController@update')->name('alunos/familiares/update');
 Route::post('alunos/familiares/delete/{id}', 'AlunoInfoFamiliaresController@delete')->name('alunos/familiares/delete');
@@ -152,7 +152,7 @@ Route::get('professores/edit/{id}' , 'ProfessoresController@edit')->middleware('
 Route::post('professores/update/{id}', 'ProfessoresController@update')->middleware('permissions');
 Route::get('professores/disable/{id}', 'ProfessoresController@disable')->middleware('permissions');
 Route::get('professores/enable/{id}', 'ProfessoresController@enable')->middleware('permissions');
-Route::any('professores/search', 'ProfessoresController@search')->middleware('permissions')->name('professores/search');
+Route::any('professores/search', 'ProfessoresController@search')->name('professores/search');
 
 
 // ROUTES FOR MESSAGE MANAGEMENT
