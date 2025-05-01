@@ -54,7 +54,7 @@ Route::post('otp-login', function () {
 
     Mail::to($user->email)->send(new MessageOtpLogin($user->email));
 
-    return back()->with('success', 'Token enviado com sucesso.');
+    return back()->with('success', 'Quase lá! Confira seu e-mail e clique no link que enviamos para entrar no sistema.');
 })->name('otp-login');
 
 Route::get('otp-verify', function () {
