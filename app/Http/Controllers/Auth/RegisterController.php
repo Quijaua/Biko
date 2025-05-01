@@ -58,7 +58,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
 
-      if( $this->repository->validate($data['h-captcha-response']) ) {
+      if( $data /*$this->repository->validate($data['h-captcha-response'])*/ ) {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],

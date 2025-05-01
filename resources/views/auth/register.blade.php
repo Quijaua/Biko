@@ -86,20 +86,22 @@
 
                                     <?php $nucleos = DB::table('nucleos')->where('status', 1)->orderBy('Regiao', 'asc')->get(); ?>
 
-                                    <select id="inputNucleo" name="inputNucleo" class="form-select" required
+                                    <select id="inputNucleo" name="inputNucleo" class="form-select is-invalid" required
                                         onchange="atualizarNucleo()" form="registration-form">
                                         <option value="">Selecione</option>
-                                        {{-- @foreach ($nucleos as $nucleo)
+                                        @foreach ($nucleos as $nucleo)
                                             <option value="{{ $nucleo->id }}">
                                                 {{ $nucleo->Regiao }} - {{ $nucleo->NomeNucleo }} - {{ $nucleo->InfoInscricao }}
                                             </option>
-                                        @endforeach --}}
+                                        @endforeach
                                     </select>
 
                                     <small id="nucleoHelp" class="form-text text-muted">
                                         Por favor, informe o núcleo do seu interesse.
                                     </small>
-                                  </a>
+
+                                    <div class="mb-3 invalid-feedback invalid-nucleo d-block">Por favor, selecione um núcleo.</div>
+                                  <!--/a-->
 
                                 </div>
                             </div>
@@ -118,15 +120,15 @@
                                                         <div class="mb-3">
 
                                                             <label class="form-label mb-2"
-                                                                for="name">{{ __('Nome Completo') }}<span
-                                                                    class="text-danger">*</span></label>
+                                                                for="name">{{ __('Nome Completo') }}</label>
 
                                                             <input id="name" type="text"
-                                                                class="form-control @error('name') is-invalid @enderror"
+                                                                class="form-control @error('name') is-invalid @enderror is-invalid"
                                                                 name="name" value="{{ old('name') }}" required
                                                                 autocomplete="name" autofocus
                                                                 placeholder="Informe seu nome completo, da mesma forma em que consta em seu RG.">
                                                         </div>
+                                                        <div class="mb-3 invalid-feedback invalid-name d-block">Por favor, informe seu nome completo.</div>
                                                         @error('name')
                                                             <span class="invalid-feedback" role="alert">
                                                                 <strong>{{ $message }}</strong>
@@ -139,14 +141,14 @@
                                                 <div class="row">
                                                     <div class="col-6">
                                                         <div class="mb-3">
-                                                            <label class="form-label" for="email">{{ __('Email') }}<span
-                                                                    class="text-danger">*</span></label>
+                                                            <label class="form-label" for="email">{{ __('Email') }}</label>
                                                             <input id="email" type="email"
-                                                                class="form-control @error('email') is-invalid @enderror"
+                                                                class="form-control @error('email') is-invalid @enderror is-invalid"
                                                                 name="email" value="{{ old('email') }}" required
                                                                 autocomplete="email"
                                                                 placeholder="Seu e-mail principal">
                                                         </div>
+                                                        <div class="mb-3 invalid-feedback invalid-email d-block">Por favor, informe seu e-mail.</div>
                                                         @error('email')
                                                             <span class="invalid-feedback" role="alert">
                                                                 <strong>{{ $message }} <a href="/password/reset/">Clique
@@ -277,11 +279,12 @@
                                                     <div class="col-12 col-md-6">
                                                         <div class="mb-3">
                                                             <label class="form-label mb-2" for="inputNascimento">Data de
-                                                                Nascimento <span class="text-danger">*</span></label>
-                                                            <input type="date" class="form-control" id="inputNascimento"
+                                                                Nascimento</label>
+                                                            <input type="date" class="form-control is-invalid" id="inputNascimento"
                                                                 name="inputNascimento" aria-describedby="inputNascimentoHelp"
                                                                 onblur="getAge()" required>
                                                         </div>
+                                                        <div class="mb-3 invalid-feedback invalid-nascimento d-block">Por favor, informe sua data de nascimento.</div>
                                                     </div>
                                                     <div class="col-12 col-md-6">
                                                         <div class="mb-3">
@@ -462,6 +465,25 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Modal Sucesso -->
+                <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="successModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Parabens, seu cadastro foi realizado com sucesso. Em breve uma pessoa da coordenação entrara em contato.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    </div>
+                    </div>
+                </div>
+                </div>
+
             </div>
         @endsection
 
@@ -598,5 +620,117 @@
                     document.getElementById("step-3").click();
                     stepFrom++;
                 }
+
+
+            $(document).ready(function() {
+
+                const selectNucleo = $('#inputNucleo')
+                const inputName = $('#name')
+                const inputEmail = $('#email')
+                const inputNascimento = $('#inputNascimento')
+                const successModal = new bootstrap.Modal(document.getElementById('successModal'))
+                const registrationForm = $('#registrationForm')
+                const initialStep = $('#step-1')
+
+                selectNucleo.on('change', function() {
+                    if (selectNucleo.val() == '') {
+                        selectNucleo.removeClass('is-valid')
+                        selectNucleo.addClass('is-invalid')
+                        $('.invalid-nucleo').removeClass('d-none')
+                        $('.invalid-nucleo').addClass('d-block')
+                    } else {
+                        selectNucleo.removeClass('is-invalid')
+                        selectNucleo.addClass('is-valid')
+                        $('.invalid-nucleo').removeClass('d-block')
+                        $('.invalid-nucleo').addClass('d-none')
+                    }
+                })
+
+                inputName.on('blur', function() {
+                    if (inputName.val() == '') {
+                        inputName.removeClass('is-valid')
+                        inputName.addClass('is-invalid')
+                        $('.invalid-name').removeClass('d-none')
+                        $('.invalid-name').addClass('d-block')
+                    } else {
+                        inputName.removeClass('is-invalid')
+                        inputName.addClass('is-valid')
+                        $('.invalid-name').removeClass('d-block')
+                        $('.invalid-name').addClass('d-none')
+                    }
+                })
+
+                inputEmail.on('blur', function() {
+                    if (inputEmail.val() == '') {
+                        inputEmail.removeClass('is-valid')
+                        inputEmail.addClass('is-invalid')
+                        $('.invalid-email').removeClass('d-none')
+                        $('.invalid-email').addClass('d-block')
+                    } else {
+                        inputEmail.removeClass('is-invalid')
+                        inputEmail.addClass('is-valid')
+                        $('.invalid-email').removeClass('d-block')
+                        $('.invalid-email').addClass('d-none')
+                    }
+                })
+
+                inputNascimento.on('blur', function() {
+                    if (inputNascimento.val() == '') {
+                        inputNascimento.removeClass('is-valid')
+                        inputNascimento.addClass('is-invalid')
+                        $('.invalid-nascimento').removeClass('d-none')
+                        $('.invalid-nascimento').addClass('d-block')
+                    } else {
+                        inputNascimento.removeClass('is-invalid')
+                        inputNascimento.addClass('is-valid')
+                        $('.invalid-nascimento').removeClass('d-block')
+                        $('.invalid-nascimento').addClass('d-none')
+                    }
+                })
+
+                $('#registration-form').on('submit', function(e) {
+                    e.preventDefault()
+
+                    let data = $(this).serialize()
+
+                    $.ajax({
+                        url: "{{ route('register') }}",
+                        method: 'POST',
+                        data: data,
+                        success: function(response) {
+                            console.log(response)
+                            registrationForm[0].reset()
+                            $('#resultadoNucleo').remove()
+                            $('#resultadoLocal').remove()
+                            initialStep.click()
+                            successModal.show()
+                        },
+                        error: function(response) {
+                            console.log(response)
+                            if (response.responseJSON.errors.name) {
+                                inputName.removeClass('is-valid')
+                                inputName.addClass('is-invalid')
+                                $('.invalid-name').removeClass('d-none')
+                                $('.invalid-name').addClass('d-block')
+                                $('.invalid-name').text(response.responseJSON.errors.name)
+                            }
+                            if (response.responseJSON.errors.email) {
+                                inputEmail.removeClass('is-valid')
+                                inputEmail.addClass('is-invalid')
+                                $('.invalid-email').removeClass('d-none')
+                                $('.invalid-email').addClass('d-block')
+                                $('.invalid-email').text(response.responseJSON.errors.email)
+                            }
+                            if (response.responseJSON.errors.nascimento) {
+                                inputNascimento.removeClass('is-valid')
+                                inputNascimento.addClass('is-invalid')
+                                $('.invalid-nascimento').removeClass('d-none')
+                                $('.invalid-nascimento').addClass('d-block')
+                                $('.invalid-nascimento').text(response.responseJSON.errors.nascimento)
+                            }
+                        }
+                    })
+                })
+            })
             </script>
         @endsection
