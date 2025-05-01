@@ -139,7 +139,7 @@
             <!-- Sidebar OFFCANVAS para telas pequenas -->
             <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="sidebar-offcanvas">
                 <div class="offcanvas-header">
-                    <h5 class="offcanvas-title">biko</h5>
+                    <h5 class="offcanvas-title">{{ config('app.name', 'Biko') }}</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
                         aria-label="Close"></button>
                 </div>
@@ -517,7 +517,7 @@
             <aside class="navbar navbar-vertical navbar-expand-lg navbar-dark bg-dark d-none d-lg-flex"
                 style="width: 250px;">
                 <div class="container-fluid p-2">
-                    <h1 class="navbar-brand text-white my-3">biko</h1>
+                    <h1 class="navbar-brand text-white my-3">{{ config('app.name', 'Biko') }}</h1>
                     <div class="collapse navbar-collapse" id="sidebar-menu">
                         <ul class="navbar-nav">
                             @if (!\Auth()->user()->first_login)
