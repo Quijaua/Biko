@@ -875,6 +875,20 @@
                                     </a>
                                 </li>
                             @endif
+                            <li class="nav-item mt-3">
+                                <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1 icon-tabler text-danger icons-tabler-outline icon-tabler-logout-2"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 8v-2a2 2 0 0 1 2 -2h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-2" /><path d="M15 12h-12l3 -3" /><path d="M6 15l-3 -3" /></svg>
+                                    </span>
+                                    <span class="nav-link-title text-danger">
+                                    {{ __('Sair') }}
+                                    </span>
+                                </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -1236,31 +1250,7 @@
                                             <div>{{ Auth::user()->name }}</div>
                                             <div class="mt-1 small text-secondary">{{ Auth::user()->role }}</div>
                                         </div>
-                                        <span class="nav-link-icon d-md-none d-lg-inline-block m-2">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="icon icon-tabler icons-tabler-outline icon-tabler-circle-arrow-down">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
-                                                <path d="M8 12l4 4" />
-                                                <path d="M12 8v8" />
-                                                <path d="M16 12l-4 4" />
-                                            </svg>
-                                        </span>
                                     </a>
-                                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <a class="dropdown-item" href="{{ route('logout') }}"
-                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                            {{ __('Sair') }}
-                                        </a>
-
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                            style="display: none;">
-                                            @csrf
-                                        </form>
-
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1280,7 +1270,7 @@
     </div>
 
     <!-- Modal -->
-    <!-- <div class="modal fade" id="modalInfo" tabindex="-1" style="display: none;" aria-hidden="true">
+    <div class="modal fade" id="modalInfo" tabindex="-1" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         
@@ -1299,7 +1289,7 @@
         </div>
       </div>
     </div>
-  </div> -->
+  </div>
 
     <script src="{{ asset('dist/js/tabler.min.js?1738096684') }}"></script>
     </div>

@@ -49,7 +49,7 @@
             <p>Nenhum registro encontrado.</p>
             @else
                 @foreach($aulas as $aula)
-                <div class="col-md-6 p-2 h-25" style="float:left;margin-bottom:50px">
+                <div class="col-md-6 p-2 sh-25" style="float:left">
                 <div class="card mb-8">
                     <div class="card-header">
                         <div class="col-6">
