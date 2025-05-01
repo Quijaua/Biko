@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class AmbienteVirtual extends Model
+class AmbienteVirtual extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+    
     protected $table = 'ambiente_virtuals';
 
     protected $fillable = [

@@ -3,11 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Material extends Model
+class Material extends Model implements Auditable
 {
   use SoftDeletes;
+  use \OwenIt\Auditing\Auditable;
 
   protected $casts = [
     'created_at' => 'date'
