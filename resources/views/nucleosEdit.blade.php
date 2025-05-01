@@ -29,6 +29,8 @@
                             role="tab">Disciplinas</a>
                         <a class="nav-link" id="tab-inscricao" data-bs-toggle="pill" href="#inscricao" role="tab">
                             Inscrição e vagas</a>
+                        <a class="nav-link" id="tab-professores" data-bs-toggle="pill" href="#professores" role="tab">
+                            Professores</a>
                         {{-- <a class="nav-link" id="tab-privacidade" data-bs-toggle="pill" href="#privacidade" role="tab">
                             Privacidade</a> --}}
                     </div>
@@ -592,6 +594,80 @@
                                 </div>
 
                             </div>
+
+                            {{-- Professores --}}
+                            <div class="tab-pane fade" id="professores" role="tabpanel"
+                                aria-labelledby="tab-privacidade">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label mb-2" for="inputHorarios">Horário Inicial</label>
+                                            <input type="time" class="form-control" id="inputHorarioInicial"
+                                                name="inputHorarioInicial" aria-describedby="inputHorarioInicialHelp"
+                                                value="{{ $dados->HorarioInicial }}" >
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label mb-2" for="inputHorarios">Horário Final</label>
+                                            <input type="time" class="form-control" id="inputHorarioFinal"
+                                                name="inputHorarioFinal" aria-describedby="inputHorarioFinalHelp"
+                                                value="{{ $dados->HorarioFinal }}" >
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label mb-2" for="inputHorarios">Dia da semana</label>
+                                            <select name="inputDiaSemana" id="inputDiaSemana" class="form-select">
+                                                <option value="Segunda-feira" {{ $dados->DiaSemana == 'Segunda-feira' ? 'selected' : '' }}>Segunda-feira</option>
+                                                <option value="Terça-feira" {{ $dados->DiaSemana == 'Terça-feira' ? 'selected' : '' }}>Terça-feira</option>
+                                                <option value="Quarta-feira" {{ $dados->DiaSemana == 'Quarta-feira' ? 'selected' : '' }}>Quarta-feira</option>
+                                                <option value="Quinta-feira" {{ $dados->DiaSemana == 'Quinta-feira' ? 'selected' : '' }}>Quinta-feira</option>
+                                                <option value="Sexta-feira" {{ $dados->DiaSemana == 'Sexta-feira' ? 'selected' : '' }}>Sexta-feira</option>
+                                                <option value="Sábado" {{ $dados->DiaSemana == 'Sábado' ? 'selected' : '' }}>Sábado</option>
+                                                <option value="Domingo" {{ $dados->DiaSemana == 'Domingo' ? 'selected' : '' }}>Domingo</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <?php
+                                    $disciplinas = DB::table('disciplinas')
+                                        ->when($dados->disciplinas, function ($query) use ($dados) {
+                                            return $query->whereIn('id', $dados->disciplinas);
+                                        })
+                                        ->get();
+                                ?>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label mb-2" for="inputProfessorDisciplina">Disciplina</label>
+                                            <select name="inputProfessorDisciplina" id="inputProfessorDisciplina" class="form-select">
+                                                <option>Selecione</option>
+                                                @foreach ($disciplinas as $disciplina)
+                                                <option value="{{ $disciplina->id }}" <?php if ($dados->ProfessorDisciplina && in_array($disciplina->id, $dados->ProfessorDisciplina)) {
+                                                    echo 'selected=selected';
+                                                } ?> >{{ $disciplina->nome }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <?php $professores = DB::table('professores')->where('id_nucleo', $dados->id)->get(); ?>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label mb-2" for="inputProfessor">Professor</label>
+                                            <select name="inputProfessor" id="inputProfessor" class="form-select">
+                                                <option>Selecione</option>
+                                                @foreach ($professores as $professor)
+                                                <option value="{{ $professor->id }}" >{{ $professor->NomeProfessor }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
 
                             {{-- Privacidade --}}
                             {{-- <div class="tab-pane fade" id="privacidade" role="tabpanel"

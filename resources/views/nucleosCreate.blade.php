@@ -29,6 +29,8 @@
                             role="tab">Disciplinas</a>
                         <a class="nav-link" id="tab-inscricao" data-bs-toggle="pill" href="#inscricao" role="tab">
                             Inscrição e vagas</a>
+                        <a class="nav-link" id="tab-professores" data-bs-toggle="pill" href="#professores" role="tab">
+                            Professores</a>
                         {{-- <a class="nav-link" id="tab-privacidade" data-bs-toggle="pill" href="#privacidade" role="tab">
                             Privacidade</a> --}}
                     </div>
@@ -495,6 +497,70 @@
                                     </div>
                                 </div>
 
+                            </div>
+
+
+                            {{-- Professores --}}
+                            <div class="tab-pane fade" id="professores" role="tabpanel"
+                                aria-labelledby="tab-privacidade">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label mb-2" for="inputHorarios">Horário Inicial</label>
+                                            <input type="time" class="form-control" id="inputHorarioInicial"
+                                                name="inputHorarioInicial" aria-describedby="inputHorarioInicialHelp" >
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label mb-2" for="inputHorarios">Horário Final</label>
+                                            <input type="time" class="form-control" id="inputHorarioFinal"
+                                                name="inputHorarioFinal" aria-describedby="inputHorarioFinalHelp" >
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label mb-2" for="inputHorarios">Dia da semana</label>
+                                            <select name="inputDiaSemana" id="inputDiaSemana" class="form-select">
+                                                <option value="Segunda-feira">Segunda-feira</option>
+                                                <option value="Terça-feira">Terça-feira</option>
+                                                <option value="Quarta-feira">Quarta-feira</option>
+                                                <option value="Quinta-feira">Quinta-feira</option>
+                                                <option value="Sexta-feira">Sexta-feira</option>
+                                                <option value="Sábado">Sábado</option>
+                                                <option value="Domingo">Domingo</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <?php $disciplinas = DB::table('disciplinas')->get(); ?>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label mb-2" for="inputProfessorDisciplina">Disciplina</label>
+                                            <select name="inputProfessorDisciplina" id="inputProfessorDisciplina" class="form-select">
+                                                <option>Selecione</option>
+                                                @foreach ($disciplinas as $disciplina)
+                                                <option value="{{ $disciplina->id }}">{{ $disciplina->nome }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <?php $professores = DB::table('professores')->get(); ?>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label mb-2" for="inputProfessor">Professor</label>
+                                            <select name="inputProfessor" id="inputProfessor" class="form-select">
+                                                <option>Selecione</option>
+                                                @foreach ($professores as $professor)
+                                                <option value="{{ $professor->id }}" >{{ $professor->NomeProfessor }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             {{-- Privacidade --}}
