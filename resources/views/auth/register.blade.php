@@ -139,7 +139,7 @@
 
                                                 {{-- Email --}}
                                                 <div class="row">
-                                                    <div class="col-6">
+                                                    <div class="col-12 col-md-6">
                                                         <div class="mb-3">
                                                             <label class="form-label" for="email">{{ __('Email') }}</label>
                                                             <input id="email" type="email"
@@ -159,7 +159,7 @@
                                                     </div>
 
                                                 {{-- Telefone --}}
-                                                    <div class="col-6">
+                                                    <div class="col-12 col-md-6">
                                                         <div class="mb-3">
                                                             <label class="form-label mb-2"
                                                                 for="phone">{{ __('Celular/WhatsApp') }}</label>

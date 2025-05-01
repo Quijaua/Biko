@@ -81,7 +81,7 @@
                     </div>
                     <div class="navbar-nav flex-row order-md-last">
                         <div class="nav-item dropdown">
-                            <div class="nav-item d-none d-md-flex me-3">
+                            <div class="nav-item dd-none d-md-flex me-3">
                                 <div class="btn-list">
                                     <a href="{{ route('login') }}" class="btn btn-5" rel="noreferrer">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -110,7 +110,7 @@
                                                 <path d="M9 11h4" />
                                                 <path d="M18.42 12.61a2.1 2.1 0 0 1 2.97 2.97l-6.39 6.42h-3v-3z" />
                                             </svg>
-                                            {{ __('Cadastro') }}
+                                            {{ __('Pré-Inscrição') }}
                                         </a>
                                     @endif
                                 </div>
