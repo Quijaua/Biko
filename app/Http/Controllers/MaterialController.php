@@ -45,10 +45,18 @@ class MaterialController extends Controller
     $fileName = $request->file->getClientOriginalName();
     $request->file->move(public_path('uploads'), $fileName);
 
+    if(
+      !Schema::hasColumn('materials', 'file')
+    ) {
+      Schema::table('materials', function(Blueprint $table) {
+        $table->string('file')->nullable();
+      });
+    }
+
     $stored_file = Material::create([
       'user_id' => $user_id,
       'nucleo_id' => $request->nucleo_id,
-      'name' => $fileName,
+      'file' => $fileName,
       'status' => 1
     ]);
 
@@ -63,6 +71,10 @@ class MaterialController extends Controller
       Schema::table('materials', function(Blueprint $table) {
         $table->string('file')->nullable();
       });
+      $material->file = $material->name;
+    }
+
+    if(!$material->file) {
       $material->file = $material->name;
     }
 
