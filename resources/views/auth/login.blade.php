@@ -53,6 +53,14 @@
             </span>
 		</label>
 	</div>
+
+    <div class="row mt-4">
+        <div class="col">
+            <div class="h-captcha"
+                data-sitekey="{{ config('services.hcaptcha.site_key') }}"></div>
+        </div>
+    </div>
+
 	<div class="form-footer">
 
 
@@ -148,6 +156,10 @@
 
 </div>
 
+@endsection
+
+@section('js')
+<script src='https://www.hCaptcha.com/1/api.js' async defer></script>
 @endsection
 
 

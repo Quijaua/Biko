@@ -3,7 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+//use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+
+use App\Http\Repository\HcaptchaRepository;
 
 class LoginController extends Controller
 {
@@ -18,7 +24,7 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    //use AuthenticatesUsers;
 
     /**
      * Where to redirect users after login.
@@ -35,5 +41,51 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+        $this->repository = new HcaptchaRepository;
+    }
+
+    protected function validator(array $data)
+    {
+        if( $this->repository->validate($data['h-captcha-response']) ) {
+            return Validator::make($data, [
+                'email' => ['required', 'string', 'email'],
+                'password' => ['required', 'string'],
+            ]);
+          };
+    
+          return Validator::make($data, [
+            'hcaptcha' => ['required'],
+          ]);
+    }
+
+    public function login(Request $request)
+    {
+        $credentials = self::validator($request->all())->validate();
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            return redirect()->intended('home');
+        }
+
+        return back()->withErrors([
+            'email' => 'Usuário ou senha incorretos.',
+        ]);
+    }
+
+    public function logout(Request $request): RedirectResponse
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+    }
+
+    public function showLoginForm()
+    {
+        return view('auth.login');
     }
 }
