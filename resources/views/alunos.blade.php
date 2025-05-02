@@ -266,10 +266,17 @@
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col">
-      {{ $alunos->appends(request()->input())->links() }}
+  <div class="container mt-3 paginacao">
+    <div class="row">
+      <div class="col">
+        {{ $alunos->appends(request()->input())->links() }}
+      </div>
     </div>
   </div>
 </div>
+
+<style>
+.text-sm.text-gray-700.leading-5 {margin-top:20px}
+</style>
+
 @endsection
