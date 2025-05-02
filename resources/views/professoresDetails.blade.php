@@ -186,7 +186,7 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="inputEmail">Email</label>
                                                 <input type="email" class="form-control" id="inputEmail"
@@ -202,6 +202,31 @@
                                                     value="{{ $dados->Nascimento }}" onblur="getAge()" disabled>
                                             </div>
                                         </div>
+
+                                        <div class="col-md-3">
+                                            <label for="inputEstadoCivil">Estado Civil</label>
+                                            <select name="inputEstadoCivil" class="form-select" disabled>
+                                                <option selected>Selecione</option>
+                                                <option <?php if ($dados->EstadoCivil == 'solteiro_a') {
+                                                    echo 'selected=selected';
+                                                } ?> value="solteiro_a">Solteiro(a)</option>
+                                                <option <?php if ($dados->EstadoCivil == 'casado_a') {
+                                                    echo 'selected=selected';
+                                                } ?> value="casado_a">Casado(a)</option>
+                                                <option <?php if ($dados->EstadoCivil == 'uniao_estavel') {
+                                                    echo 'selected=selected';
+                                                } ?> value="uniao_estavel">União Estável
+                                                </option>
+                                                <option <?php if ($dados->EstadoCivil == 'divorciado_a') {
+                                                    echo 'selected=selected';
+                                                } ?> value="divorciado_a">Divorciado(a)
+                                                </option>
+                                                <option <?php if ($dados->EstadoCivil == 'viuvo_a') {
+                                                    echo 'selected=selected';
+                                                } ?> value="viuvo_a">Viúvo(a)</option>
+                                            </select>
+                                        </div>
+
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="inputRaca">Raça / Cor</label>
@@ -225,27 +250,25 @@
                                                 </select>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
 
-                                        <div class="col-md-6">
+                                        <div class="col-md-3">
                                             @if ($dados->Raca == 'indigena')
-                                                <div class="mb-3">
-                                                    <label for="povo_indigenas_id">Povo Indígena</label>
-                                                    <select name="povo_indigenas_id" class="form-select" disabled>
-                                                        <option selected>Selecione</option>
-                                                        @foreach ($povo_indigenas as $povo_indigena)
-                                                            <option <?php if ($povo_indigena->id == $dados->povo_indigenas_id) {
-                                                                echo 'selected=selected';
-                                                            } ?> value="{{ $povo_indigena->id }}">
-                                                                {{ $povo_indigena->label }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
+                                            <div class="mb-3">
+                                                <label for="povo_indigenas_id">Povo Indígena</label>
+                                                <select name="povo_indigenas_id" class="form-select" disabled>
+                                                    <option selected>Selecione</option>
+                                                    @foreach ($povo_indigenas as $povo_indigena)
+                                                        <option <?php if ($povo_indigena->id == $dados->povo_indigenas_id) {
+                                                            echo 'selected=selected';
+                                                        } ?> value="{{ $povo_indigena->id }}">
+                                                            {{ $povo_indigena->label }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
                                             @endif
                                         </div>
 
-                                        <div class="col-md-6">
+                                        <div class="col-md-3">
                                             @if ($dados->Raca == 'indigena')
                                                 <div class="mb-3">
                                                     <label for="terra_indigenas_id">Terra Indígena</label>
@@ -262,32 +285,8 @@
                                             @endif
                                         </div>
                                     </div>
+
                                     <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="mb-3">
-                                                <label for="inputEstadoCivil">Estado Civil</label>
-                                                <select name="inputEstadoCivil" class="form-select" disabled>
-                                                    <option selected>Selecione</option>
-                                                    <option <?php if ($dados->EstadoCivil == 'solteiro_a') {
-                                                        echo 'selected=selected';
-                                                    } ?> value="solteiro_a">Solteiro(a)</option>
-                                                    <option <?php if ($dados->EstadoCivil == 'casado_a') {
-                                                        echo 'selected=selected';
-                                                    } ?> value="casado_a">Casado(a)</option>
-                                                    <option <?php if ($dados->EstadoCivil == 'uniao_estavel') {
-                                                        echo 'selected=selected';
-                                                    } ?> value="uniao_estavel">União Estável
-                                                    </option>
-                                                    <option <?php if ($dados->EstadoCivil == 'divorciado_a') {
-                                                        echo 'selected=selected';
-                                                    } ?> value="divorciado_a">Divorciado(a)
-                                                    </option>
-                                                    <option <?php if ($dados->EstadoCivil == 'viuvo_a') {
-                                                        echo 'selected=selected';
-                                                    } ?> value="viuvo_a">Viúvo(a)</option>
-                                                </select>
-                                            </div>
-                                        </div>
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="inputGenero">Identidade de Gênero</label>
@@ -310,7 +309,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="concordaSexoDesignado">Você se identifica com o sexo designado
                                                     ao nascer?</label><br>
@@ -336,11 +335,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
 
-
-                                    <div class="row">
-                                        <div class="col-12 col-md-6">
+                                        <div class="col-12 col-md-3">
                                             <div class="mb-3">
                                                 <div class="form-label">É pessoa com deficiência?</div>
                                                 <div>
@@ -364,7 +360,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-12 col-md-6">
+                                        <div class="col-12 col-md-3">
                                             <div class="mb-3">
                                                 <label class="form-label mb-2" for="pessoa_com_deficiencia">Qual a
                                                     deficiência?</label>
@@ -396,8 +392,7 @@
                                             </div>
                                         </div>
                                     </div>
-
-
+                                   </div>
                                     <div>
                                         <div class="d-flex justify-content-start align-items-center gap-2 mb-3">
                                             <span class="text-primary"><svg xmlns="http://www.w3.org/2000/svg"
@@ -416,7 +411,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="row">
+                                    <div class="row" style="display:none">
 
                                         <div class="col">
                                             <div class="mb-3">
@@ -433,7 +428,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row" style="display:none">
 
                                         <div class="col">
                                             <div class="mb-3">
@@ -497,7 +492,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row" style="display:none">
                                         <div class="col">
                                             <div class="mb-3">
                                                 <label for="inputDisciplinas">Disciplinas Lecionadas</label><br>
@@ -808,8 +803,7 @@
                                     <div class="row">
                                         <div class="col">
                                             <div class="mb-3">
-                                                <label for="inputDiasHorarios">Quais são os dias e horários das suas aulas
-                                                    (por mês) na Uneafro?</label>
+                                                <label for="inputDiasHorarios"><strong>Expedientes</strong></label>
                                                 <div class="row">
                                                     @foreach ($dados->horarios as $horario)
                                                         <div class="col-4">
@@ -862,6 +856,30 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <span class="badge bg-orange text-orange-fg btn-pill w-100 p-2">Núcleo 01 - Teste</span>
+                                            <h4 class="mt-2">Disciplina: Artes</h4>
+                                            <p class="mt-2">Segunda-feira | 09:00 - 10:00</p>
+                                        </div>
+                                        <div class="col-3">
+                                            <span class="badge bg-orange text-orange-fg btn-pill w-100 p-2">Núcleo 02 - Teste</span>
+                                            <h4 class="mt-2">Disciplina: Artes</h4>
+                                            <p class="mt-2">Segunda-feira | 09:00 - 10:00</p>
+                                        </div>
+                                        <div class="col-3">
+                                            <span class="badge bg-orange text-orange-fg btn-pill w-100 p-2">Núcleo 03 - Teste</span>
+                                            <h4 class="mt-2">Disciplina: Artes</h4>
+                                            <p class="mt-2">Segunda-feira | 09:00 - 10:00</p>
+                                        </div>
+                                        <div class="col-3">
+                                            <span class="badge bg-orange text-orange-fg btn-pill w-100 p-2">Núcleo 04 - Teste</span>
+                                            <h4 class="mt-2">Disciplina: Artes</h4>
+                                            <p class="mt-2">Segunda-feira | 09:00 - 10:00</p>
+                                        </div>
+                                    </div>
+
 
                                 </div>
 
