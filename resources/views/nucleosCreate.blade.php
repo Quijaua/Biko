@@ -420,21 +420,21 @@
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" type="radio" name="inputTaxaInscricao"
                                                     id="inputTaxaInscricao1" value="sim"
-                                                    onclick="showInput('#TaxaInscricaoValor')" checked>
+                                                    onclick="showInput('#TaxaInscricaoValor')" >
                                                 <label class="form-label mb-2 form-check-label"
                                                     for="inputTaxaInscricao1">Sim</label>
                                             </div>
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" type="radio" name="inputTaxaInscricao"
                                                     id="inputTaxaInscricao2" value="nao"
-                                                    onclick="hideTaxaInput('#TaxaInscricaoValor')">
+                                                    onclick="hideTaxaInput('#TaxaInscricaoValor')" checked>
                                                 <label class="form-label mb-2 form-check-label"
                                                     for="inputTaxaInscricao2">Não</label>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
-                                        <div id="TaxaInscricaoValor" class="mb-3 d-block">
+                                        <div id="TaxaInscricaoValor" class="mb-3 d-none">
                                             <label class="form-label mb-2" for="inputTaxaInscricaoValor">Qual o valor da
                                                 taxa?</label>
                                             <input type="text" class="form-control currency"
