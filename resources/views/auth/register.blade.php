@@ -475,7 +475,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        Parabens, seu cadastro foi realizado com sucesso. Em breve uma pessoa da coordenação entrara em contato.
+                        Parabens, seu cadastro foi realizado com sucesso. Em breve uma pessoa da coordenação entrará em contato.
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
@@ -629,7 +629,7 @@
                 const inputEmail = $('#email')
                 const inputNascimento = $('#inputNascimento')
                 const successModal = new bootstrap.Modal(document.getElementById('successModal'))
-                const registrationForm = $('#registrationForm')
+                const registrationForm = $('#registration-form')
                 const initialStep = $('#step-1')
 
                 selectNucleo.on('change', function() {
@@ -698,35 +698,43 @@
                         method: 'POST',
                         data: data,
                         success: function(response) {
-                            console.log(response)
                             registrationForm[0].reset()
                             $('#resultadoNucleo').remove()
                             $('#resultadoLocal').remove()
-                            initialStep.click()
+                            //initialStep.click()
                             successModal.show()
                         },
                         error: function(response) {
-                            console.log(response)
-                            if (response.responseJSON.errors.name) {
-                                inputName.removeClass('is-valid')
-                                inputName.addClass('is-invalid')
-                                $('.invalid-name').removeClass('d-none')
-                                $('.invalid-name').addClass('d-block')
-                                $('.invalid-name').text(response.responseJSON.errors.name)
+                                console.log('error', response.status)
+                                if (response.responseJSON.errors) {
+                                    if (response.responseJSON.errors.name) {
+                                    inputName.removeClass('is-valid')
+                                    inputName.addClass('is-invalid')
+                                    $('.invalid-name').removeClass('d-none')
+                                    $('.invalid-name').addClass('d-block')
+                                    $('.invalid-name').text(response.responseJSON.errors.name)
+                                }
+                                if (response.responseJSON.errors.email) {
+                                    inputEmail.removeClass('is-valid')
+                                    inputEmail.addClass('is-invalid')
+                                    $('.invalid-email').removeClass('d-none')
+                                    $('.invalid-email').addClass('d-block')
+                                    $('.invalid-email').text(response.responseJSON.errors.email)
+                                }
+                                if (response.responseJSON.errors.nascimento) {
+                                    inputNascimento.removeClass('is-valid')
+                                    inputNascimento.addClass('is-invalid')
+                                    $('.invalid-nascimento').removeClass('d-none')
+                                    $('.invalid-nascimento').addClass('d-block')
+                                    $('.invalid-nascimento').text(response.responseJSON.errors.nascimento)
+                                }
                             }
-                            if (response.responseJSON.errors.email) {
-                                inputEmail.removeClass('is-valid')
-                                inputEmail.addClass('is-invalid')
-                                $('.invalid-email').removeClass('d-none')
-                                $('.invalid-email').addClass('d-block')
-                                $('.invalid-email').text(response.responseJSON.errors.email)
-                            }
-                            if (response.responseJSON.errors.nascimento) {
-                                inputNascimento.removeClass('is-valid')
-                                inputNascimento.addClass('is-invalid')
-                                $('.invalid-nascimento').removeClass('d-none')
-                                $('.invalid-nascimento').addClass('d-block')
-                                $('.invalid-nascimento').text(response.responseJSON.errors.nascimento)
+                            if (response.status === 403) {
+                                registrationForm[0].reset()
+                                $('#resultadoNucleo').remove()
+                                $('#resultadoLocal').remove()
+                                successModal.show()
+                                //initialStep.click()
                             }
                         }
                     })
