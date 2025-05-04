@@ -811,7 +811,6 @@
                         method: 'POST',
                         data: data,
                         success: function(response) {
-                            console.log('success', response);
                             $('#tableBody').append(
                                 '<tr><td class="d-block"><input class="custom-checkbox professorDisciplinaId" type="checkbox" value="' + response.id + '"/></td><td>' + response.professor_name + '</td><td>' + response.disciplina_name + '</td><td>' + response.horario_inicial + '</td><td>' + response.horario_final + '</td><td>' + response.dia_semana + '</td><td><div class="btn btn-sm btn-danger" aria-data-id="' + response.id + '" onclick="removerProfessorDisciplina(this)">Remover</div></td></tr>'
                             )
