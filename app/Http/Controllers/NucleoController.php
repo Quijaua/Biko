@@ -128,7 +128,6 @@ class NucleoController extends Controller
 
     public function update(Request $request, $id)
     {
-      dd($request->all());
       $nucleo = Nucleo::find($id);
       $nucleo->NomeNucleo = $request->input('inputNomeNucleo');
       $nucleo->AreaAtuacao = $request->input('inputAreaAtuacao');
