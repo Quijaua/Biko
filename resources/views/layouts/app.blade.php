@@ -51,7 +51,14 @@
     <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
 
+    <!-- TablerAccessibility -->
+    <link href="{{ asset('dist/libs/TablerAccessibility/dist/tabler-a11y.min.css') }}" rel="stylesheet"/>
 
+<style>
+.btn.btn-floating.btn-icon.btn-primary.bottom-right {
+	height: 32px;
+}
+</style>
 
 </head>
 
@@ -1305,8 +1312,19 @@
     </div>
   </div>
 
+</div>
+
     <script src="{{ asset('dist/js/tabler.min.js?1738096684') }}"></script>
-    </div>
+    <script src="{{ asset('dist/libs/TablerAccessibility/dist/tabler-a11y.min.js') }}" defer></script>
+
+    <script>
+    window.addEventListener('DOMContentLoaded', () => {
+        new TablerA11y({
+            position: 'bottom-right' // Opções: bottom-right, bottom-left, top-right, top-left
+        });
+    });
+    </script>
+
 </body>
 
 </html>

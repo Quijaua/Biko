@@ -7,7 +7,8 @@
         <title>{{ env('APP_NAME') }}</title>
 
     <link href="{{ asset('dist/css/tabler.min.css?1738096682') }}" rel="stylesheet">
-    
+    <link href="{{ asset('dist/libs/TablerAccessibility/dist/tabler-a11y.min.css') }}" rel="stylesheet"/>
+  
     <style>
         .welcome-title {
             font-size: 84px;
@@ -41,6 +42,19 @@
         </div>
     </div>
 </div>
+
+<script src="{{ asset('dist/js/tabler.min.js?1738096684') }}"></script>
+    
+    <script src="{{ asset('dist/libs/TablerAccessibility/dist/tabler-a11y.min.js') }}" defer></script>
+
+    <script>
+    window.addEventListener('DOMContentLoaded', () => {
+        new TablerA11y({
+            position: 'bottom-right' // Opções: bottom-right, bottom-left, top-right, top-left
+        });
+    });
+    </script>
+
 
     </body>
 </html>
