@@ -800,7 +800,7 @@
                                     </div>
 
 
-                                    <div class="row">
+                                    <!--div class="row">
                                         <div class="col">
                                             <div class="mb-3">
                                                 <label for="inputDiasHorarios"><strong>Expedientes</strong></label>
@@ -847,15 +847,9 @@
                                                         </div>
                                                     @endforeach
                                                 </div>
-                                                <!--<br>
-                                                <textarea class="form-control" name="inputDiasHorarios" rows="8"
-                                                    placeholder="Exemplos:
-                                Núcleo XX - 2 vezes por mês - segunda - das 19h às 20h30 / sábado - das 13h às 15h,
-                                Núcleo YY - 1 vez por mês - aos sábados - das 9h às 11h"
-                                                    disabled>{{ $dados->DiasHorarios }}</textarea>-->
                                             </div>
                                         </div>
-                                    </div>
+                                    </div-->
 
                                     <div class="row">
                                         @foreach ($dados->nucleosProfessoresDisciplinas as $expediente)
