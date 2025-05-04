@@ -858,26 +858,16 @@
                                     </div>
 
                                     <div class="row">
+                                        @foreach ($dados->nucleosProfessoresDisciplinas as $expediente)
                                         <div class="col-3">
-                                            <span class="badge bg-orange text-orange-fg btn-pill w-100 p-2">Núcleo 01 - Teste</span>
-                                            <h4 class="mt-2">Disciplina: Artes</h4>
-                                            <p class="mt-2">Segunda-feira | 09:00 - 10:00</p>
+                                            <span class="badge bg-orange text-orange-fg btn-pill w-100 p-2">{{ $expediente->nucleo->NomeNucleo }}</span>
+                                            <h4 class="mt-2">Disciplina: {{ $expediente->disciplina->nome }}</h4>
+                                            <p class="mt-2">{{  $expediente->dia_semana }} | {{ $expediente->horario_inicial }} - {{ $expediente->horario_final }}</p>
                                         </div>
-                                        <div class="col-3">
-                                            <span class="badge bg-orange text-orange-fg btn-pill w-100 p-2">Núcleo 02 - Teste</span>
-                                            <h4 class="mt-2">Disciplina: Artes</h4>
-                                            <p class="mt-2">Segunda-feira | 09:00 - 10:00</p>
-                                        </div>
-                                        <div class="col-3">
-                                            <span class="badge bg-orange text-orange-fg btn-pill w-100 p-2">Núcleo 03 - Teste</span>
-                                            <h4 class="mt-2">Disciplina: Artes</h4>
-                                            <p class="mt-2">Segunda-feira | 09:00 - 10:00</p>
-                                        </div>
-                                        <div class="col-3">
-                                            <span class="badge bg-orange text-orange-fg btn-pill w-100 p-2">Núcleo 04 - Teste</span>
-                                            <h4 class="mt-2">Disciplina: Artes</h4>
-                                            <p class="mt-2">Segunda-feira | 09:00 - 10:00</p>
-                                        </div>
+                                        @endforeach
+                                        @if ($dados->nucleosProfessoresDisciplinas->isEmpty())
+                                        <p class="mt-2">Nenhum registro encontrado.</p>
+                                        @endif
                                     </div>
 
 

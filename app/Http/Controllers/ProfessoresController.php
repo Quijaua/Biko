@@ -710,7 +710,7 @@ class ProfessoresController extends Controller
     public function details($id)
     {
       $dados = Professores::find($id);
-      $dados->load('horarios');
+      $dados->load('horarios', 'nucleosProfessoresDisciplinas');
       $nucleos = Nucleo::where('Status', 1)->get();
 
       return view('professoresDetails')->with([
