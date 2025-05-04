@@ -84,6 +84,7 @@ class NucleoController extends Controller
         'dados' => $dados,
         'representantes' => $representantes,
         'disciplinas' => $disciplinas,
+        'professoresDisciplinas' => $dados->professoresDisciplinas,
       ]);
     }
 
@@ -127,6 +128,7 @@ class NucleoController extends Controller
 
     public function update(Request $request, $id)
     {
+      dd($request->all());
       $nucleo = Nucleo::find($id);
       $nucleo->NomeNucleo = $request->input('inputNomeNucleo');
       $nucleo->AreaAtuacao = $request->input('inputAreaAtuacao');
