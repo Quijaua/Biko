@@ -29,6 +29,8 @@
                             role="tab">Disciplinas</a>
                         <a class="nav-link" id="tab-inscricao" data-bs-toggle="pill" href="#inscricao" role="tab">
                             Inscrição e vagas</a>
+                        <a class="nav-link" id="tab-professores" data-bs-toggle="pill" href="#professores" role="tab">
+                            Professores</a>
                         {{-- <a class="nav-link" id="tab-privacidade" data-bs-toggle="pill" href="#privacidade" role="tab">
                             Privacidade</a> --}}
                     </div>
@@ -589,6 +591,39 @@
 
                                 </div>
                             </div> --}}
+
+                            {{-- Professores --}}
+                            <div class="tab-pane fade" id="professores" role="tabpanel"
+                                aria-labelledby="tab-privacidade">
+
+                                <div class="row">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover table-vcenter">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-nowrap text-black py-3">Professor</th>
+                                                    <th class="text-nowrap text-black py-3">Disciplina</th>
+                                                    <th class="text-nowrap text-black py-3">Horário Inicial</th>
+                                                    <th class="text-nowrap text-black py-3">Horário Final</th>
+                                                    <th class="text-nowrap text-black py-3">Dia da Semana</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tableBody" class="bg-white rounded">
+                                                @foreach ($professoresDisciplinas as $professorDisciplina)
+                                                <tr>
+                                                    <td>{{ $professorDisciplina->professor->NomeProfessor }}</td>
+                                                    <td>{{ $professorDisciplina->disciplina->nome }}</td>
+                                                    <td>{{ $professorDisciplina->horario_inicial }}</td>
+                                                    <td>{{ $professorDisciplina->horario_final }}</td>
+                                                    <td>{{ $professorDisciplina->dia_semana }}</td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
 
 

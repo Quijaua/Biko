@@ -114,6 +114,10 @@ Route::get('nucleo/material/restore/{id}', 'MaterialController@restore')->name('
 Route::get('nucleo/material/search', 'MaterialController@search');
 Route::put('nucleo/material/edit/{id}', 'MaterialController@edit')->middleware('permissions')->name('material.edit');
 
+Route::post('nucleo/professores-disciplinas/create', 'NucleoProfessoresDisciplinasController@create')->name('professores-disciplinas.create');
+Route::put('nucleo/professores-disciplinas/update', 'NucleoProfessoresDisciplinasController@update')->name('professores-disciplinas.update');
+Route::post('nucleo/professores-disciplinas/delete', 'NucleoProfessoresDisciplinasController@delete')->name('professores-disciplinas.delete');
+
 // ROUTES FOR ALUNOS MANAGEMENT
 Route::get('alunos', 'AlunosController@index')->middleware('permissions');
 Route::get('alunos/details/{id}', 'AlunosController@details')->middleware('permissions');

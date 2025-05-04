@@ -94,4 +94,9 @@ class Nucleo extends Model implements Auditable
         })->where('Status', true);
     }
 
+    public function professoresDisciplinas()
+    {
+        return $this->hasMany('App\NucleosProfessoresDisciplinas', 'nucleo_id');
+    }
+
 }

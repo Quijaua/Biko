@@ -1,0 +1,177 @@
+/* Estilos principais do pacote */
+.a11y-toolbar {
+  position: fixed;
+  z-index: 9999;
+}
+
+/* High Contrast */
+.high-contrast,
+.high-contrast * {
+  background: #000 !important;
+  color: #fff !important;
+  border-color: #fff !important;
+}
+
+.high-contrast img {
+  filter: contrast(200%) !important;
+}
+
+/* Menu */
+/* Layout do menu */
+.a11y-menu {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 16px;
+  max-width: 400px;
+}
+
+/* Itens como quadrados */
+.a11y-menu-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.a11y-menu-item:hover {
+  background: #f8f9fa;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Ícones */
+.a11y-icon {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 8px;
+}
+
+/* Botão de reset */
+.a11y-menu-item[data-setting="reset"] {
+  grid-column: 1 / -1; /* Ocupa toda a largura */
+  background: #fff5f5;
+  border-color: #fed7d7;
+}
+
+.a11y-menu-item[data-setting="reset"]:hover {
+  background: #fee2e2;
+}
+
+.a11y-menu-item[data-setting="reset"] .a11y-label {
+  color: #dc2626;
+}
+
+/* Ícone de reset */
+.a11y-menu-item[data-setting="reset"] svg {
+  stroke: #dc2626;
+}
+
+/* Texto */
+.a11y-label {
+  font-size: 0.875rem;
+  color: #2b2b2b;
+  line-height: 1.2;
+}
+
+/* Badges */
+.a11y-badge {
+  background: #e2e8f0;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem !important;
+  margin-left: 8px;
+}
+.badge {
+  background: #e2e8f0;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem !important;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+  .a11y-menu {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Posicionamentos */
+/* Posicionamento do botão */
+.a11y-container .btn-floating.bottom-right {
+  right: 1rem !important;
+  bottom: 1rem !important;
+  top: auto !important;
+  left: auto !important;
+}
+
+.a11y-container .btn-floating.bottom-left {
+  left: 1rem !important;
+  bottom: 1rem !important;
+  top: auto !important;
+  right: auto !important;
+}
+
+.a11y-container .btn-floating.top-right {
+  right: 1rem !important;
+  top: 1rem !important;
+  left: auto !important;
+  bottom: auto !important;
+}
+
+.a11y-container .btn-floating.top-left {
+  left: 1rem !important;
+  top: 1rem !important;
+  right: auto !important;
+  bottom: auto !important;
+}
+
+/* Posicionamento do menu */
+.a11y-container .a11y-menu.bottom-right {
+  right: 1rem !important;
+  bottom: calc(1rem + 2.25rem + .5rem) !important;
+  top: auto !important;
+  left: auto !important;
+}
+
+.a11y-container .a11y-menu.bottom-left {
+  left: 1rem !important;
+  bottom: calc(1rem + 2.25rem + .5rem) !important;
+  top: auto !important;
+  right: auto !important;
+}
+
+.a11y-container .a11y-menu.top-right {
+  right: 1rem !important;
+  top: calc(1rem + 2.25rem + .5rem) !important;
+  left: auto !important;
+  bottom: auto !important;
+}
+
+.a11y-container .a11y-menu.top-left {
+  left: 1rem !important;
+  top: calc(1rem + 2.25rem + .5rem) !important;
+  right: auto !important;
+  bottom: auto !important;
+}
+
+/* adiciona 56px embaixo do primeiro header */
+body:has(header.navbar.navbar-expand-md.d-print-none)
+  div.a11y-container button.btn-floating {
+    top: calc(1rem + 2.25rem + .5rem + 56px * 2) !important;
+}
+
+/* adiciona 56px em cima do segundo header */
+body:has(header.navbar.navbar-expand-md.d-print-none):has(header.navbar-expand-md)
+  div.a11y-container button.btn-floating {
+    top: calc(1rem + 2.25rem + .5rem + 56px) !important;
+}

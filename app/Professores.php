@@ -113,4 +113,9 @@ class Professores extends Model implements Auditable
   {
     return $this->belongsTo('App\TerraIndigenas', 'terra_indigenas_id');
   }
+
+  public function nucleosProfessoresDisciplinas()
+  {
+    return $this->hasMany('App\NucleosProfessoresDisciplinas', 'professor_id');
+  }
 }

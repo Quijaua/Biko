@@ -504,24 +504,25 @@
                             <div class="tab-pane fade" id="professores" role="tabpanel"
                                 aria-labelledby="tab-privacidade">
                                 <div class="row">
+                                    <div class="col-12 text-center mt-3 mb-3 text-danger">É necessário criar o núcleo para adicionar professores</div>
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label class="form-label mb-2" for="inputHorarios">Horário Inicial</label>
                                             <input type="time" class="form-control" id="inputHorarioInicial"
-                                                name="inputHorarioInicial" aria-describedby="inputHorarioInicialHelp" >
+                                                name="inputHorarioInicial" aria-describedby="inputHorarioInicialHelp" disabled>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label class="form-label mb-2" for="inputHorarios">Horário Final</label>
                                             <input type="time" class="form-control" id="inputHorarioFinal"
-                                                name="inputHorarioFinal" aria-describedby="inputHorarioFinalHelp" >
+                                                name="inputHorarioFinal" aria-describedby="inputHorarioFinalHelp" disabled>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label class="form-label mb-2" for="inputHorarios">Dia da semana</label>
-                                            <select name="inputDiaSemana" id="inputDiaSemana" class="form-select">
+                                            <select name="inputDiaSemana" id="inputDiaSemana" class="form-select" disabled>
                                                 <option value="Segunda-feira">Segunda-feira</option>
                                                 <option value="Terça-feira">Terça-feira</option>
                                                 <option value="Quarta-feira">Quarta-feira</option>
@@ -539,7 +540,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label mb-2" for="inputProfessorDisciplina">Disciplina</label>
-                                            <select name="inputProfessorDisciplina" id="inputProfessorDisciplina" class="form-select">
+                                            <select name="inputProfessorDisciplina" id="inputProfessorDisciplina" class="form-select" disabled>
                                                 <option>Selecione</option>
                                                 @foreach ($disciplinas as $disciplina)
                                                 <option value="{{ $disciplina->id }}">{{ $disciplina->nome }}</option>
@@ -552,7 +553,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label mb-2" for="inputProfessor">Professor</label>
-                                            <select name="inputProfessor" id="inputProfessor" class="form-select">
+                                            <select name="inputProfessor" id="inputProfessor" class="form-select" disabled>
                                                 <option>Selecione</option>
                                                 @foreach ($professores as $professor)
                                                 <option value="{{ $professor->id }}" >{{ $professor->NomeProfessor }}</option>

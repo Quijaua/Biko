@@ -84,6 +84,7 @@ class NucleoController extends Controller
         'dados' => $dados,
         'representantes' => $representantes,
         'disciplinas' => $disciplinas,
+        'professoresDisciplinas' => $dados->professoresDisciplinas,
       ]);
     }
 
@@ -221,6 +222,7 @@ class NucleoController extends Controller
         'dados' => $dados,
         'representantes' => $representantes,
         'disciplinas' => Disciplina::all(),
+        'professoresDisciplinas' => $dados->professoresDisciplinas,
       ]);
     }
 

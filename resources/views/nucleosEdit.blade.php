@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <div class="container">
         <div>
             <p style="font-size: 35px;"><span><a href="/nucleos" class="text-primary">
@@ -595,80 +596,6 @@
 
                             </div>
 
-                            {{-- Professores --}}
-                            <div class="tab-pane fade" id="professores" role="tabpanel"
-                                aria-labelledby="tab-privacidade">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label mb-2" for="inputHorarios">Horário Inicial</label>
-                                            <input type="time" class="form-control" id="inputHorarioInicial"
-                                                name="inputHorarioInicial" aria-describedby="inputHorarioInicialHelp"
-                                                value="{{ $dados->HorarioInicial }}" >
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label mb-2" for="inputHorarios">Horário Final</label>
-                                            <input type="time" class="form-control" id="inputHorarioFinal"
-                                                name="inputHorarioFinal" aria-describedby="inputHorarioFinalHelp"
-                                                value="{{ $dados->HorarioFinal }}" >
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label mb-2" for="inputHorarios">Dia da semana</label>
-                                            <select name="inputDiaSemana" id="inputDiaSemana" class="form-select">
-                                                <option value="Segunda-feira" {{ $dados->DiaSemana == 'Segunda-feira' ? 'selected' : '' }}>Segunda-feira</option>
-                                                <option value="Terça-feira" {{ $dados->DiaSemana == 'Terça-feira' ? 'selected' : '' }}>Terça-feira</option>
-                                                <option value="Quarta-feira" {{ $dados->DiaSemana == 'Quarta-feira' ? 'selected' : '' }}>Quarta-feira</option>
-                                                <option value="Quinta-feira" {{ $dados->DiaSemana == 'Quinta-feira' ? 'selected' : '' }}>Quinta-feira</option>
-                                                <option value="Sexta-feira" {{ $dados->DiaSemana == 'Sexta-feira' ? 'selected' : '' }}>Sexta-feira</option>
-                                                <option value="Sábado" {{ $dados->DiaSemana == 'Sábado' ? 'selected' : '' }}>Sábado</option>
-                                                <option value="Domingo" {{ $dados->DiaSemana == 'Domingo' ? 'selected' : '' }}>Domingo</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <?php
-                                    $disciplinas = DB::table('disciplinas')
-                                        ->when($dados->disciplinas, function ($query) use ($dados) {
-                                            return $query->whereIn('id', $dados->disciplinas);
-                                        })
-                                        ->get();
-                                ?>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label mb-2" for="inputProfessorDisciplina">Disciplina</label>
-                                            <select name="inputProfessorDisciplina" id="inputProfessorDisciplina" class="form-select">
-                                                <option>Selecione</option>
-                                                @foreach ($disciplinas as $disciplina)
-                                                <option value="{{ $disciplina->id }}" <?php if ($dados->ProfessorDisciplina && in_array($disciplina->id, $dados->ProfessorDisciplina)) {
-                                                    echo 'selected=selected';
-                                                } ?> >{{ $disciplina->nome }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <?php $professores = DB::table('professores')->where('id_nucleo', $dados->id)->get(); ?>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label mb-2" for="inputProfessor">Professor</label>
-                                            <select name="inputProfessor" id="inputProfessor" class="form-select">
-                                                <option>Selecione</option>
-                                                @foreach ($professores as $professor)
-                                                <option value="{{ $professor->id }}" >{{ $professor->NomeProfessor }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
                             {{-- Privacidade --}}
                             {{-- <div class="tab-pane fade" id="privacidade" role="tabpanel"
                                 aria-labelledby="tab-privacidade">
@@ -678,8 +605,127 @@
                             </div> --}}
                         </div>
 
-
                     </form>
+
+                    {{-- Professores --}}
+                    <div class="tab-pane fade" id="professores" role="tabpanel"
+                        aria-labelledby="tab-privacidade">
+                        <form id="professoresDisciplinasForm" method="POST" action="route('professores-disciplinas.create')">
+                            @csrf
+                            <input type="hidden" id="inputNucleo" name="inputNucleo" value="{{ $dados->id }}">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label class="form-label mb-2" for="inputHorarios">Horário Inicial</label>
+                                        <input type="time" class="form-control" id="inputHorarioInicial"
+                                            name="inputHorarioInicial" aria-describedby="inputHorarioInicialHelp"
+                                            value="{{ $dados->HorarioInicial }}" form="professoresDisciplinasForm">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label class="form-label mb-2" for="inputHorarios">Horário Final</label>
+                                        <input type="time" class="form-control" id="inputHorarioFinal"
+                                            name="inputHorarioFinal" aria-describedby="inputHorarioFinalHelp"
+                                            value="{{ $dados->HorarioFinal }}" form="professoresDisciplinasForm">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label class="form-label mb-2" for="inputHorarios">Dia da semana</label>
+                                        <select name="inputDiaSemana" id="inputDiaSemana" class="form-select" form="professoresDisciplinasForm">
+                                            <option value="Segunda-feira" {{ $dados->DiaSemana == 'Segunda-feira' ? 'selected' : '' }}>Segunda-feira</option>
+                                            <option value="Terça-feira" {{ $dados->DiaSemana == 'Terça-feira' ? 'selected' : '' }}>Terça-feira</option>
+                                            <option value="Quarta-feira" {{ $dados->DiaSemana == 'Quarta-feira' ? 'selected' : '' }}>Quarta-feira</option>
+                                            <option value="Quinta-feira" {{ $dados->DiaSemana == 'Quinta-feira' ? 'selected' : '' }}>Quinta-feira</option>
+                                            <option value="Sexta-feira" {{ $dados->DiaSemana == 'Sexta-feira' ? 'selected' : '' }}>Sexta-feira</option>
+                                            <option value="Sábado" {{ $dados->DiaSemana == 'Sábado' ? 'selected' : '' }}>Sábado</option>
+                                            <option value="Domingo" {{ $dados->DiaSemana == 'Domingo' ? 'selected' : '' }}>Domingo</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <?php
+                            $disciplinas = DB::table('disciplinas')
+                                ->when($dados->disciplinas, function ($query) use ($dados) {
+                                    return $query->whereIn('id', $dados->disciplinas);
+                                })
+                                ->get();
+                            ?>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label mb-2" for="inputProfessorDisciplina">Disciplina</label>
+                                        <select name="inputProfessorDisciplina" id="inputProfessorDisciplina" class="form-select" form="professoresDisciplinasForm">
+                                            <option value="">Selecione</option>
+                                            @foreach ($disciplinas as $disciplina)
+                                            <option value="{{ $disciplina->id }}" <?php if ($dados->ProfessorDisciplina && in_array($disciplina->id, $dados->ProfessorDisciplina)) {
+                                                echo 'selected=selected';
+                                            } ?> >{{ $disciplina->nome }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <?php $professores = DB::table('professores')->where('Status', 1)->get(); ?>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label mb-2" for="inputProfessor">Professor</label>
+                                        <select name="inputProfessor" id="inputProfessor" class="form-select" form="professoresDisciplinasForm">
+                                            <option value="">Selecione</option>
+                                            @foreach ($professores as $professor)
+                                            <option value="{{ $professor->id }}" >{{ $professor->NomeProfessor }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class=" col-2 mb-3">
+                                    <button id="btnAdicionar" type="button" class="btn btn-primary" form="professoresDisciplinasForm">Adicionar</button>
+                                </div>
+                                <div class=" col-2 mb-3">
+                                    <button id="btnAtribuir" type="button" class="btn btn-secondary" form="professoresDisciplinasForm" disabled>Atribuir</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="row">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-vcenter">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-nowrap text-black py-3"></th>
+                                            <th class="text-nowrap text-black py-3">Professor</th>
+                                            <th class="text-nowrap text-black py-3">Disciplina</th>
+                                            <th class="text-nowrap text-black py-3">Horário Inicial</th>
+                                            <th class="text-nowrap text-black py-3">Horário Final</th>
+                                            <th class="text-nowrap text-black py-3">Dia da Semana</th>
+                                            <th class="text-nowrap text-black py-3">Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tableBody" class="bg-white rounded">
+                                        @foreach ($professoresDisciplinas as $professorDisciplina)
+                                        <tr>
+                                            <td class="d-block"><input class="custom-checkbox professorDisciplinaId" type="checkbox" value="{{ $professorDisciplina->id }}"/></td>
+                                            <td>{{ $professorDisciplina->professor->NomeProfessor }}</td>
+                                            <td>{{ $professorDisciplina->disciplina->nome }}</td>
+                                            <td>{{ $professorDisciplina->horario_inicial }}</td>
+                                            <td>{{ $professorDisciplina->horario_final }}</td>
+                                            <td>{{ $professorDisciplina->dia_semana }}</td>
+                                            <td>
+                                                <div class="btn btn-sm btn-danger" aria-data-id="{{ $professorDisciplina->id }}" onclick="removerProfessorDisciplina(this)">Remover</div>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -712,6 +758,26 @@
                     });
             });
 
+            function removerProfessorDisciplina(el) {
+                let professorDisciplinaId = el.getAttribute('aria-data-id');
+
+                $.ajax({
+                    url: "{{ route('professores-disciplinas.delete') }}",
+                    method: 'POST',
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        id: professorDisciplinaId
+                    },
+                    success: function(response) {
+                        console.log('success', response);
+                        el.closest('tr').remove();
+                    },
+                    error: function(response) {
+                        console.log('error', response);
+                    }
+                });
+            }
+
             $(document).ready(function() {
                 $('#inputTaxaInscricao1').click(function() {
                     $('#TaxaInscricaoValor').removeClass('d-none');
@@ -721,6 +787,248 @@
                     $('#TaxaInscricaoValor').removeClass('d-block');
                     $('#TaxaInscricaoValor').addClass('d-none');
                 });
+
+
+                $('#btnAdicionar').click(function(e) {
+                    e.preventDefault();
+                    let data = {
+                        'nucleo_id': $('#inputNucleo').val(),
+                        'professor_id': $('#inputProfessor').val(),
+                        'disciplina_id': $('#inputProfessorDisciplina').val(),
+                        'horario_inicial': $('#inputHorarioInicial').val(),
+                        'horario_final': $('#inputHorarioFinal').val(),
+                        'dia_semana': $('#inputDiaSemana').val(),
+                    }
+                    
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    })
+
+                    $.ajax({
+                        url: '{{ route("professores-disciplinas.create") }}',
+                        method: 'POST',
+                        data: data,
+                        success: function(response) {
+                            $('#tableBody').append(
+                                '<tr><td class="d-block"><input class="custom-checkbox professorDisciplinaId" type="checkbox" value="' + response.id + '"/></td><td>' + response.professor_name + '</td><td>' + response.disciplina_name + '</td><td>' + response.horario_inicial + '</td><td>' + response.horario_final + '</td><td>' + response.dia_semana + '</td><td><div class="btn btn-sm btn-danger" aria-data-id="' + response.id + '" onclick="removerProfessorDisciplina(this)">Remover</div></td></tr>'
+                            )
+                            $('#inputProfessor').val('Selecione')
+                            $('#inputProfessorDisciplina').val('Selecione')
+                            $('#inputHorarioInicial').val('')
+                            $('#inputHorarioFinal').val('')
+                            $('#inputDiaSemana').val('Segunda-feira')
+
+                            $('.professorDisciplinaId').change(function() {
+                                if ($(this).is(':checked')) {
+                                    let professor = $(this).parent().next().text()
+                                    let disciplina = $(this).parent().next().next().text()
+                                    let horarioInicial = $(this).parent().next().next().next().text()
+                                    let horarioFinal = $(this).parent().next().next().next().next().text()
+                                    let diaSemana = $(this).parent().next().next().next().next().next().text()
+                                    $('#inputProfessor option:contains("' + professor + '")').prop('selected', true);
+                                    $('#inputProfessorDisciplina option:contains("' + disciplina + '")').prop('selected', true);
+                                    $('#inputHorarioInicial').val(horarioInicial)
+                                    $('#inputHorarioFinal').val(horarioFinal)
+                                    $('#inputDiaSemana option:contains("' + diaSemana + '")').prop('selected', true);
+                                    professorDisciplinaId = $(this).val()
+                                    $(this).removeClass('professorDisciplinaId');
+                                    $('.professorDisciplinaId').attr('disabled', true);
+                                    btnAtribuir.prop('disabled', false);
+                                    btnAdicionar.prop('disabled', true);
+                                } else {
+                                    professorDisciplinaId = null
+                                    $(this).addClass('professorDisciplinaId');
+                                    $('.professorDisciplinaId').attr('disabled', false);
+                                    $('#inputProfessor').val('Selecione')
+                                    $('#inputProfessorDisciplina').val('Selecione')
+                                    $('#inputHorarioInicial').val('')
+                                    $('#inputHorarioFinal').val('')
+                                    $('#inputDiaSemana').val('Segunda-feira')
+                                    btnAtribuir.prop('disabled', true);
+                                    btnAdicionar.prop('disabled', false);
+                                }
+                            })
+
+                        },
+                        error: function(response) {
+                            console.log('error', response);
+                        }
+                    })
+                })
+
+                let professorDisciplinaId = null
+                const btnAtribuir = $('#btnAtribuir')
+                const btnAdicionar = $('#btnAdicionar')
+
+                $('.professorDisciplinaId').change(function() {
+                    if ($(this).is(':checked')) {
+                        let professor = $(this).parent().next().text()
+                        let disciplina = $(this).parent().next().next().text()
+                        let horarioInicial = $(this).parent().next().next().next().text()
+                        let horarioFinal = $(this).parent().next().next().next().next().text()
+                        let diaSemana = $(this).parent().next().next().next().next().next().text()
+                        $('#inputProfessor option:contains("' + professor + '")').prop('selected', true);
+                        $('#inputProfessorDisciplina option:contains("' + disciplina + '")').prop('selected', true);
+                        $('#inputHorarioInicial').val(horarioInicial)
+                        $('#inputHorarioFinal').val(horarioFinal)
+                        $('#inputDiaSemana option:contains("' + diaSemana + '")').prop('selected', true);
+                        professorDisciplinaId = $(this).val()
+                        $(this).removeClass('professorDisciplinaId');
+                        $('.professorDisciplinaId').attr('disabled', true);
+                        btnAtribuir.prop('disabled', false);
+                        btnAdicionar.prop('disabled', true);
+                    } else {
+                        professorDisciplinaId = null
+                        $(this).addClass('professorDisciplinaId');
+                        $('.professorDisciplinaId').attr('disabled', false);
+                        $('#inputProfessor').val('Selecione')
+                        $('#inputProfessorDisciplina').val('Selecione')
+                        $('#inputHorarioInicial').val('')
+                        $('#inputHorarioFinal').val('')
+                        $('#inputDiaSemana').val('Segunda-feira')
+                        btnAtribuir.prop('disabled', true);
+                        btnAdicionar.prop('disabled', false);
+                    }
+                })
+
+                btnAtribuir.click(function(e) {
+                    e.preventDefault()
+
+                    let data = {
+                        'id': professorDisciplinaId,
+                        'nucleo_id': $('#inputNucleo').val(),
+                        'professor_id': $('#inputProfessor').val(),
+                        'disciplina_id': $('#inputProfessorDisciplina').val(),
+                        'horario_inicial': $('#inputHorarioInicial').val(),
+                        'horario_final': $('#inputHorarioFinal').val(),
+                        'dia_semana': $('#inputDiaSemana').val(),
+                    }
+
+                    let dataCount = Object.keys(data).length
+                    let isValid = 0;
+
+                    for (const [key, value] of Object.entries(data)) {
+                        if (!value) {
+                            switch (key) {
+                                case 'horario_inicial':
+                                    $('#inputHorarioInicial').addClass('is-invalid')
+                                    break;
+                                case 'horario_final':
+                                    $('#inputHorarioFinal').addClass('is-invalid')
+                                    break;
+                                case 'dia_semana':
+                                    $('#inputDiaSemana').addClass('is-invalid')
+                                    break;
+                                case 'disciplina_id':
+                                    $('#inputProfessorDisciplina').addClass('is-invalid')
+                                    break;
+                                case 'professor_id':
+                                    $('#inputProfessor').addClass('is-invalid')
+                                    break;
+                            }
+                        } else {
+                            isValid++
+                            switch (key) {
+                                case 'horario_inicial':
+                                    $('#inputHorarioInicial').removeClass('is-invalid')
+                                    $('#inputHorarioInicial').addClass('is-valid')
+                                    break;
+                                case 'horario_final':
+                                    $('#inputHorarioFinal').removeClass('is-invalid')
+                                    $('#inputHorarioFinal').addClass('is-valid')
+                                    break;
+                                case 'dia_semana':
+                                    $('#inputDiaSemana').removeClass('is-invalid')
+                                    $('#inputDiaSemana').addClass('is-valid')
+                                    break;
+                                case 'disciplina_id':
+                                    $('#inputProfessorDisciplina').removeClass('is-invalid')
+                                    $('#inputProfessorDisciplina').addClass('is-valid')
+                                    break;
+                                case 'professor_id':
+                                    $('#inputProfessor').removeClass('is-invalid')
+                                    $('#inputProfessor').addClass('is-valid')
+                                    break;
+                            }
+                        }
+                    }
+
+                    if (isValid == dataCount) {
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        })
+
+                        $.ajax({
+                            url: '{{ route("professores-disciplinas.update") }}',
+                            method: 'PUT',
+                            data: data,
+                            success: function(response) {
+                                $('#tableBody').find('tr td input[value="' + response.id + '"]').parent().parent().remove();
+                                $('#tableBody').append(`
+                                    <tr>
+                                        <td class="d-block"><input class="custom-checkbox professorDisciplinaId" type="checkbox" value="${response.id}"/></td>
+                                        <td>${response.professor_name}</td>
+                                        <td>${response.disciplina_name}</td>
+                                        <td>${response.horario_inicial}</td>
+                                        <td>${response.horario_final}</td>
+                                        <td>${response.dia_semana}</td>
+                                        <td>
+                                            <div class="btn btn-sm btn-danger" aria-data-id="${response.id}" onclick="removerProfessorDisciplina(this)">Remover</div>
+                                        </td>
+                                    </tr>
+                                `)
+
+                                $('#inputProfessor').val('Selecione')
+                                $('#inputProfessorDisciplina').val('Selecione')
+                                $('#inputHorarioInicial').val('')
+                                $('#inputHorarioFinal').val('')
+                                $('#inputDiaSemana').val('Segunda-feira')
+                                $('.professorDisciplinaId').attr('disabled', false);
+
+                                $('.professorDisciplinaId').change(function() {
+                                    if ($(this).is(':checked')) {
+                                        let professor = $(this).parent().next().text()
+                                        let disciplina = $(this).parent().next().next().text()
+                                        let horarioInicial = $(this).parent().next().next().next().text()
+                                        let horarioFinal = $(this).parent().next().next().next().next().text()
+                                        let diaSemana = $(this).parent().next().next().next().next().next().text()
+                                        $('#inputProfessor option:contains("' + professor + '")').prop('selected', true);
+                                        $('#inputProfessorDisciplina option:contains("' + disciplina + '")').prop('selected', true);
+                                        $('#inputHorarioInicial').val(horarioInicial)
+                                        $('#inputHorarioFinal').val(horarioFinal)
+                                        $('#inputDiaSemana option:contains("' + diaSemana + '")').prop('selected', true);
+                                        professorDisciplinaId = $(this).val()
+                                        $(this).removeClass('professorDisciplinaId');
+                                        $('.professorDisciplinaId').attr('disabled', true);
+                                        btnAtribuir.prop('disabled', false);
+                                        btnAdicionar.prop('disabled', true);
+                                    } else {
+                                        professorDisciplinaId = null
+                                        $(this).addClass('professorDisciplinaId');
+                                        $('.professorDisciplinaId').attr('disabled', false);
+                                        $('#inputProfessor').val('Selecione')
+                                        $('#inputProfessorDisciplina').val('Selecione')
+                                        $('#inputHorarioInicial').val('')
+                                        $('#inputHorarioFinal').val('')
+                                        $('#inputDiaSemana').val('Segunda-feira')
+                                        btnAtribuir.prop('disabled', true);
+                                        btnAdicionar.prop('disabled', false);
+                                    }
+                                })
+
+                                btnAtribuir.prop('disabled', true);
+                                btnAdicionar.prop('disabled', false);
+                            },
+                            error: function(response) {
+                                console.log('error', response);
+                            }
+                        })
+                    }
+                })
             })
         </script>
     </div>
