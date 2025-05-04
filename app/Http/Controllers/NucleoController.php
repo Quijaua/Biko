@@ -222,6 +222,7 @@ class NucleoController extends Controller
         'dados' => $dados,
         'representantes' => $representantes,
         'disciplinas' => Disciplina::all(),
+        'professoresDisciplinas' => $dados->professoresDisciplinas,
       ]);
     }
 
