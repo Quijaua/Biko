@@ -1022,6 +1022,7 @@
                                 })
 
                                 btnAtribuir.prop('disabled', true);
+                                btnAdicionar.prop('disabled', false);
                             },
                             error: function(response) {
                                 console.log('error', response);
