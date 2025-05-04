@@ -400,7 +400,7 @@
                                     </div>
 
 
-                                    <div>
+                                    <!--div>
                                         <div class="d-flex justify-content-start align-items-center gap-2 mb-3">
                                             <span class="text-primary"><svg xmlns="http://www.w3.org/2000/svg"
                                                     style="width: 30px; height: 30px; h" width="24" height="24"
@@ -437,7 +437,7 @@
                                             </div>
                                           
                                         </div>
-                                    </div>
+                                    </div-->
 
                                     <div class="row">
 
