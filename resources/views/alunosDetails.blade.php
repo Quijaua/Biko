@@ -53,19 +53,6 @@
                                 <a class="btn btn-outline-primary" href="javascript:window.print()"><i
                                         class="me-2 fas fa-print"></i> Imprimir</a>
                             </div>
-                            @if ($user->role === 'administrador')
-                                <div>
-                                    <a class="btn btn-outline-secondary" href="/alunos/log/{{ $dados->id }}"><span><svg
-                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"
-                                                class="icon icon-tabler icons-tabler-outline icon-tabler-history">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                <path d="M12 8l0 4l2 2" />
-                                                <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5" />
-                                            </svg></span> Histórico</a>
-                                </div>
-                            @endif
                             <div>
                                 <a class="btn btn-primary" href="/alunos/edit/{{ $dados->id }}"><i
                                         class="me-2 fas fa-user-edit"></i> Editar Dados</a>

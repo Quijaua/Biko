@@ -188,6 +188,11 @@ Route::group(['prefix' => 'ambiente-virtual'], function () {
 });
 Route::resource('/ambiente-virtual', 'AmbienteVirtualController')->except(['index']);
 
+// ROUTES FOR AUDITORIA
+Route::group(['prefix' => 'auditoria'], function () {
+    Route::get('/', 'AuditoriaController@index')->name('auditoria.index');
+});
+
 // PROTECTED ROUTES
 Auth::routes(['verify' => true]);
 
