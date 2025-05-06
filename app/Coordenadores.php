@@ -80,6 +80,11 @@ class Coordenadores extends Model implements Auditable
     'pessoa_com_deficiencia',
   ];
 
+  public static function ativos()
+  {
+    return self::where('Status', 1)->get();
+  }
+
   public function nucleo()
   {
     return $this->belongsTo('App\Nucleo');

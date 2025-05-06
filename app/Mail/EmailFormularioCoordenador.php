@@ -44,7 +44,7 @@ class EmailFormularioCoordenador extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.emailFormularioCoordenador.blade',
+            view: 'emails.emailFormularioCoordenador'
         );
     }
 

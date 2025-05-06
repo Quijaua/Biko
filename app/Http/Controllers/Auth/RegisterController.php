@@ -11,6 +11,7 @@ use Session;
 use App\User;
 use App\Aluno;
 use App\Nucleo;
+use App\Coordenadores;
 use App\Http\Repository\HcaptchaRepository;
 use App\Mail\EmailFormularioCoordenador;
 use App\Mail\EmailFormularioEstudante;
@@ -114,8 +115,15 @@ class RegisterController extends Controller
 
         $my_token = app('auth.password.broker')->createToken($user);
 
-        $nucleo = $data['inputNucleo'];
-        $myNucleo = Nucleo::find($nucleo);
+        $nucleoId = $data['inputNucleo'] ?? null;
+        if ($nucleoId) {
+          $myNucleo = Nucleo::find($nucleoId);
+        } else {
+          $myNucleo = Nucleo::where('permite_ambiente_virtual', 1)->where('Status', 1)->first();
+          $nucleoId = $myNucleo->id;
+        }
+        $nomeNucleo = $myNucleo ? $myNucleo->NomeNucleo : null;
+
         Session::put('verified',$user->email_verified_at);
 
         $aluno = Aluno::create([
@@ -126,8 +134,8 @@ class RegisterController extends Controller
             'FoneCelular' => $user->phone,
             'Escolaridade' => $data['inputEscolaridade'],
             'Email' => $data['email'],
-            'id_nucleo' => $nucleo,
-            'NomeNucleo' => $myNucleo->NomeNucleo,
+            'id_nucleo' => $nucleoId,
+            'NomeNucleo' => $nomeNucleo,
             'ListaEspera' => 'Sim',
             'Raca' => $data['inputRaca'],
             'Genero' => $data['inputGenero'],
@@ -163,10 +171,15 @@ class RegisterController extends Controller
         ]);
 
         // Envia e-mail
-        $coordenadores = $myNucleo->coordenadores();
+        if ($myNucleo) {
+          $coordenadores = $myNucleo->coordenadores();
+        } else {
+          $coordenadores = Coordenadores::ativos();
+        }
+
         foreach($coordenadores as $coordenador) {
           if($coordenador['Email']) {
-            Mail::to($coordenador->Email)->send(new EmailFormularioCoordenador([
+            Mail::to($coordenador['Email'])->send(new EmailFormularioCoordenador([
               'message' => 'Olá, coordenador! Um novo estudante foi inserido!'
             ]));
           }
