@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Session;
 
 use App\Http\Repository\HcaptchaRepository;
 
@@ -64,6 +65,7 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+            Session::put('role', Auth::user()->role);
 
             return redirect()->intended('home');
         }
