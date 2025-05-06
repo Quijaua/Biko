@@ -488,7 +488,6 @@
         @endsection
 
         @section('js')
-            <script src='https://www.hCaptcha.com/1/api.js' async defer></script>
             <script>
                 $(document).ready(function() {
                     $('select[name=temFilhos').change(function() {
@@ -690,6 +689,12 @@
 
                 $('#registration-form').on('submit', function(e) {
                     e.preventDefault()
+
+                    const hcaptchaVal = $('[name=h-captcha-response]').val();
+                    if (!hcaptchaVal) {
+                        alert('Por favor complete o desafio hCaptcha');
+                        return;
+                    }
 
                     let data = $(this).serialize()
 

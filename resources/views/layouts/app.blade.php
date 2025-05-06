@@ -14,7 +14,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ asset('js/jquery.mask.min.js') }}"></script>
     <script src="{{ asset('js/jquery.maskMoney.min.js') }}"></script>
     <script src="{{ asset('js/jquery.cpf-validate.1.0.min.js') }}"></script>
@@ -53,6 +53,9 @@
 
     <!-- TablerAccessibility -->
     <link href="{{ asset('dist/libs/TablerAccessibility/dist/tabler-a11y.min.css') }}" rel="stylesheet"/>
+
+    <!-- hCaptcha -->
+    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 
 <style>
 .btn.btn-floating.btn-icon.btn-primary.bottom-right {
