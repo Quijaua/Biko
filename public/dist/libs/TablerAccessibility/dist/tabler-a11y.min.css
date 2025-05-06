@@ -16,6 +16,22 @@
   filter: contrast(200%) !important;
 }
 
+/* Accessibility Btn */
+.btn-accessibility {
+  --tblr-btn-border-color: transparent;
+  --tblr-btn-hover-border-color: transparent;
+  --tblr-btn-active-border-color: transparent;
+  --tblr-btn-color: #f9fafb;
+  --tblr-btn-bg: #066fd1;
+  --tblr-btn-hover-color: #f9fafb;
+  --tblr-btn-hover-bg: color-mix(in oklab, #066fd1, transparent 20%);
+  --tblr-btn-active-color: #f9fafb;
+  --tblr-btn-active-bg: color-mix(in oklab, #066fd1, transparent 20%);
+  --tblr-btn-disabled-bg: #066fd1;
+  --tblr-btn-disabled-color: #f9fafb;
+  --tblr-btn-box-shadow: 0 1px 1px rgba(31, 41, 55, .06);
+}
+
 /* Menu */
 /* Layout do menu */
 .a11y-menu {
@@ -166,12 +182,38 @@
 
 /* adiciona 56px embaixo do primeiro header */
 body:has(header.navbar.navbar-expand-md.d-print-none)
-  div.a11y-container button.btn-floating {
-    top: calc(1rem + 2.25rem + .5rem + 56px * 2) !important;
+  div.a11y-container button.btn-floating.top-left {
+    top: calc(1rem + 56px) !important;
+}
+body:has(header.navbar.navbar-expand-md.d-print-none)
+  div.a11y-container button.btn-floating.top-right {
+    top: calc(1rem + 56px) !important;
 }
 
-/* adiciona 56px em cima do segundo header */
-body:has(header.navbar.navbar-expand-md.d-print-none):has(header.navbar-expand-md)
-  div.a11y-container button.btn-floating {
+body:has(header.navbar.navbar-expand-md.d-print-none)
+  div.a11y-container .a11y-menu.top-left {
     top: calc(1rem + 2.25rem + .5rem + 56px) !important;
+}
+body:has(header.navbar.navbar-expand-md.d-print-none)
+  div.a11y-container .a11y-menu.top-right {
+    top: calc(1rem + 2.25rem + .5rem + 56px) !important;
+}
+
+/* adiciona mais 56px em cima do segundo header */
+body:has(header.navbar.navbar-expand-md.d-print-none):has(header.navbar-expand-md div.collapse.navbar-collapse)
+  div.a11y-container button.btn-floating.top-right {
+    top: calc(1rem + 56px * 2) !important;
+}
+body:has(header.navbar.navbar-expand-md.d-print-none):has(header.navbar-expand-md div.collapse.navbar-collapse)
+  div.a11y-container button.btn-floating.top-left {
+    top: calc(1rem + 56px * 2) !important;
+}
+
+body:has(header.navbar.navbar-expand-md.d-print-none):has(header.navbar-expand-md div.collapse.navbar-collapse)
+  div.a11y-container .a11y-menu.top-left {
+    top: calc(1rem + 2.25rem + .5rem + 56px * 2) !important;
+}
+body:has(header.navbar.navbar-expand-md.d-print-none):has(header.navbar-expand-md div.collapse.navbar-collapse)
+  div.a11y-container .a11y-menu.top-right {
+    top: calc(1rem + 2.25rem + .5rem + 56px * 2) !important;
 }
