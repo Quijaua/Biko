@@ -15,9 +15,14 @@ use Carbon\Carbon;
 |
 */
 
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+
+// routes/web.php
 Route::get('/', function () {
     return view('welcome');
-});
+})->middleware('auth'); // ou 'guest' dependendo da sua lógica
 
 Route::middleware(['auth'])->group(function () {
 
