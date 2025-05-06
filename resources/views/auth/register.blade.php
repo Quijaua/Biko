@@ -1,6 +1,14 @@
     @extends('layouts.app')
 
     @section('content')
+        <style>
+            .nav-link.disabled {
+                pointer-events: none;
+                cursor: not-allowed;
+                opacity: 0.6;
+            }
+        </style>
+
         <div class="container">
             <h1 class="text-center">Bem vinda(o), a Plataforma Biko.
             </h1>
@@ -23,12 +31,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a id="step-2" href="#nucleo_do_cursinho" class="nav-link" data-bs-toggle="tab">
+                        <a id="step-2" href="#nucleo_do_cursinho" class="nav-link disabled" data-bs-toggle="tab">
                         <span class="step-circle">2</span> Núcleo
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a id="step-3" href="#formulario_de_precadastro" class="nav-link" data-bs-toggle="tab">
+                        <a id="step-3" href="#formulario_de_precadastro" class="nav-link disabled" data-bs-toggle="tab">
                         <span class="step-circle">3</span> Seus dados
                         </a>
                     </li>
@@ -553,6 +561,8 @@
                 let localSelecionado = "";
                 let stepFrom = 1;
                 let estadoSelecionado = ''
+                let step1Valid = false;
+                let step2Valid = false;
 
                 async function buscarNucleos(estado) {
                   const nucleos = await fetch(`nucleo/estados/${estado}`, {
@@ -582,21 +592,39 @@
                     resultadoLocal.classList.remove("d-none");
 
                     if (valor === "Núcleo Virtual - Aulas online para todo Brasil") {
+                        step1Valid = true;
+                        step2Valid = true;
+                        document.getElementById('step-3').classList.remove('disabled');
+
                         document.getElementById("step-3").click();
                         document.getElementById("step-back").classList.remove("d-none");
                         document.getElementById("step-back").classList.add("d-block");
+                        inputNucleo.required = false;
                     } else {
+                        step1Valid = true;
+                        document.getElementById('step-2').classList.remove('disabled');
+                        step2Valid = false;
+                        document.getElementById('step-3').classList.add('disabled');
+
                         document.getElementById("step-2").click();
                         document.getElementById("step-back").classList.remove("d-none");
                         document.getElementById("step-back").classList.add("d-block");
+                        inputNucleo.required = true;
                     }
                 }
 
                 document.getElementById("step-back-link").addEventListener("click", function() {
+                    if (stepFrom === 3) {
+                        document.getElementById('step-3').classList.add('disabled');
+                        step2Valid = false;
+                    } else if (stepFrom === 2) {
+                        document.getElementById('step-2').classList.add('disabled');
+                        step1Valid = false;
+                    }
 
                     back(stepFrom);
                     if (stepFrom > 1) stepFrom--;
-                })
+                });
 
                 function back(step) {
                     document.getElementById('step-' + step).click();
@@ -613,6 +641,8 @@
                     nucleoSelecionadoId = selectedOption.value;
                     nucleoSelecionadoTexto = selectedOption.text;
                     resultadoNucleo.classList.remove("d-none");
+                    step2Valid = true;
+                    document.getElementById('step-3').classList.remove('disabled');
 
                     document.getElementById("nucleoSelecionadoTexto").innerText = nucleoSelecionadoTexto;
 
@@ -620,6 +650,24 @@
                     stepFrom++;
                 }
 
+                document.querySelectorAll('.nav-tabs a[data-bs-toggle="tab"]').forEach(tab => {
+                    tab.addEventListener('show.bs.tab', (e) => {
+                        const targetTab = e.target.getAttribute('href');
+                        
+                        // Verificar se pode acessar a tab
+                        if (targetTab === '#nucleo_do_cursinho' && !step1Valid) {
+                            e.preventDefault();
+                            alert('Por favor, selecione um estado primeiro!');
+                            return;
+                        }
+                        
+                        if (targetTab === '#formulario_de_precadastro' && (!step1Valid || !step2Valid)) {
+                            e.preventDefault();
+                            alert('Por favor, complete as etapas anteriores primeiro!');
+                            return;
+                        }
+                    });
+                });
 
             $(document).ready(function() {
 
