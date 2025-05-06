@@ -43,7 +43,7 @@
                     </ul>
                 </div>
                 
-                <div class="card-body">
+                <div class="card-body" id="form-content">
                     {{-- Resultados --}}
                     <div class="d-flex flex-column justify-content-center align-items-center mb-4">
 
@@ -657,13 +657,15 @@
                         // Verificar se pode acessar a tab
                         if (targetTab === '#nucleo_do_cursinho' && !step1Valid) {
                             e.preventDefault();
-                            alert('Por favor, selecione um estado primeiro!');
+                            $(".alert").remove();
+                            $("#form-content").prepend('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Por favor, selecione um estado primeiro!<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
                             return;
                         }
                         
                         if (targetTab === '#formulario_de_precadastro' && (!step1Valid || !step2Valid)) {
                             e.preventDefault();
-                            alert('Por favor, complete as etapas anteriores primeiro!');
+                            $(".alert").remove();
+                            $("#form-content").prepend('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Por favor, complete as etapas anteriores primeiro!<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
                             return;
                         }
                     });
@@ -740,7 +742,8 @@
 
                     const hcaptchaVal = $('[name=h-captcha-response]').val();
                     if (!hcaptchaVal) {
-                        alert('Por favor complete o desafio hCaptcha');
+                        $(".alert").remove();
+                        $(".h-captcha").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Por favor complete o desafio hCaptcha<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
                         return;
                     }
 
