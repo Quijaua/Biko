@@ -460,8 +460,12 @@
 
                                             <div class="mb-3 row mt-3 mb-0">
                                                 <div class="btn-list">
-                                                    <button type="submit" class="btn btn-primary btn-2">
+                                                    <button type="submit" class="btn btn-primary btn-2" id="btnSubmit">
                                                         {{ __('Enviar pré-cadastrar') }}
+                                                    </button>
+                                                    <button class="btn btn-primary btn-2 loader-btn d-none" id="btnLoader" type="button" disabled>
+                                                        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                                        <span class="ms-2" role="status">Carregando...</span>
                                                     </button>
                                                 </div>
                                             </div>
@@ -740,10 +744,27 @@
                 $('#registration-form').on('submit', function(e) {
                     e.preventDefault()
 
+                    $(".alert").remove();
+
+                    var btnSubmit = $("#btnSubmit");
+                    var btnLoader = $("#btnLoader");
+                    const hcaptchaElement = document.querySelector('.h-captcha');
+
+                    btnSubmit.prop("disabled", true).addClass("d-none");
+                    btnLoader.removeClass("d-none");
+
                     const hcaptchaVal = $('[name=h-captcha-response]').val();
                     if (!hcaptchaVal) {
                         $(".alert").remove();
                         $(".h-captcha").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Por favor complete o desafio hCaptcha<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+
+                        btnSubmit.prop("disabled", false).removeClass("d-none");
+                        btnLoader.addClass("d-none");
+
+                        if (hcaptchaElement && window.hcaptcha) {
+                            const widgetId = hcaptchaElement.getAttribute('data-hcaptcha-widget-id');
+                            window.hcaptcha.reset(widgetId);
+                        }
                         return;
                     }
 
@@ -759,6 +780,9 @@
                             $('#resultadoLocal').remove()
                             //initialStep.click()
                             successModal.show()
+
+                            btnSubmit.prop("disabled", false).removeClass("d-none");
+                            btnLoader.addClass("d-none");
                         },
                         error: function(response) {
                                 console.log('error', response.status)
@@ -792,6 +816,14 @@
                                 successModal.show()
                                 //initialStep.click()
                             }
+
+                            if (hcaptchaElement && window.hcaptcha) {
+                                const widgetId = hcaptchaElement.getAttribute('data-hcaptcha-widget-id');
+                                window.hcaptcha.reset(widgetId);
+                            }
+
+                            btnSubmit.prop("disabled", false).removeClass("d-none");
+                            btnLoader.addClass("d-none");
                         }
                     })
                 })
