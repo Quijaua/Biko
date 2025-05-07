@@ -83,6 +83,8 @@ class ProfessoresController extends Controller
 
         return view('professoresCreate')->with([
           'nucleos' => $nucleos,
+          'povo_indigenas' => PovoIndigena::all(),
+          'terra_indigenas' => TerraIndigena::all(),
         ]);
       }
 
@@ -175,7 +177,7 @@ class ProfessoresController extends Controller
         'Status' => $request->input('inputStatus'),
         'NomeProfessor' => $request->input('inputNomeProfessor'),
         'NomeSocial' => $request->input('inputNomeSocial'),
-        'id_nucleo' => $request->input('inputNucleo'),
+        // 'id_nucleo' => $request->input('inputNucleo'),
         //'Foto' => $Foto->getFilename() . '.' . $Extension,
         'Foto' => $foto,
         'CPF' => $request->input('inputCPF'),
