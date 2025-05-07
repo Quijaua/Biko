@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Image;
 use Session;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -404,12 +405,17 @@ class ProfessoresController extends Controller
     {
       $validator = Validator::make($request->all(), [
         'inputNomeProfessor' => ['required', 'string', 'min:3', 'max:100'],
-        'inputEmail'         => ['required', 'email', 'max:255', 'unique:professores,email'],
+        'inputEmail'         => [
+          'required',
+          'email',
+          'max:255',
+          Rule::unique('professores', 'email')->ignore($id, 'id'),
+        ],
         'inputCPF'           => [
           'required',
           'string',
           'regex:/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/',
-          'unique:professores,cpf',
+          Rule::unique('professores', 'cpf')->ignore($id, 'id'),
         ],
       ], [
         'inputNomeProfessor.required' => 'O nome do professor é obrigatório.',
