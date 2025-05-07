@@ -14,15 +14,21 @@ use Carbon\Carbon;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-//Route::get('/', function () {
-//    return view('welcome');
-//});
-
-// routes/web.php
+// Rota inicial
 Route::get('/', function () {
-    return view('welcome');
-})->middleware('auth'); // ou 'guest' dependendo da sua lógica
+    if (auth()->check()) {
+        return redirect('/home');
+    }
+    return redirect('/login');
+});
+
+// Rota protegida (depois de logado)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', function () {
+        return view('home'); // ou seu controller
+    })->name('home');
+});
+
 
 Route::middleware(['auth'])->group(function () {
 
