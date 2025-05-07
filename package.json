@@ -19,7 +19,7 @@
     "lodash": "^4.17.21",
     "popper.js": "^1.12",
     "resolve-url-loader": "^5.0.0",
-    "sass": "^1.15.2",
+    "sass": "^1.87.0",
     "sass-loader": "^10.5.2",
     "webpack-cli": "^4.10.0"
   },
