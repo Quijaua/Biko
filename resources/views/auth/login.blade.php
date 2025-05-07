@@ -8,7 +8,7 @@
 
 	        <div class="card-body">
 		        <h2 class="h2 text-center mb-4">{{ __('Login') }}</h2>
-                <form method="POST" action="{{ route('login') }}" autocomplete="off" novalidate>
+                <form id="login-form" method="POST" action="{{ route('login') }}" autocomplete="off" novalidate>
                 @csrf
 
 	<div class="mb-3">
@@ -65,7 +65,7 @@
 
 
 
-		<button type="submit" class="btn btn-primary w-100">{{ __('Login') }}</button>
+		<button type="submit" class="btn btn-primary w-100" id="btn-submit">{{ __('Login') }}</button>
 	</div>
 </form>
 	</div>
@@ -156,10 +156,38 @@
 
 </div>
 
+<script>
+    $(function() {
+        const form      = $('#login-form');
+        const btnSubmit = $('#btn-submit');
+        const hcaptchaElement = document.querySelector('.h-captcha');
+
+        form.on('submit', function(e) {
+            const hcaptchaVal = $('[name="h-captcha-response"]').val();
+
+            $(".alert").remove();
+
+            if (!hcaptchaVal) {
+                e.preventDefault();
+
+                $(".h-captcha").before(
+                    '<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">' +
+                        'Por favor complete o desafio hCaptcha' +
+                        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                    '</div>'
+                );
+
+                btnSubmit.prop("disabled", false).removeClass("d-none");
+
+                if (hcaptchaElement && window.hcaptcha) {
+                    const widgetId = hcaptchaElement.getAttribute('data-hcaptcha-widget-id');
+                    window.hcaptcha.reset(widgetId);
+                }
+
+                return false;
+            }
+        });
+    });
+</script>
+
 @endsection
-
-
-
-
-
-
