@@ -1,7 +1,9 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
-use \App\PovoIndigena;
+use App\PovoIndigena;
 
 class PovoIndigenaTableSeeder extends Seeder
 {

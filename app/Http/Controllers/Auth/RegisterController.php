@@ -11,7 +11,11 @@ use Session;
 use App\User;
 use App\Aluno;
 use App\Nucleo;
+use App\Coordenadores;
 use App\Http\Repository\HcaptchaRepository;
+use App\Mail\EmailFormularioCoordenador;
+use App\Mail\EmailFormularioEstudante;
+use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
 {
@@ -111,49 +115,79 @@ class RegisterController extends Controller
 
         $my_token = app('auth.password.broker')->createToken($user);
 
-        $nucleo = $data['inputNucleo'];
-        $myNucleo = Nucleo::find($nucleo);
+        $nucleoId = $data['inputNucleo'] ?? null;
+        if ($nucleoId) {
+          $myNucleo = Nucleo::find($nucleoId);
+        } else {
+          $myNucleo = Nucleo::where('permite_ambiente_virtual', 1)->where('Status', 1)->first();
+          $nucleoId = $myNucleo->id;
+        }
+        $nomeNucleo = $myNucleo ? $myNucleo->NomeNucleo : null;
+
         Session::put('verified',$user->email_verified_at);
 
         $aluno = Aluno::create([
             'NomeAluno' => $user->name,
-            'NomeSocial' => $data['NomeSocial'],
+            'NomeSocial' => isset($data['NomeSocial']) ? $data['NomeSocial'] : NULL,
             'id_user' => $user->id,
             'Status' => 0,
             'FoneCelular' => $user->phone,
             'Escolaridade' => $data['inputEscolaridade'],
             'Email' => $data['email'],
-            'id_nucleo' => $nucleo,
-            'NomeNucleo' => $myNucleo->NomeNucleo,
+            'id_nucleo' => $nucleoId,
+            'NomeNucleo' => $nomeNucleo,
             'ListaEspera' => 'Sim',
             'Raca' => $data['inputRaca'],
             'Genero' => $data['inputGenero'],
             'concordaSexoDesignado' => isset($data['concordaSexoDesignado']) ? $data['concordaSexoDesignado'] : NULL,
             'Nascimento' => $data['inputNascimento'],
-            'responsavelCuidadoOutraPessoa' => $data['responsavelCuidadoOutraPessoa'],
+            'responsavelCuidadoOutraPessoa' => isset($data['responsavelCuidadoOutraPessoa']) ? $data['responsavelCuidadoOutraPessoa'] : NULL,
             'temFilhos' => $data['temFilhos'],
             'filhosQt' => $data['filhosQt'],
             /*'filhosIdade' => $data['filhosIdade'],*/
             'CEP' => $data['inputCEP'],
-            'CEPProprio' => $data['inputCEPProprio'],
+            'CEPProprio' => isset($data['inputCEPProprio']) ? $data['inputCEPProprio'] : NULL,
             'Endereco' => $data['inputEndereco'],
             'Numero' => $data['inputNumero'],
-            'Bairro' => $data['inputBairro'],
+            'Bairro' => isset($data['inputBairro']) ? $data['inputBairro'] : NULL,
             'Cidade' => $data['inputCidade'],
             'Estado' => $data['inputEstado'],
             'Complemento' => $data['inputComplemento'],
             'EnsFundamental' => $fundamental,
-            'PorcentagemBolsa' => $data['inputPorcentagemBolsa'],
+            'PorcentagemBolsa' => isset($data['inputPorcentagemBolsa']) ? $data['inputPorcentagemBolsa'] : NULL,
             'EnsMedio' => $medio,
-            'PorcentagemBolsaMedio' => $data['inputPorcentagemBolsaMedio'],
+            'PorcentagemBolsaMedio' => isset($data['inputPorcentagemBolsaMedio']) ? $data['inputPorcentagemBolsaMedio'] : NULL,
             'Vestibular' => isset($data['inputVestibular']) ? $data['inputVestibular'] : NULL,
             'Enem' => isset($data['inputEnem']) ? $data['inputEnem'] : NULL,
-            'OpcoesVestibular1' => $data['inputOpcoesVestibular1'],
-            'OpcoesVestibular2' => $data['inputOpcoesVestibular2'],
-            'VestibularOutraCidade' => $data['inputVestibularOutraCidade'],
-            'ComoSoube' => $data['inputComoSoube'],
-            'ComoSoubeOutros' => $data['inputComoSoubeOutros'],
+            'OpcoesVestibular1' => isset($data['inputOpcoesVestibular1']) ? $data['inputOpcoesVestibular1'] : NULL,
+            'OpcoesVestibular2' => isset($data['inputOpcoesVestibular2']) ? $data['inputOpcoesVestibular2'] : NULL,
+            'VestibularOutraCidade' => isset($data['inputVestibularOutraCidade']) ? $data['inputVestibularOutraCidade'] : NULL,
+            'ComoSoube' => isset($data['inputComoSoube']) ? $data['inputComoSoube'] : NULL,
+            'ComoSoubeOutros' => isset($data['inputComoSoubeOutros']) ? $data['inputComoSoubeOutros'] : NULL,
+            'localizacao_curso' => isset($data['localizacao_curso']) ? $data['localizacao_curso'] : NULL,
+            'pessoa_com_deficiencia' => $data['pessoa_com_deficiencia'] ?? NULL,
+            'povo_indigenas_id' => $data['povo_indigenas_id'] ?? NULL,
+            'terra_indigenas_id' => $data['terra_indigenas_id'] ?? NULL,
         ]);
+
+        // Envia e-mail
+        if ($myNucleo) {
+          $coordenadores = $myNucleo->coordenadores();
+        } else {
+          $coordenadores = Coordenadores::ativos();
+        }
+
+        foreach($coordenadores as $coordenador) {
+          if($coordenador['Email']) {
+            Mail::to($coordenador['Email'])->send(new EmailFormularioCoordenador([
+              'message' => 'Olá, coordenador! Um novo estudante foi inserido!'
+            ]));
+          }
+        }
+
+        Mail::to($data['email'])->send(new EmailFormularioEstudante([
+          'message' => 'Olá, estudante! Seja bem-vindo.'
+        ]));
 
         return User::find($user->id);
     }

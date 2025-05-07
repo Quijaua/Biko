@@ -1,7 +1,9 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
-use \App\TerraIndigena;
+use App\TerraIndigena;
 
 class TerraIndigenaTableSeeder extends Seeder
 {

@@ -19,7 +19,7 @@
                 {!! $mensagem->mensagem !!}
             </div>
 
-            <a class="btn btn-danger float-right" href="{{ url()->previous() }}">Voltar</a>
+            <a class="btn btn-primary float-right" href="{{ url()->previous() }}">Voltar</a>
         </div>
     </div>
 @endsection

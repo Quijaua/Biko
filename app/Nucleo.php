@@ -3,11 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
 
-class Nucleo extends Model
+class Nucleo extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+
     protected $fillable = [
         'Status',
         'NomeNucleo',
@@ -35,6 +38,8 @@ class Nucleo extends Model
         'InicioAtividades',
         'whatsapp_url',
         'Regiao',
+        'permite_ambiente_virtual',
+        'diciplinas',
     ];
 
     public function alunos()
@@ -62,6 +67,11 @@ class Nucleo extends Model
       return $this->hasMany('App\ListaPresenca')->orderBy('date');
     }
 
+    public function disciplina()
+    {
+        return $this->hasMany('App\Disciplina', 'nucleo_id');
+    }
+
     public static function whereStatus($value = true)
     {
         return self::query()->where('Status', $value);
@@ -82,6 +92,11 @@ class Nucleo extends Model
                 return $query->where('id_user', Auth::user()->id);
             });
         })->where('Status', true);
+    }
+
+    public function professoresDisciplinas()
+    {
+        return $this->hasMany('App\NucleosProfessoresDisciplinas', 'nucleo_id');
     }
 
 }

@@ -91,7 +91,7 @@ body {
   <div class="row">
     <div class="col" style="text-align: center">
       <div class="form-group">
-        <h1><?php echo $alunos; ?></h1> Alunos
+        <h1><?php echo $alunos; ?></h1> Estudantes
         <p><strong><?php echo $alunos1 ?></strong> Ativos / <strong><?php echo $alunos0 ?></strong> Inativos</p>
       </div>
     </div>

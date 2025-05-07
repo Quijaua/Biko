@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Aluno extends Model
+class Aluno extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+
     protected $fillable = [
         'Status',
         'NomeAluno',
@@ -81,11 +84,15 @@ class Aluno extends Model
         'VestibularOutraCidade',
         'ComoSoube',
         'ComoSoubeOutros',
+        'localizacao_curso',
+        'terra_indigenas_id',
+        'povo_indigenas_id',
+        'pessoa_com_deficiencia',
     ];
 
     public function nucleo()
     {
-        return $this->belongsTo('App\Nucleo');
+        return $this->belongsTo('App\Nucleo', 'id_nucleo');
     }
 
     public function user()
@@ -116,5 +123,15 @@ class Aluno extends Model
     public static function whereNucleo($nucleo)
     {
         return self::query()->where('id_nucleo', $nucleo);
+    }
+
+    public function povo_indigenas()
+    {
+        return $this->belongsTo('App\PovoIndigena', 'povo_indigenas_id');
+    }
+
+    public function terra_indigenas()
+    {
+        return $this->belongsTo('App\TerraIndigena', 'terra_indigenas_id');
     }
 }

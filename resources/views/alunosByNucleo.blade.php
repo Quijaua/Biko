@@ -5,7 +5,7 @@
   <!-- PAGE HEADER -->
   <div class="row">
       <div class="col-12 text-center">
-        <h1>ALUNOS POR NÚCLEO</h1>
+        <h1>ESTUDANTES POR NÚCLEO</h1>
       </div>
   </div>
   <div class="container">
@@ -16,7 +16,7 @@
         @csrf
         <div class="input-group">
             <input type="text" class="form-control" name="inputQuery"
-                placeholder="Buscar por nome ou sobrenome do aluno" required> <span class="input-group-btn">
+                placeholder="Buscar por nome ou sobrenome do estudante" required> <span class="input-group-btn">
                 <button type="submit" class="btn btn-default">
                     <i class="fas fa-search"></i>
                 </button>
@@ -50,9 +50,9 @@
   @if($user->role != 'aluno' && $user->role != 'professor')
   <div class="col mt-4 text-center">
     @if($aluno->Status === 1)
-    <a class="btn btn-danger" href="/alunos/nucleo/search/?nucleo={{ $aluno->id_nucleo }}&status=0">Ver alunos inativos</a>
+    <a class="btn btn-danger" href="/alunos/nucleo/search/?nucleo={{ $aluno->id_nucleo }}&status=0">Ver estudantes inativos</a>
     @else
-    <a class="btn btn-primary" href="/alunos/nucleo/search/?nucleo={{ $aluno->id_nucleo }}&status=1">Ver alunos ativos</a>
+    <a class="btn btn-primary" href="/alunos/nucleo/search/?nucleo={{ $aluno->id_nucleo }}&status=1">Ver estudantes ativos</a>
     @endif
     <a class="btn btn-primary" href="{{ route('alunos/export/') }}/?nucleo={{ $aluno->id_nucleo }}">Exportar Todos</a>
   </div>

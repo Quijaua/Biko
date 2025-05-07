@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Image;
 use Session;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Exports\ProfessoresExport;
 use Maatwebsite\Excel\Facades\Excel;
+use DB;
 
 use App\Professores;
 use App\Nucleo;
@@ -17,6 +20,8 @@ use App\User;
 use App\Aluno;
 use App\Coordenadores;
 use App\HorarioAula;
+use App\PovoIndigena;
+use App\TerraIndigena;
 
 class ProfessoresController extends Controller
 {
@@ -58,7 +63,8 @@ class ProfessoresController extends Controller
       if($user->role === 'administrador'){
         $user = Auth::user();
         //$professores = Professores::where('Status', 1)->get();
-        $professores = Professores::where('Status', 1)->paginate(25);
+        //$professores = Professores::where('Status', 1)->paginate(25);
+        $professores = Professores::paginate(25);
 
         return view('professores')->with([
           'user' => $user,
@@ -78,6 +84,8 @@ class ProfessoresController extends Controller
 
         return view('professoresCreate')->with([
           'nucleos' => $nucleos,
+          'povo_indigenas' => PovoIndigena::all(),
+          'terra_indigenas' => TerraIndigena::all(),
         ]);
       }
 
@@ -86,6 +94,8 @@ class ProfessoresController extends Controller
 
         return view('professoresCreate')->with([
           'nucleos' => $nucleos,
+          'povo_indigenas' => PovoIndigena::all(),
+          'terra_indigenas' => TerraIndigena::all(),
         ]);
       }
 
@@ -93,6 +103,38 @@ class ProfessoresController extends Controller
 
     public function create(Request $request)
     {
+      $validator = Validator::make($request->all(), [
+        'inputNomeProfessor' => ['required', 'string', 'min:3', 'max:100'],
+        'inputEmail'         => ['required', 'email', 'max:255', 'unique:professores,email'],
+        'inputCPF'           => [
+          'required',
+          'string',
+          'regex:/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/',
+          'unique:professores,cpf',
+        ],
+      ], [
+        'inputNomeProfessor.required' => 'O nome do professor é obrigatório.',
+        'inputNomeProfessor.string'   => 'O nome do professor deve ser um texto.',
+        'inputNomeProfessor.min'      => 'O nome do professor deve ter ao menos 3 caracteres.',
+        'inputNomeProfessor.max'      => 'O nome do professor não pode exceder 100 caracteres.',
+
+        'inputEmail.required' => 'O e-mail é obrigatório.',
+        'inputEmail.email'    => 'Informe um e-mail válido.',
+        'inputEmail.max'      => 'O e-mail não pode exceder 255 caracteres.',
+        'inputEmail.unique'   => 'Este e-mail já está cadastrado.',
+
+        'inputCPF.required' => 'O CPF é obrigatório.',
+        'inputCPF.string'   => 'O CPF deve ser informado como texto.',
+        'inputCPF.regex'    => 'O CPF deve estar no formato 000.000.000-00.',
+        'inputCPF.unique'   => 'Este CPF já está cadastrado.',
+      ]);
+
+      if ($validator->fails()) {
+        return back()
+          ->withErrors($validator)
+          ->withInput();
+      }
+      
       $Foto = $request->file('inputFoto');
       //$Extension = $Foto->getClientOriginalExtension();
       $Disc = $request->input('inputDisciplinas');
@@ -136,7 +178,7 @@ class ProfessoresController extends Controller
         'Status' => $request->input('inputStatus'),
         'NomeProfessor' => $request->input('inputNomeProfessor'),
         'NomeSocial' => $request->input('inputNomeSocial'),
-        'id_nucleo' => $request->input('inputNucleo'),
+        // 'id_nucleo' => $request->input('inputNucleo'),
         //'Foto' => $Foto->getFilename() . '.' . $Extension,
         'Foto' => $foto,
         'CPF' => $request->input('inputCPF'),
@@ -197,6 +239,9 @@ class ProfessoresController extends Controller
         'CursoMestrado' => $request->input('inputCursoMestrado'),
         'AnoCursoMestrado' => $request->input('inputAnoCursoMestrado'),
         'FormacaoAcademicaRecente' => $request->input('inputFormacaoAcademicaRecente'),
+        'povo_indigenas_id' => $request->input('povo_indigenas_id'),
+        'terra_indigenas_id' => $request->input('terra_indigenas_id'),
+        'pessoa_com_deficiencia' => $request->input('pessoa_com_deficiencia'),
       ]);
 
       if($Foto){
@@ -349,6 +394,8 @@ class ProfessoresController extends Controller
         return view('professoresEdit')->with([
           'dados'     => $dados,
           'nucleos'   => $nucleos,
+          'povo_indigenas' => PovoIndigena::all(),
+          'terra_indigenas' => TerraIndigena::all(),
         ]);
       }
 
@@ -356,6 +403,43 @@ class ProfessoresController extends Controller
 
     public function update(Request $request, $id)
     {
+      $validator = Validator::make($request->all(), [
+        'inputNomeProfessor' => ['required', 'string', 'min:3', 'max:100'],
+        'inputEmail'         => [
+          'required',
+          'email',
+          'max:255',
+          Rule::unique('professores', 'email')->ignore($id, 'id'),
+        ],
+        'inputCPF'           => [
+          'required',
+          'string',
+          'regex:/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/',
+          Rule::unique('professores', 'cpf')->ignore($id, 'id'),
+        ],
+      ], [
+        'inputNomeProfessor.required' => 'O nome do professor é obrigatório.',
+        'inputNomeProfessor.string'   => 'O nome do professor deve ser um texto.',
+        'inputNomeProfessor.min'      => 'O nome do professor deve ter ao menos 3 caracteres.',
+        'inputNomeProfessor.max'      => 'O nome do professor não pode exceder 100 caracteres.',
+
+        'inputEmail.required' => 'O e-mail é obrigatório.',
+        'inputEmail.email'    => 'Informe um e-mail válido.',
+        'inputEmail.max'      => 'O e-mail não pode exceder 255 caracteres.',
+        'inputEmail.unique'   => 'Este e-mail já está cadastrado.',
+
+        'inputCPF.required' => 'O CPF é obrigatório.',
+        'inputCPF.string'   => 'O CPF deve ser informado como texto.',
+        'inputCPF.regex'    => 'O CPF deve estar no formato 000.000.000-00.',
+        'inputCPF.unique'   => 'Este CPF já está cadastrado.',
+      ]);
+
+      if ($validator->fails()) {
+        return back()
+          ->withErrors($validator)
+          ->withInput();
+      }
+
       $dados = Professores::find($id);
       $Disc = $request->input('inputDisciplinas');
       $Disciplinas = json_encode($Disc);
@@ -367,11 +451,11 @@ class ProfessoresController extends Controller
 
       $dados->NomeProfessor = $request->input('inputNomeProfessor');
       $dados->NomeSocial = $request->input('inputNomeSocial');
-      $dados->id_nucleo = $request->input('inputNucleo');
+      // $dados->id_nucleo = $request->input('inputNucleo');
       if($Foto){
         $dados->Foto = $Foto->getFilename() . '.' . $Extension;
       }
-      $dados->CPF = $dados->CPF;
+      $dados->CPF = $request->input('inputCPF');
       $dados->RG = $request->input('inputRG');
       $dados->Raca = $request->input('inputRaca');
       $dados->Genero = $request->input('inputGenero');
@@ -408,6 +492,8 @@ class ProfessoresController extends Controller
       $dados->BairroEmpresa = $request->input('inputBairroEmpresa');
       $dados->CidadeEmpresa = $request->input('inputCidadeEmpresa');
       $dados->EstadoEmpresa = $request->input('inputEstadoEmpresa');
+      $dados->povo_indigenas_id = $request->input('povo_indigenas_id') ?? NULL;
+      $dados->terra_indigenas_id = $request->input('terra_indigenas_id') ?? NULL;
       $ProjetosRealizados = $dados->ProjetosRealizados = $request->input('inputProjetosRealizados');
       if($ProjetosRealizados === 'nao'){
         $dados->ProjetosNome = NULL;
@@ -438,6 +524,7 @@ class ProfessoresController extends Controller
       $dados->CursoMestrado = $request->input('inputCursoMestrado');
       $dados->AnoCursoMestrado = $request->input('inputAnoCursoMestrado');
       $dados->FormacaoAcademicaRecente = $request->input('inputFormacaoAcademicaRecente');
+      $dados->pessoa_com_deficiencia = $request->input('pessoa_com_deficiencia');
 
       if($Foto){
         $filename = $Foto->getFilename().'.'.$Foto->getClientOriginalExtension();
@@ -629,87 +716,61 @@ class ProfessoresController extends Controller
 
     public function search(Request $request)
     {
+      $params = self::getParams($request);
       $user = Auth::user();
-      $cpf = $request->input('cpf');
-      $status = $request->input('status');
-      $query = $request->input('inputQuery');
 
-      if($query){
-        if($user->role === 'coordenador'){
-          $me = Coordenadores::where('id_user', $user->id)->first();
-          //$results = Aluno::where('NomeAluno','LIKE','%'.$query.'%')->where('id_nucleo', $me->id_nucleo)->get();
-          $results = Professores::where('NomeProfessor','LIKE','%'.$query.'%')->where('id_nucleo', $me->id_nucleo)->paginate(25);
-          if($results->isEmpty()){
-            return back()->with('error', 'Nenhum resultado encontrado.');
-          }else{
-            return view('professores')->with([
-              'user' => $user,
-              'professores' => $results,
-            ]);
+      switch ($user->role) {
+        case 'coordenador':
+          if (!$params['nucleo_id']) {
+            $params['nucleo_id'] = $user->coordenador->id_nucleo;
           }
-        }elseif($user->role === 'professor'){
-          $me = Professores::where('id_user', $user->id)->first();
-          //$results = Aluno::where('NomeAluno','LIKE','%'.$query.'%')->where('id_nucleo', $me->id_nucleo)->get();
-          $results = Professores::where('NomeProfessor','LIKE','%'.$query.'%')->where('id_nucleo', $me->id_nucleo)->paginate(25);
-          if($results->isEmpty()){
-            return back()->with('error', 'Nenhum resultado encontrado.');
-          }else{
-            return view('professores')->with([
-              'user' => $user,
-              'professores' => $results,
-            ]);
+          break;
+        
+        case 'professor':
+          if (!$params['nucleo_id']) {
+            $params['nucleo_id'] = $user->professor->id_nucleo;
           }
-        }else{
-          $query = $request->input('inputQuery');
-          //$results = Aluno::where('NomeAluno','LIKE','%'.$query.'%')->get();
-          $results = Professores::where('NomeProfessor','LIKE','%'.$query.'%')->paginate(25);
-          if($results->isEmpty()){
-            return back()->with('error', 'Nenhum resultado encontrado.');
-          }else{
-            return view('professores')->with([
-              'user' => $user,
-              'professores' => $results,
-            ]);
-          }
-        }
+          break;
       }
 
-      if($cpf){
-        if($cpf != ''){
-          $result = Professores::where('CPF', $cpf)->count();
-          if($result > 0){
-            return \Response::json(true);
-          }elseif($result === 0){
-            return \Response::json(false);
-          }
-        }
-      }
+      $professores = DB::table('professores')
+        ->when($params['nucleo_id'], function ($query) use ($params) {
+          return $query->where('professores.id_nucleo', '=', $params['nucleo_id']);
+        })
+        ->when($params['status'], function ($query) use ($params) {
+          return $query->where('professores.Status', '=', $params['status'] === 'ativo' ? 1 : 0);
+        })
+        ->when($params['query'], function ($query) use ($params) {
+          return $query->where('professores.NomeProfessor', 'LIKE', '%' . $params['query'] . '%');
+        })
+        ->paginate(25);
 
-      if($status != ''){
-        $result = Professores::where('Status', 0)->get();
-        if($result->isEmpty()){
-          return redirect('professores')->with([
-            'error' => 'Não há professores inativos no momento.',
-          ]);
-        }
+      return view('professores')->with([
+        'user' => $user,
+        'professores' => $professores,
+      ]);
+    }
 
-        return view('professores')->with([
-          'user' => $user,
-          'professores' => $result,
-        ]);
-      }
-
+    private static function getParams($request)
+    {
+        return [
+            'nucleo_id' => $request->input('nucleo'),
+            'status' => $request->input('status'),
+            'query' => $request->input('inputQuery'),
+        ];
     }
 
     public function details($id)
     {
       $dados = Professores::find($id);
-      $dados->load('horarios');
+      $dados->load('horarios', 'nucleosProfessoresDisciplinas');
       $nucleos = Nucleo::where('Status', 1)->get();
 
       return view('professoresDetails')->with([
         'dados' => $dados,
         'nucleos' => $nucleos,
+        'povo_indigenas' => PovoIndigena::all(),
+        'terra_indigenas' => TerraIndigena::all(),
       ]);
     }
 

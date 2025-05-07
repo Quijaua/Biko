@@ -12,12 +12,15 @@ use App\Professores;
 use App\Coordenadores;
 use App\User;
 use App\AlunoInfoFamiliares;
+use App\PovoIndigena;
+use App\TerraIndigena;
 use Image;
 use Session;
 use Carbon\Carbon;
 use App\Exports\AlunosExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Traits\ActionLogTrait;
+use App\Imports\AlunosImport;
 
 class AlunosController extends Controller
 {
@@ -27,6 +30,15 @@ class AlunosController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+    }
+
+    public function importar(Request $request, $id) {
+        $request->validate([
+            'arquivo' => 'required|mimes:xlsx,xls'
+        ]);
+
+        Excel::import(new AlunosImport($id), $request->file('arquivo'));
+        return back()->with('success', 'Alunos importados com sucesso!');
     }
 
     public function index()
@@ -109,11 +121,23 @@ class AlunosController extends Controller
         return view('alunosCreate')->with([
             'nucleos' => $nucleos,
             'user' => $user,
+            'povo_indigenas' => PovoIndigena::all(),
+            'terra_indigenas' => TerraIndigena::all(),
         ]);
     }
 
     public function create(Request $request)
     {
+        $validated = $request->validate([
+            'inputNucleo' => 'required',
+        ]);
+
+        if (!$validated) {
+            return back()->with([
+                'error' => 'O campo Núcleo deve ser preenchido.',
+            ]);
+        }
+
         $nome_nucleo = Nucleo::find($request->input('inputNucleo'));
         $Fund = $request->input('inputEnsFundamental');
         $Fundamental = json_encode($Fund);
@@ -211,6 +235,10 @@ class AlunosController extends Controller
             'VestibularOutraCidade' => $request->input('inputVestibularOutraCidade'),
             'ComoSoube' => $request->input('inputComoSoube'),
             'ComoSoubeOutros' => $request->input('inputComoSoubeOutros'),
+            'localizacao_curso' => $request->input('localizacao_curso'),
+            'povo_indigenas_id' => $request->input('povo_indigenas_id'),
+            'terra_indigenas_id' => $request->input('terra_indigenas_id'),
+            'pessoa_com_deficiencia' => $request->input('pessoa_com_deficiencia'),
         ]);
 
         if ($Foto) {
@@ -242,11 +270,24 @@ class AlunosController extends Controller
             'nucleos' => $nucleos,
             'user' => $user,
             'familiares' => $familiares,
+            'povo_indigenas' => PovoIndigena::all(),
+            'terra_indigenas' => TerraIndigena::all(),
+
         ]);
     }
 
     public function update(Request $request, $id)
     {
+        $validated = $request->validate([
+            'inputNucleo' => 'required',
+        ]);
+
+        if (!$validated) {
+            return back()->with([
+                'error' => 'O campo Núcleo deve ser preenchido.',
+            ]);
+        }
+        
         $dados = Aluno::find($id);
 
         $Fund = $request->input('inputEnsFundamental');
@@ -335,6 +376,9 @@ class AlunosController extends Controller
         $dados->OpcoesVestibular2 = $request->input('inputOpcoesVestibular2');
         $dados->VestibularOutraCidade = $request->input('inputVestibularOutraCidade');
         $dados->ComoSoube = $request->input('inputComoSoube');
+        $dados->povo_indigenas_id = $request->input('povo_indigenas_id') ?? NULL;
+        $dados->terra_indigenas_id = $request->input('terra_indigenas_id') ?? NULL;
+        $dados->pessoa_com_deficiencia = $request->input('pessoa_com_deficiencia');
         if ($request->input('inputComoSoube') != 'outros') {
             $dados->ComoSoubeOutros = NULL;
         } else {
@@ -395,113 +439,37 @@ class AlunosController extends Controller
     public function search(Request $request)
     {
         $user = Auth::user();
-        $cpf = $request->input('cpf');
-        $status = $request->input('status');
-        $query = $request->input('inputQuery');
+        $params = self::getParams($request);
 
-        if ($query) {
-            if ($user->role === 'coordenador') {
-                $me = Coordenadores::where('id_user', $user->id)->first();
-                //$results = Aluno::where('NomeAluno','LIKE','%'.$query.'%')->where('id_nucleo', $me->id_nucleo)->get();
-                $results = Aluno::where('NomeAluno', 'LIKE', '%' . $query . '%')->where('id_nucleo', $me->id_nucleo)->paginate(25);
-                if ($results->isEmpty()) {
-                    return back()->with('error', 'Nenhum resultado encontrado.');
-                } else {
-                    return view('alunos')->with([
-                        'user' => $user,
-                        'alunos' => $results,
-                    ]);
-                }
-            } elseif ($user->role === 'professor') {
-                $me = Professores::where('id_user', $user->id)->first();
-                //$results = Aluno::where('NomeAluno','LIKE','%'.$query.'%')->where('id_nucleo', $me->id_nucleo)->get();
-                $results = Aluno::where('NomeAluno', 'LIKE', '%' . $query . '%')->where('id_nucleo', $me->id_nucleo)->paginate(25);
-                if ($results->isEmpty()) {
-                    return back()->with('error', 'Nenhum resultado encontrado.');
-                } else {
-                    return view('alunos')->with([
-                        'user' => $user,
-                        'alunos' => $results,
-                    ]);
-                }
-            } else {
-                $query = $request->input('inputQuery');
-                //$results = Aluno::where('NomeAluno','LIKE','%'.$query.'%')->get();
-                $results = Aluno::where('NomeAluno', 'LIKE', '%' . $query . '%')->paginate(25);
-                if ($results->isEmpty()) {
-                    return back()->with('error', 'Nenhum resultado encontrado.');
-                } else {
-                    return view('alunos')->with([
-                        'user' => $user,
-                        'alunos' => $results,
-                    ]);
-                }
-            }
-        }
+        $alunos = DB::table('alunos')
+            ->when($params['inputQuery'], function ($query) use ($params) {
+                return $query->where('alunos.NomeAluno', 'LIKE', '%' . $params['inputQuery'] . '%');
+            })
+            ->when($params['nucleo'], function ($query) use ($params) {
+                return $query->where('alunos.id_nucleo', '=', $params['nucleo']);
+            })
+            ->when($params['status'], function ($query) use ($params) {
+                return $query->where('alunos.Status', '=', $params['status'] === 'ativo' ? 1 : 0);
+            })
+            ->when($params['listaEspera'], function ($query) use ($params) {
+                return $query->where('alunos.listaEspera', '=', $params['listaEspera']);
+            })
+            ->paginate(25);
 
-        if ($cpf) {
-            if ($cpf != '') {
-                $result = Aluno::where('CPF', $cpf)->count();
-                if ($result > 0) {
-                    return \Response::json(true);
-                } elseif ($result === 0) {
-                    return \Response::json(false);
-                }
-            }
-        }
+        return view('alunos')->with([
+            'user' => $user,
+            'alunos' => $alunos,
+        ]);
+    }
 
-        if ($user->role === 'coordenador') {
-            $myNucleo = Nucleo::find($user->coordenador->id_nucleo);
-            $nucleo = $myNucleo->id;
-        } else if ($user->role === 'professor') {
-            $myNucleo = Nucleo::find($user->professor->id_nucleo);
-            $nucleo = $myNucleo->id;
-        } else if ($user->role === 'aluno') {
-            $myNucleo = Nucleo::find($user->aluno->id_nucleo);
-            $nucleo = $myNucleo->id;
-        } else {
-            $nucleo = $request->input('nucleo');
-        }
-
-        if ($status === NULL && $nucleo === NULL) {
-            //$result = Aluno::get();
-            $result = Aluno::paginate(25);
-            return view('alunos')->with([
-                'nucleo' => $nucleo,
-                'user' => $user,
-                'alunos' => $result,
-            ]);
-        } else if ($status === NULL) {
-            $result = Aluno::where('id_nucleo', $nucleo)->paginate(25);
-            return view('alunos')->with([
-                'nucleo' => $nucleo,
-                'user' => $user,
-                'alunos' => $result,
-            ]);
-        } else if ($nucleo === NULL) {
-            $result = Aluno::where('Status', $status)->paginate(25);
-            return view('alunos')->with([
-                'nucleo' => $nucleo,
-                'user' => $user,
-                'alunos' => $result,
-            ]);
-        } else {
-            $result = Aluno::where('Status', $status)->where('id_nucleo', $nucleo)->paginate(25);
-            if ($result->isEmpty()) {
-                return redirect('alunos')->with([
-                    'nucleo' => $nucleo,
-                    'alunos' => $result,
-                    'error' => 'Não há alunos inativos no momento.',
-                ]);
-            } else {
-                return view('alunos')->with([
-                    'nucleo' => $nucleo,
-                    'user' => $user,
-                    'alunos' => $result,
-                ]);
-            };
-        }
-
+    private static function getParams($request)
+    {
+        return [
+            'inputQuery' => $request->input('inputQuery'),
+            'nucleo' => $request->input('nucleo'),
+            'status' => $request->input('status'),
+            'listaEspera' => $request->input('lista_espera'),
+        ];
     }
 
     public function searchByNucleo(Request $request)
@@ -547,6 +515,8 @@ class AlunosController extends Controller
             'dados' => $dados,
             'nucleos' => $nucleos,
             'familiares' => $familiares,
+            'povo_indigenas' => PovoIndigena::all(),
+            'terra_indigenas' => TerraIndigena::all(),
         ]);
     }
 

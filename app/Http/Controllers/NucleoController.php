@@ -6,13 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Session;
 use \Carbon\Carbon;
+use DB;
 
 use App\Professores;
 use App\Coordenadores;
 use App\Nucleo;
 use App\ListaPresenca;
 use App\Frequencia;
-
+use App\Disciplina;
 
 class NucleoController extends Controller
 {
@@ -54,7 +55,8 @@ class NucleoController extends Controller
       if($user->role === 'administrador'){
         $user = Auth::user();
         //$nucleos = Nucleo::where('Status', 1)->get();
-        $nucleos = Nucleo::where('Status', 1)->paginate(25);
+        //$nucleos = Nucleo::where('Status', 1)->paginate(25);
+        $nucleos = Nucleo::paginate(25);
 
         return view('nucleos')->with([
           'user' => $user,
@@ -65,17 +67,24 @@ class NucleoController extends Controller
 
     public function showForm()
     {
-      return view('nucleosCreate');
+
+      return view('nucleosCreate')->with([
+        'disciplinas' => Disciplina::all(),
+      ]);
     }
 
     public function edit($id)
     {
       $dados = Nucleo::find($id);
+      $dados->disciplinas = json_decode($dados->disciplinas);
       $representantes = $dados->coordenadores()->where('id_nucleo', $id)->where('RepresentanteCGU', 'sim')->get('NomeCoordenador');
+      $disciplinas = Disciplina::all();
 
       return view('nucleosEdit')->with([
         'dados' => $dados,
         'representantes' => $representantes,
+        'disciplinas' => $disciplinas,
+        'professoresDisciplinas' => $dados->professoresDisciplinas,
       ]);
     }
 
@@ -110,6 +119,8 @@ class NucleoController extends Controller
         'Status' => $request->input('inputStatus'),
         'whatsapp_url' => $request->input('inputWhatsapp'),
         'Regiao' => $request->input('inputRegiao'),
+        'permite_ambiente_virtual' => $request->input('permiteAmbienteVirtual'),
+        'disciplinas' => $request->input('disciplinas'),
       ]);
 
       return back()->with('success', 'DADOS SALVOS COM SUCESSO.');
@@ -143,6 +154,8 @@ class NucleoController extends Controller
       $nucleo->InicioAtividades = $request->input('inputInicioAtividades');
       $nucleo->whatsapp_url = $request->input('inputWhatsapp');
       $nucleo->Regiao = $request->input('inputRegiao');
+      $nucleo->permite_ambiente_virtual = $request->input('permiteAmbienteVirtual');
+      $nucleo->disciplinas = $request->input('disciplinas');
 
       $nucleo->save();
 
@@ -174,48 +187,42 @@ class NucleoController extends Controller
     public function search(Request $request)
     {
       $user = Auth::user();
-      $status = $request->input('status');
+      $params = self::getParams($request);
 
-      if($status != ''){
-        //$result = Nucleo::where('Status', 0)->get();
-        $result = Nucleo::where('Status', 0)->paginate(25);
-        if($result->isEmpty()){
-          return redirect('nucleos')->with([
-            'error' => 'Não há núcleos inativos no momento.',
-          ]);
-        }
+      $nucleos = DB::table('nucleos')
+        ->when($params['inputQuery'], function ($query) use ($params) {
+            return $query->where('nucleos.NomeNucleo', 'LIKE', '%' . $params['inputQuery'] . '%');
+        })
+        ->when($params['status'], function ($query) use ($params) {
+            return $query->where('nucleos.Status', '=', $params['status'] === 'ativo' ? 1 : 0);
+        })
+        ->when($params['cidade'], function ($query) use ($params) {
+            return $query->where('nucleos.Cidade', '=', $params['cidade']);
+        })
+        ->paginate(25);
 
-        return view('nucleos')->with([
-          'user' => $user,
-          'nucleos' => $result,
-        ]);
-      }
-
-      $query = $request->input('inputQuery');
-      //$results = Nucleo::where('NomeNucleo','LIKE','%'.$query.'%')->get();
-      $results = Nucleo::where('NomeNucleo','LIKE','%'.$query.'%')->paginate(25);
-
-      if($results->isEmpty()){
-        return back()->with('error', 'Nenhum resultado encontrado.');
-      }else{
-        return view('nucleos')->with('nucleos', $results);
-      }
+      return view('nucleos')->with([
+        'user' => $user,
+        'nucleos' => $nucleos,
+      ]);
     }
 
     public function details($id)
     {
       $dados = Nucleo::find($id);
+      $dados->disciplinas = json_decode($dados->disciplinas);
       $representantes = $dados->coordenadores()->where('id_nucleo', $id)->where('RepresentanteCGU', 'sim')->get('NomeCoordenador');
-      $disciplinas = $dados->professores()->where('id_nucleo', $id)->where('Status', 1)->get('Disciplinas');
+      //$disciplinas = $dados->professores()->where('id_nucleo', $id)->where('Status', 1)->get('Disciplinas');
 
-      if($disciplinas->isEmpty()){
+      /*if($disciplinas->isEmpty()){
         $disciplinas[] = null;
-      }
+      }*/
 
       return view('nucleosDetails')->with([
         'dados' => $dados,
         'representantes' => $representantes,
-        'disciplinas' => $disciplinas,
+        'disciplinas' => Disciplina::all(),
+        'professoresDisciplinas' => $dados->professoresDisciplinas,
       ]);
     }
 
@@ -306,5 +313,54 @@ class NucleoController extends Controller
 
       ListaPresenca::destroy($request->id);
       return redirect()->route('nucleo/presences');
+    }
+
+    public function search_presences(Request $request)
+    {
+      $user = Auth::user();
+      $params = self::getParams($request);
+      $params['weekAgo'] = Carbon::now()->subWeek()->format('Y-m-d');
+
+      switch ($user->role) {
+        case 'professor':
+          $professor = Professores::where('id_user', Auth::user()->id)->first();
+          break;
+        case 'coordenador':
+          $professor = Coordenadores::where('id_user', Auth::user()->id)->first();
+          break;
+        default:
+          $professor = Professores::where('Status', 1)->first();
+      };
+
+      $nucleos = DB::table('nucleos')
+        ->when($params['inputQuery'], function ($query) use ($params) {
+            return $query->where('nucleos.NomeNucleo', 'LIKE', '%' . $params['inputQuery'] . '%');
+        })
+        ->when($params['nucleo'], function ($query) use ($params) {
+            return $query->where('nucleos.id', '=', $params['nucleo']);
+        })
+        ->when($params['date'], function ($query) use ($params) {
+            return $query->whereBetween('nucleos.created_at', [$params['weekAgo'], $params['date']]);
+        })
+        ->paginate(25);
+
+      $nucleo = $professor->nucleo;
+
+      return view('lista-presenca')->with([
+        'nucleos' => $nucleos,
+        'nucleo' => $nucleo,
+        'alunos' => $nucleo->alunos,
+      ]);
+    }
+
+    private static function getParams($request)
+    {
+        return [
+            'inputQuery' => $request->input('inputQuery'),
+            'status' => $request->input('status'),
+            'cidade' => $request->input('cidade'),
+            'nucleo' => $request->input('nucleo'),
+            'date' => $request->input('date'),
+        ];
     }
 }

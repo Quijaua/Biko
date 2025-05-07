@@ -17,5 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AlunosSeeder::class);
         $this->call(ProfessoresSeeder::class);
         $this->call(CoordenadoresSeeder::class);
+        $this->call(TerraIndigenaTableSeeder::class);
+        $this->call(PovoIndigenaTableSeeder::class);
     }
 }
