@@ -62,6 +62,19 @@
                                     <a class="btn btn-outline-primary ms-3" href="/professores">Voltar</a>
                         </div>
                     </div>
+                    @if ($errors->any())
+                        <div class="row mt-2">
+                            <div class="col">
+                                <div class="alert alert-danger" role="alert">
+                                    <ul class="mb-0">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{!! $error !!}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                     @if (\Session::has('success'))
                         <div class="row mt-2">
                             <div class="col">

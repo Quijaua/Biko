@@ -402,14 +402,36 @@ class ProfessoresController extends Controller
 
     public function update(Request $request, $id)
     {
-      $validated = $request->validate([
-          'inputNucleo' => 'required',
+      $validator = Validator::make($request->all(), [
+        'inputNomeProfessor' => ['required', 'string', 'min:3', 'max:100'],
+        'inputEmail'         => ['required', 'email', 'max:255', 'unique:professores,email'],
+        'inputCPF'           => [
+          'required',
+          'string',
+          'regex:/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/',
+          'unique:professores,cpf',
+        ],
+      ], [
+        'inputNomeProfessor.required' => 'O nome do professor é obrigatório.',
+        'inputNomeProfessor.string'   => 'O nome do professor deve ser um texto.',
+        'inputNomeProfessor.min'      => 'O nome do professor deve ter ao menos 3 caracteres.',
+        'inputNomeProfessor.max'      => 'O nome do professor não pode exceder 100 caracteres.',
+
+        'inputEmail.required' => 'O e-mail é obrigatório.',
+        'inputEmail.email'    => 'Informe um e-mail válido.',
+        'inputEmail.max'      => 'O e-mail não pode exceder 255 caracteres.',
+        'inputEmail.unique'   => 'Este e-mail já está cadastrado.',
+
+        'inputCPF.required' => 'O CPF é obrigatório.',
+        'inputCPF.string'   => 'O CPF deve ser informado como texto.',
+        'inputCPF.regex'    => 'O CPF deve estar no formato 000.000.000-00.',
+        'inputCPF.unique'   => 'Este CPF já está cadastrado.',
       ]);
 
-      if (!$validated) {
-          return back()->with([
-              'error' => 'O campo Núcleo deve ser preenchido.',
-          ]);
+      if ($validator->fails()) {
+        return back()
+          ->withErrors($validator)
+          ->withInput();
       }
 
       $dados = Professores::find($id);
@@ -423,7 +445,7 @@ class ProfessoresController extends Controller
 
       $dados->NomeProfessor = $request->input('inputNomeProfessor');
       $dados->NomeSocial = $request->input('inputNomeSocial');
-      $dados->id_nucleo = $request->input('inputNucleo');
+      // $dados->id_nucleo = $request->input('inputNucleo');
       if($Foto){
         $dados->Foto = $Foto->getFilename() . '.' . $Extension;
       }
