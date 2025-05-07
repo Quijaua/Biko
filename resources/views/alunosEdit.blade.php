@@ -205,21 +205,21 @@
                                         <div>
                                             <label class="form-label mb-2" for="inputRaca">Raça / Cor</label>
                                             <select id="raca" name="inputRaca" class="form-select" >
-                                                <option selected>Selecione</option>
+                                                <option value="" selected>Selecione</option>
                                                 <option <?php if ($dados->Raca == 'negra') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="negra">Preta</option>
                                                 <option <?php if ($dados->Raca == 'branca') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="branca">Branca</option>
                                                 <option <?php if ($dados->Raca == 'parda') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="parda">Parda</option>
                                                 <option <?php if ($dados->Raca == 'amarela') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="amarela">Amarela</option>
                                                 <option <?php if ($dados->Raca == 'indigena') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="indigena">Indígena</option>
                                             </select>
                                         </div>
@@ -236,10 +236,10 @@
                                                 <label class="form-label mb-2" for="povo_indigenas_id">Povo
                                                     Indígena</label>
                                                 <select name="povo_indigenas_id" class="form-select" >
-                                                    <option selected>Selecione</option>
+                                                    <option value="" selected>Selecione</option>
                                                     @foreach ($povo_indigenas as $povo_indigena)
                                                         <option <?php if ($povo_indigena->id == $dados->povo_indigenas_id) {
-                                                            echo 'selected=selected';
+                                                            echo 'selected';
                                                         } ?> value="{{ $povo_indigena->id }}">
                                                             {{ $povo_indigena->label }}</option>
                                                     @endforeach
@@ -255,10 +255,10 @@
                                                 <label class="form-label mb-2" for="terra_indigenas_id">Terra
                                                     Indígena</label>
                                                 <select name="terra_indigenas_id" class="form-select" >
-                                                    <option selected>Selecione</option>
+                                                    <option value="" selected>Selecione</option>
                                                     @foreach ($terra_indigenas as $terra_indigena)
                                                         <option <?php if ($terra_indigena->id == $dados->terra_indigenas_id) {
-                                                            echo 'selected=selected';
+                                                            echo 'selected';
                                                         } ?> value="{{ $terra_indigena->id }}">
                                                             {{ $terra_indigena->label }}</option>
                                                     @endforeach
@@ -276,13 +276,13 @@
                                             <select name="inputGenero" class="form-select" >
                                                 <option selected>Selecione</option>
                                                 <option <?php if ($dados->Genero == 'mulher' || $dados->Genero == 'mulher_trans_cis') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="mulher">Mulher (Cis/Trans)</option>
                                                 <option <?php if ($dados->Genero == 'homem' || $dados->Genero == 'homem_trans_cis') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="homem">Homem (Cis/Trans)</option>
                                                 <option <?php if ($dados->Genero == 'nao_binarie') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="mulher_trans_cis">Não Binárie</option>
                                             </select>
                                         </div>
@@ -293,19 +293,19 @@
                                             <select name="inputEstadoCivil" class="form-select" >
                                                 <option selected>Selecione</option>
                                                 <option <?php if ($dados->EstadoCivil == 'solteiro_a') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="solteiro_a">Solteiro(a)</option>
                                                 <option <?php if ($dados->EstadoCivil == 'casado_a') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="casado_a">Casado(a)</option>
                                                 <option <?php if ($dados->EstadoCivil == 'uniao_estavel') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="uniao_estavel">União Estável</option>
                                                 <option <?php if ($dados->EstadoCivil == 'divorciado_a') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="divorciado_a">Divorciado(a)</option>
                                                 <option <?php if ($dados->EstadoCivil == 'viuvo_a') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="viuvo_a">Viúvo(a)</option>
                                             </select>
                                         </div>
@@ -505,7 +505,7 @@
                                                 <option selected>Selecione</option>
                                                 @foreach ($nucleos as $nucleo)
                                                     <option <?php if ($nucleo->id == $dados->id_nucleo) {
-                                                        echo 'selected=selected';
+                                                        echo 'selected';
                                                     } ?> value="{{ $nucleo->id }}">
                                                         {{ $nucleo->NomeNucleo }}</option>
                                                 @endforeach
@@ -609,88 +609,88 @@
                                             <select name="inputEstado" class="form-select" >
                                                 <option selected>Selecione</option>
                                                 <option <?php if ($dados->Estado == 'AC') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="AC">Acre</option>
                                                 <option <?php if ($dados->Estado == 'AL') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="AL">Alagoas</option>
                                                 <option <?php if ($dados->Estado == 'AP') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="AP">Amapá</option>
                                                 <option <?php if ($dados->Estado == 'AM') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="AM">Amazonas</option>
                                                 <option <?php if ($dados->Estado == 'BA') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="BA">Bahia</option>
                                                 <option <?php if ($dados->Estado == 'CE') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="CE">Ceará</option>
                                                 <option <?php if ($dados->Estado == 'DF') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="DF">Distrito Federal</option>
                                                 <option <?php if ($dados->Estado == 'ES') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="ES">Espírito Santo</option>
                                                 <option <?php if ($dados->Estado == 'GO') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="GO">Goiás</option>
                                                 <option <?php if ($dados->Estado == 'MA') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="MA">Maranhão</option>
                                                 <option <?php if ($dados->Estado == 'MT') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="MT">Mato Grosso</option>
                                                 <option <?php if ($dados->Estado == 'MS') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="MS">Mato Grosso do Sul</option>
                                                 <option <?php if ($dados->Estado == 'MG') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="MG">Minas Gerais</option>
                                                 <option <?php if ($dados->Estado == 'PA') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="PA">Pará</option>
                                                 <option <?php if ($dados->Estado == 'PB') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="PB">Paraíba</option>
                                                 <option <?php if ($dados->Estado == 'PR') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="PR">Paraná</option>
                                                 <option <?php if ($dados->Estado == 'PE') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="PE">Pernambuco</option>
                                                 <option <?php if ($dados->Estado == 'PI') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="PI">Piauí</option>
                                                 <option <?php if ($dados->Estado == 'RJ') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="RJ">Rio de Janeiro</option>
                                                 <option <?php if ($dados->Estado == 'RN') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="RN">Rio Grande do Norte</option>
                                                 <option <?php if ($dados->Estado == 'RS') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="RS">Rio Grande do Sul</option>
                                                 <option <?php if ($dados->Estado == 'RO') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="RO">Rondônia</option>
                                                 <option <?php if ($dados->Estado == 'RR') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="RR">Roraima</option>
                                                 <option <?php if ($dados->Estado == 'SC') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="SC">Santa Catarina</option>
                                                 <option <?php if ($dados->Estado == 'SP') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="SP">São Paulo</option>
                                                 <option <?php if ($dados->Estado == 'SE') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="SE">Sergipe</option>
                                                 <option <?php if ($dados->Estado == 'TO') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="TO">Tocantins</option>
                                                 <option <?php if ($dados->Estado == 'EX') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="EX">Estrangeiro</option>
                                             </select>
                                         </div>
@@ -1107,163 +1107,163 @@
                                             <select name="inputAnoFaculdade" class="form-select" >
                                                 <option selected>Selecione</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1969') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1969">1969</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1970') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1970">1970</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1971') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1971">1971</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1972') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1972">1972</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1973') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1973">1973</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1974') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1974">1974</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1975') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1975">1975</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1976') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1976">1976</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1977') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1977">1977</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1978') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1978">1978</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1979') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1979">1979</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1980') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1980">1980</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1981') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1981">1981</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1982') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1982">1982</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1983') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1983">1983</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1984') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1984">1984</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1985') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1985">1985</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1986') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1986">1986</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1987') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1987">1987</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1988') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1988">1988</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1989') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1989">1989</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1990') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1990">1990</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1991') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1991">1991</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1992') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1992">1992</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1993') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1993">1993</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1994') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1994">1994</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1995') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1995">1995</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1996') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1996">1996</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1997') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1997">1997</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1998') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1998">1998</option>
                                                 <option <?php if ($dados->AnoFaculdade == '1999') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="1999">1999</option>
                                                 <option <?php if ($dados->AnoFaculdade == '2000') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="2000">2000</option>
                                                 <option <?php if ($dados->AnoFaculdade == '2001') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="2001">2001</option>
                                                 <option <?php if ($dados->AnoFaculdade == '2002') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="2002">2002</option>
                                                 <option <?php if ($dados->AnoFaculdade == '2003') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="2003">2003</option>
                                                 <option <?php if ($dados->AnoFaculdade == '2004') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="2004">2004</option>
                                                 <option <?php if ($dados->AnoFaculdade == '2005') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="2005">2005</option>
                                                 <option <?php if ($dados->AnoFaculdade == '2006') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="2006">2006</option>
                                                 <option <?php if ($dados->AnoFaculdade == '2007') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="2007">2007</option>
                                                 <option <?php if ($dados->AnoFaculdade == '2008') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="2008">2008</option>
                                                 <option <?php if ($dados->AnoFaculdade == '2009') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="2009">2009</option>
                                                 <option <?php if ($dados->AnoFaculdade == '2010') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="2010">2010</option>
                                                 <option <?php if ($dados->AnoFaculdade == '2011') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="2011">2011</option>
                                                 <option <?php if ($dados->AnoFaculdade == '2012') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="2012">2012</option>
                                                 <option <?php if ($dados->AnoFaculdade == '2013') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="2013">2013</option>
                                                 <option <?php if ($dados->AnoFaculdade == '2014') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="2014">2014</option>
                                                 <option <?php if ($dados->AnoFaculdade == '2015') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="2015">2015</option>
                                                 <option <?php if ($dados->AnoFaculdade == '2016') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="2016">2016</option>
                                                 <option <?php if ($dados->AnoFaculdade == '2017') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="2017">2017</option>
                                                 <option <?php if ($dados->AnoFaculdade == '2018') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="2018">2018</option>
                                                 <option <?php if ($dados->AnoFaculdade == '2019') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="2019">2019</option>
                                                 <option <?php if ($dados->AnoFaculdade == '2020') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="2020">2020</option>
                                                 <option <?php if ($dados->AnoFaculdade == '2021') {
-                                                    echo 'selected=selected';
+                                                    echo 'selected';
                                                 } ?> value="2021">2021</option>
                                             </select>
                                         </div>
@@ -1344,21 +1344,21 @@
                                                 sabendo do
                                                 cursinho pré-vestibular da UNEafro Brasil?</label>
                                                 <select name="inputComoSoube" class="form-select" >
-                                                    <option selected>Selecione</option>
+                                                    <option value="" selected>Selecione</option>
                                                     <option <?php if ($dados->ComoSoube == 'internet') {
-                                                        echo 'selected=selected';
+                                                        echo 'selected';
                                                     } ?> value="internet">Internet</option>
                                                     <option <?php if ($dados->ComoSoube == 'panfleto') {
-                                                        echo 'selected=selected';
+                                                        echo 'selected';
                                                     } ?> value="panfleto">Panfleto</option>
                                                     <option <?php if ($dados->ComoSoube == 'amigos') {
-                                                        echo 'selected=selected';
+                                                        echo 'selected';
                                                     } ?> value="amigos">Amigos</option>
                                                     <option <?php if ($dados->ComoSoube == 'jornal') {
-                                                        echo 'selected=selected';
+                                                        echo 'selected';
                                                     } ?> value="jornal">Jornal</option>
                                                     <option <?php if ($dados->ComoSoube == 'outros') {
-                                                        echo 'selected=selected';
+                                                        echo 'selected';
                                                     } ?> value="outros">Outros</option>
                                                 </select>
                                         </div>
