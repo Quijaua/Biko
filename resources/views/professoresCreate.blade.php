@@ -61,6 +61,20 @@
                                     <a class="btn btn-outline-primary ms-3" href="/professores">Cancelar</a>
                         </div>
                     </div>
+
+                    @if ($errors->any())
+                        <div class="row mt-2">
+                            <div class="col">
+                                <div class="alert alert-danger" role="alert">
+                                    <ul class="mb-0">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{!! $error !!}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                     @if (\Session::has('success'))
                         <div class="row mt-2">
                             <div class="col">
@@ -173,9 +187,12 @@
                                             <div class="mb-3">
                                                 <label class="form-label mb-2" for="inputNomeProfessor">Nome Completo
                                                     <span class="text-danger">*</span> </label>
-                                                <input type="text" class="form-control" id="inputNomeProfessor"
+                                                <input type="text" class="form-control @error('inputNomeProfessor') is-invalid @enderror" id="inputNomeProfessor"
                                                     name="inputNomeProfessor" aria-describedby="inputNomeProfessorHelp"
                                                     placeholder="Nome do novo professor" required>
+                                                @error('inputNomeProfessor')
+                                                    <span class="invalid-feedback">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -190,10 +207,13 @@
                                             <div class="mb-3">
                                                 <label class="form-label mb-2" for="inputCPF">CPF <span
                                                         class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="inputCPF"
+                                                <input type="text" class="form-control @error('inputCPF') is-invalid @enderror" id="inputCPF"
                                                     name="inputCPF" aria-describedby="inputCPFHelp"
                                                     data-mask="000.000.000-00" placeholder="xxx.xxx.xxx-xx"
                                                     onblur="checkCPF()" required pattern="\d{3}\.\d{3}\.\d{3}-\d{2}">
+                                                @error('inputCPF')
+                                                    <span class="invalid-feedback">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                         </div>
 
@@ -204,9 +224,12 @@
                                             <div class="mb-3">
                                                 <label class="form-label mb-2" for="inputEmail">Email <span
                                                     class="text-danger">*</span></label>
-                                                <input type="email" class="form-control" id="inputEmail"
+                                                <input type="email" class="form-control @error('inputEmail') is-invalid @enderror" id="inputEmail"
                                                     name="inputEmail" aria-describedby="inputEmailHelp"
                                                     placeholder="Endereço de Email" required>
+                                                @error('inputEmail')
+                                                    <span class="invalid-feedback">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                         </div>
                                         <div class="col-md-3">
