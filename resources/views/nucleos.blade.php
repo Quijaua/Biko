@@ -24,7 +24,7 @@
               <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
               <path d="M9 15h6" />
               <path d="M12.5 17.5l2.5 -2.5l-2.5 -2.5" />
-            </svg></span> Exportar</a>
+            </svg></span> Exportar Estudantes</a>
         @else
         <a class="btn btn-outline-primary d-none">
           <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-arrow-right">
@@ -34,7 +34,7 @@
               <path d="M9 15h6" />
               <path d="M12.5 17.5l2.5 -2.5l-2.5 -2.5" />
             </svg></span>
-          Exportar</a>
+          Exportar Estudantes</a>
         @endif
       </div>
     </div>
@@ -161,8 +161,8 @@
                         <tr>
                             <th class="text-nowrap text-black py-3"></th>
                             <th class="text-nowrap text-black py-3">Nome</th>
-                            <th class="text-nowrap text-black py-3">Cidade</th>
-                            <th class="text-nowrap text-black py-3">Telefone</th>
+                            <!-- <th class="text-nowrap text-black py-3">Cidade</th>
+                            <th class="text-nowrap text-black py-3">Telefone</th> -->
                             <th class="text-nowrap text-black py-3">Situação</th>
                             <th class="text-nowrap text-black py-3">Ações</th>
                         </tr>
@@ -172,17 +172,16 @@
                         @foreach ($nucleos as $nucleo)
                             <tr>
                                 <td><input type="checkbox" class="custom-checkbox" /></td>
-                             
                                 {{-- Nome --}}
-                                
                                 <td>{{ $nucleo->NomeNucleo }}</td>
 
+<!-- 
                                 {{-- Cidade --}}
                                 <td>{{ $nucleo->Cidade }}</td>
 
 
                                 {{-- Telefone --}}
-                                <td>{{ $nucleo->Telefone }}</td>
+                                <td>{{ $nucleo->Telefone }}</td> -->
 
                                 {{-- Situação --}}
 
@@ -233,13 +232,20 @@
                                                     <path d="M16 5l3 3" />
                                                 </svg></span> Editar
                                         </a>
+
+@if($user->role === 'administrador')
                                         <a href="#" id="modal-importar-alunos" class="btn btn-outline-primary open-modal-btn" data-url="{{route('alunos.importar', ['id' => $nucleo->id])}}">
                                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
                                           </svg>
-                                          
-                                          Importar
+                                          Importar estudantes
                                          </a>
+
+                                        <a href="/alunos/export/?nucleo={{ $nucleo->id }}" class="btn btn-outline-primary"">
+					   <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-download"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" /><path d="M7 11l5 5l5 -5" /><path d="M12 4l0 12" /></svg>
+                                          Exportar estudantes
+                                         </a>
+
                                         @if ($nucleo->Status === 1)
                                             <a href="/nucleos/disable/{{ $nucleo->id }}">
                                                 <span class="status-btn status-inativo ms-8">
@@ -255,6 +261,9 @@
                                                 </span>
                                             </a>
                                         @endif
+
+@else
+@endif
                                     </div>
                                 </td>
                             </tr>
@@ -265,11 +274,13 @@
         </div>
     </div>
 </div>
-  <div class="row">
+<div class="container">
+  <div class="row mt-4">
     <div class="col">
       {{ $nucleos->links() }}
     </div>
   </div>
+</div>
 </div>
 
  <!-- Modal -->
