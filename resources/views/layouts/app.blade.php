@@ -71,9 +71,7 @@
     $close_tag_body = \DB::table('codigo_personalizados')->pluck('close_tag_body')->first();
 
     if ($tag_head) {
-        echo '
-         <script>'.$tag_head.'</script>
-        ';
+        echo $tag_head;
     }
 ?>
 </head>
@@ -81,9 +79,7 @@
 <body>
     <?php
         if ($open_tag_body) {
-            echo '
-             <script>'.$open_tag_body.'</script>
-            ';
+            echo $open_tag_body;
         }
     ?>
     @auth
@@ -1355,9 +1351,7 @@
 
 <?php
  if ($close_tag_body) {
-    echo '
-     <script>'.$close_tag_body.'</script>
-    ';
+    echo $close_tag_body;
 }
 ?>
 </body>
