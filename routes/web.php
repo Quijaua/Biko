@@ -3,6 +3,7 @@
 use App\User;
 use App\Mail\MessageOtpLogin;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -210,6 +211,44 @@ Route::group(['prefix' => 'codigo-personalizado'], function () {
     Route::get('/', 'CodigoPersonalizadoController@index')->name('codigo-personalizado.index');
     Route::post('/update', 'CodigoPersonalizadoController@update')->name('codigo-personalizado.update');
 });
+
+// SEJA UM PROFESSOR
+Route::get('/seja-um-professor', function () {
+    return view('seja-um-professor.index');
+});
+
+Route::post('/seja-um-professor', function (Request $request) {
+
+    $user_data = [
+        'name' => $request->nome_social,
+        'email' => $request->email,
+        'password' => $request->email,
+        'role' => 'professor',
+    ];
+
+    $user = App\User::create($user_data);
+
+    $professor_data = [
+        'id_user' => $user->id,
+        'NomeProfessor' => $request->nome_social,
+        'Status' => 0,
+        'Nascimento' => $request->data_nascimento,
+        'Email' => $request->email,
+        'FoneCelular' => $request->telefone,
+        'RamoAtuacao' => $request->profissao,
+        'Cidade' => $request->cidade,
+        'Estado' => $request->estado,
+        'Raca' => $request->raca_cor,
+        'Genero' => $request->genero,
+        'id_nucleo' => $request->nucleo,
+        'Disciplinas' => $request->disciplinas,
+    ];
+
+    $professor = App\Professores::create($professor_data);
+
+    return redirect('/');
+
+})->name('seja-um-professor.create');
 
 // PROTECTED ROUTES
 Auth::routes(['verify' => true]);

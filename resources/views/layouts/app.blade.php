@@ -106,7 +106,7 @@
                 <div class="container-xl">
                     <div class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
                         <a class="navbar-brand" href="{{ url('/home') }}">
-                            {{ config('app.name', 'Laravel') }}
+                            @if($app_name != null){{ $app_name }}@else{{ config('app.name') }}@endif
                         </a>
                     </div>
                     <div class="navbar-nav flex-row order-md-last">
@@ -169,7 +169,9 @@
             <!-- Sidebar OFFCANVAS para telas pequenas -->
             <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="sidebar-offcanvas">
                 <div class="offcanvas-header">
-                    <h5 class="offcanvas-title">{{ config('app.name', 'Biko') }}</h5>
+                    <h5 class="offcanvas-title">
+                        @if($app_name != null){{ $app_name }}@else{{ config('app.name') }}@endif
+                    </h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
                         aria-label="Close"></button>
                 </div>
@@ -561,7 +563,9 @@
             <aside class="navbar navbar-vertical navbar-expand-lg navbar-dark bg-dark d-none d-lg-flex"
                 style="width: 250px;">
                 <div class="container-fluid p-2">
-                    <h1 class="navbar-brand text-white my-3">{{ config('app.name', 'Biko') }}</h1>
+                    <h1 class="navbar-brand text-white my-3">
+                        @if($app_name != null){{ $app_name }}@else{{ config('app.name') }}@endif
+                    </h1>
                     <div class="collapse navbar-collapse" id="sidebar-menu">
                         <ul class="navbar-nav">
                             @if (!\Auth()->user()->first_login)
