@@ -240,7 +240,7 @@ Route::post('/seja-um-professor', function (Request $request) {
         'Estado' => $request->estado,
         'Raca' => $request->raca_cor,
         'Genero' => $request->genero,
-        'id_nucleo' => $request->nucleo,
+        'id_nucleo' => $request->nucleo_id,
         'Disciplinas' => $request->disciplinas,
     ];
 

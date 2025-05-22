@@ -135,8 +135,8 @@
                                         $nucleos = DB::table('nucleos')->get();
                                     ?>
                                     <div class="col-6 mt-2">
-                                        <label class="form-label mb-2" for="nucleo">Em qual núcleo ou região da cidade deseja contribuir? (obrigatório)</label>
-                                        <select name="nucleo" id="nucleo" class="form-control" required>
+                                        <label class="form-label mb-2" for="nucleo_id">Em qual núcleo ou região da cidade deseja contribuir? (obrigatório)</label>
+                                        <select name="nucleo_id" id="nucleo_id" class="form-control" required>
                                             @foreach ($nucleos as $nucleo)
                                             <option value="{{$nucleo->id}}">{{$nucleo->NomeNucleo}}</option>
                                             @endforeach
