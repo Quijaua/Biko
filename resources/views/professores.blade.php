@@ -173,6 +173,7 @@
                                             <th class="text-nowrap text-black py-3">Foto</th>
                                             <th class="text-nowrap text-black py-3">Nome</th>
                                             <th class="text-nowrap text-black py-3">CPF</th>
+                                            <th class="text-nowrap text-black py-3">Novo Voluntário</th>
                                             <th class="text-nowrap text-black py-3">Situação</th>
                                             <th class="text-nowrap text-black py-3">Ações</th>
                                         </tr>
@@ -198,6 +199,8 @@
                                                 @endif
                                                 {{-- CPF --}}
                                                 <td>{{ $professor->CPF }}</td>
+
+                                                <td>{{ $professor->nucleo->NomeNucleo }}</td>
 
 
                                                 {{-- Situação --}}
