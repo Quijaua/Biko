@@ -42,7 +42,7 @@
                                 </div>
                             </div>
 
-                            <form action="{{ route('seja-um-professor.create') }}" method="POST" enctype="multipart/form-data">
+                            <form id="professor-form" action="{{ route('seja-um-professor.create') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row mt-3 mb-3">
                                     <div class="col-6">
@@ -154,9 +154,16 @@
                                     </div>
                                 </div>
 
+                                <div class="row mt-4">
+                                    <div class="col">
+                                        <div class="h-captcha"
+                                            data-sitekey="{{ config('services.hcaptcha.site_key') }}"></div>
+                                    </div>
+                                </div>
+
                                 <div class="row mt-3">
                                     <div class="col-2">
-                                        <button type="submit" class="btn btn-primary">Salvar</button>
+                                        <button id="btn-submit" type="submit" class="btn btn-primary">Salvar</button>
                                     </div>
                                 </div>
                            </form> 
@@ -169,4 +176,38 @@
     </div>
     <!-- END PAGE BODY -->
 </div>
+
+<script>
+    $(function() {
+        const form      = $('#professor-form');
+        const btnSubmit = $('#btn-submit');
+        const hcaptchaElement = document.querySelector('.h-captcha');
+
+        form.on('submit', function(e) {
+            const hcaptchaVal = $('[name="h-captcha-response"]').val();
+
+            $(".alert").remove();
+
+            if (!hcaptchaVal) {
+                e.preventDefault();
+
+                $(".h-captcha").before(
+                    '<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">' +
+                        'Por favor complete o desafio hCaptcha' +
+                        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                    '</div>'
+                );
+
+                btnSubmit.prop("disabled", false).removeClass("d-none");
+
+                if (hcaptchaElement && window.hcaptcha) {
+                    const widgetId = hcaptchaElement.getAttribute('data-hcaptcha-widget-id');
+                    window.hcaptcha.reset(widgetId);
+                }
+
+                return false;
+            }
+        });
+    });
+</script>
 @endsection
