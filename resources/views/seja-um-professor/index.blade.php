@@ -46,8 +46,8 @@
                                 @csrf
                                 <div class="row mt-3 mb-3">
                                     <div class="col-6">
-                                        <label class="form-label mb-2" for="nome_social">Nome/Nome social</label>
-                                        <input id="nome_social" name="nome_social" type="text" class="form-control">
+                                        <label class="form-label mb-2" for="nome_social">Nome/Nome social(obrigatório)</label>
+                                        <input id="nome_social" name="nome_social" type="text" class="form-control" required>
                                     </div>
 
                                     <div class="col-6">
@@ -56,8 +56,8 @@
                                     </div>
 
                                     <div class="col-6 mt-2">
-                                        <label class="form-label mb-2" for="email">Seu e-mail</label>
-                                        <input id="email" name="email" type="email" class="form-control">
+                                        <label class="form-label mb-2" for="email">Seu e-mail(obrigatório)</label>
+                                        <input id="email" name="email" type="email" class="form-control" required>
                                     </div>
 
                                     <div class="col-6 mt-2">
@@ -71,8 +71,8 @@
                                     </div>
 
                                     <div class="col-6 mt-2">
-                                        <label class="form-label mb-2" for="cidade">Cidade (obrigatório)</label>
-                                        <input id="cidade" name="cidade" type="text" class="form-control" required>
+                                        <label class="form-label mb-2" for="cidade_professor">Cidade (obrigatório)</label>
+                                        <input id="cidade_professor" name="cidade_professor" type="text" class="form-control" required>
                                     </div>
 
                                     <div class="col-6 mt-2">
