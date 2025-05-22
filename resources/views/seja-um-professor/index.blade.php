@@ -21,6 +21,16 @@
             <div class="card">
                 <div class="row g-0">
 
+                    @if(isset($success))
+                        <div class="row mt-2">
+                            <div class="col">
+                                <div class="alert alert-success text-center" role="alert">
+                                    Agradecemos o interesse em se tornar um professor! Entraremos em contato em breve.
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
                     <div class="col-12 col-md-9 d-flex flex-column">
                         <div class="card-body">
 
@@ -52,22 +62,22 @@
 
                                     <div class="col-6 mt-2">
                                         <label class="form-label mb-2" for="telefone">Telefone (whatsapp - obrigatório)</label>
-                                        <input id="telefone" name="telefone" type="text" class="form-control">
+                                        <input id="telefone" name="telefone" type="text" class="form-control" required>
                                     </div>
 
                                     <div class="col-6 mt-2">
                                         <label class="form-label mb-2" for="profissao">Profissão (obrigatório)</label>
-                                        <input id="profissao" name="profissao" type="text" class="form-control">
+                                        <input id="profissao" name="profissao" type="text" class="form-control" required>
                                     </div>
 
                                     <div class="col-6 mt-2">
                                         <label class="form-label mb-2" for="cidade">Cidade (obrigatório)</label>
-                                        <input id="cidade" name="cidade" type="text" class="form-control">
+                                        <input id="cidade" name="cidade" type="text" class="form-control" required>
                                     </div>
 
                                     <div class="col-6 mt-2">
                                         <label class="form-label mb-2" for="estado">Estado (obrigatório)</label>
-                                        <select name="estado" id="estado" class="form-control">
+                                        <select name="estado" id="estado" class="form-control" required>
                                             <option value="" selected>Selecione</option>
                                             <option value="AC">Acre</option>
                                             <option value="AL">Alagoas</option>
@@ -102,7 +112,7 @@
 
                                     <div class="col-6 mt-2">
                                         <label class="form-label mb-2" for="raca_cor">Raça/Cor (obrigatório)</label>
-                                        <select name="raca_cor" id="raca_cor" class="form-control">
+                                        <select name="raca_cor" id="raca_cor" class="form-control" required>
                                             <option value="" selected>Selecione</option>
                                             <option value="negra">Preta</option>
                                             <option value="branca">Branca</option>
@@ -114,7 +124,7 @@
 
                                     <div class="col-6 mt-2">
                                         <label class="form-label mb-2" for="genero">Gênero (obrigatório)</label>
-                                        <select name="genero" id="genero" class="form-control">
+                                        <select name="genero" id="genero" class="form-control" required>
                                             <option value="" selected>Selecione</option>
                                             <option value="mulher">Mulher (Cis/Trans)</option>
                                             <option value="homem">Homem (Cis/Trans)</option>
@@ -126,7 +136,7 @@
                                     ?>
                                     <div class="col-6 mt-2">
                                         <label class="form-label mb-2" for="nucleo">Em qual núcleo ou região da cidade deseja contribuir? (obrigatório)</label>
-                                        <select name="nucleo" id="nucleo" class="form-control">
+                                        <select name="nucleo" id="nucleo" class="form-control" required>
                                             @foreach ($nucleos as $nucleo)
                                             <option value="{{$nucleo->id}}">{{$nucleo->NomeNucleo}}</option>
                                             @endforeach
@@ -139,7 +149,7 @@
                                     </div>
 
                                     <div class="col-12 mt-3">
-                                        <input id="aceito" name="aceito" type="checkbox" class="form-check-input">
+                                        <input id="aceito" name="aceito" type="checkbox" class="form-check-input" required>
                                         <label class="mb-2" for="aceito">Aceito ser cadastrado no banco de dados de professores voluntários da UNEafro Brasil.</label>
                                     </div>
                                 </div>

@@ -246,7 +246,9 @@ Route::post('/seja-um-professor', function (Request $request) {
 
     $professor = App\Professores::create($professor_data);
 
-    return redirect('/');
+    return view('seja-um-professor.create')->with([
+        'success' => true,
+    ]);
 
 })->name('seja-um-professor.create');
 
