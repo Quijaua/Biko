@@ -235,7 +235,7 @@ Route::post('/seja-um-professor', function (Request $request) {
         'Nascimento' => $request->data_nascimento,
         'Email' => $request->email,
         'FoneCelular' => $request->telefone,
-        'RamoAtuacao' => $request->profissao,
+        'RamoAtuacaoOutros' => $request->profissao,
         'Cidade' => $request->cidade_professor,
         'Estado' => $request->estado,
         'Raca' => $request->raca_cor,
