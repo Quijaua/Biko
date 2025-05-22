@@ -199,6 +199,18 @@ Route::group(['prefix' => 'auditoria'], function () {
     Route::get('/', 'AuditoriaController@index')->name('auditoria.index');
 });
 
+// ROUTES FOR CONFIGURACOES GERAL
+Route::group(['prefix' => 'geral'], function () {
+    Route::get('/', 'GeralController@index')->name('geral.index');
+    Route::post('/update', 'GeralController@update')->name('geral.update');
+});
+
+// ROUTES FOR CODIGOS PERSONALIZADOS
+Route::group(['prefix' => 'codigo-personalizado'], function () {
+    Route::get('/', 'CodigoPersonalizadoController@index')->name('codigo-personalizado.index');
+    Route::post('/update', 'CodigoPersonalizadoController@update')->name('codigo-personalizado.update');
+});
+
 // PROTECTED ROUTES
 Auth::routes(['verify' => true]);
 

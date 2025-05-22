@@ -9,8 +9,11 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <?php
+        $app_name = \DB::table('gerals')->pluck('nome_cursinho')->first() ?? null;
+        //dd($app_name);
+    ?>
+    <title>@if($app_name != null){{ $app_name }}@else{{ config('app.name') }}@endif</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -63,9 +66,27 @@
 }
 </style>
 
+<?php
+    $tag_head = \DB::table('codigo_personalizados')->pluck('tag_head')->first();
+    $open_tag_body = \DB::table('codigo_personalizados')->pluck('open_tag_body')->first();
+    $close_tag_body = \DB::table('codigo_personalizados')->pluck('close_tag_body')->first();
+
+    if ($tag_head) {
+        echo '
+         <script>'.$tag_head.'</script>
+        ';
+    }
+?>
 </head>
 
 <body>
+    <?php
+        if ($open_tag_body) {
+            echo '
+             <script>'.$open_tag_body.'</script>
+            ';
+        }
+    ?>
     @auth
         @php
             $user = Auth::user();
@@ -464,8 +485,8 @@
 
                             @if (Session::get('role') === 'administrador')
                                 <li
-                                    class="nav-item {{ request()->routeIs('disciplinas.index') ? 'bg-primary text-white rounded' : '' }} ">
-                                    <a class="nav-link" href="{{ route('disciplinas.index') }}">
+                                    class="nav-item {{ request()->routeIs('geral.index') ? 'bg-primary text-white rounded' : '' }} ">
+                                    <a class="nav-link" href="{{ route('geral.index') }}">
                                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -484,8 +505,8 @@
 
                             @if (Session::get('role') === 'coordenador')
                                 <li
-                                    class="nav-item {{ request()->routeIs('disciplinas.index') ? 'bg-primary text-white rounded' : '' }} ">
-                                    <a class="nav-link" href="{{ route('disciplinas.index') }}">
+                                    class="nav-item {{ request()->routeIs('geral.index') ? 'bg-primary text-white rounded' : '' }} ">
+                                    <a class="nav-link" href="{{ route('geral.index') }}">
                                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -846,8 +867,8 @@
 
                                 @if (Session::get('role') === 'administrador')
                                     <li
-                                        class="nav-item {{ request()->routeIs('disciplinas.index') ? 'bg-primary text-white rounded' : '' }} ">
-                                        <a class="nav-link" href="{{ route('disciplinas.index') }}">
+                                        class="nav-item {{ request()->routeIs('geral.index') ? 'bg-primary text-white rounded' : '' }} ">
+                                        <a class="nav-link" href="{{ route('geral.index') }}">
                                             <span class="nav-link-icon d-md-none d-lg-inline-block">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -1329,6 +1350,13 @@
     });
     </script>
 
+<?php
+ if ($close_tag_body) {
+    echo '
+     <script>'.$close_tag_body.'</script>
+    ';
+}
+?>
 </body>
 
 </html>

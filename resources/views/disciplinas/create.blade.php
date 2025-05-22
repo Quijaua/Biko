@@ -20,20 +20,7 @@
             <div class="container-xl">
                 <div class="card">
                     <div class="row g-0">
-                        <div class="col-12 col-md-3 border-end">
-                            <div class="card-body">
-                                <h4 class="subheader">Principais</h4>
-                                <div class="list-group list-group-transparent">
-                                    <a href="#" class="list-group-item list-group-item-action d-flex align-items-center active">Geral</a>
-                                    <a href="{{ route('auditoria.index') }}" class="list-group-item list-group-item-action d-flex align-items-center">Auditoria</a>
-                                    <a href="{{ route('disciplinas.index') }}" class="list-group-item list-group-item-action d-flex align-items-center">Disciplinas</a>
-                                </div>
-                                <h4 class="subheader mt-4">Integrações</h4>
-                                <div class="list-group list-group-transparent">
-                                    <a href="#" class="list-group-item list-group-item-action">Código personalizado</a>
-                                </div>
-                            </div>
-                        </div>
+                        @include('layouts.configuracoes.menu')
                         <div class="col-12 col-md-9 d-flex flex-column">
                             <div class="card-body">
                                 <!-- <h2 class="mb-4">Disciplinas</h2> -->

@@ -9,7 +9,26 @@
             }
         </style>
 
+        @php
+            $banner = \DB::table('gerals')->pluck('banner')->first();
+            $texto_pre_cadastro = \DB::table('gerals')->pluck('texto_pre_cadastro')->first();
+        @endphp
+
         <div class="container">
+            @if($banner)
+            <div class="row">
+                <div class="col-12 text-center">
+                    <img class="img-fluid" src="{{ asset('images/geral/banner/' . $banner) }}" alt="banner">
+                </div>
+            </div>
+            @endif
+            @if($texto_pre_cadastro)
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="text-center">{!! $texto_pre_cadastro !!}</p>
+                </div>
+            </div>
+            @endif
             <h1 class="text-center">Bem vinda(o), a Plataforma Biko.
             </h1>
             <h3 class="text-center">Quer ser um estudante da UNEafro Brasil?

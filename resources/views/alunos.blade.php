@@ -8,6 +8,7 @@
       <div class="col-8">
         <h1 class="text-[34px]">Estudantes</h1>
       </div>
+      @php //dd($user->role) @endphp
       <div class="col-4  text-center">
         <a class="btn btn-primary" href="/alunos/add"><span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-user-plus">
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -16,24 +17,14 @@
               <path d="M19 16v6" />
               <path d="M6 21v-2a4 4 0 0 1 4 -4h4" />
             </svg></span>Adicionar novo estudante</a>
-        @if($user->role === 'coordenador')
-        <a class="btn btn-outline d-none" href="{{ route('alunos/export/') }}/?nucleo={{ $nucleo ?? '' }}"><span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-arrow-right">
+        @if($user->role === 'administrador' || $user->role === 'coordenador')
+        <a class="btn btn-outline" href="{{ route('alunos/export/') }}/?nucleo=0"><span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-arrow-right">
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path d="M14 3v4a1 1 0 0 0 1 1h4" />
               <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
               <path d="M9 15h6" />
               <path d="M12.5 17.5l2.5 -2.5l-2.5 -2.5" />
             </svg></span> Exportar</a>
-        @else
-        <a class="btn btn-outline-primary d-none" href="{{ route('alunos/export/') }}/?nucleo=0">
-          <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-arrow-right">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-              <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
-              <path d="M9 15h6" />
-              <path d="M12.5 17.5l2.5 -2.5l-2.5 -2.5" />
-            </svg></span>
-          Exportar</a>
         @endif
       </div>
     </div>
