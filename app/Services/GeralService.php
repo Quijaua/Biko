@@ -23,7 +23,10 @@ class GeralService
             $name = time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('images/geral/banner/'), $name);
             $data['banner'] = $name;
-            File::delete(public_path('images/geral/banner/' . $geral->banner));
+
+            if ($geral && $geral->banner) {
+                File::delete(public_path('images/geral/banner/' . $geral->banner));
+            }
         }
 
         if($geral) {

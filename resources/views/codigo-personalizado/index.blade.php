@@ -33,17 +33,17 @@
                                 <div class="row mt-3 mb-3">
                                     <div class="col">
                                         <label class="form-label mb-2" for="tag_head">Código antes da tag /head</label>
-                                        <input id="tag_head" name="tag_head" type="text" class="form-control" value="{{ $data->tag_head ?? '' }}">
+                                        <textarea id="tag_head" name="tag_head" rows="5" class="form-control" >{{ $data->tag_head ?? '' }}</textarea>
                                     </div>
 
                                     <div class="col-12 mt-2">
                                         <label class="form-label mb-2" for="open_tag_body">Código após a tag body</label>
-                                        <input id="open_tag_body" name="open_tag_body" type="text" class="form-control" value="{{ $data->open_tag_body ?? '' }}">
+                                        <textarea id="open_tag_body" name="open_tag_body" rows="5" class="form-control" >{{ $data->open_tag_body ?? '' }}</textarea>
                                     </div>
 
                                     <div class="col-12 mt-2">
                                         <label class="form-label mb-2" for="close_tag_body">Código antes da tag /body</label>
-                                        <input id="close_tag_body" name="close_tag_body" type="text" class="form-control" value="{{ $data->close_tag_body ?? '' }}">
+                                        <textarea id="close_tag_body" name="close_tag_body" rows="5" class="form-control" >{{ $data->close_tag_body ?? '' }}</textarea>
                                     </div>
                                 </div>
 
