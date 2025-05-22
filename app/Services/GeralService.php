@@ -32,7 +32,7 @@ class GeralService
         if($geral) {
             $geral->update($data);
         } else {
-            Geral::create($data);
+            $geral = Geral::create($data);
         }
 
         return $geral;

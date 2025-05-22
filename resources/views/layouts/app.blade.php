@@ -11,7 +11,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <?php
         $app_name = \DB::table('gerals')->pluck('nome_cursinho')->first() ?? null;
-        //dd($app_name);
     ?>
     <title>@if($app_name != null){{ $app_name }}@else{{ config('app.name') }}@endif</title>
 
