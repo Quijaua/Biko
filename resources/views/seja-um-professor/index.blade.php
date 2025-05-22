@@ -25,7 +25,7 @@
                         <div class="row mt-2">
                             <div class="col">
                                 <div class="alert alert-success text-center" role="alert">
-                                    Agradecemos o interesse em se tornar um professor! Entraremos em contato em breve.
+                                    Agradecemos o interesse em se tornar um professor voluntário! Entraremos em contato em breve.
                                 </div>
                             </div>
                         </div>
@@ -145,7 +145,7 @@
 
                                     <div class="col-6 mt-2">
                                         <label class="form-label mb-2" for="disciplinas">Qual matéria pode lecionar?</label>
-                                        <input id="disciplinas" name="disciplinas" type="text" class="form-control" value="">
+                                        <input id="disciplinas" name="disciplinas" type="text" class="form-control">
                                     </div>
 
                                     <div class="col-12 mt-3">
