@@ -62,7 +62,7 @@
 
                                     <div class="col-6 mt-2">
                                         <label class="form-label mb-2" for="telefone">Telefone (whatsapp - obrigatório)</label>
-                                        <input id="telefone" name="telefone" type="text" class="form-control" required>
+                                        <input id="telefone" name="telefone" type="text" class="form-control" data-mask="(00) 00000-0000" data-mask-visible="true" placeholder="(00) 00000-0000" autocomplete="off" required>
                                     </div>
 
                                     <div class="col-6 mt-2">
