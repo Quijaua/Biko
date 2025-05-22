@@ -16,24 +16,19 @@
 
         <div class="container">
             @if($banner)
-            <div class="row">
-                <div class="col-12 text-center">
-                    <img class="img-fluid" src="{{ asset('images/geral/banner/' . $banner) }}" alt="banner">
+            <div class="row marcador align-items-center">
+                <div class="col-12 mx-auto text-center">
+                    <img class="img-fluid" src="{{ asset('images/geral/banner/' . $banner) }}" alt="Voltando às aulas - UNEafro 2025 - Inscreva-se aqui" title="Voltando às aulas - UNEafro 2025 - Inscreva-se aqui" />
                 </div>
             </div>
             @endif
             @if($texto_pre_cadastro)
             <div class="row">
                 <div class="col-12 text-center">
-                    <p class="text-center">{!! $texto_pre_cadastro !!}</p>
+                    <h3 class="text-center p-4">{!! $texto_pre_cadastro !!}</h3>
                 </div>
             </div>
             @endif
-            <h1 class="text-center">Bem vinda(o), a Plataforma Biko.
-            </h1>
-            <h3 class="text-center">Quer ser um estudante da UNEafro Brasil?
-            </h3>
-            <p class="text-center">Preencha o formulário que em breve uma pessoa da coordenação entrará em contato.</p>
             <div class="card">
                 {{-- Card Header --}}
                 <div class="card-header">
