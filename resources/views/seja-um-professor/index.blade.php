@@ -45,37 +45,37 @@
                             <form id="professor-form" action="{{ route('seja-um-professor.create') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row mt-3 mb-3">
-                                    <div class="col-6">
+                                    <div class="col-12 col-md-6">
                                         <label class="form-label mb-2" for="nome_social">Nome/Nome social(obrigatório)</label>
                                         <input id="nome_social" name="nome_social" type="text" class="form-control" required>
                                     </div>
 
-                                    <div class="col-6">
+                                    <div class="col-12 col-md6">
                                         <label class="form-label mb-2" for="data_nascimento">Data de nascimento</label>
                                         <input id="data_nascimento" name="data_nascimento" type="date" class="form-control">
                                     </div>
 
-                                    <div class="col-6 mt-2">
+                                    <div class="col-12 col-md-6 mt-2">
                                         <label class="form-label mb-2" for="email">Seu e-mail(obrigatório)</label>
                                         <input id="email" name="email" type="email" class="form-control" required>
                                     </div>
 
-                                    <div class="col-6 mt-2">
+                                    <div class="col-12 col-md-6 mt-2">
                                         <label class="form-label mb-2" for="telefone">Telefone (whatsapp - obrigatório)</label>
                                         <input id="telefone" name="telefone" type="text" class="form-control" data-mask="(00) 00000-0000" data-mask-visible="true" placeholder="(00) 00000-0000" autocomplete="off" required>
                                     </div>
 
-                                    <div class="col-6 mt-2">
+                                    <div class="col-12 col-md-6 mt-2">
                                         <label class="form-label mb-2" for="profissao">Profissão (obrigatório)</label>
                                         <input id="profissao" name="profissao" type="text" class="form-control" required>
                                     </div>
 
-                                    <div class="col-6 mt-2">
+                                    <div class="col-12 col-md-6 mt-2">
                                         <label class="form-label mb-2" for="cidade_professor">Cidade (obrigatório)</label>
                                         <input id="cidade_professor" name="cidade_professor" type="text" class="form-control" required>
                                     </div>
 
-                                    <div class="col-6 mt-2">
+                                    <div class="col-12 col-md-6 mt-2">
                                         <label class="form-label mb-2" for="estado">Estado (obrigatório)</label>
                                         <select name="estado" id="estado" class="form-control" required>
                                             <option value="" selected>Selecione</option>
@@ -110,7 +110,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="col-6 mt-2">
+                                    <div class="col-12 col-md-6 mt-2">
                                         <label class="form-label mb-2" for="raca_cor">Raça/Cor (obrigatório)</label>
                                         <select name="raca_cor" id="raca_cor" class="form-control" required>
                                             <option value="" selected>Selecione</option>
@@ -122,7 +122,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="col-6 mt-2">
+                                    <div class="col-12 col-md-6 mt-2">
                                         <label class="form-label mb-2" for="genero">Gênero (obrigatório)</label>
                                         <select name="genero" id="genero" class="form-control" required>
                                             <option value="" selected>Selecione</option>
@@ -134,7 +134,7 @@
                                     <?php
                                         $nucleos = DB::table('nucleos')->get();
                                     ?>
-                                    <div class="col-6 mt-2">
+                                    <div class="col-12 col-md-6 mt-2">
                                         <label class="form-label mb-2" for="nucleo_id">Em qual núcleo ou região da cidade deseja contribuir? (obrigatório)</label>
                                         <select name="nucleo_id" id="nucleo_id" class="form-control" required>
                                             @foreach ($nucleos as $nucleo)
@@ -143,7 +143,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="col-6 mt-2">
+                                    <div class="col-12 col-md-6 mt-2">
                                         <label class="form-label mb-2" for="disciplinas">Qual matéria pode lecionar?</label>
                                         <input id="disciplinas" name="disciplinas" type="text" class="form-control">
                                     </div>
