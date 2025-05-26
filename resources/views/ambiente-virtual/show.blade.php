@@ -132,7 +132,7 @@
     </div>
 </div>
 
-<script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+<script src="{{ asset('js/plyr.js') }}"></script>
 <script src="{{ asset('dist/libs/tinymce/tinymce.min.js') }}"></script>
 
 <script>
