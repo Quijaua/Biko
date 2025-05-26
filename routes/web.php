@@ -178,7 +178,7 @@ Route::get('mensagens', 'MensagensController@index')->middleware('permissions')-
 Route::get('mensagens/removed', 'MensagensController@removed')->middleware('permissions')->name('messages.removed');
 Route::get('mensagens/create', 'MensagensController@create')->middleware('permissions')->name('messages.create');
 Route::post('mensagens/store', 'MensagensController@store')->middleware('permissions')->name('messages.store');
-Route::get('mensagens/{mensagem}/show', 'MensagensController@show')->middleware('permissions')->name('messages.show');
+Route::get('mensagens/{mensagem}/show', 'MensagensController@show')/*->middleware('permissions')*/->name('messages.show');
 Route::delete('mensagens/{mensagem}/destroy', 'MensagensController@destroy')->middleware('permissions')->name('messages.destroy');
 
 // ROUTES FOR DISCIPLINAS

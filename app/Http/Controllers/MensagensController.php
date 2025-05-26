@@ -25,7 +25,7 @@ class MensagensController extends Controller
                 ->paginate(10);
         } else {
             $mensagens = MensagensAluno::query()
-                ->where('aluno_id', Auth::user()->id)
+                ->where('aluno_id', Auth::user()->aluno->id)
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
         }
