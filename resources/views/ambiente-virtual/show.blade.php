@@ -3,7 +3,7 @@
 @inject('session', 'Session')
 
 @section('content')
-<link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+<link rel="stylesheet" href="{{ asset('css/plyr.css') }}" />
 <div class="container">
     <!-- PAGE HEADER -->
     <div class="row">
