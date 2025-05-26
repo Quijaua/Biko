@@ -132,7 +132,7 @@
                                         </select>
                                     </div>
                                     <?php
-                                        $nucleos = DB::table('nucleos')->get();
+                                        $nucleos = DB::table('nucleos')->where('Status', 1)->get();
                                     ?>
                                     <div class="col-12 col-md-6 mt-2">
                                         <label class="form-label mb-2" for="nucleo_id">Em qual núcleo ou região da cidade deseja contribuir? (obrigatório)</label>
