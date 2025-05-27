@@ -26,6 +26,11 @@ class MensagensController extends Controller
         } else {
             $mensagens = MensagensAluno::query()
                 ->where('aluno_id', Auth::user()->aluno->id)
+                ->orWhereExists(function ($query) {
+                    $query->select(DB::raw(1))
+                        ->from('mensagens')
+                        ->whereIn('mensagens.nucleos', [Auth::user()->aluno->nucleo->id]);
+                })
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
         }
