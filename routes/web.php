@@ -119,12 +119,12 @@ Route::get('nucleo/presences/destroy', 'NucleoController@presences_destroy')->na
 Route::any('nucleo/presences/search', 'NucleoController@search_presences');
 Route::any('nucleo/presences/search', 'NucleoController@search_presences');
 
-Route::get('nucleo/material', 'MaterialController@index')->name('nucleo.material');
-Route::post('nucleo/material/create', 'MaterialController@create')->name('nucleo.material.create');
-Route::get('nucleo/material/delete/{id}', 'MaterialController@delete')->name('nucleo.material.delete');
-Route::get('nucleo/material/restore/{id}', 'MaterialController@restore')->name('nucleo.material.restore');
+Route::get('nucleo/material', 'MaterialController@index')->middleware('auth')->name('nucleo.material');
+Route::post('nucleo/material/create', 'MaterialController@create')->middleware('auth')->name('nucleo.material.create');
+Route::get('nucleo/material/delete/{id}', 'MaterialController@delete')->middleware('auth')->name('nucleo.material.delete');
+Route::get('nucleo/material/restore/{id}', 'MaterialController@restore')->middleware('auth')->name('nucleo.material.restore');
 Route::get('nucleo/material/search', 'MaterialController@search');
-Route::put('nucleo/material/edit/{id}', 'MaterialController@edit')->middleware('permissions')->name('material.edit');
+Route::put('nucleo/material/edit/{id}', 'MaterialController@edit')->middleware(['auth', 'permissions'])->name('material.edit');
 
 Route::post('nucleo/professores-disciplinas/create', 'NucleoProfessoresDisciplinasController@create')->name('professores-disciplinas.create');
 Route::put('nucleo/professores-disciplinas/update', 'NucleoProfessoresDisciplinasController@update')->name('professores-disciplinas.update');
@@ -178,38 +178,38 @@ Route::get('mensagens', 'MensagensController@index')->middleware('permissions')-
 Route::get('mensagens/removed', 'MensagensController@removed')->middleware('permissions')->name('messages.removed');
 Route::get('mensagens/create', 'MensagensController@create')->middleware('permissions')->name('messages.create');
 Route::post('mensagens/store', 'MensagensController@store')->middleware('permissions')->name('messages.store');
-Route::get('mensagens/{mensagem}/show', 'MensagensController@show')/*->middleware('permissions')*/->name('messages.show');
+Route::get('mensagens/{mensagem}/show', 'MensagensController@show')->middleware('auth')->name('messages.show');
 Route::delete('mensagens/{mensagem}/destroy', 'MensagensController@destroy')->middleware('permissions')->name('messages.destroy');
 
 // ROUTES FOR DISCIPLINAS
 Route::group(['prefix' => 'disciplinas'], function () {
-    Route::get('/', 'DisciplinaController@index')->name('disciplinas.index');
+    Route::get('/', 'DisciplinaController@index')->middleware('auth')->name('disciplinas.index');
 });
-Route::resource('/disciplinas', 'DisciplinaController')->except(['index']);
+Route::resource('/disciplinas', 'DisciplinaController')->middleware('auth')->except(['index']);
 
 // ROUTES FOR AMBIENTE VIRTUAL
 Route::group(['prefix' => 'ambiente-virtual'], function () {
-    Route::get('/', 'AmbienteVirtualController@index')->name('ambiente-virtual.index');
-    Route::post('comentarios/adicionar/{id}', 'AmbienteVirtualController@comentar')->name('ambiente-virtual.comentar');
-    Route::post('notas/adicionar/{id}', 'AmbienteVirtualController@anotar')->name('ambiente-virtual.anotar');
+    Route::get('/', 'AmbienteVirtualController@index')->middleware('auth')->name('ambiente-virtual.index');
+    Route::post('comentarios/adicionar/{id}', 'AmbienteVirtualController@comentar')->middleware('auth')->name('ambiente-virtual.comentar');
+    Route::post('notas/adicionar/{id}', 'AmbienteVirtualController@anotar')->middleware('auth')->name('ambiente-virtual.anotar');
 });
 Route::resource('/ambiente-virtual', 'AmbienteVirtualController')->except(['index']);
 
 // ROUTES FOR AUDITORIA
 Route::group(['prefix' => 'auditoria'], function () {
-    Route::get('/', 'AuditoriaController@index')->name('auditoria.index');
+    Route::get('/', 'AuditoriaController@index')->middleware('auth')->name('auditoria.index');
 });
 
 // ROUTES FOR CONFIGURACOES GERAL
 Route::group(['prefix' => 'geral'], function () {
-    Route::get('/', 'GeralController@index')->name('geral.index');
-    Route::post('/update', 'GeralController@update')->name('geral.update');
+    Route::get('/', 'GeralController@index')->middleware('auth')->name('geral.index');
+    Route::post('/update', 'GeralController@update')->middleware('auth')->name('geral.update');
 });
 
 // ROUTES FOR CODIGOS PERSONALIZADOS
 Route::group(['prefix' => 'codigo-personalizado'], function () {
-    Route::get('/', 'CodigoPersonalizadoController@index')->name('codigo-personalizado.index');
-    Route::post('/update', 'CodigoPersonalizadoController@update')->name('codigo-personalizado.update');
+    Route::get('/', 'CodigoPersonalizadoController@index')->middleware('auth')->name('codigo-personalizado.index');
+    Route::post('/update', 'CodigoPersonalizadoController@update')->middleware('auth')->name('codigo-personalizado.update');
 });
 
 // SEJA UM PROFESSOR
