@@ -42,13 +42,13 @@
                                 @csrf
                                 <div class="row mt-3 mb-3">
                                     <div class="col">
-                                        <label class="form-label mb-2" for="nome_admin">Nome do Administrador</label>
-                                        <input id="nome_admin" name="nome_admin" type="text" class="form-control" required>
+                                        <label class="form-label mb-2" for="name">Nome do Administrador</label>
+                                        <input id="name" name="name" type="text" class="form-control" value="{{ old('name') }}" required>
                                     </div>
 
                                     <div class="col">
-                                        <label class="form-label mb-2" for="email_admin">Email</label>
-                                        <input id="email_admin" name="email_admin" type="email" class="form-control" required>
+                                        <label class="form-label mb-2" for="email">Email</label>
+                                        <input id="email" name="email" type="email" class="form-control" value="{{ old('email') }}" required>
                                     </div>
                                 </div>
 

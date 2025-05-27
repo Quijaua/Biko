@@ -23,9 +23,9 @@ class AdministradoresController extends Controller
     public function store(StoreAdministradorRequest $request)
     {
         $user = User::create([
-            'name' => $request->nome_admin,
-            'email' => $request->email_admin,
-            'password' => Hash::make($request->email_admin),
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->email),
             'role' => 'administrador',
         ]);
 
