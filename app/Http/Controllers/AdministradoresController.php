@@ -20,7 +20,7 @@ class AdministradoresController extends Controller
         return view('administradores.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreAdministradorRequest $request)
     {
         $user = User::create([
             'name' => $request->nome_admin,
