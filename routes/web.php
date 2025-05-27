@@ -252,6 +252,16 @@ Route::post('/seja-um-professor', function (Request $request) {
 
 })->name('seja-um-professor.create');
 
+// ROUTES FOR ADMINISTRADORES MANAGEMENT
+Route::group(['prefix' => 'administradores'], function () {
+    Route::get('/', 'AdministradoresController@index')->middleware('auth')->name('administradores.index');
+    Route::get('/create', 'AdministradoresController@create')->middleware('auth')->name('administradores.create');
+    Route::post('/store', 'AdministradoresController@store')->middleware('auth')->name('administradores.store');
+    Route::get('/edit/{id}', 'AdministradoresController@edit')->middleware('auth')->name('administradores.edit');
+    Route::post('/update/{id}', 'AdministradoresController@update')->middleware('auth')->name('administradores.update');
+    Route::delete('/destroy/{id}', 'AdministradoresController@destroy')->middleware('auth')->name('administradores.destroy');
+});
+
 // PROTECTED ROUTES
 Auth::routes(['verify' => true]);
 
