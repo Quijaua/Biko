@@ -523,12 +523,15 @@ class AlunosController extends Controller
     public function export(Request $request)
     {
         $nucleo = $request->input('nucleo');
+        $nucleo_ativo = Nucleo::find($request->input('nucleo'));
+        $today = Carbon::now()->format('d-m-Y');
+        $nome_arquivo = $nucleo_ativo ? 'nucleo-' . $nucleo_ativo->NomeNucleo . '-' . $today : 'nucleo-todos-' . $today;
 
         if ($nucleo === null) {
-            return (new AlunosExport())->download('alunos.xlsx');
+            return (new AlunosExport())->download($nome_arquivo . '.xlsx');
         }
 
-        return (new AlunosExport($nucleo))->download('alunos.xlsx');
+        return (new AlunosExport($nucleo))->download($nome_arquivo . '.xlsx');
     }
 
     public function logActionView($id)
