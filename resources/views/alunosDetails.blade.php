@@ -53,10 +53,12 @@
                                 <a class="btn btn-outline-primary" href="javascript:window.print()"><i
                                         class="me-2 fas fa-print"></i> Imprimir</a>
                             </div>
+                            @if($user->role === 'administrador' || $user->role === 'coordenador')
                             <div>
                                 <a class="btn btn-primary" href="/alunos/edit/{{ $dados->id }}"><i
                                         class="me-2 fas fa-user-edit"></i> Editar Dados</a>
                             </div>
+                            @endif
                         </div>
                     </div>
                     @if (\Session::has('success'))
