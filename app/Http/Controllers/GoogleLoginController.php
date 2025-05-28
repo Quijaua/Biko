@@ -24,8 +24,7 @@ class GoogleLoginController extends Controller
         
         if(!$user)
         {
-            //$user = User::create(['name' => $googleUser->name, 'email' => $googleUser->email, 'password' => Hash::make(rand(100000,999999))]);
-            return redirect()->route('login')->with('error', 'Usuário não encontrado.');
+            return view('auth.not-found')->with('error', 'Conta não encontrada.');
         }
 
         Auth::login($user);
