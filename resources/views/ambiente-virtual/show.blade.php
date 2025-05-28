@@ -3,7 +3,7 @@
 @inject('session', 'Session')
 
 @section('content')
-<link rel="stylesheet" href="{{ asset('public/dist/libs/plyr/dist/plyr.css') }}" />
+<link rel="stylesheet" href="{{ asset('dist/libs/plyr/dist/plyr.css') }}" />
 <div class="container">
     <!-- PAGE HEADER -->
     <div class="row">
@@ -132,7 +132,7 @@
     </div>
 </div>
 
-<script src="{{ asset('public/dist/libs/plyr/dist/plyr.js') }}"></script>
+<script src="{{ asset('dist/libs/plyr/dist/plyr.js') }}"></script>
 <script src="{{ asset('dist/libs/tinymce/tinymce.min.js') }}"></script>
 
 <script>
