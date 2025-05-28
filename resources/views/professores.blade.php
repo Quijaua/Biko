@@ -200,7 +200,7 @@
                                                 {{-- CPF --}}
                                                 <td>{{ $professor->CPF }}</td>
 
-                                                <td>{{ $professor->nucleo->NomeNucleo }}</td>
+                                                <td>{{ $professor->nucleo->NomeNucleo ?? '' }}</td>
 
 
                                                 {{-- Situação --}}
