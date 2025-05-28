@@ -4,12 +4,11 @@
 
 @section('content')
 <div class="container-fluid">
-
     <!-- PAGE HEADER -->
     <div class="row justify-content-center">
         <div class="col-8">
             <div class="card">
-                <div class="card-header">Conta não encontrada</div>
+                <div class="card-header">🚫 Conta não encontrada</div>
 
                 <div class="card-body">
                 @if (session::has('error'))
@@ -21,13 +20,11 @@
                     </div>
                 </div>
                 @endif
-
-                    <p>Olá!</p>
-
-                    <p>Parece que ainda não há uma conta vinculada ao e-mail fornecido pelo Google.</p>
-                    <p>Se você é novo por aqui, clique no botão abaixo para realizar seu pré-cadastro e criar a sua conta.</p>
-                    <p><a href="{{ route('register') }}" target="_blank"><strong>Fazer pré-cadastro</strong></a></p>
-                    <p>Caso já tenha se cadastrado com outro e-mail, por favor, tente acessar com o e-mail cadastrado.</p>
+		<p>Olá! 😕</o>
+		<p>Parece que ainda não há uma conta vinculada ao e-mail fornecido pelo Google.</p>
+		<p>Se você é novo por aqui, clique no botão abaixo para realizar seu pré-cadastro e criar sua conta:</p>
+		<p><a href="{{ route('register') }}" target="_blank"><strong>🔗 Fazer pré-cadastro</strong></a></p>
+		<p>Se você já se cadastrou com outro e-mail, tente fazer login com ele.</>
                 </div>
             </div>
         </div>
