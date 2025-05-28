@@ -94,7 +94,7 @@ class AmbienteVirtualService
     public static function getProfessores()
     {
         $professores = Professores::all()->map(function ($professor) {
-            if ($professor->nucleo->permite_ambiente_virtual) {
+            if ($professor->nucleo && $professor->nucleo->permite_ambiente_virtual) {
                 return $professor;
             }
         });
