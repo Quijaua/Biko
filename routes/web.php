@@ -193,7 +193,7 @@ Route::group(['prefix' => 'ambiente-virtual'], function () {
     Route::post('comentarios/adicionar/{id}', 'AmbienteVirtualController@comentar')->middleware('auth')->name('ambiente-virtual.comentar');
     Route::post('notas/adicionar/{id}', 'AmbienteVirtualController@anotar')->middleware('auth')->name('ambiente-virtual.anotar');
 });
-Route::resource('/ambiente-virtual', 'AmbienteVirtualController')->except(['index']);
+Route::resource('/ambiente-virtual', 'AmbienteVirtualController')->middleware('auth')->except(['index']);
 
 // ROUTES FOR AUDITORIA
 Route::group(['prefix' => 'auditoria'], function () {
