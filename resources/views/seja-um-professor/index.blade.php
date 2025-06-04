@@ -50,7 +50,7 @@
                                         <input id="nome_social" name="nome_social" type="text" class="form-control" required>
                                     </div>
 
-                                    <div class="col-12 col-md6">
+                                    <div class="col-12 col-md-6">
                                         <label class="form-label mb-2" for="data_nascimento">Data de nascimento</label>
                                         <input id="data_nascimento" name="data_nascimento" type="date" class="form-control">
                                     </div>
