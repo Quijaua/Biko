@@ -661,7 +661,7 @@
                                             <span for="inputFoneCelular">Telefone Celular</span>
                                             <input type="phone" class="form-control" id="inputFoneCelular"
                                                 name="inputFoneCelular" aria-describedby="inputFoneCelularHelp"
-                                                data-mask="(00) 0 0000-0000" value="{{ $dados->FoneCelular }}">
+                                                data-mask="(00) 00000-0000" value="{{ $dados->FoneCelular }}">
                                         </div>
                                     </div>
                                 </div>
