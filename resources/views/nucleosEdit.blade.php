@@ -284,7 +284,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label mb-2" for="inputEndereco">Endereço</label>
-                                            <input pattern="([^\s][A-zÀ-ž\s]+)" type="text" class="form-control"
+                                            <input pattern="^[A-Za-zÀ-ÖØ-öø-ÿ0-9\s\.,:;\-º]+$" type="text" class="form-control"
                                                 id="inputEndereco" name="inputEndereco"
                                                 aria-describedby="inputEnderecoHelp" value="{{ $dados->Endereco }}"
                                                 >
