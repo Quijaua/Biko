@@ -12,9 +12,8 @@ class TrumaiPovoIndigenaSeeder extends Seeder
      */
     public function run(): void
     {
-        $exists = PovoIndigena::where('label', 'Trumai')->exists();
-        if (!$exists) {
-            PovoIndigena::create(['label' => 'Trumai']);
-        }
+        PovoIndigena::create([
+            'label' => 'Trumai'
+        ]);
     }
 }
