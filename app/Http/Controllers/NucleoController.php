@@ -91,7 +91,7 @@ class NucleoController extends Controller
     public function create(Request $request)
     {
 
-      Nucleo::create([
+      $nucleo = Nucleo::create([
         'Status' => $request->input('inputStatus'),
         'NomeNucleo' => $request->input('inputNomeNucleo'),
         'AreaAtuacao' =>$request->input('inputAreaAtuacao'),
@@ -123,7 +123,8 @@ class NucleoController extends Controller
         'disciplinas' => $request->input('disciplinas'),
       ]);
 
-      return back()->with('success', 'DADOS SALVOS COM SUCESSO.');
+      return redirect('/nucleos/edit/' . $nucleo->id)
+        ->with('success', 'DADOS SALVOS COM SUCESSO.');
     }
 
     public function update(Request $request, $id)
@@ -159,9 +160,8 @@ class NucleoController extends Controller
 
       $nucleo->save();
 
-      return back()->with([
-        'success' => 'DADOS SALVOS COM SUCESSO.',
-      ]);
+      return redirect('/nucleos/edit/' . $nucleo->id)
+        ->with('success', 'DADOS SALVOS COM SUCESSO.');
     }
 
     public function disable(Request $request, $id)
