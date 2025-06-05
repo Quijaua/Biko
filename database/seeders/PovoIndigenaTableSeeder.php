@@ -409,6 +409,9 @@ class PovoIndigenaTableSeeder extends Seeder
             'label' => 'Truká'
         ]);
         PovoIndigena::create([
+            'label' => 'Trumai'
+        ]);
+        PovoIndigena::create([
             'label' => 'Tson Wuk Dyapah'
         ]);
         PovoIndigena::create([
