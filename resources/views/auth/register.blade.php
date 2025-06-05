@@ -95,6 +95,8 @@
                                 <input type="button" class="btn btn-primary w-100" style="max-width: 600px"
                                     value="Minas Gerais" onclick="selecionar('Minas Gerais')" form="registration-form">
                                 <input type="button" class="btn btn-primary w-100" style="max-width: 600px"
+                                    value="Brasília" onclick="selecionar('Distrito Federal')" form="registration-form">
+                                <input type="button" class="btn btn-primary w-100" style="max-width: 600px"
                                     value="Núcleo Virtual - Aulas online para todo Brasil"
                                     onclick="selecionar('Núcleo Virtual - Aulas online para todo Brasil')" form="registration-form">
                             </div>
@@ -604,7 +606,7 @@
                         estadoSelecionado = 'all'
                     }
                     buscarNucleos(estadoSelecionado)
-                    localSelecionado = valor;
+                    localSelecionado = (estadoSelecionado === 'DF') ? 'Brasília' : valor;
                     document.getElementById("resultado").innerText = localSelecionado;
                     const resultadoLocal = document.getElementById("resultadoLocal");
                     resultadoLocal.classList.remove("d-none");
