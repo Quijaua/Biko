@@ -168,7 +168,7 @@
                                             <label class="form-label mb-2" for="inputTelefone">Telefone</label>
                                             <input type="phone" class="form-control" id="inputTelefone"
                                                 name="inputTelefone" aria-describedby="inputTelefoneHelp"
-                                                data-mask="(00) 0000-0000" value="{{ $dados->Telefone }}" >
+                                                data-mask="(00) 00000-0000" value="{{ $dados->Telefone }}" >
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -176,7 +176,7 @@
                                             <label class="form-label mb-2" for="inputWhatsapp">WhatsApp</label>
                                             <input type="text" class="form-control" id="inputWhatsapp"
                                                 name="inputWhatsapp" aria-describedby="inputWhatsappHelp"
-                                                 data-mask="(00) 0000-0000"
+                                                 data-mask="(00) 00000-0000"
                                                 value="{{ $dados->whatsapp_url }}" >
                                         </div>
                                     </div>
