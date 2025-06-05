@@ -80,7 +80,6 @@ class Professores extends Model implements Auditable
   ];
 
   protected $casts = [
-      'Disciplinas' => 'array',
       'OutrosNucleos' => 'array',
   ];
 
