@@ -110,6 +110,7 @@ Route::get('nucleos/edit/{id}', 'NucleoController@edit')->middleware('permission
 Route::post('nucleos/update/{id}', 'NucleoController@update')->middleware('permissions');
 Route::get('nucleos/disable/{id}', 'NucleoController@disable')->middleware('permissions');
 Route::get('nucleos/enable/{id}', 'NucleoController@enable')->middleware('permissions');
+Route::delete('nucleos/delete/{id}', 'NucleoController@destroy')->middleware('permissions');
 Route::any('nucleos/search', 'NucleoController@search');
 Route::any('nucleos/search', 'NucleoController@search');
 Route::get('nucleo/presences', 'NucleoController@presences_index')->name('nucleo/presences');

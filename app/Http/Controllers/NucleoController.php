@@ -207,6 +207,18 @@ class NucleoController extends Controller
       ]);
     }
 
+    public function destroy($id)
+    {
+      $nucleo = Nucleo::findOrFail($id);
+
+      if ($nucleo->alunos()->exists()) {
+        return back()->with('error', 'Não é possível excluir este núcleo pois existem alunos cadastrados.');
+      }
+
+      $nucleo->delete();
+      return redirect('/nucleos')->with('success', 'Núcleo excluído com sucesso.');
+    }
+
     public function details($id)
     {
       $dados = Nucleo::find($id);

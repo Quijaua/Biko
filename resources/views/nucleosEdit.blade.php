@@ -53,6 +53,34 @@
                         <div class="col-5 d-flex gap-3 justify-content-end align-items-center">
                             <a class="btn btn-secondary" href="/nucleos">voltar</a>
 
+                            <!-- Deletar Núcleo -->
+                            @if(Auth::user()->role === 'administrador')
+                                @if($dados->alunos->isEmpty())
+                                    <button
+                                        type="button"
+                                        class="btn btn-danger"
+                                        onclick="
+                                            if (!confirm('Tem certeza que deseja excluir este Núcleo?')) return;
+                                            document.getElementById('delete-nucleo-form').submit();
+                                        ">
+                                        Excluir Núcleo
+                                    </button>
+                                    <form id="delete-nucleo-form"
+                                            action="{{ url('nucleos/delete/'.$dados->id) }}"
+                                            method="POST"
+                                            style="display: none;">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                @else
+                                    <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" data-bs-placement="top" title="Não é possível excluir enquanto houver alunos cadastrados neste núcleo">
+                                        <button type="button" class="btn btn-danger disabled" disabled>
+                                            Excluir Núcleo
+                                        </button>
+                                    </span>
+                                @endif
+                            @endif
+
                             <!-- Ativar/Inativar Núcleo -->
                             @if ($dados->Status === 1)
                                 <a href="/nucleos/disable/{{ $dados->id }}">
