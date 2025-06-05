@@ -51,8 +51,26 @@
                             </div>
                         </div>
                         <div class="col-5 d-flex gap-3 justify-content-end align-items-center">
-                          <a class="btn btn-secondary" href="/nucleos">voltar</a>
-                          <button type="submit" class="btn btn-primary" form="editForm" id="submitBtn"><span><svg
+                            <a class="btn btn-secondary" href="/nucleos">voltar</a>
+
+                            <!-- Ativar/Inativar Núcleo -->
+                            @if ($dados->Status === 1)
+                                <a href="/nucleos/disable/{{ $dados->id }}">
+                                    <span class="btn btn-danger status-inativo">
+                                        <span class="status-circle"></span>
+                                        Inativar
+                                    </span>
+                                </a>
+                            @else
+                                <a href="/nucleos/enable/{{ $dados->id }}">
+                                    <span class="btn btn-success status-ativo">
+                                        Ativar
+                                        <span class="status-circle"></span>
+                                    </span>
+                                </a>
+                            @endif
+
+                            <button type="submit" class="btn btn-primary" form="editForm" id="submitBtn"><span><svg
                                       xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                       fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                       stroke-linejoin="round"
