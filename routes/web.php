@@ -242,6 +242,8 @@ Route::post('/seja-um-professor', function (Request $request) {
         'Raca' => $request->raca_cor,
         'Genero' => $request->genero,
         'id_nucleo' => $request->nucleo_id,
+        'povo_indigenas_id' => $request->povo_indigenas_id,
+        'terra_indigenas_id' => $request->terra_indigenas_id,
         'Disciplinas' => $request->disciplinas,
     ];
 

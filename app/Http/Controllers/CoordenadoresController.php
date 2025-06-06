@@ -73,10 +73,13 @@ class CoordenadoresController extends Controller
     public function showForm()
     {
       $nucleos = Nucleo::get()->where('Status', 1);
+      $povosIndigenas = PovoIndigena::orderByRaw('label = "Sem Informação" DESC')
+                      ->orderByRaw('LOWER(label) ASC')
+                      ->get();
 
       return view('coordenadoresCreate')->with([
         'nucleos' => $nucleos,
-        'povo_indigenas' => PovoIndigena::all(),
+        'povo_indigenas' => $povosIndigenas,
         'terra_indigenas' => TerraIndigena::all(),
       ]);
     }
@@ -226,11 +229,14 @@ class CoordenadoresController extends Controller
     {
       $dados = Coordenadores::find($id);
       $nucleos = Nucleo::get()->where('Status', 1);
+      $povosIndigenas = PovoIndigena::orderByRaw('label = "Sem Informação" DESC')
+                      ->orderByRaw('LOWER(label) ASC')
+                      ->get();
 
       return view('coordenadoresEdit')->with([
         'dados' => $dados,
         'nucleos' => $nucleos,
-        'povo_indigenas' => PovoIndigena::all(),
+        'povo_indigenas' => $povosIndigenas,
         'terra_indigenas' => TerraIndigena::all(),
       ]);
     }

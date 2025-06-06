@@ -123,6 +123,38 @@
                                     </div>
 
                                     <div class="col-12 col-md-6 mt-2">
+                                        <div id="povo_indigenas_wrapper" class="d-none">
+                                            <label class="form-label mb-2" for="povo_indigenas_id">Povo Indígena</label>
+                                            <select name="povo_indigenas_id" class="form-select">
+                                                <option selected disabled>Selecione</option>
+                                                <!-- Lista Povos Indígenas ordenados alfabeticamente -->
+                                                @php
+                                                    $povos = \App\PovoIndigena::orderByRaw('LOWER(label) ASC')
+                                                        ->get()
+                                                        ->partition(fn($item) => $item->label === 'Sem Informação')
+                                                        ->flatten();
+                                                @endphp
+                                                @foreach ($povos as $povo_indigena)
+                                                    <option value="{{ $povo_indigena->id }}">{{ $povo_indigena->label }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6 mt-2">
+                                        <div id="terra_indigenas_wrapper" class="d-none">
+                                            <label class="form-label mb-2" for="terra_indigenas_id">Terra Indígena</label>
+                                            <select name="terra_indigenas_id" class="form-select">
+                                                <option selected disabled>Selecione</option>
+                                                @foreach (\App\TerraIndigena::all() as $terra_indigena)
+                                                    <option value="{{ $terra_indigena->id }}">
+                                                        {{ $terra_indigena->label }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6 mt-2">
                                         <label class="form-label mb-2" for="genero">Gênero (obrigatório)</label>
                                         <select name="genero" id="genero" class="form-control" required>
                                             <option value="" selected>Selecione</option>
@@ -177,6 +209,22 @@
     <!-- END PAGE BODY -->
 </div>
 
+<script>
+    $(document).ready(function() {
+        $('#raca_cor').on('change', function() {
+            let raca = $(this).val();
+            if (raca == 'indigena') {
+                $('#povo_indigenas_wrapper').removeClass('d-none');
+                $('#terra_indigenas_wrapper').removeClass('d-none');
+            } else {
+                $('#povo_indigenas_id').val(0);
+                $('#terra_indigenas_id').val(0);
+                $('#povo_indigenas_wrapper').addClass('d-none');
+                $('#terra_indigenas_wrapper').addClass('d-none');
+            }
+        })
+    });
+</script>
 <script>
     $(function() {
         const form      = $('#professor-form');

@@ -118,10 +118,14 @@ class AlunosController extends Controller
             $nucleos = Nucleo::get()->where('Status', 1);
         }
 
+        $povosIndigenas = PovoIndigena::orderByRaw('label = "Sem Informação" DESC')
+                        ->orderByRaw('LOWER(label) ASC')
+                        ->get();
+
         return view('alunosCreate')->with([
             'nucleos' => $nucleos,
             'user' => $user,
-            'povo_indigenas' => PovoIndigena::all(),
+            'povo_indigenas' => $povosIndigenas,
             'terra_indigenas' => TerraIndigena::all(),
         ]);
     }
@@ -264,13 +268,16 @@ class AlunosController extends Controller
         $dados = Aluno::find($id);
         $nucleos = Nucleo::get()->where('Status', 1);
         $familiares = AlunoInfoFamiliares::where('id_aluno', $dados->id)->get();
+        $povosIndigenas = PovoIndigena::orderByRaw('label = "Sem Informação" DESC')
+                        ->orderByRaw('LOWER(label) ASC')
+                        ->get();
 
         return view('alunosEdit')->with([
             'dados' => $dados,
             'nucleos' => $nucleos,
             'user' => $user,
             'familiares' => $familiares,
-            'povo_indigenas' => PovoIndigena::all(),
+            'povo_indigenas' => $povosIndigenas,
             'terra_indigenas' => TerraIndigena::all(),
 
         ]);
@@ -509,13 +516,16 @@ class AlunosController extends Controller
         $dados = Aluno::find($id);
         $nucleos = Nucleo::get()->where('Status', 1);
         $familiares = AlunoInfoFamiliares::where('id_aluno', $dados->id)->get();
+        $povosIndigenas = PovoIndigena::orderByRaw('label = "Sem Informação" DESC')
+                        ->orderByRaw('LOWER(label) ASC')
+                        ->get();
 
         return view('alunosDetails')->with([
             'user' => $user,
             'dados' => $dados,
             'nucleos' => $nucleos,
             'familiares' => $familiares,
-            'povo_indigenas' => PovoIndigena::all(),
+            'povo_indigenas' => $povosIndigenas,
             'terra_indigenas' => TerraIndigena::all(),
         ]);
     }

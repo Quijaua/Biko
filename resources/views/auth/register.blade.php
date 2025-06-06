@@ -331,9 +331,15 @@
                                                                 <label class="form-label mb-2" for="povo_indigenas_id">Povo Indígena</label>
                                                                 <select name="povo_indigenas_id" class="form-select">
                                                                     <option selected disabled>Selecione</option>
-                                                                    @foreach (\App\PovoIndigena::all() as $povo_indigena)
-                                                                        <option value="{{ $povo_indigena->id }}">
-                                                                            {{ $povo_indigena->label }}</option>
+                                                                    <!-- Lista Povos Indígenas ordenados alfabeticamente -->
+                                                                    @php
+                                                                        $povos = \App\PovoIndigena::orderByRaw('LOWER(label) ASC')
+                                                                            ->get()
+                                                                            ->partition(fn($item) => $item->label === 'Sem Informação')
+                                                                            ->flatten();
+                                                                    @endphp
+                                                                    @foreach ($povos as $povo_indigena)
+                                                                        <option value="{{ $povo_indigena->id }}">{{ $povo_indigena->label }}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>

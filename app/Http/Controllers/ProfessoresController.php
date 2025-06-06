@@ -78,13 +78,17 @@ class ProfessoresController extends Controller
     {
       $user = Auth::user();
 
+      $povosIndigenas = PovoIndigena::orderByRaw('label = "Sem Informação" DESC')
+                      ->orderByRaw('LOWER(label) ASC')
+                      ->get();
+
       if($user->role === 'coordenador'){
         $me = Coordenadores::where('id_user', $user->id)->first();
         $nucleos = Nucleo::where('id', $me->id_nucleo)->where('Status', 1)->get();
 
         return view('professoresCreate')->with([
           'nucleos' => $nucleos,
-          'povo_indigenas' => PovoIndigena::all(),
+          'povo_indigenas' => $povosIndigenas,
           'terra_indigenas' => TerraIndigena::all(),
         ]);
       }
@@ -94,7 +98,7 @@ class ProfessoresController extends Controller
 
         return view('professoresCreate')->with([
           'nucleos' => $nucleos,
-          'povo_indigenas' => PovoIndigena::all(),
+          'povo_indigenas' => $povosIndigenas,
           'terra_indigenas' => TerraIndigena::all(),
         ]);
       }
@@ -360,6 +364,10 @@ class ProfessoresController extends Controller
     {
       $user = Auth::user();
 
+      $povosIndigenas = PovoIndigena::orderByRaw('label = "Sem Informação" DESC')
+                      ->orderByRaw('LOWER(label) ASC')
+                      ->get();
+
       if($user->role === 'professor'){
         $dados = Professores::find($id);
         $nucleos = Nucleo::where('Status', 1)->get();
@@ -394,7 +402,7 @@ class ProfessoresController extends Controller
         return view('professoresEdit')->with([
           'dados'     => $dados,
           'nucleos'   => $nucleos,
-          'povo_indigenas' => PovoIndigena::all(),
+          'povo_indigenas' => $povosIndigenas,
           'terra_indigenas' => TerraIndigena::all(),
         ]);
       }
