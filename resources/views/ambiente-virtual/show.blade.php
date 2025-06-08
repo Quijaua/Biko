@@ -63,7 +63,7 @@
                     <div class="mt-0 mt-md-6 p-2 p-md-0 mb-md-4 mb-2">
                         <h1>Aula: {{ $aula->titulo }} (Professor: {{ $aula->professor->NomeProfessor }})</h1>
                         <p>@php echo strip_tags($aula->descricao); @endphp</p>
-                        <strong>Disciplina:</strong> {{ $aula->disciplina->nome }}
+                        <strong>Matéria:</strong> {{ $aula->disciplina->nome }}
                     </div>
 
                     <?php //dd($aula->nota) ?>
@@ -100,13 +100,13 @@
             <!-- COMENTARIOS -->
             <div class="row">
                 <div class="col-12 col-md-12 mt-4">
-                    <h3>Comentarios</h3>
+                    <h3>Comentários</h3>
                     @foreach($aula->comentario as $comentario)
                     <div class="card mb-2">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12 col-md-4">
-                                    <p><strong>Comentario:</strong> <?php echo strip_tags($comentario->comentario); ?></p>
+                                    <p><strong>Comentário:</strong> <?php echo strip_tags($comentario->comentario); ?></p>
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <p><strong>Estudante:</strong> {{ $comentario->user->aluno->NomeAluno ?? $comentario->user->name }}</p>
