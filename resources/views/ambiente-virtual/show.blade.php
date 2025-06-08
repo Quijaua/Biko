@@ -106,13 +106,13 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12 col-md-4">
-                                    <p>Comentario: <?php echo strip_tags($comentario->comentario); ?></p>
+                                    <p><strong>Comentario:</strong> <?php echo strip_tags($comentario->comentario); ?></p>
                                 </div>
                                 <div class="col-12 col-md-4">
-                                    <p>Estudante: {{ $comentario->user->aluno->NomeAluno ?? $comentario->user->name }}</p>
+                                    <p><strong>Estudante:</strong> {{ $comentario->user->aluno->NomeAluno ?? $comentario->user->name }}</p>
                                 </div>
                                 <div class="col-12 col-md-4">
-                                    <p>Data: {{ $comentario->created_at->format('d/m/Y') }}</p>
+                                    <p><strong>Data:</strong> {{ $comentario->created_at->format('d/m/Y') }}</p>
                                 </div>
                             </div>
                         </div>
