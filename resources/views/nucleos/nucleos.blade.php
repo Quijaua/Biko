@@ -155,122 +155,173 @@
             </div>
             @endif
 
-            <div class="table-responsive">
-                <table class="table table-hover table-vcenter">
-                    <thead>
-                        <tr>
-                            <th class="text-nowrap text-black py-3"></th>
-                            <th class="text-nowrap text-black py-3">Nome</th>
-                            <!-- <th class="text-nowrap text-black py-3">Cidade</th>
-                            <th class="text-nowrap text-black py-3">Telefone</th> -->
-                            <th class="text-nowrap text-black py-3">Situação</th>
-                            <th class="text-nowrap text-black py-3">Ações</th>
-                        </tr>
+            <div class="card">
+              <div class="table-responsive">
+                  <table class="table table-hover table-vcenter">
+                      <thead>
+                          <tr>
+                              <th class="text-nowrap text-black py-3"></th>
+                              <th class="text-nowrap text-black py-3">Nome</th>
+                              <!-- <th class="text-nowrap text-black py-3">Cidade</th>
+                              <th class="text-nowrap text-black py-3">Telefone</th> -->
+                              <th class="text-nowrap text-black py-3">Situação</th>
+                              <th class="text-nowrap text-black py-3">Ações</th>
+                          </tr>
 
-                    </thead>
-                    <tbody class="bg-white rounded">
-                        @foreach ($nucleos as $nucleo)
-                            <tr>
-                                <td><input type="checkbox" class="custom-checkbox" /></td>
-                                {{-- Nome --}}
-                                <td>{{ $nucleo->NomeNucleo }}</td>
+                      </thead>
+                      <tbody class="bg-white rounded">
+                          @foreach ($nucleos as $nucleo)
+                              <tr>
+                                  <td><input type="checkbox" class="custom-checkbox" /></td>
+                                  {{-- Nome --}}
+                                  <td>{{ $nucleo->NomeNucleo }}</td>
 
-<!-- 
-                                {{-- Cidade --}}
-                                <td>{{ $nucleo->Cidade }}</td>
+  <!-- 
+                                  {{-- Cidade --}}
+                                  <td>{{ $nucleo->Cidade }}</td>
 
 
-                                {{-- Telefone --}}
-                                <td>{{ $nucleo->Telefone }}</td> -->
+                                  {{-- Telefone --}}
+                                  <td>{{ $nucleo->Telefone }}</td> -->
 
-                                {{-- Situação --}}
+                                  {{-- Situação --}}
 
-                                <td class="text-center">
-                                  @if($nucleo->Status === 1)
-                                  <span class="status-badge status-ativo">
-                                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-checkbox me-1"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 11l3 3l8 -8" /><path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" /></svg>
-                                    Ativo
-                                  </span>
-                                  @else
-                                  <span class="status-badge status-inativo">
-                                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-off me-1"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M20.042 16.045a9 9 0 0 0 -12.087 -12.087m-2.318 1.677a9 9 0 1 0 12.725 12.73" /><path d="M3 3l18 18" /></svg>
-                                    Inativo
-                                  </span>
-                                  @endif
-                                </td>
+                                  <td class="text-center">
+                                    @if($nucleo->Status === 1)
+                                    <span class="status-badge status-ativo">
+                                      <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-checkbox me-1"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 11l3 3l8 -8" /><path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" /></svg>
+                                      Ativo
+                                    </span>
+                                    @else
+                                    <span class="status-badge status-inativo">
+                                      <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-off me-1"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M20.042 16.045a9 9 0 0 0 -12.087 -12.087m-2.318 1.677a9 9 0 1 0 12.725 12.73" /><path d="M3 3l18 18" /></svg>
+                                      Inativo
+                                    </span>
+                                    @endif
+                                  </td>
 
-                                {{-- Ações --}}
-                                <td>
-                                    <div class="btn-list flex-nowrap">
-                                        <a href="/nucleos/details/{{ $nucleo->id }}"
-                                            class="btn btn-outline-secondary">
-                                            <span><svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                    height="24" viewBox="0 0 24 24" fill="none"
-                                                    stroke="currentColor" stroke-width="2"
-                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-eye">
-                                                    <path stroke="none" d="M0 0h24v24H0z"
-                                                        fill="none" />
-                                                    <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
-                                                    <path
-                                                        d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
-                                                </svg></span> Ver Detalhes
-                                        </a>
-                                        <a href="/nucleos/edit/{{ $nucleo->id }}"
-                                            class="btn btn-primary">
-                                            <span><svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                    height="24" viewBox="0 0 24 24" fill="none"
-                                                    stroke="currentColor" stroke-width="2"
-                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
-                                                    <path stroke="none" d="M0 0h24v24H0z"
-                                                        fill="none" />
-                                                    <path
-                                                        d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
-                                                    <path
-                                                        d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
-                                                    <path d="M16 5l3 3" />
-                                                </svg></span> Editar
-                                        </a>
+                                  {{-- Ações --}}
+                                  <td>
+                                      <div class="btn-list flex-nowrap">
+                                          <a href="/nucleos/details/{{ $nucleo->id }}"
+                                              class="btn btn-outline-secondary">
+                                              <span><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                      height="24" viewBox="0 0 24 24" fill="none"
+                                                      stroke="currentColor" stroke-width="2"
+                                                      stroke-linecap="round" stroke-linejoin="round"
+                                                      class="icon icon-tabler icons-tabler-outline icon-tabler-eye">
+                                                      <path stroke="none" d="M0 0h24v24H0z"
+                                                          fill="none" />
+                                                      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                                                      <path
+                                                          d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
+                                                  </svg></span> Ver Detalhes
+                                          </a>
+                                          <a href="/nucleos/edit/{{ $nucleo->id }}"
+                                              class="btn btn-primary">
+                                              <span><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                      height="24" viewBox="0 0 24 24" fill="none"
+                                                      stroke="currentColor" stroke-width="2"
+                                                      stroke-linecap="round" stroke-linejoin="round"
+                                                      class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
+                                                      <path stroke="none" d="M0 0h24v24H0z"
+                                                          fill="none" />
+                                                      <path
+                                                          d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+                                                      <path
+                                                          d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
+                                                      <path d="M16 5l3 3" />
+                                                  </svg></span> Editar
+                                          </a>
 
-@if($user->role === 'administrador')
-                                        <a href="#" id="modal-importar-alunos" class="btn btn-outline-primary open-modal-btn" data-url="{{route('alunos.importar', ['id' => $nucleo->id])}}">
-                                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
-                                          </svg>
-                                          Importar estudantes
-                                         </a>
+  @if($user->role === 'administrador')
+                                          <a href="#" id="modal-importar-alunos" class="btn btn-outline-primary open-modal-btn" data-url="{{route('alunos.importar', ['id' => $nucleo->id])}}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
+                                              <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+                                            </svg>
+                                            Importar estudantes
+                                          </a>
 
-                                        <a href="/alunos/export/?nucleo={{ $nucleo->id }}" class="btn btn-outline-primary"">
-					   <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-download"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" /><path d="M7 11l5 5l5 -5" /><path d="M12 4l0 12" /></svg>
-                                          Exportar estudantes
-                                         </a>
+                                          <a href="/alunos/export/?nucleo={{ $nucleo->id }}" class="btn btn-outline-primary"">
+              <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-download"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" /><path d="M7 11l5 5l5 -5" /><path d="M12 4l0 12" /></svg>
+                                            Exportar estudantes
+                                          </a>
 
-                                        @if ($nucleo->Status === 1)
-                                            <a href="/nucleos/disable/{{ $nucleo->id }}">
-                                                <span class="status-btn status-inativo ms-8">
-                                                    <span class="status-circle"></span>
-                                                    Inativar
-                                                </span>
-                                            </a>
-                                        @else
-                                            <a href="/nucleos/enable/{{ $nucleo->id }}">
-                                                <span class="status-btn status-ativo ms-8">
-                                                    Ativar
-                                                    <span class="status-circle"></span>
-                                                </span>
-                                            </a>
-                                        @endif
+                                          @if ($nucleo->Status === 1)
+                                              <a href="/nucleos/disable/{{ $nucleo->id }}">
+                                                  <span class="status-btn status-inativo ms-8">
+                                                      <span class="status-circle"></span>
+                                                      Inativar
+                                                  </span>
+                                              </a>
+                                          @else
+                                              <a href="/nucleos/enable/{{ $nucleo->id }}">
+                                                  <span class="status-btn status-ativo ms-8">
+                                                      Ativar
+                                                      <span class="status-circle"></span>
+                                                  </span>
+                                              </a>
+                                          @endif
 
-@else
-@endif
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+  @else
+  @endif
+                                      </div>
+                                  </td>
+                              </tr>
+                          @endforeach
+                      </tbody>
+                  </table>
+              </div>
+              <div class="card-footer d-flex align-items-center">
+                  <p class="m-0 text-secondary">
+                      Exibindo
+                      <span id="start-entry">{{ $nucleos->firstItem() ?? 0 }}</span>
+                      até
+                      <span id="end-entry">{{ $nucleos->lastItem() ?? 0 }}</span>
+                      de
+                      <span id="total-entry">{{ $nucleos->total() }}</span>
+                      registros
+                  </p>
+                  <ul class="pagination m-0 ms-auto" id="pagination-custom">
+                      {{-- Botão Anterior --}}
+                      <li class="page-item {{ $nucleos->onFirstPage() ? 'disabled' : '' }}" id="prev-page">
+                          <a class="page-link"
+                              href="{{ $nucleos->onFirstPage() ? 'javascript:void(0);' : $nucleos->previousPageUrl() }}"
+                              tabindex="-1"
+                              aria-disabled="{{ $nucleos->onFirstPage() ? 'true' : 'false' }}">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                      viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                      class="icon">
+                                  <path d="M15 6l-6 6l6 6"></path>
+                              </svg>
+                              anterior
+                          </a>
+                      </li>
+
+                      {{-- Página Atual (somente número) --}}
+                      <li class="page-item active" id="current-page">
+                          <a class="page-link" href="javascript:void(0);">
+                              {{ $nucleos->currentPage() }}
+                          </a>
+                      </li>
+
+                      {{-- Botão Próximo --}}
+                      <li class="page-item {{ $nucleos->hasMorePages() ? '' : 'disabled' }}" id="next-page">
+                          <a class="page-link"
+                              href="{{ $nucleos->hasMorePages() ? $nucleos->nextPageUrl() : 'javascript:void(0);' }}">
+                              próximo
+                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                      viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                      class="icon">
+                                  <path d="M9 6l6 6l-6 6"></path>
+                              </svg>
+                          </a>
+                      </li>
+                  </ul>
+              </div>
+          </div>
         </div>
     </div>
 </div>

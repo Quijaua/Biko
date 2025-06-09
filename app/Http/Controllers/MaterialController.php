@@ -18,18 +18,18 @@ class MaterialController extends Controller
     $user = Auth::user();
 
     if ( $user->role === 'administrador' ) {
-      $nucleos = Nucleo::where('Status', 1)->get();
-      $files = Material::withTrashed()->get();
+      $nucleos = Nucleo::where('Status', 1)->paginate(25);
+      $files = Material::withTrashed()->paginate(25);
     } elseif ( $user->role === 'coordenador' ) {
       $nucleos = Nucleo::where('Status', 1)->where('id', $user->coordenador->id_nucleo)->first();
-      $files = Material::where('status', 1)->where('nucleo_id', $user->coordenador->id_nucleo)->get();
+      $files = Material::where('status', 1)->where('nucleo_id', $user->coordenador->id_nucleo)->paginate(25);
     } elseif ( $user->role === 'professor' ) {
       $nucleos = Nucleo::where('Status', 1)->where('id', $user->professor->id_nucleo)->first();
-      $files = Material::where('status', 1)->where('nucleo_id', $user->professor->id_nucleo)->get();
+      $files = Material::where('status', 1)->where('nucleo_id', $user->professor->id_nucleo)->paginate(25);
     } else {
       $user = Auth::user();
       $nucleos = NULL;
-      $files = Material::where('status', 1)->where('nucleo_id', $user->aluno->id_nucleo)->get();
+      $files = Material::where('status', 1)->where('nucleo_id', $user->aluno->id_nucleo)->paginate(25);
     }
 
     return view('material.index')->with([
@@ -125,7 +125,7 @@ class MaterialController extends Controller
       ->paginate(25);
 
     if ( $user->role === 'administrador' ) {
-      $nucleos = Nucleo::where('Status', 1)->get();
+      $nucleos = Nucleo::where('Status', 1)->paginate(25);
     }
     if ( $user->role === 'coordenador' ) {
       $nucleos = Nucleo::where('Status', 1)->where('id', $user->coordenador->id_nucleo)->first();
