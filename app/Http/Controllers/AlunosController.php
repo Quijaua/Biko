@@ -53,7 +53,7 @@ class AlunosController extends Controller
                     'user' => $user,
                 ]);
             } else {
-                return view('alunos')->with([
+                return view('alunos.alunos')->with([
                     'alunos' => $alunos,
                     'user' => $user,
                 ]);
@@ -68,7 +68,7 @@ class AlunosController extends Controller
             //$alunos = Aluno::where('id_nucleo', $nucleo[0]['id_nucleo'])->get();
             $alunos = Aluno::where('id_nucleo', $nucleo[0]['id_nucleo'])->paginate(25);
 
-            return view('alunos')->with([
+            return view('alunos.alunos')->with([
                 'alunos' => $alunos,
                 'user' => $user,
             ]);
@@ -80,7 +80,7 @@ class AlunosController extends Controller
             //$alunos = Aluno::where('id_nucleo', $nucleo->id)->get();
             $alunos = Aluno::where('id_nucleo', $nucleo->id)->paginate(25);
 
-            return view('alunos')->with([
+            return view('alunos.alunos')->with([
                 'nucleo' => $nucleo->id,
                 'alunos' => $alunos,
                 'user' => $user,
@@ -90,7 +90,7 @@ class AlunosController extends Controller
         if ($user->role === 'administrador') {
             $alunos = Aluno::paginate(25);
 
-            return view('alunos')->with([
+            return view('alunos.alunos')->with([
                 'alunos' => $alunos,
                 'user' => $user,
             ]);
@@ -104,7 +104,7 @@ class AlunosController extends Controller
             }
         }
 
-        return view('alunos')->with('alunos', $alunos);
+        return view('alunos.alunos')->with('alunos', $alunos);
     }
 
     public function showForm()
@@ -122,7 +122,7 @@ class AlunosController extends Controller
                         ->orderByRaw('LOWER(label) ASC')
                         ->get();
 
-        return view('alunosCreate')->with([
+        return view('alunos.alunosCreate')->with([
             'nucleos' => $nucleos,
             'user' => $user,
             'povo_indigenas' => $povosIndigenas,
@@ -272,7 +272,7 @@ class AlunosController extends Controller
                         ->orderByRaw('LOWER(label) ASC')
                         ->get();
 
-        return view('alunosEdit')->with([
+        return view('alunos.alunosEdit')->with([
             'dados' => $dados,
             'nucleos' => $nucleos,
             'user' => $user,
@@ -463,7 +463,7 @@ class AlunosController extends Controller
             })
             ->paginate(25);
 
-        return view('alunos')->with([
+        return view('alunos.alunos')->with([
             'user' => $user,
             'alunos' => $alunos,
         ]);
@@ -490,7 +490,7 @@ class AlunosController extends Controller
             return back()->with('error', "Nenhum resultado encontrado.");
         }
 
-        return view('alunosByNucleo')->with([
+        return view('alunos.alunosByNucleo')->with([
             'alunos' => $alunos,
             'user' => $user,
         ]);
@@ -520,7 +520,7 @@ class AlunosController extends Controller
                         ->orderByRaw('LOWER(label) ASC')
                         ->get();
 
-        return view('alunosDetails')->with([
+        return view('alunos.alunosDetails')->with([
             'user' => $user,
             'dados' => $dados,
             'nucleos' => $nucleos,
@@ -548,7 +548,7 @@ class AlunosController extends Controller
     {
       $dados = DB::table('action_log')->where('aluno_id', $id)->paginate(25);
 
-      return view('alunosActions')->with([
+      return view('alunos.alunosActions')->with([
         'dados' => $dados,
       ]);
     }

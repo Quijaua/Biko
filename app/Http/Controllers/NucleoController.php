@@ -35,7 +35,7 @@ class NucleoController extends Controller
         //$nucleos = Nucleo::get();
         $nucleos = Nucleo::paginate(25);
 
-        return view('nucleos')->with([
+        return view('nucleos.nucleos')->with([
           'nucleos' => $nucleos,
           'user' => $user,
         ]);
@@ -45,7 +45,7 @@ class NucleoController extends Controller
         $nucleos = Nucleo::paginate(25);
         $myNucleo = $user->coordenador->id_nucleo;
 
-        return view('nucleos')->with([
+        return view('nucleos.nucleos')->with([
           'myNucleo' => $myNucleo,
           'user' => $user,
           'nucleos' => $nucleos,
@@ -58,7 +58,7 @@ class NucleoController extends Controller
         //$nucleos = Nucleo::where('Status', 1)->paginate(25);
         $nucleos = Nucleo::paginate(25);
 
-        return view('nucleos')->with([
+        return view('nucleos.nucleos')->with([
           'user' => $user,
           'nucleos' => $nucleos,
         ]);
@@ -68,7 +68,7 @@ class NucleoController extends Controller
     public function showForm()
     {
 
-      return view('nucleosCreate')->with([
+      return view('nucleos.nucleosCreate')->with([
         'disciplinas' => Disciplina::all(),
       ]);
     }
@@ -80,7 +80,7 @@ class NucleoController extends Controller
       $representantes = $dados->coordenadores()->where('id_nucleo', $id)->where('RepresentanteCGU', 'sim')->get('NomeCoordenador');
       $disciplinas = Disciplina::all();
 
-      return view('nucleosEdit')->with([
+      return view('nucleos.nucleosEdit')->with([
         'dados' => $dados,
         'representantes' => $representantes,
         'disciplinas' => $disciplinas,
@@ -201,7 +201,7 @@ class NucleoController extends Controller
         })
         ->paginate(25);
 
-      return view('nucleos')->with([
+      return view('nucleos.nucleos')->with([
         'user' => $user,
         'nucleos' => $nucleos,
       ]);
@@ -230,7 +230,7 @@ class NucleoController extends Controller
         $disciplinas[] = null;
       }*/
 
-      return view('nucleosDetails')->with([
+      return view('nucleos.nucleosDetails')->with([
         'dados' => $dados,
         'representantes' => $representantes,
         'disciplinas' => Disciplina::all(),
@@ -256,7 +256,7 @@ class NucleoController extends Controller
           $nucleo = Nucleo::find($professor->id_nucleo);
       }
 
-      return view('lista-presenca')->with([
+      return view('nucleos.lista-presenca')->with([
           'nucleos' => $nucleos,
           'nucleo' => $nucleo,
           'alunos' => $nucleo->alunos,
@@ -290,7 +290,7 @@ class NucleoController extends Controller
         ]
       );
 
-      return view('lista-presenca-create')->with([
+      return view('nucleos.lista-presenca-create')->with([
         'lista' => $lista,
         'date' => $date,
         'alunos' => $alunos
@@ -358,7 +358,7 @@ class NucleoController extends Controller
 
       $nucleo = $professor->nucleo;
 
-      return view('lista-presenca')->with([
+      return view('nucleos.lista-presenca')->with([
         'nucleos' => $nucleos,
         'nucleo' => $nucleo,
         'alunos' => $nucleo->alunos,

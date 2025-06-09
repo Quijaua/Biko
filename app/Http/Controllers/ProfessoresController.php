@@ -43,7 +43,7 @@ class ProfessoresController extends Controller
         //$professores = Professores::get();
         $professores = Professores::paginate(25);
 
-        return view('professores')->with([
+        return view('professores.professores')->with([
           'professores' => $professores,
             'user' => $user,
         ]);
@@ -54,7 +54,7 @@ class ProfessoresController extends Controller
         //$professores = Professores::where('id_nucleo', $me->id_nucleo)->get();
         $professores = Professores::where('id_nucleo', $me->id_nucleo)->paginate(25);
 
-        return view('professores')->with([
+        return view('professores.professores')->with([
           'professores' => $professores,
           'user' => $user,
         ]);
@@ -66,7 +66,7 @@ class ProfessoresController extends Controller
         //$professores = Professores::where('Status', 1)->paginate(25);
         $professores = Professores::paginate(25);
 
-        return view('professores')->with([
+        return view('professores.professores')->with([
           'user' => $user,
           'professores' => $professores,
         ]);
@@ -86,7 +86,7 @@ class ProfessoresController extends Controller
         $me = Coordenadores::where('id_user', $user->id)->first();
         $nucleos = Nucleo::where('id', $me->id_nucleo)->where('Status', 1)->get();
 
-        return view('professoresCreate')->with([
+        return view('professores.professoresCreate')->with([
           'nucleos' => $nucleos,
           'povo_indigenas' => $povosIndigenas,
           'terra_indigenas' => TerraIndigena::all(),
@@ -96,7 +96,7 @@ class ProfessoresController extends Controller
       if($user->role === 'administrador'){
         $nucleos = Nucleo::where('Status', 1)->get();
 
-        return view('professoresCreate')->with([
+        return view('professores.professoresCreate')->with([
           'nucleos' => $nucleos,
           'povo_indigenas' => $povosIndigenas,
           'terra_indigenas' => TerraIndigena::all(),
@@ -372,7 +372,7 @@ class ProfessoresController extends Controller
         $dados = Professores::find($id);
         $nucleos = Nucleo::where('Status', 1)->get();
 
-        return view('professoresEdit')->with([
+        return view('professores.professoresEdit')->with([
           'dados' => $dados,
           'nucleos' => $nucleos,
         ]);
@@ -385,7 +385,7 @@ class ProfessoresController extends Controller
           $dados = Professores::find($id);
           $nucleos = Nucleo::where('Status', 1)->where('id', $nucleoId[0]['id_nucleo'])->get();
 
-          return view('professoresEdit')->with([
+          return view('professores.professoresEdit')->with([
             'dados' => $dados,
             'nucleos' => $nucleos,
           ]);
@@ -399,7 +399,7 @@ class ProfessoresController extends Controller
         $dados->load('horarios');
         $nucleos = Nucleo::where('Status', 1)->get();
 
-        return view('professoresEdit')->with([
+        return view('professores.professoresEdit')->with([
           'dados'     => $dados,
           'nucleos'   => $nucleos,
           'povo_indigenas' => $povosIndigenas,
@@ -753,7 +753,7 @@ class ProfessoresController extends Controller
         })
         ->paginate(25);
 
-      return view('professores')->with([
+      return view('professores.professores')->with([
         'user' => $user,
         'professores' => $professores,
       ]);
@@ -774,7 +774,7 @@ class ProfessoresController extends Controller
       $dados->load('horarios', 'nucleosProfessoresDisciplinas');
       $nucleos = Nucleo::where('Status', 1)->get();
 
-      return view('professoresDetails')->with([
+      return view('professores.professoresDetails')->with([
         'dados' => $dados,
         'nucleos' => $nucleos,
         'povo_indigenas' => PovoIndigena::all(),

@@ -37,7 +37,7 @@ class CoordenadoresController extends Controller
         //$coordenadores = Coordenadores::get();
         $coordenadores = Coordenadores::paginate(25);
 
-        return view('coordenadores')->with([
+        return view('coordenadores.coordenadores')->with([
           'coordenadores' => $coordenadores,
           'user' => $user,
         ]);
@@ -47,7 +47,7 @@ class CoordenadoresController extends Controller
         //$coordenadores = Coordenadores::get();
         $coordenadores = Coordenadores::paginate(25);
 
-        return view('coordenadores')->with([
+        return view('coordenadores.coordenadores')->with([
           'coordenadores' => $coordenadores,
           'user' => $user,
         ]);
@@ -63,7 +63,7 @@ class CoordenadoresController extends Controller
         }*/
         $coordenadores = Coordenadores::paginate(25);
 
-        return view('coordenadores')->with([
+        return view('coordenadores.coordenadores')->with([
           'user' => $user,
           'coordenadores' => $coordenadores,
         ]);
@@ -77,7 +77,7 @@ class CoordenadoresController extends Controller
                       ->orderByRaw('LOWER(label) ASC')
                       ->get();
 
-      return view('coordenadoresCreate')->with([
+      return view('coordenadores.coordenadoresCreate')->with([
         'nucleos' => $nucleos,
         'povo_indigenas' => $povosIndigenas,
         'terra_indigenas' => TerraIndigena::all(),
@@ -233,7 +233,7 @@ class CoordenadoresController extends Controller
                       ->orderByRaw('LOWER(label) ASC')
                       ->get();
 
-      return view('coordenadoresEdit')->with([
+      return view('coordenadores.coordenadoresEdit')->with([
         'dados' => $dados,
         'nucleos' => $nucleos,
         'povo_indigenas' => $povosIndigenas,
@@ -430,7 +430,7 @@ class CoordenadoresController extends Controller
         })
         ->paginate(25);
 
-      return view('coordenadores')->with([
+      return view('coordenadores.coordenadores')->with([
         'user' => $user,
         'coordenadores' => $coordenadores,
       ]);
@@ -441,7 +441,7 @@ class CoordenadoresController extends Controller
       $dados = Coordenadores::find($id);
       $nucleos = Nucleo::get()->where('Status', 1);
 
-      return view('coordenadoresDetails')->with([
+      return view('coordenadores.coordenadoresDetails')->with([
         'dados' => $dados,
         'nucleos' => $nucleos,
         'povo_indigenas' => PovoIndigena::all(),
