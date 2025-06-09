@@ -94,7 +94,9 @@
         <div class="col-4 mt-5">
             <h1 class="mt-6">Aula: {{ $aula->titulo }} (Professor: {{ $aula->professor->NomeProfessor }})</h1>
                 <p>@php echo strip_tags($aula->descricao); @endphp</p>
-                <div><strong>Disciplina:</strong> {{ $aula->disciplina->nome }}</div>
+                @if ($aula->disciplina)
+                    <div><strong>Disciplina:</strong> {{ $aula->disciplina->nome }}</div>
+                @endif
 
                 <div class="row">
             <div class="col mt-4">
