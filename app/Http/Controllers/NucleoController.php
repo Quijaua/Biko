@@ -42,11 +42,11 @@ class NucleoController extends Controller
       }
 
       if($user->role === 'coordenador'){
+        $myNucleosIds = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
         $nucleos = Nucleo::paginate(25);
-        $myNucleo = $user->coordenador->id_nucleo;
 
         return view('nucleos.nucleos')->with([
-          'myNucleo' => $myNucleo,
+          'myNucleo' => $myNucleosIds,
           'user' => $user,
           'nucleos' => $nucleos,
         ]);

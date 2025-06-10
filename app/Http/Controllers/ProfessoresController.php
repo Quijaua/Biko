@@ -51,8 +51,9 @@ class ProfessoresController extends Controller
 
       if($user->role === 'coordenador'){
         $me = Coordenadores::where('id_user', $user->id)->first();
+        $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
         //$professores = Professores::where('id_nucleo', $me->id_nucleo)->get();
-        $professores = Professores::where('id_nucleo', $me->id_nucleo)->paginate(25);
+        $professores = Professores::whereIn('id_nucleo', $coordenadorNucleos)->paginate(25);
 
         return view('professores.professores')->with([
           'professores' => $professores,
@@ -84,7 +85,8 @@ class ProfessoresController extends Controller
 
       if($user->role === 'coordenador'){
         $me = Coordenadores::where('id_user', $user->id)->first();
-        $nucleos = Nucleo::where('id', $me->id_nucleo)->where('Status', 1)->get();
+        $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+        $nucleos = Nucleo::whereIn('id', $coordenadorNucleos)->where('Status', 1)->get();
 
         return view('professores.professoresCreate')->with([
           'nucleos' => $nucleos,
@@ -379,9 +381,9 @@ class ProfessoresController extends Controller
       }
 
       if($user->role === 'coordenador'){
-        $nucleoId = Coordenadores::where('id_user', $user->id)->get('id_nucleo');
+        $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
         $professor = Professores::find($id);
-        if($professor->id_nucleo === $nucleoId[0]['id_nucleo']){
+        if($professor && in_array($professor->id_nucleo, $coordenadorNucleos)){
           $dados = Professores::find($id);
           $nucleos = Nucleo::where('Status', 1)->where('id', $nucleoId[0]['id_nucleo'])->get();
 
@@ -698,9 +700,9 @@ class ProfessoresController extends Controller
       $user = Auth::user();
 
       if($user->role === 'coordenador'){
-        $nucleoId = Coordenadores::where('id_user', $user->id)->get('id_nucleo');
+        $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
         $professor = Professores::find($id);
-        if($professor->id_nucleo === $nucleoId[0]['id_nucleo']){
+        if($professor && in_array($professor->id_nucleo, $coordenadorNucleos)){
           $professor->Status = 1;
           $professor->save();
 
@@ -729,8 +731,17 @@ class ProfessoresController extends Controller
 
       switch ($user->role) {
         case 'coordenador':
-          if (!$params['nucleo_id']) {
-            $params['nucleo_id'] = $user->coordenador->id_nucleo;
+          if (!isset($params['nucleo_id']) || empty($params['nucleo_id'])) {
+            $params['nucleo_id'] = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+          } else {
+            $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+            if (!is_array($params['nucleo_id'])) {
+              $params['nucleo_id'] = [$params['nucleo_id']];
+            }
+            $params['nucleo_id'] = array_intersect($params['nucleo_id'], $coordenadorNucleos);
+            if (empty($params['nucleo_id'])) {
+              $params['nucleo_id'] = $coordenadorNucleos;
+            }
           }
           break;
         

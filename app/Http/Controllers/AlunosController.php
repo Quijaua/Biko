@@ -76,12 +76,15 @@ class AlunosController extends Controller
 
         if ($user->role === 'coordenador') {
             $me = Coordenadores::where('id_user', $user->id)->first();
-            $nucleo = Nucleo::find($me->id_nucleo);
+            $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+            // $nucleo = Nucleo::find($me->id_nucleo);
+            $nucleos = Nucleo::whereIn('id', $coordenadorNucleos)->get();
             //$alunos = Aluno::where('id_nucleo', $nucleo->id)->get();
-            $alunos = Aluno::where('id_nucleo', $nucleo->id)->paginate(25);
+            // $alunos = Aluno::where('id_nucleo', $nucleo->id)->paginate(25);
+            $alunos = Aluno::whereIn('id_nucleo', $coordenadorNucleos)->paginate(25);
 
             return view('alunos.alunos')->with([
-                'nucleo' => $nucleo->id,
+                'nucleos' => $nucleos,
                 'alunos' => $alunos,
                 'user' => $user,
             ]);
@@ -113,7 +116,8 @@ class AlunosController extends Controller
 
         if ($user->role === 'coordenador') {
             $me = Coordenadores::where('id_user', $user->id)->first();
-            $nucleos = Nucleo::where('id', $me->id_nucleo)->get();
+            $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+            $nucleos = Nucleo::whereIn('id', $coordenadorNucleos)->get();
         } else {
             $nucleos = Nucleo::get()->where('Status', 1);
         }

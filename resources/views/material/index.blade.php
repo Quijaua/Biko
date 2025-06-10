@@ -355,6 +355,16 @@
                                                 @endforeach
                                             </select>
                                         </div>
+                                    @elseif ($user->role === 'coordenador')
+                                        <div class="col-12 col-md-6 mb-3">
+                                            <label class="form-label">Núcleo</label>
+                                            <select class="form-select" name="nucleo_id" required>
+                                                @foreach ($nucleos as $nucleo)
+                                                    <option value="{{ $nucleo->id }}">{{ $nucleo->NomeNucleo }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     @else
                                         <input type="hidden" name="nucleo_id" value="{{ $nucleos->id }}">
                                     @endif

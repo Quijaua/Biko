@@ -87,7 +87,11 @@ class CoordenadoresController extends Controller
     public function create(Request $request)
     {
       $validated = $request->validate([
-          'inputNucleo' => 'required',
+        'inputNucleo' => 'required|array|min:1',
+      ], [
+        'inputNucleo.required' => 'O campo Núcleo deve ser preenchido.',
+        'inputNucleo.array'    => 'Selecione ao menos um núcleo.',
+        'inputNucleo.min'      => 'Selecione ao menos um núcleo.'
       ]);
 
       if (!$validated) {
@@ -208,6 +212,8 @@ class CoordenadoresController extends Controller
         'pessoa_com_deficiencia' => $request->input('pessoa_com_deficiencia'),
       ]);
 
+      $coordenador->nucleos()->sync($request->input('inputNucleo'));
+
       if($Foto){
         $filename = $Foto->getFilename().'.'.$Foto->getClientOriginalExtension();
         $path = public_path('storage/'.$filename);
@@ -229,6 +235,9 @@ class CoordenadoresController extends Controller
     {
       $dados = Coordenadores::find($id);
       $nucleos = Nucleo::get()->where('Status', 1);
+
+      $selectedNucleos = $dados->nucleos()->pluck('nucleo_id')->toArray();
+
       $povosIndigenas = PovoIndigena::orderByRaw('label = "Sem Informação" DESC')
                       ->orderByRaw('LOWER(label) ASC')
                       ->get();
@@ -236,6 +245,7 @@ class CoordenadoresController extends Controller
       return view('coordenadores.coordenadoresEdit')->with([
         'dados' => $dados,
         'nucleos' => $nucleos,
+        'selectedNucleos' => $selectedNucleos,
         'povo_indigenas' => $povosIndigenas,
         'terra_indigenas' => TerraIndigena::all(),
       ]);
@@ -244,7 +254,11 @@ class CoordenadoresController extends Controller
     public function update(Request $request, $id)
     {
       $validated = $request->validate([
-          'inputNucleo' => 'required',
+        'inputNucleo' => 'required|array|min:1',
+      ], [
+        'inputNucleo.required' => 'O campo Núcleo deve ser preenchido.',
+        'inputNucleo.array'    => 'Selecione ao menos um núcleo.',
+        'inputNucleo.min'      => 'Selecione ao menos um núcleo.'
       ]);
 
       if (!$validated) {
@@ -262,7 +276,7 @@ class CoordenadoresController extends Controller
 
       $dados->NomeCoordenador = $request->input('inputNomeCoordenador');
       $dados->NomeSocial = $request->input('inputNomeSocial');
-      $dados->id_nucleo = $request->input('inputNucleo') ? $request->input('inputNucleo') : NULL;
+      // $dados->id_nucleo = $request->input('inputNucleo') ? $request->input('inputNucleo') : NULL;
       if($Foto){
         $dados->Foto = $Foto->getFilename() . '.' . $Extension;
       }
@@ -381,6 +395,8 @@ class CoordenadoresController extends Controller
 
       $dados->save();
 
+      $dados->nucleos()->sync($request->input('inputNucleo'));
+
       return back()->with('success', 'DADOS SALVOS COM SUCESSO.');
     }
 
@@ -441,9 +457,12 @@ class CoordenadoresController extends Controller
       $dados = Coordenadores::find($id);
       $nucleos = Nucleo::get()->where('Status', 1);
 
+      $selectedNucleos = $dados->nucleos()->pluck('nucleo_id')->toArray();
+
       return view('coordenadores.coordenadoresDetails')->with([
         'dados' => $dados,
         'nucleos' => $nucleos,
+        'selectedNucleos' => $selectedNucleos,
         'povo_indigenas' => PovoIndigena::all(),
         'terra_indigenas' => TerraIndigena::all(),
       ]);

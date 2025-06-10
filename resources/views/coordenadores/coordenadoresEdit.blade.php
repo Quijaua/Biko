@@ -427,7 +427,7 @@
                                             <div class="mb-3">
                                                 <label class="form-label mb-2" for="inputNucleo">Em qual/quais núcleo(s)
                                                     que você atua?</label>
-                                                <select name="inputNucleo" id="inputNucleo" class="form-control form-select">
+                                                <!-- <select name="inputNucleo" id="inputNucleo" class="form-control form-select">
                                                     <option selected>Selecione</option>
                                                     @foreach ($nucleos as $nucleo)
                                                         <option <?php if ($nucleo->id == $dados->id_nucleo) {
@@ -435,7 +435,24 @@
                                                         } ?> value="{{ $nucleo->id }}">
                                                             {{ $nucleo->NomeNucleo }}</option>
                                                     @endforeach
+                                                </select> -->
+                                                <select
+                                                    name="inputNucleo[]"
+                                                    id="inputNucleo"
+                                                    class="form-select @error('inputNucleo') is-invalid @enderror"
+                                                    multiple
+                                                    required
+                                                >
+                                                    @foreach ($nucleos as $nucleo)
+                                                        <option value="{{ $nucleo->id }}"
+                                                            {{ in_array($nucleo->id, old('inputNucleo', $selectedNucleos)) ? 'selected' : '' }}>
+                                                            {{ $nucleo->NomeNucleo }}
+                                                        </option>
+                                                    @endforeach
                                                 </select>
+                                                @error('inputNucleo')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                         </div>
                                         <div class="col-3">
@@ -1789,6 +1806,31 @@
 @endsection
 
 @section('js')
+    <script>
+		document.addEventListener("DOMContentLoaded", function () {
+		var el;
+		window.TomSelect && (new TomSelect(el = document.getElementById('inputNucleo'), {
+			copyClassesToDropdown: false,
+			dropdownParent: 'body',
+			controlInput: '<input>',
+			render:{
+				item: function(data,escape) {
+					if( data.customProperties ){
+						return '<div><span class="dropdown-item-indicator">' + data.customProperties + '</span>' + escape(data.text) + '</div>';
+					}
+					return '<div>' + escape(data.text) + '</div>';
+				},
+				option: function(data,escape){
+					if( data.customProperties ){
+						return '<div><span class="dropdown-item-indicator">' + data.customProperties + '</span>' + escape(data.text) + '</div>';
+					}
+					return '<div>' + escape(data.text) + '</div>';
+				},
+			},
+		}));
+	});
+	</script>
+
     <script>
         $(document).ready(function() {
             $('#inputAnoInicioUneafro').mask('0000');

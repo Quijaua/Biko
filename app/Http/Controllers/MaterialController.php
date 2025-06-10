@@ -21,8 +21,9 @@ class MaterialController extends Controller
       $nucleos = Nucleo::where('Status', 1)->paginate(25);
       $files = Material::withTrashed()->paginate(25);
     } elseif ( $user->role === 'coordenador' ) {
-      $nucleos = Nucleo::where('Status', 1)->where('id', $user->coordenador->id_nucleo)->first();
-      $files = Material::where('status', 1)->where('nucleo_id', $user->coordenador->id_nucleo)->paginate(25);
+      $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+      $nucleos = Nucleo::where('Status', 1)->whereIn('id', $coordenadorNucleos)->get();
+      $files = Material::where('status', 1)->whereIn('nucleo_id', $coordenadorNucleos)->paginate(25);
     } elseif ( $user->role === 'professor' ) {
       $nucleos = Nucleo::where('Status', 1)->where('id', $user->professor->id_nucleo)->first();
       $files = Material::where('status', 1)->where('nucleo_id', $user->professor->id_nucleo)->paginate(25);

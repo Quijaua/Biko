@@ -59,7 +59,12 @@ class Nucleo extends Model implements Auditable
 
     public function coordenadores()
     {
-        return $this->hasMany('App\Coordenadores', 'id_nucleo');
+        return $this->belongsToMany(
+            Coordenadores::class,
+            'coordenador_nucleo',
+            'nucleo_id',
+            'coordenador_id'
+        );
     }
 
     public function listas_presenca()
