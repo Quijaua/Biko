@@ -150,16 +150,23 @@
         @auth
             <!-- Botão Hamburguer (visível só em telas pequenas) -->
             <div class="d-lg-none p-2 bg-dark text-white">
-                <button class="btn btn-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar-offcanvas">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
-                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" />
-                        <line x1="4" y1="6" x2="20" y2="6" />
-                        <line x1="4" y1="12" x2="20" y2="12" />
-                        <line x1="4" y1="18" x2="20" y2="18" />
-                    </svg>
-                </button>
+                <div class="row">
+                    <div class="col">
+                        <button class="btn btn-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar-offcanvas">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" />
+                                <line x1="4" y1="6" x2="20" y2="6" />
+                                <line x1="4" y1="12" x2="20" y2="12" />
+                                <line x1="4" y1="18" x2="20" y2="18" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="col">
+                        <h1>@if($app_name != null){{ $app_name }}@else{{ config('app.name') }}@endif</h1>
+                    </div>
+                </div>
             </div>
 
             <!-- Sidebar OFFCANVAS para telas pequenas -->
@@ -550,6 +557,22 @@
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
+                        </li>
+
+                        <li>
+                            <div class="row mt-4">
+                                <div class="col-auto">
+                                    <span class="avatar avatar-sm" style="background-image: url({{ asset('images/user.png') }})"></span>
+                                </div>
+                                <div class="col">
+                                    <div class="sd-none d-xl-block ps-2">
+                                        @auth
+                                        <div>{{ Auth::user()->name }}</div>
+                                        <div class="mt-1 small text-secondary">{{ Auth::user()->role }}</div>
+                                        @endauth
+                                    </div>
+                                </div>
+                            </div>
                         </li>
                     </ul>
                 </div>
