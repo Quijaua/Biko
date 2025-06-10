@@ -16,6 +16,9 @@ class MaterialController extends Controller
   public function index()
   {
     $user = Auth::user();
+    if (!$user) {
+      abort(403, 'Usuário não autenticado.');
+    }
 
     if ( $user->role === 'administrador' ) {
       $nucleos = Nucleo::where('Status', 1)->paginate(25);
@@ -42,7 +45,11 @@ class MaterialController extends Controller
 
   public function create(Request $request)
   {
-    $user_id = Auth::user()->id;
+    $user = Auth::user();
+    if (!$user) {
+      abort(403, 'Usuário não autenticado.');
+    }
+
     $fileName = $request->file->getClientOriginalName();
     $request->file->move(public_path('uploads'), $fileName);
 
@@ -55,7 +62,7 @@ class MaterialController extends Controller
     }
 
     $stored_file = Material::create([
-      'user_id' => $user_id,
+      'user_id' => $user->id,
       'nucleo_id' => $request->nucleo_id,
       'file' => $fileName,
       'status' => 1
@@ -111,6 +118,10 @@ class MaterialController extends Controller
   public function search(Request $request)
   {
     $user = Auth::user();
+    if (!$user) {
+      abort(403, 'Usuário não autenticado.');
+    }
+
     $params = self::getParams($request);
 
     $files = DB::table('materials')
