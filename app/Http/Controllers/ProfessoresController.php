@@ -11,6 +11,7 @@ use Image;
 use Session;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Exports\ProfessoresExport;
+use App\Imports\ProfessoresImport;
 use Maatwebsite\Excel\Facades\Excel;
 use DB;
 
@@ -802,5 +803,61 @@ class ProfessoresController extends Controller
         }
 
         return (new ProfessoresExport($nucleo))->download('professores.xlsx');
+    }
+
+    public function import(Request $request)
+    {
+        // // *** ATENÇÃO: abaixo, para DEBUG, vamos ler TODO o arquivo como array ***
+        // $allRows = Excel::toArray([], $request->file('file'));
+        // // $allRows é um array de sheets; pegamos a primeira sheet:
+        // $sheet = $allRows[0];
+
+        // // Mostra no browser
+        // dd($sheet);
+      
+        // Inicia o importação
+        $user = Auth::user();
+
+        if (!in_array($user->role, ['administrador','coordenador'])) {
+            return back()->with('error', 'Ação não permitida.');
+        }
+
+        // Validação do upload
+        $validator = Validator::make($request->all(), [
+            'file' => 'required|file|mimes:xlsx,xls,csv',
+        ], [
+            'file.required' => 'Por favor, selecione o arquivo para importação.',
+            'file.mimes'    => 'Formato inválido. Envie um arquivo .xlsx, .xls ou .csv.',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator);
+        }
+
+        try {
+            $import = new ProfessoresImport();
+            $import->import($request->file('file'));
+
+            // Agora usamos o contador interno
+            $qtdImportados = $import->getInsertedCount();
+            $erros = $import->failures();
+            $qtdErros = count($erros);
+
+            if ($qtdErros > 0) {
+                $mensagensDeErro = [];
+                foreach ($erros as $failure) {
+                    $mensagensDeErro[] = "Linha {$failure->row()}: " . implode('; ', $failure->errors());
+                }
+                return back()->with([
+                    'success'       => "Importação parcial: {$qtdImportados} registro(s) importado(s); {$qtdErros} linha(s) com erro.",
+                    'import_errors' => $mensagensDeErro,
+                ]);
+            }
+
+            return back()->with('success', "Importação concluída com sucesso: {$qtdImportados} registro(s) importado(s).");
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Ocorreu um erro ao importar: ' . $e->getMessage());
+        }
     }
 }

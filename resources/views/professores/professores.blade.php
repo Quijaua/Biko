@@ -4,23 +4,56 @@
     <div class="container">
         <!-- PAGE HEADER -->
         <div class="container">
+
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                    @if(session('import_errors'))
+                        <ul style="margin-top: 0.5rem;">
+                            @foreach(session('import_errors') as $erro)
+                                <li>{{ $erro }}</li>
+                            @endforeach
+                        </ul>
+                    @endif
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+
             <div class="row">
                 <div class="col-8">
                     <h1 class="text-[34px]">Professores (as)</h1>
                 </div>
                 <div class="col-4  text-center">
-                    @if ($user->role != 'aluno' && $user->role != 'professor')
-                        <a class="btn btn-primary" href="/professores/add"><span><svg xmlns="http://www.w3.org/2000/svg"
-                                    width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                    class="icon icon-tabler icons-tabler-outline icon-tabler-user-plus">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
-                                    <path d="M16 19h6" />
-                                    <path d="M19 16v6" />
-                                    <path d="M6 21v-2a4 4 0 0 1 4 -4h4" />
-                                </svg></span>Adicionar novo professor</a>
-                    @endif
+                    <div class="btn-list flex-nowrap">
+                        @if(in_array($user->role, ['administrador','coordenador']))
+                            <button type="button"
+                                    class="btn btn-warning"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#importProfessoresModal">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-import"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M5 13v-8a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2h-5.5m-9.5 -2h7m-3 -3l3 3l-3 3" /></svg>
+                                Importar Professores
+                            </button>
+                        @endif
+
+                        @if ($user->role != 'aluno' && $user->role != 'professor')
+                            <a class="btn btn-primary" href="/professores/add"><span><svg xmlns="http://www.w3.org/2000/svg"
+                                        width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="icon icon-tabler icons-tabler-outline icon-tabler-user-plus">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+                                        <path d="M16 19h6" />
+                                        <path d="M19 16v6" />
+                                        <path d="M6 21v-2a4 4 0 0 1 4 -4h4" />
+                                    </svg></span>Adicionar novo professor</a>
+                        @endif
+                    </div>
+
                     @if ($user->role === 'coordenador')
                         <a class="btn btn-outline d-none"
                             href="{{ route('professores/export/') }}/?nucleo={{ $nucleo ?? '' }}"><span><svg
@@ -334,4 +367,77 @@
             </div>
         </div>
     </div>
+
+    @if(in_array($user->role, ['administrador','coordenador']))
+        <div class="modal fade" id="importProfessoresModal" tabindex="-1" role="dialog" aria-labelledby="importProfessoresModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Importar Professores</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        {{-- Exiba aqui as mesmas mensagens de erro/validação que podem vir na sessão --}}
+                        @if(session('import_error_modal'))
+                            <div class="alert alert-danger">
+                                {{ session('import_error_modal') }}
+                            </div>
+                        @endif
+
+                        {{-- Informe ao usuário que caso haja falhas, elas aparecerão abaixo do formulário --}}
+                        @if(session('import_errors'))
+                            <div class="alert alert-warning">
+                                <p><strong>Atenção:</strong> Algumas linhas não foram importadas:</p>
+                                <ul>
+                                    @foreach(session('import_errors') as $erroLinha)
+                                        <li>{{ $erroLinha }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                        <form action="{{ route('professores.import') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+
+                            {{-- Input de arquivo --}}
+                            <div class="form-group">
+                                <label for="file_import">Selecione o arquivo (.xlsx, .xls ou .csv):</label>
+                                <input type="file" 
+                                    class="form-control-file @error('file') is-invalid @enderror" 
+                                    name="file" 
+                                    id="file_import" 
+                                    required>
+                                @error('file')
+                                    <span class="invalid-feedback">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            {{-- Botão para fechar modal --}}
+                            <button type="button" class="btn me-auto" data-bs-dismiss="modal">Cancelar</button>
+                            {{-- Botão para submeter importação --}}
+                            <button type="submit" class="btn btn-primary">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-import"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M5 13v-8a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2h-5.5m-9.5 -2h7m-3 -3l3 3l-3 3" /></svg>
+                                Importar
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            // Se houver erros de validação no import, abra automaticamente o modal
+            @if($errors->has('file') || session('import_errors') || session('import_error_modal'))
+                $('#importProfessoresModal').modal('show');
+            @endif
+        });
+    </script>
+@endpush
