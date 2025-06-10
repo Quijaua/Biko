@@ -212,7 +212,7 @@
                                                         </svg></span>Baixar</a>
                                                 @if ($user->role === 'professor' || $user->role === 'administrador' || $user->role === 'coordenador')
                                                     @if (($user->role === 'administrador' && $file->status) || $user->id === $file->user_id)
-                                                        <div class="modal modal-blur fade" id="modalConfirmarExclusao"
+                                                        <div class="modal modal-blur fade" id="modalConfirmarExclusao{{ $file->id }}"
                                                             tabindex="-1" role="dialog" aria-hidden="true">
                                                             <div class="modal-dialog modal-sm modal-dialog-centered"
                                                                 role="document">
@@ -233,7 +233,7 @@
                                                                     <div class="modal-footer">
                                                                         <button type="button" class="btn btn-light"
                                                                             data-bs-dismiss="modal">cancelar</button>
-                                                                        <a href="{{ route('nucleo.material.delete', ['id' => $file->id]) }} "
+                                                                        <a href="{{ route('nucleo.material.delete', ['id' => $file->id]) }}"
                                                                             class="btn btn-danger"
                                                                             id="btnConfirmarExclusao"><span><svg
                                                                                     xmlns="http://www.w3.org/2000/svg"
@@ -255,7 +255,7 @@
                                                             </div>
                                                         </div>
                                                         <a href="#" class="btn btn-outline-danger p-2"
-                                                            data-bs-toggle="modal" data-bs-target="#modalConfirmarExclusao"
+                                                            data-bs-toggle="modal" data-bs-target="#modalConfirmarExclusao{{ $file->id }}"
                                                             data-file-id="{{ $file->id }}">
                                                             Excluir
                                                         </a>
