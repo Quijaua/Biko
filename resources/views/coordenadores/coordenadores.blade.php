@@ -330,11 +330,6 @@
                 </div>
             </div>
         @endif
-        <div class="row" id="coordenadores-links">
-            <div class="col">
-                {{ $coordenadores->links() }}
-            </div>
-        </div>
     </div>
 
 @endsection

@@ -333,10 +333,5 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col">
-                {{ $professores->links() }}
-            </div>
-        </div>
     </div>
 @endsection

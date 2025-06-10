@@ -325,13 +325,6 @@
         </div>
     </div>
 </div>
-<div class="container">
-  <div class="row mt-4">
-    <div class="col">
-      {{ $nucleos->links() }}
-    </div>
-  </div>
-</div>
 </div>
 
  <!-- Modal -->
