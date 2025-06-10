@@ -50,25 +50,25 @@ class MaterialController extends Controller
       abort(403, 'Usuário não autenticado.');
     }
 
-    $fileName = $request->file->getClientOriginalName();
-    $request->file->move(public_path('uploads'), $fileName);
+    if ($request->hasFile('file')) {
+      $file = $request->file('file');
+      $fileName = time() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
+      $file->move(public_path('uploads'), $fileName);
 
-    if(
-      !Schema::hasColumn('materials', 'file')
-    ) {
-      Schema::table('materials', function(Blueprint $table) {
-        $table->string('file')->nullable();
-      });
+      $stored_file = Material::create([
+        'user_id' => $user->id,
+        'nucleo_id' => $request->nucleo_id,
+        'name' => $request->title,
+        'file' => $fileName,
+        'status' => 1
+      ]);
+
+      return back()->with([
+        'success' => "DADOS SALVOS COM SUCESSO."
+      ]);
     }
 
-    $stored_file = Material::create([
-      'user_id' => $user->id,
-      'nucleo_id' => $request->nucleo_id,
-      'file' => $fileName,
-      'status' => 1
-    ]);
-
-    return back();
+    return back()->with('error', 'Nenhum arquivo foi enviado.');
   }
 
   public function edit($id, Request $request) {
@@ -160,5 +160,17 @@ class MaterialController extends Controller
       'status' => $request->input('status'),
       'nucleo' => $request->input('nucleo'),
     ];
+  }
+
+  public function download($id)
+  {
+    $material = Material::findOrFail($id);
+    $filePath = public_path('uploads/' . $material->file);
+
+    if (empty($material->file) || !file_exists($filePath)) {
+      abort(404, 'Arquivo não encontrado.');
+    }
+
+    return response()->download($filePath);
   }
 }

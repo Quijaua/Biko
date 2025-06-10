@@ -19,6 +19,7 @@ class Material extends Model implements Auditable
     'user_id',
     'nucleo_id',
     'name',
+    'file',
     'status',
   ];
 

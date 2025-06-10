@@ -199,7 +199,7 @@
                                             </a>
 
                                                 <a class="btn btn-outline-primary p-2"
-                                                    href="{{ asset('uploads') . '/' . $file->name }}"
+                                                    href="{{ route('material.download', $file->id) }}"
                                                     target="_blank"><span><svg xmlns="http://www.w3.org/2000/svg"
                                                             width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                             stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -345,6 +345,12 @@
                                         <input class="form-control" type="file" name="file" id="file"
                                             required>
                                     </div>
+
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label class="form-label">Título do material</label>
+                                        <input type="text" name="title" class="form-control">
+                                    </div>
+
                                     @if ($user->role === 'administrador')
                                         <div class="col-12 col-md-6 mb-3">
                                             <label class="form-label">Núcleo</label>
