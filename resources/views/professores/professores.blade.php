@@ -32,10 +32,10 @@
                     <div class="btn-list flex-nowrap">
                         @if(in_array($user->role, ['administrador','coordenador']))
                             <button type="button"
-                                    class="btn btn-warning"
+                                    class="btn btn-outline-primary"
                                     data-bs-toggle="modal"
                                     data-bs-target="#importProfessoresModal">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-import"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M5 13v-8a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2h-5.5m-9.5 -2h7m-3 -3l3 3l-3 3" /></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon icon-tabler icons-tabler-outline icon-tabler-edit"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"></path></svg>
                                 Importar Professores
                             </button>
                         @endif
@@ -378,39 +378,53 @@
                     </div>
 
                     <div class="modal-body">
-                        {{-- Exiba aqui as mesmas mensagens de erro/validação que podem vir na sessão --}}
-                        @if(session('import_error_modal'))
-                            <div class="alert alert-danger">
-                                {{ session('import_error_modal') }}
-                            </div>
-                        @endif
 
-                        {{-- Informe ao usuário que caso haja falhas, elas aparecerão abaixo do formulário --}}
-                        @if(session('import_errors'))
-                            <div class="alert alert-warning">
-                                <p><strong>Atenção:</strong> Algumas linhas não foram importadas:</p>
-                                <ul>
-                                    @foreach(session('import_errors') as $erroLinha)
-                                        <li>{{ $erroLinha }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
+                        <div class="mb-4 pb-4 border-bottom">
+                            <h3 class="fs-2 text-blue">Planilha Modelo</h3>
+                            <p>Clique no botão abaixo para baixar a planilha modelo.</p>
+                            <a href="/dist/planilhas/professores_template.xlsx" class="btn btn-secondary">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="800px" width="800px" version="1.1" id="Capa_1" class="icon icon-tabler icons-tabler-outline icon-tabler-edit" viewBox="0 0 490 490" xml:space="preserve" fill="#fff"><g><path d="M108.862,372.031l10.871-18.109c2.437-4.007,4.606-7.821,6.52-11.439l1.6-2.976h0.224l1.6,2.931l1.54,2.976   c1.51,2.871,3.095,5.712,4.755,8.509l10.826,18.109h16.778l-24.135-38.879l22.64-36.487h-16.898l-10.049,16.838   c-1.764,2.946-3.23,5.563-4.411,7.836l-1.376,2.602c-0.299,0.583-0.763,1.466-1.391,2.647h-0.209l-1.391-2.647l-1.376-2.662   c-1.406-2.572-2.886-5.189-4.471-7.836l-10.049-16.778H93.4l22.969,36.487l-24.733,38.879H108.862z"/><polygon points="219.459,359.216 184.124,359.216 184.124,296.665 169.813,296.665 169.813,372.031 219.459,372.031  "/><path d="M255.408,361.204c-8.21,0-13.234-0.583-15.073-1.764c-1.839-1.181-2.766-4.396-2.766-9.66l-0.045-1.6h-13.922l0.06,2.751   c0,8.763,1.944,14.58,5.817,17.451c3.888,2.871,11.754,4.307,23.612,4.307c13.174,0,21.698-1.466,25.571-4.381   c3.858-2.931,5.802-9.406,5.802-19.41c0-8.135-1.66-13.488-4.95-16.075c-3.29-2.572-10.557-4.172-21.787-4.8   c-9.495-0.508-15.088-1.256-16.778-2.213c-1.705-0.957-2.542-3.813-2.542-8.553c0-4.008,1.032-6.639,3.11-7.895   c2.079-1.256,6.505-1.884,13.279-1.884c5.757,0,9.406,0.553,10.946,1.63c1.54,1.092,2.482,3.753,2.811,7.985   c0,0.329,0.045,0.837,0.12,1.54h13.967v-2.871c0-7.806-1.974-13.04-5.907-15.731c-3.948-2.692-11.574-4.038-22.924-4.038   c-11.963,0-19.948,1.466-23.941,4.396c-3.993,2.916-5.981,8.793-5.981,17.585c0,8.613,1.645,14.221,4.965,16.838   c3.305,2.617,10.931,4.277,22.864,4.965l7.896,0.508c4.456,0.254,7.357,0.987,8.703,2.183c1.331,1.196,2.004,3.604,2.004,7.253   c0,4.935-0.882,8.09-2.647,9.451C265.905,360.532,261.808,361.204,255.408,361.204z"/><path d="M304.665,372.031l10.871-18.109c2.437-4.007,4.606-7.821,6.52-11.439l1.6-2.976h0.224l1.6,2.931l1.54,2.976   c1.51,2.871,3.095,5.712,4.755,8.509l10.826,18.109h16.778l-24.12-38.879l22.64-36.487h-16.898l-10.049,16.838   c-1.78,2.946-3.245,5.563-4.426,7.836l-1.376,2.602c-0.299,0.583-0.763,1.466-1.376,2.647h-0.224l-1.376-2.647l-1.391-2.662   c-1.391-2.572-2.886-5.189-4.471-7.836l-10.049-16.778h-17.062l22.969,36.487l-24.733,38.879H304.665z"/><path d="M77.788,0v265.111H42.189v139.615h0.001l35.59,35.591L77.788,490h370.023V102.422L345.388,0H77.788z M395.793,389.413   H57.501v-108.99h338.292V389.413z M353.022,36.962l57.816,57.804h-57.816V36.962z"/></g></svg>
+                                Baixar Planilha Modelo
+                            </a>
+                        </div>
 
-                        <form action="{{ route('professores.import') }}" method="POST" enctype="multipart/form-data">
-                            @csrf
+                        <div>
+                            <h3 class="fs-2 text-blue">Importar Professores</h3>
 
-                            {{-- Input de arquivo --}}
-                            <div class="form-group">
-                                <label for="file_import">Selecione o arquivo (.xlsx, .xls ou .csv):</label>
-                                <input type="file" 
-                                    class="form-control-file @error('file') is-invalid @enderror" 
-                                    name="file" 
-                                    id="file_import" 
-                                    required>
-                                @error('file')
-                                    <span class="invalid-feedback">{{ $message }}</span>
-                                @enderror
+                            {{-- Exiba aqui as mesmas mensagens de erro/validação que podem vir na sessão --}}
+                            @if(session('import_error_modal'))
+                                <div class="alert alert-danger">
+                                    {{ session('import_error_modal') }}
+                                </div>
+                            @endif
+
+                            {{-- Informe ao usuário que caso haja falhas, elas aparecerão abaixo do formulário --}}
+                            @if(session('import_errors'))
+                                <div class="alert alert-warning">
+                                    <p><strong>Atenção:</strong> Algumas linhas não foram importadas:</p>
+                                    <ul>
+                                        @foreach(session('import_errors') as $erroLinha)
+                                            <li>{{ $erroLinha }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+                            <form action="{{ route('professores.import') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+
+                                {{-- Input de arquivo --}}
+                                <div class="form-group">
+                                    <label for="file_import">Selecione o arquivo (.xlsx, .xls ou .csv):</label>
+                                    <input type="file" 
+                                        class="form-control-file @error('file') is-invalid @enderror" 
+                                        name="file" 
+                                        id="file_import" 
+                                        required>
+                                    @error('file')
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                </div>
                             </div>
                         </div>
 
@@ -419,7 +433,7 @@
                             <button type="button" class="btn me-auto" data-bs-dismiss="modal">Cancelar</button>
                             {{-- Botão para submeter importação --}}
                             <button type="submit" class="btn btn-primary">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-import"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M5 13v-8a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2h-5.5m-9.5 -2h7m-3 -3l3 3l-3 3" /></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon icon-tabler icons-tabler-outline icon-tabler-edit"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"></path></svg>
                                 Importar
                             </button>
                         </form>
