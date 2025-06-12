@@ -95,6 +95,17 @@ class ProfessoresImport implements ToModel, WithHeadingRow, WithValidation, Skip
 
         $this->insertedCount++;
 
+        $motivoPrincipal = '';
+        if (!empty($row['profissao'])) {
+            $motivoPrincipal .= 'Profissão: ' . $row['profissao'];
+        }
+        if (!empty($row['nucleo'])) {
+            $motivoPrincipal .= ' - Núcleo: ' . $row['nucleo'];
+        }
+        if (!empty($row['disciplina'])) {
+            $motivoPrincipal .= ' - Disciplina: ' . $row['disciplina'];
+        }
+
         // 4. Criar o registro em `professores`
         return new Professores([
             'id_user'      => $user->id,
@@ -144,7 +155,7 @@ class ProfessoresImport implements ToModel, WithHeadingRow, WithValidation, Skip
             'ProjetosFuncao'     => null,
             'ComoSoube'          => null,
             'ComoSoubeOutros'    => null,
-            'MotivoPrincipal'    => null,
+            'MotivoPrincipal'    => $motivoPrincipal,
             'EnsinoSuperior'     => null,
             'InstituicaoSuperior'=> null,
             'CursoSuperior1'     => null,

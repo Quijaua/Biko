@@ -415,9 +415,9 @@
 
                                 {{-- Input de arquivo --}}
                                 <div class="form-group">
-                                    <label for="file_import">Selecione o arquivo (.xlsx, .xls ou .csv):</label>
+                                    <p>Anexe abaixo sua planilha em .xlsx, .xls ou .csv.</p>
                                     <input type="file" 
-                                        class="form-control-file @error('file') is-invalid @enderror" 
+                                        class="form-control @error('file') is-invalid @enderror" 
                                         name="file" 
                                         id="file_import" 
                                         required>
