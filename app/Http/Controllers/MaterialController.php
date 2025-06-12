@@ -22,7 +22,7 @@ class MaterialController extends Controller
 
     if ( $user->role === 'administrador' ) {
       $nucleos = Nucleo::where('Status', 1)->paginate(25);
-      $files = Material::withTrashed()->paginate(25);
+      $files = Material::paginate(25);
     } elseif ( $user->role === 'coordenador' ) {
       $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
       $nucleos = Nucleo::where('Status', 1)->whereIn('id', $coordenadorNucleos)->get();
@@ -93,26 +93,47 @@ class MaterialController extends Controller
     ]);
   }
 
-  public function delete($id)
+  public function inactive($id)
   {
     $file = Material::find($id);
+
+    if (!$file) {
+      return redirect()->route('nucleo.material')->with('error', 'Material não encontrado.');
+    }
 
     $file->update([
       'status' => 0
     ]);
 
-    $file->delete($file);
-
-    return back();
+    return redirect()->route('nucleo.material')->with('success', 'Material desativado com sucesso.');
   }
 
   public function restore($id)
   {
-    $file = Material::withTrashed()->find($id);
-    $file->status = 1;
-    $file->restore();
+    $material = Material::findOrFail($id);
 
-    return back();
+    $material->update(['status' => 1]);
+
+    return redirect()->route('nucleo.material')->with('success', 'Material restaurado com sucesso.');
+  }
+
+  public function delete($id)
+  {
+    $file = Material::find($id);
+
+    if (!$file) {
+      return redirect()->route('nucleo.material')->with('error', 'Material não encontrado.');
+    }
+
+    $filePath = public_path('uploads/' . $file->file);
+
+    if (!empty($file->file) && file_exists($filePath)) {
+      unlink($filePath);
+    }
+
+    $file->delete();
+
+    return redirect()->route('nucleo.material')->with('success', 'Material e arquivo excluídos com sucesso.');
   }
 
   public function search(Request $request)

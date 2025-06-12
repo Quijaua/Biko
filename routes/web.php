@@ -122,8 +122,9 @@ Route::any('nucleo/presences/search', 'NucleoController@search_presences');
 
 Route::get('nucleo/material', 'MaterialController@index')->middleware('auth')->name('nucleo.material');
 Route::post('nucleo/material/create', 'MaterialController@create')->middleware('auth')->name('nucleo.material.create');
-Route::get('nucleo/material/delete/{id}', 'MaterialController@delete')->middleware('auth')->name('nucleo.material.delete');
+Route::get('nucleo/material/inactive/{id}', 'MaterialController@inactive')->middleware('auth')->name('nucleo.material.inactive');
 Route::get('nucleo/material/restore/{id}', 'MaterialController@restore')->middleware('auth')->name('nucleo.material.restore');
+Route::delete('nucleo/material/delete/{id}', 'MaterialController@delete')->middleware('auth')->name('nucleo.material.delete');
 Route::get('nucleo/material/search', 'MaterialController@search');
 Route::put('nucleo/material/edit/{id}', 'MaterialController@edit')->middleware(['auth', 'permissions'])->name('material.edit');
 Route::get('nucleo/material/download/{id}', 'MaterialController@download')->middleware(['auth', 'permissions'])->name('material.download');

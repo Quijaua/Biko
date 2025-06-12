@@ -211,58 +211,91 @@
                                                             <path d="M12 4l0 12" />
                                                         </svg></span>Baixar</a>
                                                 @if ($user->role === 'professor' || $user->role === 'administrador' || $user->role === 'coordenador')
-                                                    @if (($user->role === 'administrador' && $file->status) || $user->id === $file->user_id)
-                                                        <div class="modal modal-blur fade" id="modalConfirmarExclusao{{ $file->id }}"
+                                                    @if (($user->role === 'administrador' && $file->status == 1))
+                                                        <div class="modal modal-blur fade" id="modalConfirmarInativar{{ $file->id }}"
                                                             tabindex="-1" role="dialog" aria-hidden="true">
                                                             <div class="modal-dialog modal-sm modal-dialog-centered"
                                                                 role="document">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                        <h5 class="modal-title text-danger">Excluir Material
+                                                                        <h5 class="modal-title text-danger">Inativar Material
                                                                         </h5>
                                                                         <button type="button" class="btn-close"
                                                                             data-bs-dismiss="modal"
                                                                             aria-label="Fechar"></button>
                                                                     </div>
                                                                     <div class="modal-body text-center">
-                                                                        <p class="mb-0">Deseja excluir este material?
-                                                                            Esta ação não podera ser desfeita após a
-                                                                            confirmação.</p>
+                                                                        <p class="mb-0">Deseja inativar este material?</p>
                                                                     </div>
 
                                                                     <div class="modal-footer">
                                                                         <button type="button" class="btn btn-light"
-                                                                            data-bs-dismiss="modal">cancelar</button>
-                                                                        <a href="{{ route('nucleo.material.delete', ['id' => $file->id]) }}"
+                                                                            data-bs-dismiss="modal">Cancelar</button>
+                                                                        <a href="{{ route('nucleo.material.inactive', ['id' => $file->id]) }}"
                                                                             class="btn btn-danger"
-                                                                            id="btnConfirmarExclusao"><span><svg
-                                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                                    width="24" height="24"
-                                                                                    viewBox="0 0 24 24" fill="none"
-                                                                                    stroke="currentColor" stroke-width="2"
-                                                                                    stroke-linecap="round"
-                                                                                    stroke-linejoin="round"
-                                                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-xbox-x">
-                                                                                    <path stroke="none" d="M0 0h24v24H0z"
-                                                                                        fill="none" />
-                                                                                    <path
-                                                                                        d="M12 21a9 9 0 0 0 9 -9a9 9 0 0 0 -9 -9a9 9 0 0 0 -9 9a9 9 0 0 0 9 9z" />
-                                                                                    <path d="M9 8l6 8" />
-                                                                                    <path d="M15 8l-6 8" />
-                                                                                </svg></span> excluir</a>
+                                                                            id="btnConfirmarInativar">
+                                                                            Inativar
+                                                                        </a>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <a href="#" class="btn btn-outline-danger p-2"
-                                                            data-bs-toggle="modal" data-bs-target="#modalConfirmarExclusao{{ $file->id }}"
+                                                            data-bs-toggle="modal" data-bs-target="#modalConfirmarInativar{{ $file->id }}"
                                                             data-file-id="{{ $file->id }}">
-                                                            Excluir
+                                                            Inativar
                                                         </a>
-                                                    @elseif($user->role === 'administrador' && !$file->status)
-                                                        <a class="btn  btn-outline-warning p-2"
+                                                    @elseif($user->role === 'administrador' && $file->status == 0)
+                                                        <a class="btn btn-outline-warning p-2"
                                                             href="{{ route('nucleo.material.restore', ['id' => $file->id]) }}">Restaurar</a>
                                                     @endif
+                                                    <div class="modal modal-blur fade" id="modalConfirmarExclusao{{ $file->id }}"
+                                                        tabindex="-1" role="dialog" aria-hidden="true">
+                                                        <div class="modal-dialog modal-sm modal-dialog-centered"
+                                                            role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title text-danger">Excluir Material
+                                                                    </h5>
+                                                                    <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal"
+                                                                        aria-label="Fechar"></button>
+                                                                </div>
+                                                                <div class="modal-body text-center">
+                                                                    <p class="mb-0">Deseja excluir este material?
+                                                                        Esta ação não podera ser desfeita após a
+                                                                        confirmação.</p>
+                                                                </div>
+
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-light"
+                                                                        data-bs-dismiss="modal">Cancelar</button>
+                                                                    <form action="{{ route('nucleo.material.delete', ['id' => $file->id]) }}" method="POST">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button type="submit" class="btn btn-danger">
+                                                                            <span>
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-xbox-x">
+                                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                                                    <path d="M12 21a9 9 0 0 0 9 -9a9 9 0 0 0 -9 -9a9 9 0 0 0 -9 9a9 9 0 0 0 9 9z"/>
+                                                                                    <path d="M9 8l6 8"/>
+                                                                                    <path d="M15 8l-6 8"/>
+                                                                                </svg>
+                                                                            </span>
+                                                                            Excluir
+                                                                        </button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <a href="#" class="btn btn-danger p-2"
+                                                        data-bs-toggle="modal" data-bs-target="#modalConfirmarExclusao{{ $file->id }}">
+                                                        Excluir
+                                                    </a>
                                                 @endif
 
                                             </td>
