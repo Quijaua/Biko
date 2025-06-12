@@ -98,7 +98,7 @@ class ProfessoresImport implements ToModel, WithHeadingRow, WithValidation, Skip
         // 4. Criar o registro em `professores`
         return new Professores([
             'id_user'      => $user->id,
-            'Status'       => 1,
+            'Status'       => 0,
             'NomeProfessor'=> $row['nome'],
             'Nascimento'   => $nascimento,
             'NomeSocial'   => null,
