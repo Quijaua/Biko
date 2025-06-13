@@ -25,11 +25,11 @@
             @endif
 
             <div class="row">
-                <div class="col-8">
-                    <h1 class="text-[34px]">Professores (as)</h1>
+                <div class="col-12 col-md-6">
+                    <h1 class="fs-1">Professores (as)</h1>
                 </div>
-                <div class="col-4  text-center">
-                    <div class="btn-list flex-nowrap">
+                <div class="col-12 col-md-6 text-end">
+                    <div class="btn-list flex-nowrap justify-content-end">
                         @if(in_array($user->role, ['administrador','coordenador']))
                             <button type="button"
                                     class="btn btn-outline-primary"
@@ -111,7 +111,7 @@
                         </div>
 
                         {{-- Núcleo --}}
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <select class="form-select" id="nucleo" name="nucleo">
                                 <option value="" @selected(request('nucleo') == '')>Núcleo</option>
                                 @foreach (\App\Nucleo::all() as $nuc)
@@ -132,7 +132,7 @@
                         </div>
 
                         {{-- Botões --}}
-                        <div class="col-md-5 d-flex gap-2">
+                        <div class="col-md-4 d-flex gap-2">
                             <a class="btn btn-light w-100" id="limparFiltros">
                                 <span>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -206,7 +206,7 @@
                                                 <th class="text-nowrap text-black py-3"></th>
                                                 <th class="text-nowrap text-black py-3">Foto</th>
                                                 <th class="text-nowrap text-black py-3">Nome</th>
-                                                <th class="text-nowrap text-black py-3">CPF</th>
+                                                <!-- <th class="text-nowrap text-black py-3">CPF</th> -->
                                                 <th class="text-nowrap text-black py-3">Novo Voluntário</th>
                                                 <th class="text-nowrap text-black py-3">Situação</th>
                                                 <th class="text-nowrap text-black py-3">Ações</th>
@@ -232,7 +232,7 @@
                                                         <td class="text-secondary">{{ $professor->NomeSocial }}</td>
                                                     @endif
                                                     {{-- CPF --}}
-                                                    <td>{{ $professor->CPF }}</td>
+                                                    {{-- <td>{{ $professor->CPF }}</td> --}}
 
                                                     <td>{{ $professor->nucleo->NomeNucleo ?? '' }}</td>
 
