@@ -77,7 +77,12 @@ class NucleoController extends Controller
     {
       $dados = Nucleo::find($id);
       $dados->disciplinas = json_decode($dados->disciplinas);
-      $representantes = $dados->coordenadores()->where('id_nucleo', $id)->where('RepresentanteCGU', 'sim')->get('NomeCoordenador');
+
+      $representantes = $dados->coordenadores()
+        ->wherePivot('nucleo_id', $id)
+        ->where('RepresentanteCGU', 'sim')
+        ->get(['NomeCoordenador']);
+
       $disciplinas = Disciplina::all();
 
       return view('nucleos.nucleosEdit')->with([
@@ -223,12 +228,11 @@ class NucleoController extends Controller
     {
       $dados = Nucleo::find($id);
       $dados->disciplinas = json_decode($dados->disciplinas);
-      $representantes = $dados->coordenadores()->where('id_nucleo', $id)->where('RepresentanteCGU', 'sim')->get('NomeCoordenador');
-      //$disciplinas = $dados->professores()->where('id_nucleo', $id)->where('Status', 1)->get('Disciplinas');
 
-      /*if($disciplinas->isEmpty()){
-        $disciplinas[] = null;
-      }*/
+      $representantes = $dados->coordenadores()
+        ->wherePivot('nucleo_id', $id)
+        ->where('RepresentanteCGU', 'sim')
+        ->get(['NomeCoordenador']);
 
       return view('nucleos.nucleosDetails')->with([
         'dados' => $dados,
