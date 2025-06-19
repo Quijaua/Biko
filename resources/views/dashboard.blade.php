@@ -43,6 +43,7 @@
         $faixas = DB::select("SELECT t.age_group, COUNT(*) AS age_count FROM ( SELECT CASE WHEN TIMESTAMPDIFF(YEAR, Nascimento, CURDATE()) BETWEEN 20 AND 25 THEN '20-25' WHEN TIMESTAMPDIFF(YEAR, Nascimento, CURDATE()) BETWEEN 26 AND 35 THEN '26-35'  WHEN TIMESTAMPDIFF(YEAR, Nascimento, CURDATE()) BETWEEN 36 AND 45 THEN '36-45' WHEN TIMESTAMPDIFF(YEAR, Nascimento, CURDATE()) BETWEEN 46 AND 55 THEN '46-55' WHEN TIMESTAMPDIFF(YEAR, Nascimento, CURDATE()) > 55 THEN '46-55' ELSE 'Outros' END AS age_group FROM alunos ) t GROUP BY t.age_group");
         $curso1s = DB::select('select count(*) as qtd, IF(OpcoesVestibular1 IS NULL or OpcoesVestibular1 = "", "Outros", OpcoesVestibular1) as OpcoesVestibular1 from alunos group by OpcoesVestibular1');
         $curso2s = DB::select('select count(*) as qtd, IF(OpcoesVestibular2 IS NULL or OpcoesVestibular2 = "", "Outros", OpcoesVestibular2) as OpcoesVestibular2 from alunos group by OpcoesVestibular2');
+        $ufsNucleo1 = DB::select("SELECT IF(Estado IS NULL OR Estado = '', 'Não informado', Estado) AS uf, COUNT(*) AS qtd FROM alunos WHERE id_nucleo = 1 GROUP BY uf ORDER BY qtd DESC");
         $pornucleos = DB::select('select count(*) as qtd, NomeNucleo from alunos group by NomeNucleo order by qtd');
         $ecivis = DB::select('select count(*) as qtd, IF(EstadoCivil IS NULL or EstadoCivil = "", "Outros", EstadoCivil) as ecivil from alunos group by ecivil');
         $escolas = DB::select('SELECT CASE WHEN EnsFundamental = "[\"particular sem bolsa\"]" THEN "Particular sem bolsa" WHEN EnsFundamental = "[\"rede publica\",\"particular sem bolsa\"]" THEN "Rede pública e particular sem bolsa" WHEN EnsFundamental = "[\"rede publica\"]" THEN "Rede Pública" ELSE "Outros" END AS EnsFundamental, COUNT(*) AS qtd FROM alunos GROUP BY EnsFundamental');
@@ -238,7 +239,7 @@
           <div class="card">
             <div class="card-body">
               <h3 class="card-title">Por mês</h3>
-              <div id="chart-mes" style="height: 400px;"></div>
+              <div id="chart-mes"></div>
             </div>
           </div>
         </div>
@@ -268,7 +269,7 @@
                 chart: {
                   type: "bar",
                   fontFamily: 'inherit',
-                  height: 500,
+                  height: 320,
                   parentHeightOffset: 0,
                   toolbar: { show: false },
                   animations: { enabled: false }
@@ -310,6 +311,68 @@
         </script>
 
         <div class="col-lg-12 col-xl-7">
+          <div class="card">
+            <div class="card-body">
+              <h3 class="card-title">Estudantes do Núcleo Principal por Estado</h3>
+              <div id="chart-uf-nucleo1"></div>
+            </div>
+          </div>
+        </div>
+
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            // Estudantes por UF (Núcleo 1)
+            const ufLabels = [
+              <?php foreach ($ufsNucleo1 as $uf): ?>"<?= addslashes($uf->uf ?: 'Não informado') ?>",<?php endforeach; ?>
+            ];
+            const ufData = [
+              <?php foreach ($ufsNucleo1 as $uf): ?><?= $uf->qtd ?>,<?php endforeach; ?>
+            ];
+
+            new ApexCharts(document.getElementById('chart-uf-nucleo1'), {
+              chart: {
+                type: "bar",
+                fontFamily: 'inherit',
+                height: 320,
+                parentHeightOffset: 0,
+                toolbar: { show: false },
+                animations: { enabled: false }
+              },
+              plotOptions: {
+                bar: {
+                  horizontal: true,
+                  barHeight: '50%'
+                }
+              },
+              dataLabels: { enabled: false },
+              fill: { opacity: 1 },
+              series: [{
+                name: "Estudantes",
+                data: ufData
+              }],
+              tooltip: { theme: 'dark' },
+              grid: {
+                padding: { top: -20, right: 0, left: -4, bottom: -4 },
+                strokeDashArray: 4
+              },
+              xaxis: {
+                categories: ufLabels,
+                labels: {
+                  style: { fontSize: '12px' },
+                  maxHeight: 120
+                },
+                axisBorder: { show: false }
+              },
+              yaxis: {
+                labels: { padding: 4 }
+              },
+              colors: [ tabler.getColor("blue") ],
+              legend: { show: false }
+            }).render();
+          });
+        </script>
+
+        <div class="col-lg-12 col-xl-12">
           <div class="card">
             <div class="card-body">
               <h3 class="card-title">Alunos por núcleo</h3>
