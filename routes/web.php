@@ -37,6 +37,28 @@ Route::middleware(['auth'])->group(function () {
       return view('dashboard');
   })->name('dashboard');
 
+  Route::get('/dashboard/cadastros-json/{dias}', function ($dias) {
+    if ($dias === 'all') {
+        $dados = DB::select("
+            SELECT COUNT(*) as count, DATE_FORMAT(created_at,'%Y-%m-%d') as date 
+            FROM users 
+            GROUP BY date
+            ORDER BY date ASC
+        ");
+    } else {
+        $dias = intval($dias);
+        $dados = DB::select("
+            SELECT COUNT(*) as count, DATE_FORMAT(created_at,'%Y-%m-%d') as date 
+            FROM users 
+            WHERE created_at >= CURDATE() - INTERVAL ? DAY 
+            GROUP BY date
+            ORDER BY date ASC
+        ", [$dias]);
+    }
+
+    return response()->json($dados);
+  });
+
   Route::post('change_default_password', 'Auth\FirstLoginController@changePassword')->name('change_default_password');
   Route::get('default_username', 'Auth\FirstLoginController@username')->name('default_username');
   Route::post('change_default_username', 'Auth\FirstLoginController@changeUsername')->name('change_default_username');
