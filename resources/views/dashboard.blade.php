@@ -29,9 +29,9 @@
       @php
         $cadastros = DB::select('select count(*) as qtd, DATE_FORMAT(created_at,"%Y-%m-%d") as dia FROM users GROUP BY dia');
         $meses = DB::select('select count(*) as qtd, DATE_FORMAT(created_at,"%Y-%m") as mes FROM users GROUP BY mes');
-        $racas = DB::select('select count(*) as qtd, IF(Raca IS NULL or Raca = "", "Outros", Raca) as raca FROM alunos GROUP BY raca');
-        $generos = DB::select('select count(*) as qtd, IF(Genero IS NULL or Genero = "", "Outros", Genero) as genero FROM alunos GROUP BY genero');
-        $soubes = DB::select('select count(*) as qtd, IF(ComoSoube IS NULL or ComoSoube = "", "Outros", ComoSoube) as csoube from alunos group by csoube');
+        $racas = DB::select('select count(*) as qtd, IF(Raca IS NULL or Raca = "" or Raca = "Selecione", "Outros", Raca) as raca FROM alunos GROUP BY raca');
+        $generos = DB::select('select count(*) as qtd, IF(Genero IS NULL or Genero = "" or Genero = "Selecione", "Outros", Genero) as genero FROM alunos GROUP BY genero');
+        $soubes = DB::select('select count(*) as qtd, IF(ComoSoube IS NULL or ComoSoube = "" or ComoSoube = "Selecione", "Outros", ComoSoube) as csoube from alunos group by csoube');
         $alunos = DB::table('alunos')->count();
         $alunos0 = DB::table('alunos')->where('Status', '0')->count();
         $alunos1 = DB::table('alunos')->where('Status', '1')->count();
@@ -43,9 +43,9 @@
         $faixas = DB::select("SELECT t.age_group, COUNT(*) AS age_count FROM ( SELECT CASE WHEN TIMESTAMPDIFF(YEAR, Nascimento, CURDATE()) BETWEEN 20 AND 25 THEN '20-25' WHEN TIMESTAMPDIFF(YEAR, Nascimento, CURDATE()) BETWEEN 26 AND 35 THEN '26-35'  WHEN TIMESTAMPDIFF(YEAR, Nascimento, CURDATE()) BETWEEN 36 AND 45 THEN '36-45' WHEN TIMESTAMPDIFF(YEAR, Nascimento, CURDATE()) BETWEEN 46 AND 55 THEN '46-55' WHEN TIMESTAMPDIFF(YEAR, Nascimento, CURDATE()) > 55 THEN '46-55' ELSE 'Outros' END AS age_group FROM alunos ) t GROUP BY t.age_group");
         $curso1s = DB::select('select count(*) as qtd, IF(OpcoesVestibular1 IS NULL or OpcoesVestibular1 = "", "Outros", OpcoesVestibular1) as OpcoesVestibular1 from alunos group by OpcoesVestibular1');
         $curso2s = DB::select('select count(*) as qtd, IF(OpcoesVestibular2 IS NULL or OpcoesVestibular2 = "", "Outros", OpcoesVestibular2) as OpcoesVestibular2 from alunos group by OpcoesVestibular2');
-        $ufsNucleo1 = DB::select("SELECT IF(Estado IS NULL OR Estado = '', 'Não informado', Estado) AS uf, COUNT(*) AS qtd FROM alunos WHERE id_nucleo = 1 GROUP BY uf ORDER BY qtd DESC");
+        $ufsNucleo1 = DB::select('SELECT IF(Estado IS NULL OR Estado = "" or Estado = "Selecione", "Não informado", Estado) AS uf, COUNT(*) AS qtd FROM alunos WHERE id_nucleo = 1 GROUP BY uf ORDER BY qtd DESC');
         $pornucleos = DB::select('select count(*) as qtd, NomeNucleo from alunos group by NomeNucleo order by qtd');
-        $ecivis = DB::select('select count(*) as qtd, IF(EstadoCivil IS NULL or EstadoCivil = "", "Outros", EstadoCivil) as ecivil from alunos group by ecivil');
+        $ecivis = DB::select('select count(*) as qtd, IF(EstadoCivil IS NULL or EstadoCivil = "" or EstadoCivil = "Selecione", "Outros", EstadoCivil) as ecivil from alunos group by ecivil');
         $escolas = DB::select('SELECT CASE WHEN EnsFundamental = "[\"particular sem bolsa\"]" THEN "Particular sem bolsa" WHEN EnsFundamental = "[\"rede publica\",\"particular sem bolsa\"]" THEN "Rede pública e particular sem bolsa" WHEN EnsFundamental = "[\"rede publica\"]" THEN "Rede Pública" ELSE "Outros" END AS EnsFundamental, COUNT(*) AS qtd FROM alunos GROUP BY EnsFundamental');
       @endphp
 
@@ -313,7 +313,7 @@
         <div class="col-lg-12 col-xl-7">
           <div class="card">
             <div class="card-body">
-              <h3 class="card-title">Estudantes do Núcleo Principal por Estado</h3>
+              <h3 class="card-title">Estudantes do Núcleo Virtual por Estado</h3>
               <div id="chart-uf-nucleo1"></div>
             </div>
           </div>
@@ -511,6 +511,10 @@
 
           // Função única de tradução de labels
           function traduzirLabel(tipo, valor) {
+            if (valor.toLowerCase() === 'Selecione') {
+              return 'Outros';
+            }
+
             const mapas = {
               raca: {
                 negra: 'Preta',
@@ -542,6 +546,7 @@
                 Selecione: 'Selecione'
               }
             };
+
             return (mapas[tipo] && mapas[tipo][valor]) ||
               (valor.charAt(0).toUpperCase() + valor.slice(1).replace(/_/g, ' '));
           }
