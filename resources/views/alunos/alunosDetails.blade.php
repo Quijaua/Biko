@@ -23,8 +23,10 @@
                     <div class="nav flex-column nav-pills p-4" id="form-tabs" role="tablist" aria-orientation="vertical">
                         <a class="nav-link active" id="tab-pessoal" data-bs-toggle="pill" href="#pessoal" role="tab">
                             Dados Pessoais</a>
+                        @if($user->role === 'administrador' || $user->role === 'coordenador')
                         <a class="nav-link" id="tab-endereco" data-bs-toggle="pill" href="#endereco" role="tab">
                             Endereço</a>
+                        @endif
                         <a class="nav-link" id="tab-profissionais" data-bs-toggle="pill" href="#profissionais"
                             role="tab"> Dados Profissionais</a>
                         <a class="nav-link" id="tab-academicos" data-bs-toggle="pill" href="#academicos" role="tab">
@@ -53,10 +55,12 @@
                                 <a class="btn btn-outline-primary" href="javascript:window.print()"><i
                                         class="me-2 fas fa-print"></i> Imprimir</a>
                             </div>
+                            @if($user->role === 'administrador' || $user->role === 'coordenador')
                             <div>
                                 <a class="btn btn-primary" href="/alunos/edit/{{ $dados->id }}"><i
                                         class="me-2 fas fa-user-edit"></i> Editar Dados</a>
                             </div>
+                            @endif
                         </div>
                     </div>
                     @if (\Session::has('success'))

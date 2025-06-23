@@ -50,21 +50,31 @@
                                 <i class="fas {{ $mensagemAluno->is_visualizado ? 'fa-envelope-open' : 'fa-envelope' }}"></i>
 
                             </td>
-                            <th width="55%" scope="row">
+                            <th width="35%" scope="row">
                                 <a href="{{ route('messages.show', $mensagemAluno->mensagem->id) }}">
                                     {{ $mensagemAluno->mensagem->titulo }}
                                 </a>
                             </th>
                             <td>
+                                Enviado por: {{ $mensagemAluno->mensagem->remetente->name }}
+                            </td>
+                            <td>
                                 {{ \Carbon\Carbon::parse($mensagemAluno->mensagem->created_at)->format('d/m/Y h:i') }}
                             </td>
                             <td>
+                                @if (!$mensagemAluno->is_visualizado)
                                 <a
                                     href="{{ route('messages.show', $mensagemAluno->mensagem->id) }}"
                                     class="btn btn-sm btn-success"
                                 >
                                     Visualizar
                                 </a>
+                                @else
+                                <div class="badge text-bg-info">
+                                    Visualizado
+                                </div>
+                                @endif
+
 
                                 <form action="{{ route('messages.destroy', $mensagemAluno->mensagem->id) }}"
                                       method="POST">

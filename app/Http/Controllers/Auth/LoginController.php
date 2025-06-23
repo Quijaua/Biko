@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Config;
 use Session;
 
 use App\Http\Repository\HcaptchaRepository;
@@ -63,7 +64,23 @@ class LoginController extends Controller
     {
         $credentials = self::validator($request->all())->validate();
 
-        if (Auth::attempt($credentials)) {
+        $remember = $request->has('remember');
+        $rememberDuration = 1440;
+
+        if (Auth::attempt($credentials, $remember)) {
+            if ($remember) {
+                $request->session()->regenerate();
+                $request->session()->put(Auth::getName(), Auth::user()->getAuthIdentifier());
+
+                $cookie = cookie(
+                    Auth::getRecallerName(),
+                    Auth::user()->getAuthIdentifier().'|'.Auth::user()->getRememberToken().'|'.Auth::user()->getAuthPassword(),
+                    $rememberDuration / 1440
+                );
+
+                return redirect()->intended('home')->withCookie($cookie);
+            }
+
             $request->session()->regenerate();
             Session::put('role', Auth::user()->role);
 

@@ -11,6 +11,7 @@ use Image;
 use Session;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Exports\ProfessoresExport;
+use App\Imports\ProfessoresImport;
 use Maatwebsite\Excel\Facades\Excel;
 use DB;
 
@@ -43,7 +44,7 @@ class ProfessoresController extends Controller
         //$professores = Professores::get();
         $professores = Professores::paginate(25);
 
-        return view('professores')->with([
+        return view('professores.professores')->with([
           'professores' => $professores,
             'user' => $user,
         ]);
@@ -51,10 +52,11 @@ class ProfessoresController extends Controller
 
       if($user->role === 'coordenador'){
         $me = Coordenadores::where('id_user', $user->id)->first();
+        $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
         //$professores = Professores::where('id_nucleo', $me->id_nucleo)->get();
-        $professores = Professores::where('id_nucleo', $me->id_nucleo)->paginate(25);
+        $professores = Professores::whereIn('id_nucleo', $coordenadorNucleos)->paginate(25);
 
-        return view('professores')->with([
+        return view('professores.professores')->with([
           'professores' => $professores,
           'user' => $user,
         ]);
@@ -66,7 +68,7 @@ class ProfessoresController extends Controller
         //$professores = Professores::where('Status', 1)->paginate(25);
         $professores = Professores::paginate(25);
 
-        return view('professores')->with([
+        return view('professores.professores')->with([
           'user' => $user,
           'professores' => $professores,
         ]);
@@ -78,13 +80,18 @@ class ProfessoresController extends Controller
     {
       $user = Auth::user();
 
+      $povosIndigenas = PovoIndigena::orderByRaw('label = "Sem Informação" DESC')
+                      ->orderByRaw('LOWER(label) ASC')
+                      ->get();
+
       if($user->role === 'coordenador'){
         $me = Coordenadores::where('id_user', $user->id)->first();
-        $nucleos = Nucleo::where('id', $me->id_nucleo)->where('Status', 1)->get();
+        $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+        $nucleos = Nucleo::whereIn('id', $coordenadorNucleos)->where('Status', 1)->get();
 
-        return view('professoresCreate')->with([
+        return view('professores.professoresCreate')->with([
           'nucleos' => $nucleos,
-          'povo_indigenas' => PovoIndigena::all(),
+          'povo_indigenas' => $povosIndigenas,
           'terra_indigenas' => TerraIndigena::all(),
         ]);
       }
@@ -92,9 +99,9 @@ class ProfessoresController extends Controller
       if($user->role === 'administrador'){
         $nucleos = Nucleo::where('Status', 1)->get();
 
-        return view('professoresCreate')->with([
+        return view('professores.professoresCreate')->with([
           'nucleos' => $nucleos,
-          'povo_indigenas' => PovoIndigena::all(),
+          'povo_indigenas' => $povosIndigenas,
           'terra_indigenas' => TerraIndigena::all(),
         ]);
       }
@@ -360,24 +367,28 @@ class ProfessoresController extends Controller
     {
       $user = Auth::user();
 
+      $povosIndigenas = PovoIndigena::orderByRaw('label = "Sem Informação" DESC')
+                      ->orderByRaw('LOWER(label) ASC')
+                      ->get();
+
       if($user->role === 'professor'){
         $dados = Professores::find($id);
         $nucleos = Nucleo::where('Status', 1)->get();
 
-        return view('professoresEdit')->with([
+        return view('professores.professoresEdit')->with([
           'dados' => $dados,
           'nucleos' => $nucleos,
         ]);
       }
 
       if($user->role === 'coordenador'){
-        $nucleoId = Coordenadores::where('id_user', $user->id)->get('id_nucleo');
+        $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
         $professor = Professores::find($id);
-        if($professor->id_nucleo === $nucleoId[0]['id_nucleo']){
+        if($professor && in_array($professor->id_nucleo, $coordenadorNucleos)){
           $dados = Professores::find($id);
           $nucleos = Nucleo::where('Status', 1)->where('id', $nucleoId[0]['id_nucleo'])->get();
 
-          return view('professoresEdit')->with([
+          return view('professores.professoresEdit')->with([
             'dados' => $dados,
             'nucleos' => $nucleos,
           ]);
@@ -391,10 +402,10 @@ class ProfessoresController extends Controller
         $dados->load('horarios');
         $nucleos = Nucleo::where('Status', 1)->get();
 
-        return view('professoresEdit')->with([
+        return view('professores.professoresEdit')->with([
           'dados'     => $dados,
           'nucleos'   => $nucleos,
-          'povo_indigenas' => PovoIndigena::all(),
+          'povo_indigenas' => $povosIndigenas,
           'terra_indigenas' => TerraIndigena::all(),
         ]);
       }
@@ -690,9 +701,9 @@ class ProfessoresController extends Controller
       $user = Auth::user();
 
       if($user->role === 'coordenador'){
-        $nucleoId = Coordenadores::where('id_user', $user->id)->get('id_nucleo');
+        $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
         $professor = Professores::find($id);
-        if($professor->id_nucleo === $nucleoId[0]['id_nucleo']){
+        if($professor && in_array($professor->id_nucleo, $coordenadorNucleos)){
           $professor->Status = 1;
           $professor->save();
 
@@ -721,8 +732,17 @@ class ProfessoresController extends Controller
 
       switch ($user->role) {
         case 'coordenador':
-          if (!$params['nucleo_id']) {
-            $params['nucleo_id'] = $user->coordenador->id_nucleo;
+          if (!isset($params['nucleo_id']) || empty($params['nucleo_id'])) {
+            $params['nucleo_id'] = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+          } else {
+            $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+            if (!is_array($params['nucleo_id'])) {
+              $params['nucleo_id'] = [$params['nucleo_id']];
+            }
+            $params['nucleo_id'] = array_intersect($params['nucleo_id'], $coordenadorNucleos);
+            if (empty($params['nucleo_id'])) {
+              $params['nucleo_id'] = $coordenadorNucleos;
+            }
           }
           break;
         
@@ -745,7 +765,7 @@ class ProfessoresController extends Controller
         })
         ->paginate(25);
 
-      return view('professores')->with([
+      return view('professores.professores')->with([
         'user' => $user,
         'professores' => $professores,
       ]);
@@ -766,7 +786,7 @@ class ProfessoresController extends Controller
       $dados->load('horarios', 'nucleosProfessoresDisciplinas');
       $nucleos = Nucleo::where('Status', 1)->get();
 
-      return view('professoresDetails')->with([
+      return view('professores.professoresDetails')->with([
         'dados' => $dados,
         'nucleos' => $nucleos,
         'povo_indigenas' => PovoIndigena::all(),
@@ -783,5 +803,61 @@ class ProfessoresController extends Controller
         }
 
         return (new ProfessoresExport($nucleo))->download('professores.xlsx');
+    }
+
+    public function import(Request $request)
+    {
+        // // *** ATENÇÃO: abaixo, para DEBUG, vamos ler TODO o arquivo como array ***
+        // $allRows = Excel::toArray([], $request->file('file'));
+        // // $allRows é um array de sheets; pegamos a primeira sheet:
+        // $sheet = $allRows[0];
+
+        // // Mostra no browser
+        // dd($sheet);
+      
+        // Inicia o importação
+        $user = Auth::user();
+
+        if (!in_array($user->role, ['administrador','coordenador'])) {
+            return back()->with('error', 'Ação não permitida.');
+        }
+
+        // Validação do upload
+        $validator = Validator::make($request->all(), [
+            'file' => 'required|file|mimes:xlsx,xls,csv',
+        ], [
+            'file.required' => 'Por favor, selecione o arquivo para importação.',
+            'file.mimes'    => 'Formato inválido. Envie um arquivo .xlsx, .xls ou .csv.',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator);
+        }
+
+        try {
+            $import = new ProfessoresImport();
+            $import->import($request->file('file'));
+
+            // Agora usamos o contador interno
+            $qtdImportados = $import->getInsertedCount();
+            $erros = $import->failures();
+            $qtdErros = count($erros);
+
+            if ($qtdErros > 0) {
+                $mensagensDeErro = [];
+                foreach ($erros as $failure) {
+                    $mensagensDeErro[] = "Linha {$failure->row()}: " . implode('; ', $failure->errors());
+                }
+                return back()->with([
+                    'success'       => "Importação parcial: {$qtdImportados} registro(s) importado(s); {$qtdErros} linha(s) com erro.",
+                    'import_errors' => $mensagensDeErro,
+                ]);
+            }
+
+            return back()->with('success', "Importação concluída com sucesso: {$qtdImportados} registro(s) importado(s).");
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Ocorreu um erro ao importar: ' . $e->getMessage());
+        }
     }
 }

@@ -53,7 +53,7 @@ class AlunosController extends Controller
                     'user' => $user,
                 ]);
             } else {
-                return view('alunos')->with([
+                return view('alunos.alunos')->with([
                     'alunos' => $alunos,
                     'user' => $user,
                 ]);
@@ -68,7 +68,7 @@ class AlunosController extends Controller
             //$alunos = Aluno::where('id_nucleo', $nucleo[0]['id_nucleo'])->get();
             $alunos = Aluno::where('id_nucleo', $nucleo[0]['id_nucleo'])->paginate(25);
 
-            return view('alunos')->with([
+            return view('alunos.alunos')->with([
                 'alunos' => $alunos,
                 'user' => $user,
             ]);
@@ -76,12 +76,15 @@ class AlunosController extends Controller
 
         if ($user->role === 'coordenador') {
             $me = Coordenadores::where('id_user', $user->id)->first();
-            $nucleo = Nucleo::find($me->id_nucleo);
+            $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+            // $nucleo = Nucleo::find($me->id_nucleo);
+            $nucleos = Nucleo::whereIn('id', $coordenadorNucleos)->get();
             //$alunos = Aluno::where('id_nucleo', $nucleo->id)->get();
-            $alunos = Aluno::where('id_nucleo', $nucleo->id)->paginate(25);
+            // $alunos = Aluno::where('id_nucleo', $nucleo->id)->paginate(25);
+            $alunos = Aluno::whereIn('id_nucleo', $coordenadorNucleos)->paginate(25);
 
-            return view('alunos')->with([
-                'nucleo' => $nucleo->id,
+            return view('alunos.alunos')->with([
+                'nucleos' => $nucleos,
                 'alunos' => $alunos,
                 'user' => $user,
             ]);
@@ -90,7 +93,7 @@ class AlunosController extends Controller
         if ($user->role === 'administrador') {
             $alunos = Aluno::paginate(25);
 
-            return view('alunos')->with([
+            return view('alunos.alunos')->with([
                 'alunos' => $alunos,
                 'user' => $user,
             ]);
@@ -104,7 +107,7 @@ class AlunosController extends Controller
             }
         }
 
-        return view('alunos')->with('alunos', $alunos);
+        return view('alunos.alunos')->with('alunos', $alunos);
     }
 
     public function showForm()
@@ -113,15 +116,20 @@ class AlunosController extends Controller
 
         if ($user->role === 'coordenador') {
             $me = Coordenadores::where('id_user', $user->id)->first();
-            $nucleos = Nucleo::where('id', $me->id_nucleo)->get();
+            $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+            $nucleos = Nucleo::whereIn('id', $coordenadorNucleos)->get();
         } else {
             $nucleos = Nucleo::get()->where('Status', 1);
         }
 
-        return view('alunosCreate')->with([
+        $povosIndigenas = PovoIndigena::orderByRaw('label = "Sem Informação" DESC')
+                        ->orderByRaw('LOWER(label) ASC')
+                        ->get();
+
+        return view('alunos.alunosCreate')->with([
             'nucleos' => $nucleos,
             'user' => $user,
-            'povo_indigenas' => PovoIndigena::all(),
+            'povo_indigenas' => $povosIndigenas,
             'terra_indigenas' => TerraIndigena::all(),
         ]);
     }
@@ -264,13 +272,16 @@ class AlunosController extends Controller
         $dados = Aluno::find($id);
         $nucleos = Nucleo::get()->where('Status', 1);
         $familiares = AlunoInfoFamiliares::where('id_aluno', $dados->id)->get();
+        $povosIndigenas = PovoIndigena::orderByRaw('label = "Sem Informação" DESC')
+                        ->orderByRaw('LOWER(label) ASC')
+                        ->get();
 
-        return view('alunosEdit')->with([
+        return view('alunos.alunosEdit')->with([
             'dados' => $dados,
             'nucleos' => $nucleos,
             'user' => $user,
             'familiares' => $familiares,
-            'povo_indigenas' => PovoIndigena::all(),
+            'povo_indigenas' => $povosIndigenas,
             'terra_indigenas' => TerraIndigena::all(),
 
         ]);
@@ -456,7 +467,7 @@ class AlunosController extends Controller
             })
             ->paginate(25);
 
-        return view('alunos')->with([
+        return view('alunos.alunos')->with([
             'user' => $user,
             'alunos' => $alunos,
         ]);
@@ -483,7 +494,7 @@ class AlunosController extends Controller
             return back()->with('error', "Nenhum resultado encontrado.");
         }
 
-        return view('alunosByNucleo')->with([
+        return view('alunos.alunosByNucleo')->with([
             'alunos' => $alunos,
             'user' => $user,
         ]);
@@ -509,13 +520,16 @@ class AlunosController extends Controller
         $dados = Aluno::find($id);
         $nucleos = Nucleo::get()->where('Status', 1);
         $familiares = AlunoInfoFamiliares::where('id_aluno', $dados->id)->get();
+        $povosIndigenas = PovoIndigena::orderByRaw('label = "Sem Informação" DESC')
+                        ->orderByRaw('LOWER(label) ASC')
+                        ->get();
 
-        return view('alunosDetails')->with([
+        return view('alunos.alunosDetails')->with([
             'user' => $user,
             'dados' => $dados,
             'nucleos' => $nucleos,
             'familiares' => $familiares,
-            'povo_indigenas' => PovoIndigena::all(),
+            'povo_indigenas' => $povosIndigenas,
             'terra_indigenas' => TerraIndigena::all(),
         ]);
     }
@@ -523,19 +537,22 @@ class AlunosController extends Controller
     public function export(Request $request)
     {
         $nucleo = $request->input('nucleo');
+        $nucleo_ativo = Nucleo::find($request->input('nucleo'));
+        $today = Carbon::now()->format('d-m-Y');
+        $nome_arquivo = $nucleo_ativo ? 'nucleo-' . $nucleo_ativo->NomeNucleo . '-' . $today : 'nucleo-todos-' . $today;
 
         if ($nucleo === null) {
-            return (new AlunosExport())->download('alunos.xlsx');
+            return (new AlunosExport())->download($nome_arquivo . '.xlsx');
         }
 
-        return (new AlunosExport($nucleo))->download('alunos.xlsx');
+        return (new AlunosExport($nucleo))->download($nome_arquivo . '.xlsx');
     }
 
     public function logActionView($id)
     {
       $dados = DB::table('action_log')->where('aluno_id', $id)->paginate(25);
 
-      return view('alunosActions')->with([
+      return view('alunos.alunosActions')->with([
         'dados' => $dados,
       ]);
     }

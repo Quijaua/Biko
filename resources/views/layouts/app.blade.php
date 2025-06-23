@@ -9,8 +9,10 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <?php
+        $app_name = \DB::table('gerals')->pluck('nome_cursinho')->first() ?? null;
+    ?>
+    <title>@if($app_name != null){{ $app_name }}@else{{ config('app.name') }}@endif</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -63,9 +65,23 @@
 }
 </style>
 
+<?php
+    $tag_head = \DB::table('codigo_personalizados')->pluck('tag_head')->first();
+    $open_tag_body = \DB::table('codigo_personalizados')->pluck('open_tag_body')->first();
+    $close_tag_body = \DB::table('codigo_personalizados')->pluck('close_tag_body')->first();
+
+    if ($tag_head) {
+        echo $tag_head;
+    }
+?>
 </head>
 
 <body>
+    <?php
+        if ($open_tag_body) {
+            echo $open_tag_body;
+        }
+    ?>
     @auth
         @php
             $user = Auth::user();
@@ -86,7 +102,7 @@
                 <div class="container-xl">
                     <div class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
                         <a class="navbar-brand" href="{{ url('/home') }}">
-                            {{ config('app.name', 'Laravel') }}
+                            @if($app_name != null){{ $app_name }}@else{{ config('app.name') }}@endif
                         </a>
                     </div>
                     <div class="navbar-nav flex-row order-md-last">
@@ -134,22 +150,31 @@
         @auth
             <!-- Botão Hamburguer (visível só em telas pequenas) -->
             <div class="d-lg-none p-2 bg-dark text-white">
-                <button class="btn btn-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar-offcanvas">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
-                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" />
-                        <line x1="4" y1="6" x2="20" y2="6" />
-                        <line x1="4" y1="12" x2="20" y2="12" />
-                        <line x1="4" y1="18" x2="20" y2="18" />
-                    </svg>
-                </button>
+                <div class="row">
+                    <div class="col">
+                        <button class="btn btn-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar-offcanvas">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" />
+                                <line x1="4" y1="6" x2="20" y2="6" />
+                                <line x1="4" y1="12" x2="20" y2="12" />
+                                <line x1="4" y1="18" x2="20" y2="18" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="col">
+                        <h1>@if($app_name != null){{ $app_name }}@else{{ config('app.name') }}@endif</h1>
+                    </div>
+                </div>
             </div>
 
             <!-- Sidebar OFFCANVAS para telas pequenas -->
             <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="sidebar-offcanvas">
                 <div class="offcanvas-header">
-                    <h5 class="offcanvas-title">{{ config('app.name', 'Biko') }}</h5>
+                    <h5 class="offcanvas-title">
+                        @if($app_name != null){{ $app_name }}@else{{ config('app.name') }}@endif
+                    </h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
                         aria-label="Close"></button>
                 </div>
@@ -464,8 +489,8 @@
 
                             @if (Session::get('role') === 'administrador')
                                 <li
-                                    class="nav-item {{ request()->routeIs('disciplinas.index') ? 'bg-primary text-white rounded' : '' }} ">
-                                    <a class="nav-link" href="{{ route('disciplinas.index') }}">
+                                    class="nav-item {{ request()->routeIs('geral.index') ? 'bg-primary text-white rounded' : '' }} ">
+                                    <a class="nav-link" href="{{ route('geral.index') }}">
                                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -480,30 +505,12 @@
                                         {{ __('Configurações') }}
                                     </a>
                                 </li>
-
-                                <li
-                                    class="nav-item {{ request()->routeIs('auditoria.index') ? 'bg-primary text-white rounded' : '' }} ">
-                                    <a class="nav-link" href="{{ route('auditoria.index') }}">
-                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="icon icon-tabler icons-tabler-outline icon-tabler-settings">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                <path
-                                                    d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
-                                                <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
-                                            </svg>
-                                        </span>
-                                        {{ __('Auditoria') }}
-                                    </a>
-                                </li>
                             @endif
 
                             @if (Session::get('role') === 'coordenador')
                                 <li
-                                    class="nav-item {{ request()->routeIs('disciplinas.index') ? 'bg-primary text-white rounded' : '' }} ">
-                                    <a class="nav-link" href="{{ route('disciplinas.index') }}">
+                                    class="nav-item {{ request()->routeIs('geral.index') ? 'bg-primary text-white rounded' : '' }} ">
+                                    <a class="nav-link" href="{{ route('geral.index') }}">
                                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -551,6 +558,22 @@
                                 @csrf
                             </form>
                         </li>
+
+                        <li>
+                            <div class="row mt-4">
+                                <div class="col-auto">
+                                    <span class="avatar avatar-sm" style="background-image: url({{ asset('images/user.png') }})"></span>
+                                </div>
+                                <div class="col">
+                                    <div class="sd-none d-xl-block ps-2">
+                                        @auth
+                                        <div>{{ Auth::user()->name }}</div>
+                                        <div class="mt-1 small text-secondary">{{ Auth::user()->role }}</div>
+                                        @endauth
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -559,7 +582,9 @@
             <aside class="navbar navbar-vertical navbar-expand-lg navbar-dark bg-dark d-none d-lg-flex"
                 style="width: 250px;">
                 <div class="container-fluid p-2">
-                    <h1 class="navbar-brand text-white my-3">{{ config('app.name', 'Biko') }}</h1>
+                    <h1 class="navbar-brand text-white my-3">
+                        @if($app_name != null){{ $app_name }}@else{{ config('app.name') }}@endif
+                    </h1>
                     <div class="collapse navbar-collapse" id="sidebar-menu">
                         <ul class="navbar-nav">
                             @if (!\Auth()->user()->first_login)
@@ -864,8 +889,8 @@
 
                                 @if (Session::get('role') === 'administrador')
                                     <li
-                                        class="nav-item {{ request()->routeIs('disciplinas.index') ? 'bg-primary text-white rounded' : '' }} ">
-                                        <a class="nav-link" href="{{ route('disciplinas.index') }}">
+                                        class="nav-item {{ request()->routeIs('geral.index') ? 'bg-primary text-white rounded' : '' }} ">
+                                        <a class="nav-link" href="{{ route('geral.index') }}">
                                             <span class="nav-link-icon d-md-none d-lg-inline-block">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -881,23 +906,6 @@
                                         </a>
                                     </li>
 
-                                    <li
-                                        class="nav-item {{ request()->routeIs('auditoria.index') ? 'bg-primary text-white rounded' : '' }} ">
-                                        <a class="nav-link" href="{{ route('auditoria.index') }}">
-                                            <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-settings">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                    <path
-                                                        d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
-                                                    <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
-                                                </svg>
-                                            </span>
-                                            {{ __('Auditoria') }}
-                                        </a>
-                                    </li>
                                 @endif
                                 <li
                                     class="nav-item {{ request()->routeIs('nucleo.material') ? 'bg-primary text-white rounded' : '' }}">
@@ -1237,7 +1245,7 @@
                                                                 {{ __('Núcleos') }}
                                                             </a>
                                                         </li>
-                                                        <li class="nav-item">
+                                                        {{-- <li class="nav-item">
                                                             <a class="nav-link" href="{{ route('nucleo/presences') }}">
                                                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24"
@@ -1256,7 +1264,7 @@
                                                                 </span>
                                                                 {{ __('Lista de presença') }}
                                                             </a>
-                                                        </li>
+                                                        </li> --}}
                                                     @endif
                                                 @endif
 
@@ -1364,6 +1372,11 @@
     });
     </script>
 
+<?php
+ if ($close_tag_body) {
+    echo $close_tag_body;
+}
+?>
 </body>
 
 </html>

@@ -157,7 +157,7 @@
                                         </h3>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="mb-3">
                                                 <label for="inputNomeProfessor">Nome Completo <span
                                                         class="text-danger">*</span> </label>
@@ -181,6 +181,19 @@
                                                 <input type="text" class="form-control" id="inputCPF"
                                                     name="inputCPF" aria-describedby="inputCPFHelp"
                                                     data-mask="000.000.000-00" value="{{ $dados->CPF }}" disabled>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="mb-3">
+                                                <label for="inputCPF">Núcleo</label>
+                                                <select name="inputNucleo" class="form-select" disabled>
+                                                    <option selected>Selecione</option>
+                                                    @foreach ($nucleos as $nucleo)
+                                                        <option value="{{ $nucleo->id }}"
+                                                            @if ($nucleo->id == $dados->id_nucleo) selected @endif>{{ $nucleo->NomeNucleo }}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                     </div>

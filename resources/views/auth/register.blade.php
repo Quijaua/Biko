@@ -9,12 +9,26 @@
             }
         </style>
 
+        @php
+            $banner = \DB::table('gerals')->pluck('banner')->first();
+            $texto_pre_cadastro = \DB::table('gerals')->pluck('texto_pre_cadastro')->first();
+        @endphp
+
         <div class="container">
-            <h1 class="text-center">Bem vinda(o), a Plataforma Biko.
-            </h1>
-            <h3 class="text-center">Quer ser um estudante da UNEafro Brasil?
-            </h3>
-            <p class="text-center">Preencha o formulário que em breve uma pessoa da coordenação entrará em contato.</p>
+            @if($banner)
+            <div class="row marcador align-items-center">
+                <div class="col-12 mx-auto text-center">
+                    <img class="img-fluid" src="{{ asset('images/geral/banner/' . $banner) }}" alt="Voltando às aulas - UNEafro 2025 - Inscreva-se aqui" title="Voltando às aulas - UNEafro 2025 - Inscreva-se aqui" />
+                </div>
+            </div>
+            @endif
+            @if($texto_pre_cadastro)
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h3 class="text-center p-4">{!! $texto_pre_cadastro !!}</h3>
+                </div>
+            </div>
+            @endif
             <div class="card">
                 {{-- Card Header --}}
                 <div class="card-header">
@@ -80,6 +94,8 @@
                                     value="Rio de Janeiro" onclick="selecionar('Rio de Janeiro')" form="registration-form">
                                 <input type="button" class="btn btn-primary w-100" style="max-width: 600px"
                                     value="Minas Gerais" onclick="selecionar('Minas Gerais')" form="registration-form">
+                                <input type="button" class="btn btn-primary w-100" style="max-width: 600px"
+                                    value="Brasília" onclick="selecionar('Distrito Federal')" form="registration-form">
                                 <input type="button" class="btn btn-primary w-100" style="max-width: 600px"
                                     value="Núcleo Virtual - Aulas online para todo Brasil"
                                     onclick="selecionar('Núcleo Virtual - Aulas online para todo Brasil')" form="registration-form">
@@ -315,9 +331,15 @@
                                                                 <label class="form-label mb-2" for="povo_indigenas_id">Povo Indígena</label>
                                                                 <select name="povo_indigenas_id" class="form-select">
                                                                     <option selected disabled>Selecione</option>
-                                                                    @foreach (\App\PovoIndigena::all() as $povo_indigena)
-                                                                        <option value="{{ $povo_indigena->id }}">
-                                                                            {{ $povo_indigena->label }}</option>
+                                                                    <!-- Lista Povos Indígenas ordenados alfabeticamente -->
+                                                                    @php
+                                                                        $povos = \App\PovoIndigena::orderByRaw('LOWER(label) ASC')
+                                                                            ->get()
+                                                                            ->partition(fn($item) => $item->label === 'Sem Informação')
+                                                                            ->flatten();
+                                                                    @endphp
+                                                                    @foreach ($povos as $povo_indigena)
+                                                                        <option value="{{ $povo_indigena->id }}">{{ $povo_indigena->label }}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -590,7 +612,7 @@
                         estadoSelecionado = 'all'
                     }
                     buscarNucleos(estadoSelecionado)
-                    localSelecionado = valor;
+                    localSelecionado = (estadoSelecionado === 'DF') ? 'Brasília' : valor;
                     document.getElementById("resultado").innerText = localSelecionado;
                     const resultadoLocal = document.getElementById("resultadoLocal");
                     resultadoLocal.classList.remove("d-none");

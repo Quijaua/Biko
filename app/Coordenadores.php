@@ -14,7 +14,6 @@ class Coordenadores extends Model implements Auditable
     'Status',
     'NomeCoordenador',
     'NomeSocial',
-    'id_nucleo',
     'FuncaoCoordenador',
     'AnoIngresso',
     'Foto',
@@ -79,6 +78,16 @@ class Coordenadores extends Model implements Auditable
     'povo_indigenas_id',
     'pessoa_com_deficiencia',
   ];
+
+  public function nucleos()
+  {
+    return $this->belongsToMany(
+      Nucleo::class,
+      'coordenador_nucleo',
+      'coordenador_id',
+      'nucleo_id'
+    );
+  }
 
   public static function ativos()
   {

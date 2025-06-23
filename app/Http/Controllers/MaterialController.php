@@ -16,20 +16,24 @@ class MaterialController extends Controller
   public function index()
   {
     $user = Auth::user();
+    if (!$user) {
+      abort(403, 'Usuário não autenticado.');
+    }
 
     if ( $user->role === 'administrador' ) {
-      $nucleos = Nucleo::where('Status', 1)->get();
-      $files = Material::withTrashed()->get();
+      $nucleos = Nucleo::where('Status', 1)->paginate(25);
+      $files = Material::paginate(25);
     } elseif ( $user->role === 'coordenador' ) {
-      $nucleos = Nucleo::where('Status', 1)->where('id', $user->coordenador->id_nucleo)->first();
-      $files = Material::where('status', 1)->where('nucleo_id', $user->coordenador->id_nucleo)->get();
+      $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+      $nucleos = Nucleo::where('Status', 1)->whereIn('id', $coordenadorNucleos)->get();
+      $files = Material::where('status', 1)->whereIn('nucleo_id', $coordenadorNucleos)->paginate(25);
     } elseif ( $user->role === 'professor' ) {
       $nucleos = Nucleo::where('Status', 1)->where('id', $user->professor->id_nucleo)->first();
-      $files = Material::where('status', 1)->where('nucleo_id', $user->professor->id_nucleo)->get();
+      $files = Material::where('status', 1)->where('nucleo_id', $user->professor->id_nucleo)->paginate(25);
     } else {
       $user = Auth::user();
       $nucleos = NULL;
-      $files = Material::where('status', 1)->where('nucleo_id', $user->aluno->id_nucleo)->get();
+      $files = Material::where('status', 1)->where('nucleo_id', $user->aluno->id_nucleo)->paginate(25);
     }
 
     return view('material.index')->with([
@@ -41,26 +45,30 @@ class MaterialController extends Controller
 
   public function create(Request $request)
   {
-    $user_id = Auth::user()->id;
-    $fileName = $request->file->getClientOriginalName();
-    $request->file->move(public_path('uploads'), $fileName);
-
-    if(
-      !Schema::hasColumn('materials', 'file')
-    ) {
-      Schema::table('materials', function(Blueprint $table) {
-        $table->string('file')->nullable();
-      });
+    $user = Auth::user();
+    if (!$user) {
+      abort(403, 'Usuário não autenticado.');
     }
 
-    $stored_file = Material::create([
-      'user_id' => $user_id,
-      'nucleo_id' => $request->nucleo_id,
-      'file' => $fileName,
-      'status' => 1
-    ]);
+    if ($request->hasFile('file')) {
+      $file = $request->file('file');
+      $fileName = time() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
+      $file->move(public_path('uploads'), $fileName);
 
-    return back();
+      $stored_file = Material::create([
+        'user_id' => $user->id,
+        'nucleo_id' => $request->nucleo_id,
+        'name' => $request->title,
+        'file' => $fileName,
+        'status' => 1
+      ]);
+
+      return back()->with([
+        'success' => "DADOS SALVOS COM SUCESSO."
+      ]);
+    }
+
+    return back()->with('error', 'Nenhum arquivo foi enviado.');
   }
 
   public function edit($id, Request $request) {
@@ -85,31 +93,56 @@ class MaterialController extends Controller
     ]);
   }
 
-  public function delete($id)
+  public function inactive($id)
   {
     $file = Material::find($id);
+
+    if (!$file) {
+      return redirect()->route('nucleo.material')->with('error', 'Material não encontrado.');
+    }
 
     $file->update([
       'status' => 0
     ]);
 
-    $file->delete($file);
-
-    return back();
+    return redirect()->route('nucleo.material')->with('success', 'Material desativado com sucesso.');
   }
 
   public function restore($id)
   {
-    $file = Material::withTrashed()->find($id);
-    $file->status = 1;
-    $file->restore();
+    $material = Material::findOrFail($id);
 
-    return back();
+    $material->update(['status' => 1]);
+
+    return redirect()->route('nucleo.material')->with('success', 'Material restaurado com sucesso.');
+  }
+
+  public function delete($id)
+  {
+    $file = Material::find($id);
+
+    if (!$file) {
+      return redirect()->route('nucleo.material')->with('error', 'Material não encontrado.');
+    }
+
+    $filePath = public_path('uploads/' . $file->file);
+
+    if (!empty($file->file) && file_exists($filePath)) {
+      unlink($filePath);
+    }
+
+    $file->delete();
+
+    return redirect()->route('nucleo.material')->with('success', 'Material e arquivo excluídos com sucesso.');
   }
 
   public function search(Request $request)
   {
     $user = Auth::user();
+    if (!$user) {
+      abort(403, 'Usuário não autenticado.');
+    }
+
     $params = self::getParams($request);
 
     $files = DB::table('materials')
@@ -125,7 +158,7 @@ class MaterialController extends Controller
       ->paginate(25);
 
     if ( $user->role === 'administrador' ) {
-      $nucleos = Nucleo::where('Status', 1)->get();
+      $nucleos = Nucleo::where('Status', 1)->paginate(25);
     }
     if ( $user->role === 'coordenador' ) {
       $nucleos = Nucleo::where('Status', 1)->where('id', $user->coordenador->id_nucleo)->first();
@@ -148,5 +181,17 @@ class MaterialController extends Controller
       'status' => $request->input('status'),
       'nucleo' => $request->input('nucleo'),
     ];
+  }
+
+  public function download($id)
+  {
+    $material = Material::findOrFail($id);
+    $filePath = public_path('uploads/' . $material->file);
+
+    if (empty($material->file) || !file_exists($filePath)) {
+      abort(404, 'Arquivo não encontrado.');
+    }
+
+    return response()->download($filePath);
   }
 }

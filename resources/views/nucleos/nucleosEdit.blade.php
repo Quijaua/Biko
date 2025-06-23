@@ -51,8 +51,54 @@
                             </div>
                         </div>
                         <div class="col-5 d-flex gap-3 justify-content-end align-items-center">
-                          <a class="btn btn-secondary" href="/nucleos">voltar</a>
-                          <button type="submit" class="btn btn-primary" form="editForm" id="submitBtn"><span><svg
+                            <a class="btn btn-secondary" href="/nucleos">voltar</a>
+
+                            <!-- Deletar Núcleo -->
+                            @if(Auth::user()->role === 'administrador')
+                                @if($dados->alunos->isEmpty())
+                                    <button
+                                        type="button"
+                                        class="btn btn-danger"
+                                        onclick="
+                                            if (!confirm('Tem certeza que deseja excluir este Núcleo?')) return;
+                                            document.getElementById('delete-nucleo-form').submit();
+                                        ">
+                                        Excluir Núcleo
+                                    </button>
+                                    <form id="delete-nucleo-form"
+                                            action="{{ url('nucleos/delete/'.$dados->id) }}"
+                                            method="POST"
+                                            style="display: none;">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                @else
+                                    <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" data-bs-placement="top" title="Não é possível excluir enquanto houver alunos cadastrados neste núcleo">
+                                        <button type="button" class="btn btn-danger disabled" disabled>
+                                            Excluir Núcleo
+                                        </button>
+                                    </span>
+                                @endif
+                            @endif
+
+                            <!-- Ativar/Inativar Núcleo -->
+                            @if ($dados->Status === 1)
+                                <a href="/nucleos/disable/{{ $dados->id }}">
+                                    <span class="btn btn-danger status-inativo">
+                                        <span class="status-circle"></span>
+                                        Inativar
+                                    </span>
+                                </a>
+                            @else
+                                <a href="/nucleos/enable/{{ $dados->id }}">
+                                    <span class="btn btn-success status-ativo">
+                                        Ativar
+                                        <span class="status-circle"></span>
+                                    </span>
+                                </a>
+                            @endif
+
+                            <button type="submit" class="btn btn-primary" form="editForm" id="submitBtn"><span><svg
                                       xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                       fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                       stroke-linejoin="round"
@@ -168,7 +214,7 @@
                                             <label class="form-label mb-2" for="inputTelefone">Telefone</label>
                                             <input type="phone" class="form-control" id="inputTelefone"
                                                 name="inputTelefone" aria-describedby="inputTelefoneHelp"
-                                                data-mask="(00) 0000-0000" value="{{ $dados->Telefone }}" >
+                                                data-mask="(00) 00000-0000" value="{{ $dados->Telefone }}" >
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -176,7 +222,7 @@
                                             <label class="form-label mb-2" for="inputWhatsapp">WhatsApp</label>
                                             <input type="text" class="form-control" id="inputWhatsapp"
                                                 name="inputWhatsapp" aria-describedby="inputWhatsappHelp"
-                                                 data-mask="(00) 0000-0000"
+                                                 data-mask="(00) 00000-0000"
                                                 value="{{ $dados->whatsapp_url }}" >
                                         </div>
                                     </div>
@@ -284,7 +330,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label mb-2" for="inputEndereco">Endereço</label>
-                                            <input pattern="([^\s][A-zÀ-ž\s]+)" type="text" class="form-control"
+                                            <input pattern="^[A-Za-zÀ-ÖØ-öø-ÿ0-9\s\.,:;\-º]+$" type="text" class="form-control"
                                                 id="inputEndereco" name="inputEndereco"
                                                 aria-describedby="inputEnderecoHelp" value="{{ $dados->Endereco }}"
                                                 >

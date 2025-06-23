@@ -19,5 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CoordenadoresSeeder::class);
         $this->call(TerraIndigenaTableSeeder::class);
         $this->call(PovoIndigenaTableSeeder::class);
+        $this->call(TrumaiPovoIndigenaSeeder::class);
     }
 }

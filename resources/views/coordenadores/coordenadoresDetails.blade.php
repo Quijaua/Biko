@@ -419,13 +419,28 @@
                                             <div class="mb-3">
                                                 <label class="form-label mb-2" for="inputNucleo">Em qual/quais núcleo(s)
                                                     que você atua?</label>
-                                                <select name="inputNucleo" class="form-select" disabled>
+                                                <!-- <select name="inputNucleo" class="form-select" disabled>
                                                     <option selected>Selecione</option>
                                                     @foreach ($nucleos as $nucleo)
                                                         <option <?php if ($nucleo->id == $dados->id_nucleo) {
                                                             echo 'selected=selected';
                                                         } ?> value="{{ $nucleo->id }}">
                                                             {{ $nucleo->NomeNucleo }}</option>
+                                                    @endforeach
+                                                </select> -->
+                                                <select
+                                                    name="inputNucleo[]"
+                                                    id="inputNucleo"
+                                                    class="form-select @error('inputNucleo') is-invalid @enderror"
+                                                    multiple
+                                                    required
+                                                    disabled
+                                                >
+                                                    @foreach ($nucleos as $nucleo)
+                                                        <option value="{{ $nucleo->id }}"
+                                                            {{ in_array($nucleo->id, old('inputNucleo', $selectedNucleos)) ? 'selected' : '' }}>
+                                                            {{ $nucleo->NomeNucleo }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -1712,6 +1727,32 @@
                 </div>
             </div>
         </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+            var el;
+            window.TomSelect && (new TomSelect(el = document.getElementById('inputNucleo'), {
+                copyClassesToDropdown: false,
+                dropdownParent: 'body',
+                controlInput: '<input>',
+                render:{
+                    item: function(data,escape) {
+                        if( data.customProperties ){
+                            return '<div><span class="dropdown-item-indicator">' + data.customProperties + '</span>' + escape(data.text) + '</div>';
+                        }
+                        return '<div>' + escape(data.text) + '</div>';
+                    },
+                    option: function(data,escape){
+                        if( data.customProperties ){
+                            return '<div><span class="dropdown-item-indicator">' + data.customProperties + '</span>' + escape(data.text) + '</div>';
+                        }
+                        return '<div>' + escape(data.text) + '</div>';
+                    },
+                },
+            }));
+        });
+        </script>
+
         <script>
             document.getElementById('submitBtn').addEventListener('click', function(e) {
                 const form = document.getElementById('createdForm');
