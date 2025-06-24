@@ -82,6 +82,11 @@
                     @endforeach
                     <div class="card">
                         <div class="card-body">
+                        @php
+                            $tipo = Auth::user()->tipo;
+                        @endphp
+
+                        @if($tipo === 'aluno')
                             <form action="{{ route('ambiente-virtual.anotar', $aula) }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="user_id" value="{{ Auth::user()->id }}" />
@@ -92,6 +97,9 @@
                                 </div>
                                 <button type="submit" class="btn btn-primary mt-2">Anotar</button>
                             </form>
+                        @else
+                            <p class="text-muted">Apenas estudantes podem fazer anotações nesta aula.</p>
+                        @endif
                         </div>
                     </div>
                 </div>
@@ -109,7 +117,16 @@
                                     <p><strong>Comentário:</strong> <?php echo strip_tags($comentario->comentario); ?></p>
                                 </div>
                                 <div class="col-12 col-md-4">
-                                    <p><strong>Estudante:</strong> {{ $comentario->user->aluno->NomeAluno ?? $comentario->user->name }}</p>
+                                    <p>
+                                        @if($comentario->user->aluno)
+                                            <strong>Estudante:</strong> {{ $comentario->user->aluno->NomeAluno }}
+                                        @elseif($comentario->user->professor)
+                                            <strong>Professor:</strong> {{ $comentario->user->professor->NomeProfessor }}
+                                        @else
+                                            <strong>Usuário:</strong> {{ $comentario->user->name }}
+                                        @endif
+                                    </p>
+
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <p><strong>Data:</strong> {{ $comentario->created_at->format('d/m/Y') }}</p>
