@@ -92,6 +92,11 @@
                 @endforeach
                 @endif
             </div>
+            <div class="row mt-4 text-center">
+                <div class="col-12">
+                    {{ $aulas->links() }}
+                </div>
+            </div>
         </div>
     </div>
 </div>
