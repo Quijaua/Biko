@@ -271,7 +271,7 @@
                   {{-- Botão Anterior --}}
                   <li class="page-item {{ $alunos->onFirstPage() ? 'disabled' : '' }}" id="prev-page">
                       <a class="page-link"
-                          href="{{ $alunos->onFirstPage() ? 'javascript:void(0);' : $alunos->previousPageUrl() }}"
+                          href="{{ $alunos->onFirstPage() ? 'javascript:void(0);' : $alunos->appends(request()->input())->previousPageUrl() }}"
                           tabindex="-1"
                           aria-disabled="{{ $alunos->onFirstPage() ? 'true' : 'false' }}">
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -287,14 +287,14 @@
                   {{-- Página Atual (somente número) --}}
                   <li class="page-item active" id="current-page">
                       <a class="page-link" href="javascript:void(0);">
-                          {{ $alunos->currentPage() }}
+                          {{ $alunos->appends(request()->input())->currentPage() }}
                       </a>
                   </li>
 
                   {{-- Botão Próximo --}}
                   <li class="page-item {{ $alunos->hasMorePages() ? '' : 'disabled' }}" id="next-page">
                       <a class="page-link"
-                          href="{{ $alunos->hasMorePages() ? $alunos->nextPageUrl() : 'javascript:void(0);' }}">
+                          href="{{ $alunos->hasMorePages() ? $alunos->appends(request()->input())->nextPageUrl() : 'javascript:void(0);' }}">
                           próximo
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
