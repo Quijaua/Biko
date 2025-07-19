@@ -41,6 +41,7 @@ class AmbienteVirtualController extends Controller
         return view('ambiente-virtual.show')->with([
             'user' => Auth::user(),
             'aula' => AmbienteVirtualService::find($id),
+            'is_assistido' => AmbienteVirtualService::isAssistido($id),
         ]);
     }
 
@@ -78,5 +79,21 @@ class AmbienteVirtualController extends Controller
     public function anotar(Request $request, $id)
     {
         return AmbienteVirtualService::anotar($id);
+    }
+
+    public function marcarAssistido(Request $request)
+    {
+        AmbienteVirtualService::marcarAssistido();
+        return redirect()->back()->with([
+            'success' => 'Aula marcada como assistida!'
+        ]);
+    }
+
+    public function desmarcarAssistido(Request $request)
+    {
+        AmbienteVirtualService::desmarcarAssistido();
+        return redirect()->back()->with([
+            'success' => 'Aula desmarcada como assistida!'
+        ]);
     }
 }

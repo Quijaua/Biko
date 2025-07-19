@@ -65,9 +65,26 @@
                         <p>@php echo strip_tags($aula->descricao); @endphp</p>
                         <strong>Matéria:</strong> {{ $aula->disciplina->nome ?? "Sem matéria" }}
                         @if($aula->class_duration)<p><strong>Duração:</strong> {{ $aula->class_duration }}</p>@endif
+                        @if(Auth::user()->role == 'aluno')
+                        <form id="formMarcarAssistido" action="{{ route('ambiente-virtual.marcar-assistido') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="aluno_id" value="{{ Auth::user()->aluno->id }}">
+                            <input type="hidden" name="ambiente_virtual_id" value="{{ $aula->id }}">
+                        </form>
+                        <form id="formDesmarcarAssistido" action="{{ route('ambiente-virtual.desmarcar-assistido') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="aluno_id" value="{{ Auth::user()->aluno->id }}">
+                            <input type="hidden" name="ambiente_virtual_id" value="{{ $aula->id }}">
+                        </form>
+                        @if(!$is_assistido)
+                        <button type="submit" form="formMarcarAssistido" class="btn btn-success mt-2" >Marcar como assistido</button>
+                        @endif
+                        @if($is_assistido)
+                        <button type="submit" form="formDesmarcarAssistido" class="btn btn-secondary mt-2" >Desmarcar como assistido</button>
+                        @endif
+                        @endif
                     </div>
 
-                    <?php //dd($aula->nota) ?>
                     @foreach($aula->nota as $nota)
                     @if(Auth::user()->id === $nota->user_id)
                     <div class="card mb-2">

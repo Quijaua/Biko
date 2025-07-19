@@ -8,6 +8,9 @@ use App\Professores;
 use App\Disciplina;
 use App\Comentario;
 use App\Nota;
+use DB;
+use Carbon\Carbon;
+use Auth;
 
 use File;
 
@@ -110,6 +113,28 @@ class AmbienteVirtualService
 
         return $disciplinas;*/
         return Disciplina::all();
+    }
+
+    public static function isAssistido($id)
+    {
+        return DB::table('alunos_ambiente_virtuals_watched')->where('aluno_id', Auth::user()->aluno->id)->where('ambiente_virtual_id', $id)->where('deleted_at', null)->exists();
+    }
+
+    public static function marcarAssistido()
+    {
+        $data = [
+            'aluno_id' => request('aluno_id'),
+            'ambiente_virtual_id' => request('ambiente_virtual_id'),
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+        ];
+
+        return DB::table('alunos_ambiente_virtuals_watched')->insert($data);
+    }
+
+    public static function desmarcarAssistido()
+    {
+        return DB::table('alunos_ambiente_virtuals_watched')->where('aluno_id', request('aluno_id'))->where('ambiente_virtual_id', request('ambiente_virtual_id'))->update(['deleted_at' => Carbon::now()->format('Y-m-d H:i:s')]);
     }
 
     private static function getParams()
