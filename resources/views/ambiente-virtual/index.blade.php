@@ -56,7 +56,7 @@
                     <div class="card">
                         <div class="card-header">
                             <div>
-                            <h3 class="card-title">{{ $aula->titulo }}</h3>
+                            <h3 class="card-title">{{ $aula->titulo }} @if($aula->class_duration)({{ $aula->class_duration }})@endif</h3>
                             <p class="card-subtitle">{{ $aula->professor->NomeProfessor }}{{-- - 12/03/2025--}}</p>
                             </div>
                             <div class="card-actions">

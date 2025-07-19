@@ -64,6 +64,7 @@
                         <h1>Aula: {{ $aula->titulo }} (Professor: {{ $aula->professor->NomeProfessor }})</h1>
                         <p>@php echo strip_tags($aula->descricao); @endphp</p>
                         <strong>Matéria:</strong> {{ $aula->disciplina->nome ?? "Sem matéria" }}
+                        @if($aula->class_duration)<p><strong>Duração:</strong> {{ $aula->class_duration }}</p>@endif
                     </div>
 
                     <?php //dd($aula->nota) ?>

@@ -124,6 +124,7 @@ class AmbienteVirtualService
             'disciplina_id' => request('disciplina_id'),
             'ambiente_virtual_id' => request('ambiente_virtual_id'),
             'comentario' => request('comentario'),
+            'class_duration' => request('class_duration'),
             //'nota' => request('nota')
         ];
     }
