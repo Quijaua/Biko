@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Config;
 use Session;
+use Carbon\Carbon;
+use DB;
 
 use App\Http\Repository\HcaptchaRepository;
 
@@ -83,6 +85,14 @@ class LoginController extends Controller
 
             $request->session()->regenerate();
             Session::put('role', Auth::user()->role);
+
+            if (Auth::user()->role == 'aluno') {
+                DB::table('alunos_acessos')->insert([
+                    'aluno_id' => Auth::user()->aluno->id,
+                    'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+                    'updated_at' => \Carbon\Carbon::now()->toDateTimeString(),
+                ]);
+            }
 
             return redirect()->intended('home');
         }
