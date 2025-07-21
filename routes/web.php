@@ -2,6 +2,8 @@
 
 use App\User;
 use App\Mail\MessageOtpLogin;
+use App\Mail\EmailFormularioCoordenador;
+use App\Mail\EmailFormularioSejaUmProfessor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -274,6 +276,15 @@ Route::post('/seja-um-professor', function (Request $request) {
     ];
 
     $professor = App\Professores::create($professor_data);
+
+    // RECUPERA OS COORDENADORES DO NUCLEO SELECIONADO E ENVIA EMAIL
+    $coordenadores = App\Coordenadores::where('id_nucleo', $request->nucleo_id)->get();
+
+    foreach ($coordenadores as $coordenador) {
+            Mail::to($coordenador->Email)->send(new EmailFormularioSejaUmProfessor([
+              'message' => 'Olá, coordenador! Novo professor no seu núcleo!'
+            ]));
+    }
 
     return view('seja-um-professor.index')->with([
         'success' => true,
