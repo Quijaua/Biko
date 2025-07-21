@@ -96,13 +96,15 @@ class AmbienteVirtualService
 
     public static function getProfessores()
     {
-        $professores = Professores::all()->map(function ($professor) {
-            if ($professor->nucleo && $professor->nucleo->permite_ambiente_virtual) {
-                return $professor;
-            }
-        });
+        $profssores = DB::table('nucleos_professores_disciplinas')
+            ->join('professores', 'nucleos_professores_disciplinas.professor_id', '=', 'professores.id')
+            ->join('nucleos', 'nucleos_professores_disciplinas.nucleo_id', '=', 'nucleos.id')
+            ->where('nucleos.permite_ambiente_virtual', true)
+            ->select('professores.*')
+            ->distinct()
+            ->get();
 
-        return $professores->filter();
+        return $profssores;
     }
 
     public static function getDisciplinas()
