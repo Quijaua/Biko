@@ -179,7 +179,7 @@ Route::get('alunos/log/{id}', 'AlunosController@logActionView')->name('alunos/lo
 Route::get('coordenadores', 'CoordenadoresController@index')->middleware('permissions');
 Route::get('coordenadores/details/{id}', 'CoordenadoresController@details')->middleware('permissions');
 Route::get('coordenadores/export/', 'CoordenadoresController@export')->name('coordenadores/export/');
-Route::get('coordenadores/add', 'CoordenadoresController@showForm')->middleware('permissions');
+Route::get('coordenadores/add', 'CoordenadoresController@showForm')/*->middleware('permissions')*/;
 Route::post('coordenadores/create', 'CoordenadoresController@create')->middleware('permissions');
 Route::get('coordenadores/edit/{id}', 'CoordenadoresController@edit')->middleware('permissions');
 Route::post('coordenadores/update/{id}', 'CoordenadoresController@update')->middleware('permissions');

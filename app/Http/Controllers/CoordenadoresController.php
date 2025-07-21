@@ -72,7 +72,17 @@ class CoordenadoresController extends Controller
 
     public function showForm()
     {
-      $nucleos = Nucleo::get()->where('Status', 1);
+      // dd(Auth::user()->coordenador->nucleo()->get());
+      $nucleos = collect();
+
+      if (Auth::user()->role === 'coordenador') {
+        $nucleos = \App\Nucleo::where('Status', 1)->where('id', Auth::user()->coordenador->id_nucleo)->get();
+      } else {
+        $nucleos = \App\Nucleo::where('Status', 1)->get();
+      }
+
+      // dd($nucleos);
+      // $nucleos = Nucleo::get()->where('Status', 1);
       $povosIndigenas = PovoIndigena::orderByRaw('label = "Sem Informação" DESC')
                       ->orderByRaw('LOWER(label) ASC')
                       ->get();

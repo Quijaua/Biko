@@ -378,17 +378,11 @@
                                               <label class="form-label mb-2" for="inputNucleo">Em qual/quais núcleo(s)
                                                   que você atua?   <span
                                                   class="text-danger">*</span></label>
-                                              <!-- <select name="inputNucleo" id="inputNucleo" class="form-select form-control" required>
-                                                  <option value="" selected>Selecione</option>
-                                                  @foreach ($nucleos as $nucleo)
-                                                      <option value="{{ $nucleo->id }}">
-                                                          {{ $nucleo->NomeNucleo }}</option>
-                                                  @endforeach
-                                              </select> -->
+                                              
                                               <select name="inputNucleo[]" id="inputNucleo" class="form-select" multiple>
                                                   <option value="" selected>Selecione</option>
                                                   @foreach ($nucleos as $nucleo)
-                                                      <option value="{{ $nucleo->id }}">
+                                                      <option value="{{ $nucleo->id }}" @if(\Auth::user()->role == 'coordenador' && $nucleo) selected @endif >
                                                           {{ $nucleo->NomeNucleo }}</option>
                                                   @endforeach
                                               </select>
