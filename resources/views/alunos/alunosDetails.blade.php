@@ -267,6 +267,24 @@
                                 </div>
 
                                 <div class="row mb-3">
+                                    <div class="col-12 col-md-6">
+                                        <label class="form-label mb-2" for="participante_quilombola">
+                                        Você participa de comunidade/território quilombola?
+                                        </label>
+                                        <select class="form-select" id="participante_quilombola" name="participante_quilombola" disabled>
+                                            <option value="1" <?php if ($dados->participante_quilombola) echo 'selected=selected'; ?>>Sim</option>
+                                            <option value="0" <?php if (!$dados->participante_quilombola) echo 'selected=selected'; ?>>Não</option>
+                                        </select>
+                                    </div>
+                                    @if ($dados->participante_quilombola)
+                                    <div id="participante_quilombola_qual_wrapper" class="col-12 col-md-6">
+                                        <label class="form-label mb-2" for="participante_quilombola_qual">
+                                        Qual?
+                                        </label>
+                                        <input class="form-control" type="text" name="participante_quilombola_qual" value="{{ $dados->participante_quilombola_qual }}" disabled/>
+                                    </div>
+                                    @endif
+
                                     <div class="col-md-3">
                                         <div>
                                             <label class="form-label mb-2" for="inputGenero">Identidade de

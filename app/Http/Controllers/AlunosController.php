@@ -247,6 +247,8 @@ class AlunosController extends Controller
             'povo_indigenas_id' => $request->input('povo_indigenas_id'),
             'terra_indigenas_id' => $request->input('terra_indigenas_id'),
             'pessoa_com_deficiencia' => $request->input('pessoa_com_deficiencia'),
+            'participante_quilombola' => $request->input('participante_quilombola'),
+            'participante_quilombola_qual' => $request->input('participante_quilombola_qual'),
         ]);
 
         if ($Foto) {
@@ -390,6 +392,8 @@ class AlunosController extends Controller
         $dados->povo_indigenas_id = $request->input('povo_indigenas_id') ?? NULL;
         $dados->terra_indigenas_id = $request->input('terra_indigenas_id') ?? NULL;
         $dados->pessoa_com_deficiencia = $request->input('pessoa_com_deficiencia');
+        $dados->participante_quilombola = $request->input('participante_quilombola');
+        $dados->participante_quilombola_qual = $request->input('participante_quilombola_qual');
         if ($request->input('inputComoSoube') != 'outros') {
             $dados->ComoSoubeOutros = NULL;
         } else {

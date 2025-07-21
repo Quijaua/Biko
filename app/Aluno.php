@@ -88,6 +88,8 @@ class Aluno extends Model implements Auditable
         'terra_indigenas_id',
         'povo_indigenas_id',
         'pessoa_com_deficiencia',
+        'participante_quilombola',
+        'participante_quilombola_qual',
     ];
 
     public function nucleo()
