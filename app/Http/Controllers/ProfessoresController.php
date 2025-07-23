@@ -52,7 +52,8 @@ class ProfessoresController extends Controller
 
       if($user->role === 'coordenador'){
         $me = Coordenadores::where('id_user', $user->id)->first();
-        $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+        // $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+        $coordenadorNucleos = DB::table('nucleos')->where('nucleos.id', $me->id_nucleo)->pluck('nucleos.id')->toArray();
         //$professores = Professores::where('id_nucleo', $me->id_nucleo)->get();
         $professores = Professores::whereIn('id_nucleo', $coordenadorNucleos)->paginate(25);
 
@@ -733,13 +734,16 @@ class ProfessoresController extends Controller
       switch ($user->role) {
         case 'coordenador':
           if (!isset($params['nucleo_id']) || empty($params['nucleo_id'])) {
-            $params['nucleo_id'] = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+            $params['nucleo_id'] = DB::table('nucleos')->where('nucleos.id', $user->coordenador->id_nucleo)->pluck('nucleos.id')->toArray();
+
           } else {
-            $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+            $coordenadorNucleos = DB::table('nucleos')->where('nucleos.id', $params['nucleo_id'])->pluck('nucleos.id')->toArray();
+
             if (!is_array($params['nucleo_id'])) {
               $params['nucleo_id'] = [$params['nucleo_id']];
             }
             $params['nucleo_id'] = array_intersect($params['nucleo_id'], $coordenadorNucleos);
+
             if (empty($params['nucleo_id'])) {
               $params['nucleo_id'] = $coordenadorNucleos;
             }
@@ -755,7 +759,7 @@ class ProfessoresController extends Controller
 
       $professores = DB::table('professores')
         ->when($params['nucleo_id'], function ($query) use ($params) {
-          return $query->where('professores.id_nucleo', '=', $params['nucleo_id']);
+          return $query->whereIn('professores.id_nucleo', $params['nucleo_id']);
         })
         ->when($params['status'], function ($query) use ($params) {
           return $query->where('professores.Status', '=', $params['status'] === 'ativo' ? 1 : 0);
