@@ -200,6 +200,14 @@ Route::get('professores/disable/{id}', 'ProfessoresController@disable')->middlew
 Route::get('professores/enable/{id}', 'ProfessoresController@enable')->middleware('permissions');
 Route::any('professores/search', 'ProfessoresController@search')->name('professores/search');
 
+// ROUTES FOR PSICOLOGOS MANAGEMENT
+Route::get('psicologos', 'PsicologosController@index')->middleware('permissions')->name('psicologos.psicologos');
+Route::get('psicologos/add', 'PsicologosController@show')->middleware('permissions');
+Route::post('psicologos/create', 'PsicologosController@create')->middleware('permissions');
+Route::get('psicologos/edit/{id}' , 'PsicologosController@edit')->middleware('permissions');
+Route::post('psicologos/update/{id}', 'PsicologosController@update')->middleware('permissions');
+Route::any('psicologos/search', 'PsicologosController@search')->name('psicologos/search');
+
 // ROUTES FOR MESSAGE MANAGEMENT
 Route::get('mensagens', 'MensagensController@index')->middleware('permissions')->name('messages.index');
 Route::get('mensagens/removed', 'MensagensController@removed')->middleware('permissions')->name('messages.removed');
