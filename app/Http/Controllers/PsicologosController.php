@@ -46,9 +46,6 @@ class PsicologosController extends Controller
         return redirect()->route('psicologos.psicologos')->with('success', 'Psicólogo criado com sucesso!');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit($id)
     {
         $user = Auth::user();
@@ -60,9 +57,6 @@ class PsicologosController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Psicologos $psicologos)
     {
         $data = $request->validate([
@@ -74,14 +68,6 @@ class PsicologosController extends Controller
 
         $psicologos->update($data);
         return back()->with('success', 'DADOS SALVOS COM SUCESSO.');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Psicologos $psicologos)
-    {
-        //
     }
 
     public function search(Request $request)
@@ -107,6 +93,17 @@ class PsicologosController extends Controller
         'user' => $user,
         'psicologos' => $psicologos,
       ]);
+    }
+
+    public function details($id)
+    {
+        $user = Auth::user();
+
+        $dados = Psicologos::find($id);
+
+        return view('psicologos.psicologosDetails')->with([
+          'dados'     => $dados
+        ]);
     }
 
     private static function getParams($request)

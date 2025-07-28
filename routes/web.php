@@ -202,6 +202,7 @@ Route::any('professores/search', 'ProfessoresController@search')->name('professo
 
 // ROUTES FOR PSICOLOGOS MANAGEMENT
 Route::get('psicologos', 'PsicologosController@index')->middleware('permissions')->name('psicologos.psicologos');
+Route::get('psicologos/details/{id}', 'PsicologosController@details')->middleware('permissions');
 Route::get('psicologos/add', 'PsicologosController@show')->middleware('permissions');
 Route::post('psicologos/create', 'PsicologosController@create')->middleware('permissions');
 Route::get('psicologos/edit/{id}' , 'PsicologosController@edit')->middleware('permissions');
