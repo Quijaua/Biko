@@ -69,6 +69,7 @@
     $tag_head = \DB::table('codigo_personalizados')->pluck('tag_head')->first();
     $open_tag_body = \DB::table('codigo_personalizados')->pluck('open_tag_body')->first();
     $close_tag_body = \DB::table('codigo_personalizados')->pluck('close_tag_body')->first();
+    $status = \DB::table('professores')->where('id_user', Auth::id())->value('status');
 
     if ($tag_head) {
         echo $tag_head;
@@ -468,6 +469,7 @@
                                 @endif
                             @endif
 
+                            @if ((Session::get('role') === 'professor' && $status != 0) || (Session::get('role') !== 'professor'))
                             <li
                                 class="nav-item {{ request()->routeIs('nucleo.material') ? 'bg-primary text-white rounded' : '' }}">
                                 <a class="nav-link" href="{{ route('nucleo.material') }}">
@@ -485,7 +487,10 @@
                                     {{ __('Material') }}
                                 </a>
                             </li>
+                            @endif
+                            @if ((Session::get('role') === 'professor' && $status != 0) || (Session::get('role') !== 'professor'))
                             @if ($ambiente_virtual)
+                            
                                 <li
                                     class="nav-item {{ request()->routeIs('ambiente-virtual.index') ? 'bg-primary text-white rounded' : '' }}">
                                     <a class="nav-link" href="{{ route('ambiente-virtual.index') }}">
@@ -505,6 +510,7 @@
                                         {{ __('Ambiente virtual') }}
                                     </a>
                                 </li>
+                            @endif
                             @endif
 
                             @if (Session::get('role') === 'administrador')
@@ -905,6 +911,7 @@
                                         </li>
                                     @endif
                                 @endif
+                                @if ((Session::get('role') === 'professor' && $status != 0) || (Session::get('role') !== 'professor'))
                                 @if ($ambiente_virtual)
                                     <li
                                         class="nav-item {{ request()->routeIs('ambiente-virtual.index') ? 'bg-primary text-white rounded' : '' }}">
@@ -925,6 +932,7 @@
                                             {{ __('Ambiente virtual') }}
                                         </a>
                                     </li>
+                                @endif
                                 @endif
 
                                 @if (Session::get('role') === 'administrador')
@@ -947,6 +955,7 @@
                                     </li>
 
                                 @endif
+                                @if ((Session::get('role') === 'professor' && $status != 0) || (Session::get('role') !== 'professor'))
                                 <li
                                     class="nav-item {{ request()->routeIs('nucleo.material') ? 'bg-primary text-white rounded' : '' }}">
                                     <a class="nav-link" href="{{ route('nucleo.material') }}">
@@ -964,7 +973,9 @@
                                         {{ __('Material') }}
                                     </a>
                                 </li>
+                                @endif
 
+                                @if ((Session::get('role') === 'professor' && $status != 0) || (Session::get('role') !== 'professor'))
                                 <li
                                     class="nav-item  {{ request()->routeIs('messages.index') ? 'bg-primary text-white rounded' : '' }}">
                                     <a class="nav-link" href="{{ route('messages.index') }}">
@@ -982,6 +993,7 @@
                                         {{ __('Mensagens') }}
                                     </a>
                                 </li>
+                                @endif
                             @endif
                             <li class="nav-item mt-3">
                                 <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -1328,6 +1340,7 @@
                                                     @endif
                                                 @endif
 
+                                                @if ((Session::get('role') === 'professor' && $status != 0) || (Session::get('role') !== 'professor'))
                                                 <li class="nav-item">
                                                     <a class="nav-link" href="{{ route('nucleo.material') }}">
                                                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -1346,7 +1359,9 @@
                                                         {{ __('Material') }}
                                                     </a>
                                                 </li>
+                                                @endif
 
+                                                @if ((Session::get('role') === 'professor' && $status != 0) || (Session::get('role') !== 'professor'))
                                                 <li class="nav-item ">
                                                     <a class="nav-link" href="{{ route('messages.index') }}">
                                                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -1364,6 +1379,7 @@
                                                         {{ __('Mensagens') }}
                                                     </a>
                                                 </li>
+                                                @endif
                                             @endif
                                         </ul>
                                     </div>
