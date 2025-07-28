@@ -540,16 +540,21 @@ class AlunosController extends Controller
 
     public function export(Request $request)
     {
-        $nucleo = $request->input('nucleo');
-        $nucleo_ativo = Nucleo::find($request->input('nucleo'));
-        $today = Carbon::now()->format('d-m-Y');
-        $nome_arquivo = $nucleo_ativo ? 'nucleo-' . $nucleo_ativo->NomeNucleo . '-' . $today : 'nucleo-todos-' . $today;
+        $user = Auth::user();
+        if ($user->role === 'coordenador' || $user->role === 'administrador') {
+            $nucleo = $request->input('nucleo');
+            $nucleo_ativo = Nucleo::find($request->input('nucleo'));
+            $today = Carbon::now()->format('d-m-Y');
+            $nome_arquivo = $nucleo_ativo ? 'nucleo-' . $nucleo_ativo->NomeNucleo . '-' . $today : 'nucleo-todos-' . $today;
 
-        if ($nucleo === null) {
-            return (new AlunosExport())->download($nome_arquivo . '.xlsx');
+            if ($nucleo === null) {
+                return (new AlunosExport())->download($nome_arquivo . '.xlsx');
+            }
+
+            return (new AlunosExport($nucleo))->download($nome_arquivo . '.xlsx');
+        } else {
+            abort(403, 'Acesso não autorizado.');
         }
-
-        return (new AlunosExport($nucleo))->download($nome_arquivo . '.xlsx');
     }
 
     public function logActionView($id)
