@@ -233,6 +233,15 @@ Route::group(['prefix' => 'ambiente-virtual'], function () {
 });
 Route::resource('/ambiente-virtual', 'AmbienteVirtualController')->middleware('auth')->except(['index']);
 
+// ROUTES FOR ATENDIMENTO PSICOLOGICO
+Route::resource('atendimento-psicologico', 'AtendimentoPsicologicoController')->middleware('auth');
+Route::get('atendimento-psicologico/create', 'AtendimentoPsicologicoController@create')->middleware('permissions')->name('atendimento-psicologico.create');
+Route::post('atendimento-psicologico/store', 'AtendimentoPsicologicoController@store')->middleware('permissions')->name('atendimento-psicologico.store');
+Route::get('atendimento-psicologico/edit/{id}' , 'AtendimentoPsicologicoController@edit')->middleware('permissions')->name('atendimento-psicologico.edit');
+Route::post('atendimento-psicologico/update/{id}' , 'AtendimentoPsicologicoController@update')->middleware('permissions')->name('atendimento-psicologico.update');
+Route::get('atendimento-psicologico/download/{id}', 'AtendimentoPsicologicoController@download')->middleware('permissions')->name('atendimento-psicologico.download');
+Route::get('atendimento-psicologico/details/{id}', 'AtendimentoPsicologicoController@details')->middleware('permissions')->name('atendimento-psicologico.details');
+
 // ROUTES FOR AUDITORIA
 Route::group(['prefix' => 'auditoria'], function () {
     Route::get('/', 'AuditoriaController@index')->middleware('auth')->name('auditoria.index');
