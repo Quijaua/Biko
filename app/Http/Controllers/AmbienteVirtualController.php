@@ -13,6 +13,15 @@ class AmbienteVirtualController extends Controller
 {
     public function index()
     {
+        $user = Auth::user();
+        if ($user->role === 'professor') {
+            $status = \DB::table('professores')->where('id_user', Auth::id())->value('status');
+
+            if (!$status) {
+                abort(403, 'Ops! Seu perfil precisa estar ativo para acessar esta página.');
+            }
+        }
+
         return view('ambiente-virtual.index')->with([
             'user' => Auth::user(),
             'aulas' => AmbienteVirtualService::index(),

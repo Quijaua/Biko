@@ -20,6 +20,14 @@ class MaterialController extends Controller
       abort(403, 'Usuário não autenticado.');
     }
 
+    if ($user->role === 'professor') {
+      $status = \DB::table('professores')->where('id_user', Auth::id())->value('status');
+
+      if (!$status) {
+        abort(403, 'Ops! Seu perfil precisa estar ativo para acessar esta página.');
+      }
+    }
+
     if ( $user->role === 'administrador' ) {
       $nucleos = Nucleo::where('Status', 1)->paginate(25);
       $files = Material::paginate(25);
