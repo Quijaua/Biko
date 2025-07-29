@@ -67,6 +67,10 @@ class NucleoController extends Controller
 
     public function showForm()
     {
+      $user = Auth::user();
+      if ($user->role !== 'administrador') {
+        abort(403, 'Acesso não autorizado.');
+      }
 
       return view('nucleos.nucleosCreate')->with([
         'disciplinas' => Disciplina::all(),
@@ -77,6 +81,14 @@ class NucleoController extends Controller
     {
       $dados = Nucleo::find($id);
       $dados->disciplinas = json_decode($dados->disciplinas);
+
+      $user = Auth::user();
+      if ($user->role === 'coordenador') {
+        $myNucleosIds = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+        if (!in_array($dados->id, $myNucleosIds)) {
+          abort(403, 'Você não tem permissão para excluir este núcleo.');
+        }
+      }
 
       $representantes = $dados->coordenadores()
         ->wherePivot('nucleo_id', $id)
