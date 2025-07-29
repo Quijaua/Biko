@@ -4,26 +4,6 @@
     <div class="container">
         <!-- PAGE HEADER -->
         <div class="container">
-
-            @if(session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                    @if(session('import_errors'))
-                        <ul style="margin-top: 0.5rem;">
-                            @foreach(session('import_errors') as $erro)
-                                <li>{{ $erro }}</li>
-                            @endforeach
-                        </ul>
-                    @endif
-                </div>
-            @endif
-
-            @if(session('error'))
-                <div class="alert alert-danger">
-                    {{ session('error') }}
-                </div>
-            @endif
-
             <div class="row">
                 <div class="col-12 col-md-6">
                     <h1 class="fs-1">Psicólogos (as)</h1>

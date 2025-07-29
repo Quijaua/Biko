@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Psicologos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use DB;
 
 class PsicologosController extends Controller
@@ -17,7 +19,7 @@ class PsicologosController extends Controller
             return back();
         }
 
-        if($user->role === 'administrador'){
+        if($user->role === 'administrador' || $user->role === 'psicologa_supervisora'){
             $user = Auth::user();
             $psicologos = Psicologos::paginate(25);
 
@@ -35,15 +37,41 @@ class PsicologosController extends Controller
 
     public function create(Request $request)
     {
-        $data = $request->validate([
-            'nome'     => 'required|string|max:255',
-            'crp'      => 'required|string|max:50|unique:psicologos,crp',
-            'telefone' => 'required|string|max:20',
-            'email'    => 'required|email|unique:psicologos,email',
+      $data = $request->validate([
+        'nome'     => 'required|string|max:255',
+        'crp'      => 'required|string|max:50|unique:psicologos,crp',
+        'telefone' => 'required|string|max:20',
+        'email'    => 'required|email|unique:psicologos,email',
+        'supervisora'=> 'nullable|boolean',
+      ]);
+
+      $isSupervisora = $request->input('supervisora') ? true : false;
+      $role = $isSupervisora ? 'psicologa_supervisora' : 'psicologo';
+
+      $user = User::where('email', $data['email'])->first();
+      $today = \Carbon\Carbon::now();
+      if (!$user) {
+        $user = new User([
+          'name' => $data['nome'],
+          'email' => $data['email'],
+          'password' => Hash::make('uneafro@2019'),
+          'role' => $role,
+          'email_verified_at' => $today,
         ]);
 
-        Psicologos::create($data);
-        return redirect()->route('psicologos.psicologos')->with('success', 'Psicólogo criado com sucesso!');
+        $user->save();
+
+        $data['user_id'] = $user->id;
+      }else{
+        return back()->with([
+          'error' => 'ESTE EMAIL JÁ ESTÁ EM USO',
+        ]);
+      }
+
+      $data['supervisora'] = $isSupervisora;
+      Psicologos::create($data);
+
+      return redirect()->route('psicologos.psicologos')->with('success', 'Psicólogo criado com sucesso!');
     }
 
     public function edit($id)
@@ -60,13 +88,45 @@ class PsicologosController extends Controller
     public function update(Request $request, Psicologos $psicologos)
     {
         $data = $request->validate([
-            'nome'     => 'required|string|max:255',
-            'crp'      => "required|string|max:50|unique:psicologos,crp,{$psicologos->id}",
-            'telefone' => 'required|string|max:20',
-            'email'    => "required|email|unique:psicologos,email,{$psicologos->id}",
+            'nome'       => 'required|string|max:255',
+            'crp'        => "required|string|max:50|unique:psicologos,crp,{$psicologos->id}",
+            'telefone'   => 'required|string|max:20',
+            'email'      => "required|email|unique:psicologos,email,{$psicologos->id}",
+            'supervisora'=> 'nullable|boolean',
         ]);
 
+        $isSupervisora = $request->boolean('supervisora');
+        $role = $isSupervisora ? 'psicologa_supervisora' : 'psicologo';
+
+        // Busca o usuário vinculado ao psicólogo (supondo que o vínculo seja feito pelo e-mail)
+        $user = User::where('email', $psicologos->email)->first();
+
+        // Verifica se o novo e-mail já está em uso por outro usuário
+        $emailJaUsado = User::where('email', $data['email'])
+            ->where('id', '!=', optional($user)->id)
+            ->exists();
+
+        if ($emailJaUsado) {
+            return back()->with([
+                'error' => 'ESTE EMAIL JÁ ESTÁ EM USO',
+            ]);
+        }
+
+        // Atualiza o usuário, se encontrado
+        if ($user) {
+            $user->update([
+                'name'  => $data['nome'],
+                'email' => $data['email'],
+                'role'  => $role,
+            ]);
+
+            $data['user_id'] = $user->id;
+        }
+
+        // Atualiza o psicólogo
+        $data['supervisora'] = $isSupervisora;
         $psicologos->update($data);
+
         return back()->with('success', 'DADOS SALVOS COM SUCESSO.');
     }
 

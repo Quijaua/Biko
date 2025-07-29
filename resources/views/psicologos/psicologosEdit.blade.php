@@ -153,6 +153,32 @@
                             </div>
                         </div>
 
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div>
+                                    <div class="form-label">É uma supervisora?</div>
+                                    <div>
+                                        <label class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio"
+                                                name="supervisora" value="1"
+                                                <?php if ($dados->supervisora) {
+                                                    echo 'checked';
+                                                } ?> />
+                                            <span class="form-check-label">Sim</span>
+                                        </label>
+                                        <label class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio"
+                                                name="supervisora" value="0"
+                                                <?php if (!$dados->supervisora) {
+                                                    echo 'checked';
+                                                } ?> />
+                                            <span class="form-check-label">Não</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </form>
                 </div>
             </div>

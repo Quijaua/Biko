@@ -14,5 +14,12 @@ class Psicologos extends Model
         'crp',
         'telefone',
         'email',
+        'supervisora',
+        'user_id',
     ];
+
+    public function user()
+    {
+        return $this->hasOne('App\User');
+    }
 }
