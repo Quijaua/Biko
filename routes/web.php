@@ -316,6 +316,8 @@ Route::post('/seja-um-professor', function (Request $request) {
 
 })->name('seja-um-professor.create');
 
+Route::get('/novos-voluntarios', [App\Http\Controllers\VoluntarioController::class, 'index'])->name('novos-voluntarios');
+
 // ROUTES FOR ADMINISTRADORES MANAGEMENT
 Route::group(['prefix' => 'administradores'], function () {
     Route::get('/', 'AdministradoresController@index')->middleware('auth')->name('administradores.index');

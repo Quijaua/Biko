@@ -6,6 +6,9 @@
     <!-- PAGE HEADER -->
     <div class="row justify-content-center">
         <div class="col-8">
+            <div class="mb-3 d-flex justify-content-end">
+                <a href="{{ route('novos-voluntarios') }}" class="btn btn-primary">Novos Voluntários</a>
+            </div>
             <div class="card">
                 <div class="card-header">Dashboard</div>
 
