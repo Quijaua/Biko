@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+@php
+    $user = Auth::user();
+@endphp
+
     <div class="container">
         <div class="container">
             <!-- PAGE HEADER -->
