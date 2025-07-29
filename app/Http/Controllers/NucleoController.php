@@ -8,6 +8,7 @@ use Session;
 use \Carbon\Carbon;
 use DB;
 
+use App\Aluno;
 use App\Professores;
 use App\Coordenadores;
 use App\Nucleo;
@@ -262,13 +263,19 @@ class NucleoController extends Controller
         $professor = Professores::where('id_user', Auth::user()->id)->first();
       } else if ( $user->role === 'coordenador' ) {
         $professor = Coordenadores::where('id_user', Auth::user()->id)->first();
-      };
+      } else if ( $user->role === 'aluno' ) {
+        $professor = Aluno::where('id_user', Auth::user()->id)->first();
+      }
 
       $nucleos = [];
       if($user->role === 'administrador'){
           $nucleos = Nucleo::where('Status', 1)->pluck('NomeNucleo', 'id')->all();
           $nucleo = Nucleo::find(request('nid', head(array_keys($nucleos))));
-      }else {
+      } else if ($user->role === 'coordenador') {
+          $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+          $nucleos = Nucleo::where('Status', 1)->whereIn('id', $coordenadorNucleos)->pluck('NomeNucleo', 'id')->all();
+          $nucleo = Nucleo::find(request('nid', head(array_keys($nucleos))));
+      } else {
           $nucleo = Nucleo::find($professor->id_nucleo);
       }
 
