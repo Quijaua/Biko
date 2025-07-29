@@ -119,10 +119,18 @@ class MaterialController extends Controller
 
   public function delete($id)
   {
+    $user = Auth::user();
+    if (!$user) {
+      abort(403, 'Usuário não autenticado.');
+    }
+  
     $file = Material::find($id);
-
     if (!$file) {
       return redirect()->route('nucleo.material')->with('error', 'Material não encontrado.');
+    }
+
+    if ($user->role == 'professor' && $file->user_id !== $user->id) {
+      abort(403, 'Ops! Só é possível excluir materiais que você criou');
     }
 
     $filePath = public_path('uploads/' . $file->file);

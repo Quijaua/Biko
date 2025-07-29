@@ -249,6 +249,8 @@
                                                         <a class="btn btn-outline-warning p-2"
                                                             href="{{ route('nucleo.material.restore', ['id' => $file->id]) }}">Restaurar</a>
                                                     @endif
+                                                    
+                                                    @if (($user->role == 'professor' && $file->user_id == $user->id) || $user->role !== 'professor')
                                                     <div class="modal modal-blur fade" id="modalConfirmarExclusao{{ $file->id }}"
                                                         tabindex="-1" role="dialog" aria-hidden="true">
                                                         <div class="modal-dialog modal-sm modal-dialog-centered"
@@ -296,6 +298,7 @@
                                                         data-bs-toggle="modal" data-bs-target="#modalConfirmarExclusao{{ $file->id }}">
                                                         Excluir
                                                     </a>
+                                                    @endif
                                                 @endif
 
                                             </td>
@@ -384,17 +387,7 @@
                                         <input type="text" name="title" class="form-control">
                                     </div>
 
-                                    @if ($user->role === 'administrador')
-                                        <div class="col-12 col-md-6 mb-3">
-                                            <label class="form-label">Núcleo</label>
-                                            <select class="form-select" name="nucleo_id" required>
-                                                @foreach ($nucleos as $nucleo)
-                                                    <option value="{{ $nucleo->id }}">{{ $nucleo->NomeNucleo }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    @elseif ($user->role === 'coordenador')
+                                    @if ($user->role === 'administrador' || $user->role === 'coordenador')
                                         <div class="col-12 col-md-6 mb-3">
                                             <label class="form-label">Núcleo</label>
                                             <select class="form-select" name="nucleo_id" required>
