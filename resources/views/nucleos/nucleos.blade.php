@@ -217,6 +217,7 @@
                                                           d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
                                                   </svg></span> Ver Detalhes
                                           </a>
+                                          @if (Session::get('role') !== 'professor')
                                           <a href="/nucleos/edit/{{ $nucleo->id }}"
                                               class="btn btn-primary">
                                               <span><svg xmlns="http://www.w3.org/2000/svg" width="24"
@@ -233,6 +234,7 @@
                                                       <path d="M16 5l3 3" />
                                                   </svg></span> Editar
                                           </a>
+                                          @endif
 
   @if($user->role === 'administrador')
                                           <a href="#" id="modal-importar-alunos" class="btn btn-outline-primary open-modal-btn" data-url="{{route('alunos.importar', ['id' => $nucleo->id])}}">

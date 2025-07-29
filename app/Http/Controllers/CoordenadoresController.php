@@ -72,6 +72,11 @@ class CoordenadoresController extends Controller
 
     public function showForm()
     {
+      $user = Auth::user();
+      if ($user->role === 'professor') {
+        abort(403, 'Acesso não autorizado.');
+      }
+
       // dd(Auth::user()->coordenador->nucleo()->get());
       $nucleos = collect();
 
