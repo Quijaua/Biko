@@ -264,6 +264,12 @@ Route::get('/seja-um-professor', function () {
     return view('seja-um-professor.index');
 });
 
+Route::post('/verifica-email-professor', function (Illuminate\Http\Request $request) {
+    $existe = App\User::where('email', $request->email)->exists();
+
+    return response()->json(['existe' => $existe]);
+});
+
 Route::post('/seja-um-professor', function (Request $request) {
 
     $user_data = [
