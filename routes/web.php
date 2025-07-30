@@ -1,6 +1,7 @@
 <?php
 
 use App\User;
+use App\Nucleo;
 use App\Mail\MessageOtpLogin;
 use App\Mail\EmailFormularioCoordenador;
 use App\Mail\EmailFormularioSejaUmProfessor;
@@ -241,6 +242,13 @@ Route::post('atendimento-psicologico/update/{id}' , 'AtendimentoPsicologicoContr
 Route::get('atendimento-psicologico/download/{id}', 'AtendimentoPsicologicoController@download')->middleware('permissions')->name('atendimento-psicologico.download');
 Route::get('atendimento-psicologico/details/{id}', 'AtendimentoPsicologicoController@details')->middleware('permissions')->name('atendimento-psicologico.details');
 
+// ROUTES FOR PLANTAO PSICOLOGICO
+Route::get('/plantao-psicologico', 'PlantaoPsicologicoController@index');
+Route::post('/plantao-psicologico/reservar', 'PlantaoPsicologicoController@reservar')->middleware('auth')->name('plantao-psicologico.reservar');
+Route::post('/plantao-psicologico/criar', 'PlantaoPsicologicoController@criar')->middleware('can:psicologo')->name('plantao-psicologico.criar');
+Route::get('/plantao-psicologico/link-login', 'LoginLinkController@enviarLink')->name('plantao-psicologico.enviarLink');
+Route::get('/plantao-psicologico/autenticar/{token}', 'LoginLinkController@autenticarComToken')->name('plantao-psicologico.autenticarComToken');
+
 // ROUTES FOR AUDITORIA
 Route::group(['prefix' => 'auditoria'], function () {
     Route::get('/', 'AuditoriaController@index')->middleware('auth')->name('auditoria.index');
@@ -301,14 +309,16 @@ Route::post('/seja-um-professor', function (Request $request) {
     $professor = App\Professores::create($professor_data);
 
     // RECUPERA OS COORDENADORES DO NUCLEO SELECIONADO E ENVIA EMAIL
-    $coordenadores = App\Coordenadores::where('id_nucleo', $request->nucleo_id)->get();
+    $myNucleo = Nucleo::find($request->nucleo_id);
+    $coordenadores = $myNucleo->coordenadores()->get();
 
-    foreach ($coordenadores as $coordenador) {
-            Mail::to($coordenador->Email)->send(new EmailFormularioSejaUmProfessor([
-              'message' => 'Olá, coordenador! Novo professor no seu núcleo!'
-            ]));
+    foreach($coordenadores as $coordenador) {
+        if($coordenador['Email']) {
+        Mail::to($coordenador['Email'])->send(new EmailFormularioCoordenador([
+            'message' => 'Olá, coordenador! Um novo professor foi inserido!'
+        ]));
+        }
     }
-
     return view('seja-um-professor.index')->with([
         'success' => true,
     ]);
