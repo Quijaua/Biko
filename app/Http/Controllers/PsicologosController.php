@@ -85,13 +85,15 @@ class PsicologosController extends Controller
         ]);
     }
 
-    public function update(Request $request, Psicologos $psicologos)
+    public function update($id, Request $request)
     {
+        $psicologos = Psicologos::findOrFail($id);
+
         $data = $request->validate([
             'nome'       => 'required|string|max:255',
-            'crp'        => "required|string|max:50|unique:psicologos,crp,{$psicologos->id}",
+            'crp'        => "required|string|max:50|unique:psicologos,crp,{$id}",
             'telefone'   => 'required|string|max:20',
-            'email'      => "required|email|unique:psicologos,email,{$psicologos->id}",
+            'email'      => "required|email|unique:psicologos,email,{$id}",
             'supervisora'=> 'nullable|boolean',
         ]);
 
@@ -99,7 +101,7 @@ class PsicologosController extends Controller
         $role = $isSupervisora ? 'psicologa_supervisora' : 'psicologo';
 
         // Busca o usuário vinculado ao psicólogo (supondo que o vínculo seja feito pelo e-mail)
-        $user = User::where('email', $psicologos->email)->first();
+        $user = User::where('email', $data['email'])->first();
 
         // Verifica se o novo e-mail já está em uso por outro usuário
         $emailJaUsado = User::where('email', $data['email'])
