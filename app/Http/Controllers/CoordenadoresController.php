@@ -81,7 +81,8 @@ class CoordenadoresController extends Controller
       $nucleos = collect();
 
       if (Auth::user()->role === 'coordenador') {
-        $nucleos = \App\Nucleo::where('Status', 1)->where('id', Auth::user()->coordenador->id_nucleo)->get();
+        $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+        $nucleos = \App\Nucleo::where('Status', 1)->whereIn('id', $coordenadorNucleos)->get();
       } else {
         $nucleos = \App\Nucleo::where('Status', 1)->get();
       }

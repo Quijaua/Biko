@@ -382,7 +382,7 @@
                                               <select name="inputNucleo[]" id="inputNucleo" class="form-select" multiple>
                                                   <option value="" selected>Selecione</option>
                                                   @foreach ($nucleos as $nucleo)
-                                                      <option value="{{ $nucleo->id }}" @if(\Auth::user()->role == 'coordenador' && $nucleo) selected @endif >
+                                                      <option value="{{ $nucleo->id }}">
                                                           {{ $nucleo->NomeNucleo }}</option>
                                                   @endforeach
                                               </select>
