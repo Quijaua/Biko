@@ -1,5 +1,5 @@
 @component('mail::message')
-Olá, {{ $aluno->NomeAluno }}!
+Olá, {{ $user->name }}!
 
 Recebemos sua solicitação de acesso sem senha ao Sistema Exemplo.
 

@@ -20,11 +20,13 @@ class MessageOtpLogin extends Mailable
     {
         $titulo = 'Solicitação de acesso';
         $this->subject($titulo);
+        $user = User::where('email', request()->email)->first();
         $otp_hash = User::where('email', request()->email)->first()->otp_hash;
 
         $this->markdown('mensagens._mensagem_otp', [
             'email' => request()->email,
             'token' => $otp_hash,
+            'user' => $user,
         ]);
 
         return true;
