@@ -288,6 +288,42 @@ class UserPermissions
             return back();
         }
 
+        if ($role === 'psicologo') {
+            $currentPath = $request->path();
+            $allowedAtendimentoPsicologicoIndex = 'atendimento-psicologico';
+            $allowedAtendimentoPsicologicoAdd = 'atendimento-psicologico/add';
+            $allowedAtendimentoPsicologicoCreate = 'atendimento-psicologico/create';
+            $allowedAtendimentoPsicologicoEdit = 'atendimento-psicologico/edit/';
+            $allowedAtendimentoPsicologicoUpdate = 'atendimento-psicologico/update/';
+            $allowedAtendimentoPsicologicoSearch = 'atendimento-psicologico/search';
+            $allowedAtendimentoPsicologicoDetails = 'atendimento-psicologico/details/';
+
+            //RULES FOR PSICOLOGOS ROUTES
+            if ($allowedAtendimentoPsicologicoIndex === $currentPath) {
+                return $next($request);
+            }
+            if ($allowedAtendimentoPsicologicoAdd === $currentPath) {
+                return $next($request);
+            }
+            if ($allowedAtendimentoPsicologicoCreate === $currentPath) {
+                return $next($request);
+            }
+            if (strpos($currentPath, $allowedAtendimentoPsicologicoEdit) === 0) {
+                return $next($request);
+            }
+            if (strpos($currentPath, $allowedAtendimentoPsicologicoUpdate) === 0) {
+                return $next($request);
+            }
+            if (strpos($currentPath, $allowedAtendimentoPsicologicoSearch) !== false) {
+                return $next($request);
+            }
+            if (strpos($currentPath, $allowedAtendimentoPsicologicoDetails) === 0) {
+                return $next($request);
+            }
+
+            return back();
+        }
+
         if ($role === 'psicologa_supervisora') {
             $currentPath = $request->path();
             $allowedPsicologosIndex = 'psicologos';
