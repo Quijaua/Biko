@@ -7,6 +7,7 @@ use App\Mail\EmailFormularioCoordenador;
 use App\Mail\EmailFormularioSejaUmProfessor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,38 +79,51 @@ Route::get('pre-cadastro', function () {
 // ROUTES FOR ALTERNATIVE LOGIN
 //OTP
 Route::post('otp-login', function () {
-    $user = User::where('email', request()->email)->first();
+    $email = request()->email;
+    $redirect = request()->redirect;
+    $user = \App\User::where('email', $email)->first();
 
     if (!$user) {
-        return back()->with('error', 'Email não cadastrado.');
+        return back()->with('error', 'Email não cadastrado.');
     }
 
-    $otp_hash = Hash::make(Carbon::now());
-
+    $otp_hash = \Illuminate\Support\Str::random(40); // melhor que Hash::make por ser persistente
     $user->otp_hash = $otp_hash;
     $user->save();
 
-    Mail::to($user->email)->send(new MessageOtpLogin($user->email));
+    $url = route('otp-verify', [
+        'email' => $user->email,
+        'token' => $otp_hash,
+        'redirect' => $redirect,
+    ]);
+
+    \Mail::to($user->email)->send(new \App\Mail\MessageOtpLogin($user->email, $url, $user));
 
     return back()->with('success', 'Quase lá! Confira seu e-mail e clique no link que enviamos para entrar no sistema.');
 })->name('otp-login');
 
 Route::get('otp-verify', function () {
-    $user = User::where('email', request()->email)->first();
+    $email = request()->email;
     $otp_hash = request()->token;
+    $redirect = request()->redirect;
+
+    $user = \App\User::where('email', $email)->first();
 
     if (!$user) {
-        return redirect()->route('login')->with('error', 'Usuário não encontrado.');
+        return redirect()->route('login')->with('error', 'Usuário não encontrado.');
     }
 
-    if (!$otp_hash || $user->otp_hash != $otp_hash) {
+    if (!$otp_hash || $user->otp_hash !== $otp_hash) {
         return redirect()->route('login')->with('error', 'Token inválido.');
     }
 
-    Auth::login($user);
-
+    \Auth::login($user);
     $user->otp_hash = null;
     $user->save();
+
+    if ($redirect && in_array($redirect, ['plantao-psicologico'])) {
+        return redirect()->route('plantao-psicologico.index');
+    }
 
     return redirect()->route('home');
 })->name('otp-verify');
@@ -235,7 +249,7 @@ Route::group(['prefix' => 'ambiente-virtual'], function () {
 Route::resource('/ambiente-virtual', 'AmbienteVirtualController')->middleware('auth')->except(['index']);
 
 // ROUTES FOR ATENDIMENTO PSICOLOGICO
-Route::get('atendimento-psicologico', 'AtendimentoPsicologicoController@index')->middleware('auth')->name('atendimento-psicologico.index');;
+Route::get('atendimento-psicologico', 'AtendimentoPsicologicoController@index')->middleware('auth')->name('atendimento-psicologico.index');
 Route::get('atendimento-psicologico/create', 'AtendimentoPsicologicoController@create')->middleware('permissions')->name('atendimento-psicologico.create');
 Route::post('atendimento-psicologico/store', 'AtendimentoPsicologicoController@store')->middleware('permissions')->name('atendimento-psicologico.store');
 Route::get('atendimento-psicologico/edit/{id}' , 'AtendimentoPsicologicoController@edit')->middleware('permissions')->name('atendimento-psicologico.edit');
@@ -245,11 +259,14 @@ Route::get('atendimento-psicologico/details/{id}', 'AtendimentoPsicologicoContro
 Route::any('atendimento-psicologico/search', 'AtendimentoPsicologicoController@search')->name('atendimento-psicologico/search');
 
 // ROUTES FOR PLANTAO PSICOLOGICO
-Route::get('/plantao-psicologico', 'PlantaoPsicologicoController@index');
-Route::post('/plantao-psicologico/reservar', 'PlantaoPsicologicoController@reservar')->middleware('auth')->name('plantao-psicologico.reservar');
-Route::post('/plantao-psicologico/criar', 'PlantaoPsicologicoController@criar')->middleware('can:psicologo')->name('plantao-psicologico.criar');
-Route::get('/plantao-psicologico/link-login', 'LoginLinkController@enviarLink')->name('plantao-psicologico.enviarLink');
-Route::get('/plantao-psicologico/autenticar/{token}', 'LoginLinkController@autenticarComToken')->name('plantao-psicologico.autenticarComToken');
+Route::get('/plantao-psicologico', 'PlantaoPsicologicoController@index')->name('plantao-psicologico.index');
+Route::get('/plantao-psicologico/add', 'PlantaoPsicologicoController@show')->name('plantao-psicologico.show');
+Route::post('/plantao-psicologico/store', 'PlantaoPsicologicoController@store')->name('plantao-psicologico.store');
+Route::get('/plantao-psicologico/edit/{id}', 'PlantaoPsicologicoController@edit')->name('plantao-psicologico.edit');
+Route::post('/plantao-psicologico/update/{id}', 'PlantaoPsicologicoController@update')->name('plantao-psicologico.update');
+Route::post('/plantao-psicologico/agendar', 'PlantaoPsicologicoController@agendar')->middleware('auth')->name('plantao-psicologico.agendar');
+Route::get('/api/psicologos/{id}/datas', 'PlantaoPsicologicoController@datasDisponiveis');
+Route::get('/api/psicologos/{id}/horarios', 'PlantaoPsicologicoController@horariosDisponiveis');
 
 // ROUTES FOR AUDITORIA
 Route::group(['prefix' => 'auditoria'], function () {

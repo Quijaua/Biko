@@ -83,7 +83,7 @@
                                             <tr>
                                                 <td><input type="checkbox" class="custom-checkbox" /></td>
 
-                                                <td class="text-secondary">{{ $psicologo->estudante->nome }}</td>
+                                                <td class="text-secondary">{{ $psicologo->estudante->NomeAluno }}</td>
 
                                                 <td class="text-secondary">{{ $psicologo->created_at->format('d/m/Y H:i') }}</td>
 

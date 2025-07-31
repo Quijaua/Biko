@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\AtendimentoPsicologico;
 use App\Psicologos;
+use App\Aluno;
 use App\LogAtendimentoPsicologico;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +23,7 @@ class AtendimentoPsicologicoController extends Controller
 
     public function create()
     {
-        $estudantes = Psicologos::orderBy('nome')->pluck('nome', 'id');
+        $estudantes = Aluno::orderBy('NomeAluno')->pluck('NomeAluno', 'id');
         return view('atendimento-psicologico.create', compact('estudantes'));
     }
 

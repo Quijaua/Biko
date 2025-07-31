@@ -22,7 +22,7 @@ class AtendimentoPsicologico extends Model
 
     public function estudante()
     {
-        return $this->belongsTo(Psicologos::class);
+        return $this->belongsTo(Aluno::class);
     }
 
     public function criador()

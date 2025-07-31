@@ -5,7 +5,7 @@ Recebemos sua solicitação de acesso sem senha ao Sistema Exemplo.
 
 Para entrar, basta clicar no botão abaixo:
 
-@component('mail::button', ['url' => route('otp-verify', ['email' => $email, 'token' => $token])])
+@component('mail::button', ['url' => $url])
 Entrar sem senha
 @endcomponent
 
