@@ -1442,7 +1442,7 @@
                                             style="background-image: url({{ asset('images/user.png') }})"></span>
                                         <div class="d-none d-xl-block ps-2">
                                             <div>{{ Auth::user()->name }}</div>
-                                            <div class="mt-1 small text-secondary">{{ Auth::user()->role }}</div>
+                                            <div class="mt-1 small text-secondary">{{ Auth::user()->formatted_role }}</div>
                                         </div>
                                     </a>
                                 </div>

@@ -88,4 +88,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->coordenador !== null;
     }
 
+    public function getFormattedRoleAttribute()
+    {
+        return match ($this->role) {
+            'psicologa' => 'psicóloga',
+            'psicologa_supervisora' => 'psicóloga supervisora',
+            default => str_replace('_', ' ', $this->role),
+        };
+    }
 }
