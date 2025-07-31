@@ -158,6 +158,8 @@ class UserPermissions
             $allowedAlunosInactive = 'alunos/disable/';
             $allowedAlunosActive = 'alunos/enable/';
             $allowedCoordenadoresList = 'coordenadores';
+            $allowedCoordenadoresAdd = 'coordenadores/add';
+            $allowedCoordenadoresCreate = 'coordenadores/create';
             $allowedCoordenadoresDetails = 'coordenadores/details/';
             $allowedCoordenadoresEdit = 'coordenadores/edit/' . $user->coordenador->id;
             $allowedCoordenadoresUpdate = 'coordenadores/update/';
@@ -211,6 +213,12 @@ class UserPermissions
 
             //RULES FOR COORDENADORES ROUTES
             if ($currentPath === $allowedCoordenadoresList) {
+                return $next($request);
+            }
+            if ($currentPath === $allowedCoordenadoresAdd) {
+                return $next($request);
+            }
+            if ($currentPath === $allowedCoordenadoresCreate) {
                 return $next($request);
             }
             if (strpos($currentPath, $allowedCoordenadoresDetails) === 0) {
