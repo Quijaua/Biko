@@ -23,7 +23,7 @@ class AtendimentoPsicologicoController extends Controller
 
     public function create()
     {
-        $estudantes = Aluno::orderBy('NomeAluno')->pluck('NomeAluno', 'id');
+        $estudantes = Aluno::whereNotNull('NomeAluno')->orderBy('NomeAluno')->pluck('NomeAluno', 'id');
         return view('atendimento-psicologico.create', compact('estudantes'));
     }
 
@@ -60,7 +60,7 @@ class AtendimentoPsicologicoController extends Controller
     public function edit($id)
     {
         $dados = AtendimentoPsicologico::find($id);
-        $estudantes = Aluno::orderBy('NomeAluno')->pluck('NomeAluno', 'id');
+        $estudantes = Aluno::whereNotNull('NomeAluno')->orderBy('NomeAluno')->pluck('NomeAluno', 'id');
         return view('atendimento-psicologico.edit', compact('dados', 'estudantes'));
     }
 
