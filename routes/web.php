@@ -235,13 +235,14 @@ Route::group(['prefix' => 'ambiente-virtual'], function () {
 Route::resource('/ambiente-virtual', 'AmbienteVirtualController')->middleware('auth')->except(['index']);
 
 // ROUTES FOR ATENDIMENTO PSICOLOGICO
-Route::get('atendimento-psicologico', 'AtendimentoPsicologicoController@index');
+Route::get('atendimento-psicologico', 'AtendimentoPsicologicoController@index')->middleware('auth')->name('atendimento-psicologico.index');;
 Route::get('atendimento-psicologico/create', 'AtendimentoPsicologicoController@create')->middleware('permissions')->name('atendimento-psicologico.create');
 Route::post('atendimento-psicologico/store', 'AtendimentoPsicologicoController@store')->middleware('permissions')->name('atendimento-psicologico.store');
 Route::get('atendimento-psicologico/edit/{id}' , 'AtendimentoPsicologicoController@edit')->middleware('permissions')->name('atendimento-psicologico.edit');
 Route::post('atendimento-psicologico/update/{id}' , 'AtendimentoPsicologicoController@update')->middleware('permissions')->name('atendimento-psicologico.update');
 Route::get('atendimento-psicologico/download/{id}', 'AtendimentoPsicologicoController@download')->middleware('permissions')->name('atendimento-psicologico.download');
 Route::get('atendimento-psicologico/details/{id}', 'AtendimentoPsicologicoController@details')->middleware('permissions')->name('atendimento-psicologico.details');
+Route::any('atendimento-psicologico/search', 'AtendimentoPsicologicoController@search')->name('atendimento-psicologico/search');
 
 // ROUTES FOR PLANTAO PSICOLOGICO
 Route::get('/plantao-psicologico', 'PlantaoPsicologicoController@index');

@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="rounded border border-gray-300 mt-4">
-                    <form action="/psicologos/search" method="POST" class="p-4 bg-white" role="search">
+                    <form action="/atendimento-psicologico/search" method="POST" class="p-4 bg-white" role="search">
                         <div class="col-10 d-flex align-items-center gap-2">
                             @csrf
                             <input type="text" name="inputQuery" class="form-control"
@@ -53,7 +53,7 @@
                                 <i class="fas fa-search"></i> Buscar
                             </button>
 
-                            <a href="/psicologos" class="btn btn-light text-secondary">
+                            <a href="/atendimento-psicologico" class="btn btn-light text-secondary">
                                 Limpar
                             </a>
                         </div>

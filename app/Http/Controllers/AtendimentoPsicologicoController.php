@@ -8,6 +8,7 @@ use App\Psicologos;
 use App\LogAtendimentoPsicologico;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use DB;
 
 class AtendimentoPsicologicoController extends Controller
 {
@@ -97,6 +98,31 @@ class AtendimentoPsicologicoController extends Controller
 
         return redirect()->route('atendimento-psicologico.index')
                          ->with('success', 'Atendimento atualizado!');
+    }
+
+    private static function getParams($request)
+    {
+        return [
+            'query' => $request->input('inputQuery'),
+        ];
+    }
+
+    public function search(Request $request)
+    {
+        $params = self::getParams($request);
+
+        $atendimento_psicologico = \App\AtendimentoPsicologico::with('estudante')
+            ->when($params['query'], function ($query) use ($params) {
+                $query->whereHas('estudante', function ($q) use ($params) {
+                    $q->where('nome', 'LIKE', '%' . $params['query'] . '%');
+                });
+            })
+            ->paginate(25);
+
+        return view('atendimento-psicologico.index')->with([
+            'user' => Auth::user(),
+            'atendimento_psicologico' => $atendimento_psicologico,
+        ]);
     }
 
     public function details($id)
