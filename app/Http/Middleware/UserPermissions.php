@@ -291,8 +291,8 @@ class UserPermissions
         if ($role === 'psicologo') {
             $currentPath = $request->path();
             $allowedAtendimentoPsicologicoIndex = 'atendimento-psicologico';
-            $allowedAtendimentoPsicologicoAdd = 'atendimento-psicologico/add';
             $allowedAtendimentoPsicologicoCreate = 'atendimento-psicologico/create';
+            $allowedAtendimentoPsicologicoStore = 'atendimento-psicologico/store';
             $allowedAtendimentoPsicologicoEdit = 'atendimento-psicologico/edit/';
             $allowedAtendimentoPsicologicoUpdate = 'atendimento-psicologico/update/';
             $allowedAtendimentoPsicologicoSearch = 'atendimento-psicologico/search';
@@ -302,10 +302,10 @@ class UserPermissions
             if ($allowedAtendimentoPsicologicoIndex === $currentPath) {
                 return $next($request);
             }
-            if ($allowedAtendimentoPsicologicoAdd === $currentPath) {
+            if ($allowedAtendimentoPsicologicoCreate === $currentPath) {
                 return $next($request);
             }
-            if ($allowedAtendimentoPsicologicoCreate === $currentPath) {
+            if ($allowedAtendimentoPsicologicoStore === $currentPath) {
                 return $next($request);
             }
             if (strpos($currentPath, $allowedAtendimentoPsicologicoEdit) === 0) {

@@ -30,7 +30,7 @@ class AtendimentoPsicologicoController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'estudante_id'            => 'required|exists:psicologos,id',
+            'estudante_id'            => 'required|exists:alunos,id',
             'demanda_objetivos'       => 'required|string',
             'registro_atendimento'    => 'required|string',
             'tipo_encaminhamento'     => 'required|in:SUS,CRAS,CREAS,Atendimento finalizado',
@@ -44,10 +44,10 @@ class AtendimentoPsicologicoController extends Controller
 
         $data['created_by'] = Auth::id();
 
-        AtendimentoPsicologico::create($data);
+        $atendimento = AtendimentoPsicologico::create($data);
 
         LogAtendimentoPsicologico::create([
-            'atendimento_psicologico_id' => $id,
+            'atendimento_psicologico_id' => $atendimento->id,
             'user_id' => Auth::id(),
             'acao' => 'criou',
             'detalhes' => 'Criou o Atendimento Psicológico.'
@@ -68,7 +68,7 @@ class AtendimentoPsicologicoController extends Controller
     {
         $atendimento = AtendimentoPsicologico::findOrFail($id);
         $data = $request->validate([
-            'estudante_id'            => 'required|exists:psicologos,id',
+            'estudante_id'            => 'required|exists:alunos,id',
             'demanda_objetivos'       => 'required|string',
             'registro_atendimento'    => 'required|string',
             'tipo_encaminhamento'     => 'required|in:SUS,CRAS,CREAS,Atendimento finalizado',
