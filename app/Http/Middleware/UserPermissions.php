@@ -280,6 +280,42 @@ class UserPermissions
             return back();
         }
 
+        if ($role === 'psicologa_supervisora') {
+            $currentPath = $request->path();
+            $allowedPsicologosIndex = 'psicologos';
+            $allowedPsicologosAdd = 'psicologos/add';
+            $allowedPsicologosCreate = 'psicologos/create';
+            $allowedPsicologosEdit = 'psicologos/edit/';
+            $allowedPsicologosUpdate = 'psicologos/update/';
+            $allowedPsicologosSearch = 'psicologos/search';
+            $allowedPsicologosDetails = 'psicologos/details/';
+
+            //RULES FOR PSICOLOGOS ROUTES
+            if ($allowedPsicologosIndex === $currentPath) {
+                return $next($request);
+            }
+            if ($allowedPsicologosAdd === $currentPath) {
+                return $next($request);
+            }
+            if ($allowedPsicologosCreate === $currentPath) {
+                return $next($request);
+            }
+            if (strpos($currentPath, $allowedPsicologosEdit) === 0) {
+                return $next($request);
+            }
+            if (strpos($currentPath, $allowedPsicologosUpdate) === 0) {
+                return $next($request);
+            }
+            if (strpos($currentPath, $allowedPsicologosSearch) !== false) {
+                return $next($request);
+            }
+            if (strpos($currentPath, $allowedPsicologosDetails) === 0) {
+                return $next($request);
+            }
+
+            return back();
+        }
+
         return back();
     }
 
