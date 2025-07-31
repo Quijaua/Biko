@@ -60,7 +60,7 @@ class AtendimentoPsicologicoController extends Controller
     public function edit($id)
     {
         $dados = AtendimentoPsicologico::find($id);
-        $estudantes = Psicologos::orderBy('nome')->pluck('nome', 'id');
+        $estudantes = Aluno::orderBy('NomeAluno')->pluck('NomeAluno', 'id');
         return view('atendimento-psicologico.edit', compact('dados', 'estudantes'));
     }
 
