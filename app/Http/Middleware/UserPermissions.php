@@ -161,8 +161,10 @@ class UserPermissions
             $allowedCoordenadoresAdd = 'coordenadores/add';
             $allowedCoordenadoresCreate = 'coordenadores/create';
             $allowedCoordenadoresDetails = 'coordenadores/details/';
-            $allowedCoordenadoresEdit = 'coordenadores/edit/' . $user->coordenador->id;
+            $allowedCoordenadoresEdit = 'coordenadores/edit/';
             $allowedCoordenadoresUpdate = 'coordenadores/update/';
+            $allowedCoordenadoresDisable = 'coordenadores/disable/';
+            $allowedCoordenadoresEnable = 'coordenadores/enable/';
             $allowedProfessoresIndex = 'professores';
             $allowedProfessoresSearch = 'professores/search';
             $allowedProfessoresAdd = 'professores/add';
@@ -224,10 +226,16 @@ class UserPermissions
             if (strpos($currentPath, $allowedCoordenadoresDetails) === 0) {
                 return $next($request);
             }
-            if ($currentPath === $allowedCoordenadoresEdit) {
+            if (strpos($currentPath, $allowedCoordenadoresEdit) === 0) {
                 return $next($request);
             }
             if (strpos($currentPath, $allowedCoordenadoresUpdate) === 0) {
+                return $next($request);
+            }
+            if (strpos($currentPath, $allowedCoordenadoresDisable) === 0) {
+                return $next($request);
+            }
+            if (strpos($currentPath, $allowedCoordenadoresEnable) === 0) {
                 return $next($request);
             }
 
