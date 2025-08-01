@@ -1,6 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+  .dots::after {
+    content: '';
+    display: inline-block;
+    animation: dotty 1.5s steps(3, end) infinite;
+    width: 1em;
+    text-align: left;
+  }
+
+  @keyframes dotty {
+    0% { content: ''; }
+    33% { content: '.'; }
+    66% { content: '..'; }
+    100% { content: '...'; }
+  }
+</style>
+
 <div class="page-wrapper">
   <div class="container-xl">
     <div class="page-header d-print-none">
@@ -50,6 +67,11 @@
         <!-- Step 1: Selecionar Psicólogo -->
         <div id="step-1">
           <h4 class="card-title">1. Escolha o Psicólogo</h4>
+
+          @if ($psicologos->isEmpty())
+            <p class="m-1 text-secondary">Nenhum psicólogo disponível.</p>
+          @endif
+
           <div class="row gx-2 gy-2">
             @foreach($psicologos as $psicologo)
               <div class="col-6 col-md-3">
@@ -75,6 +97,14 @@
         <!-- Step 3: Selecionar Horário -->
         <div id="step-3" class="d-none mt-4">
           <h4 class="card-title">3. Escolha o Horário</h4>
+
+          <div id="times-loading" class="text-muted d-none">
+            <div class="d-flex align-items-center gap-2">
+              <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+              <span>Carregando horários<span class="dot-animate">...</span></span>
+            </div>
+          </div>
+
           <div id="times-container" class="row gx-2 gy-2">
             {{-- Horários serão carregados via JS --}}
           </div>
@@ -94,6 +124,11 @@
             <dd class="col-sm-9" id="summary-time"></dd>
           </dl>
           <button id="confirm-btn" class="btn btn-primary">Confirmar Agendamento</button>
+          <button class="btn btn-primary d-none" id="loader-btn" disabled>
+            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            Carregando<span class="dots"></span>
+          </button>
+
           <a class="btn btn-default ms-3" href="{{ route('plantao-psicologico.index') }}">Resetar</a>
         </div>
       </div>
@@ -131,41 +166,48 @@
     const calendarEl = document.getElementById('calendar');
 
     calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        locale: 'pt-br',
-        height: 500,
-        selectable: true,
-        validRange: {
+      initialView: 'dayGridMonth',
+      locale: 'pt-br',
+      height: 500,
+      selectable: true,
+      validRange: {
         start: new Date().toISOString().split('T')[0]
-        },
-        events: async function(info, successCallback, failureCallback) {
-            const res = await fetch(`/api/psicologos/${selectedPsico.id}/datas`);
-            const datas = await res.json();
-            const events = datas.map(date => ({ title: 'Disponível', start: date, allDay: true }));
-            successCallback(events);
-        },
-        dateClick: function(info) {
-            selectedDate = info.dateStr;
-            document.getElementById('step-3').classList.remove('d-none');
-            loadTimes(selectedDate);
-        },
-        eventClick: function(info) {
-            // info.event.start é a data do evento clicado
-            selectedDate = info.event.startStr; // string no formato 'YYYY-MM-DD'
-            document.getElementById('step-3').classList.remove('d-none');
-            loadTimes(selectedDate);
-        }
+      },
+      events: async function(info, successCallback, failureCallback) {
+        const res = await fetch(`/api/psicologos/${selectedPsico.id}/datas`);
+        const datas = await res.json();
+        const events = datas.map(date => ({ title: 'Disponível', start: date, allDay: true }));
+        successCallback(events);
+      },
+      dateClick: function(info) {
+        selectedDate = info.dateStr;
+        document.getElementById('step-3').classList.remove('d-none');
+        loadTimes(selectedDate);
+      },
+      eventClick: function(info) {
+        // info.event.start é a data do evento clicado
+        selectedDate = info.event.startStr; // string no formato 'YYYY-MM-DD'
+        document.getElementById('step-3').classList.remove('d-none');
+        loadTimes(selectedDate);
+      }
     });
 
     calendar.render();
   }
 
   function loadTimes(date) {
+    const container = document.getElementById('times-container');
+    const loading = document.getElementById('times-loading');
+
+    container.innerHTML = '';
+    loading.classList.remove('d-none');
+
     fetch(`/api/psicologos/${selectedPsico.id}/horarios?date=${date}`)
       .then(res => res.json())
       .then(times => {
-        const container = document.getElementById('times-container');
+        loading.classList.add('d-none');
         container.innerHTML = '';
+
         times.forEach(time => {
           const btn = document.createElement('button');
           btn.type = 'button';
@@ -174,26 +216,40 @@
           btn.addEventListener('click', () => selectTime(time));
           container.appendChild(btn);
         });
+
+        if (times.length === 0) {
+          container.innerHTML = '<div class="text-muted">Nenhum horário disponível.</div>';
+        }
+      })
+      .catch(() => {
+        loading.classList.add('d-none');
+        container.innerHTML = '<div class="text-danger">Erro ao carregar horários.</div>';
       });
   }
 
-    function formatDateToBR(dateStr) {
-        const [year, month, day] = dateStr.split('-');
-        return `${day}/${month}/${year}`;
-    }
+  function formatDateToBR(dateStr) {
+    const [year, month, day] = dateStr.split('-');
+    return `${day}/${month}/${year}`;
+  }
 
-    function selectTime(time) {
-        selectedTime = time;
-        document.getElementById('summary-psico').textContent = selectedPsico.name;
-        document.getElementById('summary-date').textContent = formatDateToBR(selectedDate);
-        document.getElementById('summary-time').textContent = selectedTime;
+  function selectTime(time) {
+    selectedTime = time;
+    document.getElementById('summary-psico').textContent = selectedPsico.name;
+    document.getElementById('summary-date').textContent = formatDateToBR(selectedDate);
+    document.getElementById('summary-time').textContent = selectedTime;
 
-        document.getElementById('step-2').classList.add('d-none');
-        document.getElementById('step-3').classList.add('d-none');
-        document.getElementById('step-4').classList.remove('d-none');
-    }
+    document.getElementById('step-2').classList.add('d-none');
+    document.getElementById('step-3').classList.add('d-none');
+    document.getElementById('step-4').classList.remove('d-none');
+  }
 
   document.getElementById('confirm-btn').addEventListener('click', () => {
+    document.getElementById('confirm-btn').classList.add('d-none');
+    document.getElementById('loader-btn').classList.remove('d-none');
+
+    const oldAlert = document.querySelector('#step-4 .alert');
+    if (oldAlert) oldAlert.remove();
+
     const payload = {
         psicologo_id: selectedPsico.id,
         data: selectedDate,
@@ -201,29 +257,50 @@
     };
 
     fetch('{{ route('plantao-psicologico.agendar') }}', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-        },
-        body: JSON.stringify(payload)
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+      },
+      body: JSON.stringify(payload)
     })
     .then(async res => {
-        const data = await res.json();
+      const data = await res.json();
 
-        if (data.success) {
-            console.log('Agendamento realizado com sucesso!');
-            window.location.reload();
-        } else {
-            console.error(data);
-            console.error('Erro ao agendar: ' + (data.message || 'verifique os dados.'));
-        }
+      if (data.success) {
+        console.log('Agendamento realizado com sucesso!');
+        window.location.reload();
+      } else {
+        console.error(data);
+        console.error('Erro ao agendar: ' + (data.message || 'verifique os dados.'));
+        showError('Erro ao agendar: ' + (data.message || 'Verifique os dados.'));
+
+        document.getElementById('confirm-btn').classList.remove('d-none');
+        document.getElementById('loader-btn').classList.add('d-none');
+      }
     })
     .catch(err => {
-        console.error(err);
-        console.error('Erro inesperado: ' + err.message);
+      console.error(err);
+      console.error('Erro inesperado: ' + err.message);
+      showError('Erro inesperado: ' + err.message);
+
+      document.getElementById('confirm-btn').classList.remove('d-none');
+      document.getElementById('loader-btn').classList.add('d-none');
     });
+
+    function showError(message) {
+      document.getElementById('confirm-btn').classList.remove('d-none');
+      document.getElementById('loader-btn').classList.add('d-none');
+
+      const alertDiv = document.createElement('div');
+      alertDiv.className = 'alert alert-danger mt-3';
+      alertDiv.textContent = message;
+
+      const step4 = document.getElementById('step-4');
+      const title = step4.querySelector('h4');
+      step4.insertBefore(alertDiv, title.nextSibling);
+    }
 });
 </script>
 @endsection

@@ -205,6 +205,7 @@ class PlantaoPsicologicoController extends Controller
 
         $psicologo = User::findOrFail($request->psicologo_id);
         $estudante = auth()->user();
+        $aluno = \App\Aluno::where('id_user', $estudante->id)->firstOrFail();
 
         $plantao = PlantaoPsicologico::where('psicologo_id', $psicologo->id)
             ->where('data', $request->data)
@@ -220,13 +221,13 @@ class PlantaoPsicologicoController extends Controller
         }
 
         // Marcar horário como reservado
-        $plantao->estudante_id = $estudante->id;
+        $plantao->estudante_id = $aluno->id;
         $plantao->save();
 
         // Criar o atendimento com dados padrão (você pode customizar depois)
         $atendimento = AtendimentoPsicologico::create([
             // 'psicologo_id' => $psicologo->id,
-            'estudante_id' => $estudante->id,
+            'estudante_id' => $aluno->id,
             'data' => $request->data,
             'horario' => $request->horario,
             'demanda_objetivos' => 'Agendamento automático via sistema.',
