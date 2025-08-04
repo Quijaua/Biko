@@ -146,7 +146,7 @@ class AtendimentoPsicologicoController extends Controller
         }
 
         $dados = AtendimentoPsicologico::find($id);
-        $estudantes = Psicologos::orderBy('nome')->pluck('nome', 'id');
+        $estudantes = Aluno::whereNotNull('NomeAluno')->orderBy('NomeAluno')->pluck('NomeAluno', 'id');
         $logs = LogAtendimentoPsicologico::where('atendimento_psicologico_id', $id)
             ->with('user')
             ->latest()
