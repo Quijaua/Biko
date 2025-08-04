@@ -35,7 +35,7 @@ class AtendimentoPsicologicoController extends Controller
             'registro_atendimento'    => 'required|string',
             'tipo_encaminhamento'     => 'required|in:SUS,CRAS,CREAS,Atendimento finalizado',
             'descricao_encaminhamento' => 'nullable|string',
-            'anexo'                   => 'nullable|file|mimes:pdf|max:2048',
+            'anexo'                   => 'nullable|file|mimes:pdf|max:10240',
         ]);
 
         if ($request->hasFile('anexo')) {
@@ -73,7 +73,7 @@ class AtendimentoPsicologicoController extends Controller
             'registro_atendimento'    => 'required|string',
             'tipo_encaminhamento'     => 'required|in:SUS,CRAS,CREAS,Atendimento finalizado',
             'descricao_encaminhamento' => 'nullable|string',
-            'anexo'                   => 'nullable|file|mimes:pdf|max:2048',
+            'anexo'                   => 'nullable|file|mimes:pdf|max:10240',
         ]);
 
         if ($request->hasFile('anexo')) {
