@@ -30,10 +30,10 @@ class EmailFormularioCoordenador extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address(env('MAIL_FROM_ADDRESS'), "Biko"),
+            from: new Address(config('mail.from.address'), "Biko"),
             subject: "Notificação preenchimento registro",
             replyTo: [
-                new Address(env('MAIL_FROM_ADDRESS'), 'Biko')
+                new Address(config('mail.from.address'), 'Biko')
             ]
         );
     }
