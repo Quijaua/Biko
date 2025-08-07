@@ -165,7 +165,7 @@ Route::get('nucleo/material/inactive/{id}', 'MaterialController@inactive')->midd
 Route::get('nucleo/material/restore/{id}', 'MaterialController@restore')->middleware('auth')->name('nucleo.material.restore');
 Route::delete('nucleo/material/delete/{id}', 'MaterialController@delete')->middleware('auth')->name('nucleo.material.delete');
 Route::get('nucleo/material/search', 'MaterialController@search');
-Route::put('nucleo/material/edit/{id}', 'MaterialController@edit')->middleware(['auth', 'permissions'])->name('material.edit');
+Route::put('nucleo/material/edit/{id}', 'MaterialController@edit')->middleware(['auth'/*, 'permissions'*/])->name('material.edit');
 Route::get('nucleo/material/download/{id}', 'MaterialController@download')->middleware(['auth', 'permissions'])->name('material.download');
 
 Route::post('nucleo/professores-disciplinas/create', 'NucleoProfessoresDisciplinasController@create')->name('professores-disciplinas.create');
