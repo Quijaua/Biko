@@ -119,7 +119,11 @@ class AmbienteVirtualService
 
     public static function isAssistido($id)
     {
-        return DB::table('alunos_ambiente_virtuals_watched')->where('aluno_id', Auth::user()->aluno->id)->where('ambiente_virtual_id', $id)->where('deleted_at', null)->exists();
+        if ( Auth::user()->role === 'aluno' ) {
+            return DB::table('alunos_ambiente_virtuals_watched')->where('aluno_id', Auth::user()->aluno->id)->where('ambiente_virtual_id', $id)->where('deleted_at', null)->exists();
+        }
+
+        return false;
     }
 
     public static function marcarAssistido()
