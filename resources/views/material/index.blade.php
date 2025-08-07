@@ -191,6 +191,7 @@
                                                 @endif
                                             </td>
                                             <td class="text-secondary">
+                                                @if ($file->user_id === $user->id)
                                                 <a href="#" class="btn btn-outline-primary p-2 open-modal-editar"
                                                 data-url="{{ route('material.edit', ['id' => $file->id]) }}"
                                                 data-file-id="{{ $file->id }}">
@@ -200,7 +201,8 @@
                                                 </svg>
                                                 
                                                 Editar
-                                            </a>
+                                                </a>
+                                                @endif
 
                                                 <a class="btn btn-outline-primary p-2"
                                                     href="{{ route('material.download', $file->id) }}"
