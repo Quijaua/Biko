@@ -10,5 +10,6 @@ class Disciplina extends Model
 
     protected $fillable = [
         'nome',
+        'areas_conhecimento',
     ];
 }

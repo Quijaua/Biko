@@ -59,6 +59,19 @@
                                                         <input type="text" class="form-control" id="nome" name="nome" aria-describedby="nomeHelp" placeholder="Nome da disciplina" required>
                                                     </div>
                                                 </div>
+
+                                                <div class="col">
+                                                    <div class="mb-3">
+                                                        <label class="form-label mb-2" for="areas_conhecimento">Áreas do conhecimento</label>
+                                                        <select id="raca" name="areas_conhecimento" class="form-select">
+                                                            <option value="" selected>Selecione</option>
+                                                            <option value="linguagens">Linguagens e suas Tecnologias</option>
+                                                            <option value="matematica">Matemática e suas Tecnologias</option>
+                                                            <option value="natureza">Ciências da Natureza e suas Tecnologias</option>
+                                                            <option value="humanas">Ciências Humanas e Sociais Aplicadas</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-12">

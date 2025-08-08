@@ -40,6 +40,19 @@
                             <input type="text" class="form-control" id="nome" name="nome" aria-describedby="nomeHelp" placeholder="Nome da disciplina" value="{{ $disciplina->nome }}" required>
                         </div>
                     </div>
+
+                    <div class="col">
+                        <div class="mb-3">
+                            <label class="form-label mb-2" for="areas_conhecimento">Áreas do conhecimento</label>
+                            <select id="raca" name="areas_conhecimento" class="form-select">
+                                <option value="" selected>Selecione</option>
+                                <option value="linguagens" @if($disciplina->areas_conhecimento == 'linguagens') selected @endif>Linguagens e suas Tecnologias</option>
+                                <option value="matematica" @if($disciplina->areas_conhecimento == 'matematica') selected @endif>Matemática e suas Tecnologias</option>
+                                <option value="natureza" @if($disciplina->areas_conhecimento == 'natureza') selected @endif>Ciências da Natureza e suas Tecnologias</option>
+                                <option value="humanas" @if($disciplina->areas_conhecimento == 'humanas') selected @endif>Ciências Humanas e Sociais Aplicadas</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="row">

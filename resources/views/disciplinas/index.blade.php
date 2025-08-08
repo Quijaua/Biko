@@ -65,13 +65,32 @@
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Nome</th>
+                                                    <th scope="col">Áreas do conhecimento</th>
                                                     <th scope="col">Ações</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @foreach($disciplinas as $disciplina)
+                                                @php
+                                                $areas_conhecimento = null;
+                                                switch ($disciplina->areas_conhecimento) {
+                                                    case 'linguagens':
+                                                        $areas_conhecimento = 'Linguagens e suas Tecnologias';
+                                                        break;
+                                                    case 'matematica':
+                                                        $areas_conhecimento = 'Matemática e suas Tecnologias';
+                                                        break;
+                                                    case 'natureza':
+                                                        $areas_conhecimento = 'Ciências da Natureza e suas Tecnologias';
+                                                        break;
+                                                    case 'humanas':
+                                                        $areas_conhecimento = 'Ciências Humanas e Sociais Aplicadas';
+                                                        break;
+                                                }
+                                                @endphp
                                                 <tr>
                                                     <td><h3>{{ $disciplina->nome }}</h3></td>
+                                                    <td>{{ $areas_conhecimento ?? 'Não informado' }}</td>
                                                     <td>
                                                         <div class="btn-list">
                                                         <a href="{{ route('disciplinas.edit', $disciplina->id) }}" class="btn btn-primary btn-2"> Editar </a>
