@@ -8,6 +8,10 @@ const cidade_filter = document.getElementById('cidade');
 
 const date_filter = document.getElementById('date');
 
+const areas_conhecimento_filter = document.getElementById('areas_conhecimento');
+
+const disciplina_filter = document.getElementById('disciplina');
+
 const limparFiltrosButton = document.getElementById('limparFiltros');
 
 const handleStatusChange = (status) => {
@@ -101,6 +105,43 @@ const handleDateChange = (date) => {
     window.location.href = url.toString();
 };
 
+const handleAreasConhecimentoChange = (areas_conhecimento) => {
+    
+    const handleUrlFormated = () => {
+        const urlToFormate = new URL(window.location.href);
+        const shouldFormate = urlToFormate.pathname.includes('/search');
+        if (!shouldFormate) {
+            urlToFormate.pathname += '/search';
+        }
+
+        return urlToFormate;
+    };
+
+    const url = handleUrlFormated();
+
+    url.searchParams.set('areas_conhecimento', areas_conhecimento);
+
+    window.location.href = url.toString();
+}
+
+const disciplinaChange = (disciplina) => {
+    const handleUrlFormated = () => {
+        const urlToFormate = new URL(window.location.href);
+        const shouldFormate = urlToFormate.pathname.includes('/search');
+        if (!shouldFormate) {
+            urlToFormate.pathname += '/search';
+        }
+
+        return urlToFormate;
+    };
+
+    const url = handleUrlFormated();
+
+    url.searchParams.set('disciplina', disciplina);
+
+    window.location.href = url.toString();
+}
+
 status_filter ? status_filter.addEventListener('change', () => {
     handleStatusChange(status_filter.value);
 }) : null;
@@ -128,5 +169,13 @@ limparFiltrosButton ? limparFiltrosButton.addEventListener('click', () => {
     const baseUrl = url.replace(/\/search\/?$/, '');
   
     window.location.href = baseUrl;
+  }) : null;
+
+  areas_conhecimento_filter ? areas_conhecimento_filter.addEventListener('change', () => {
+    handleAreasConhecimentoChange(areas_conhecimento_filter.value);
+  }) : null;
+
+  disciplina_filter ? disciplina_filter.addEventListener('change', () => {
+    disciplinaChange(disciplina_filter.value);
   }) : null;
   

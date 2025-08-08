@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Illuminate\Http\Request;
 use App\AmbienteVirtual;
 use App\Nucleo;
 use App\Professores;
@@ -143,6 +144,24 @@ class AmbienteVirtualService
         return DB::table('alunos_ambiente_virtuals_watched')->where('aluno_id', request('aluno_id'))->where('ambiente_virtual_id', request('ambiente_virtual_id'))->update(['deleted_at' => Carbon::now()->format('Y-m-d H:i:s')]);
     }
 
+    public static function search(Request $request) {
+        $params = self::getParams($request);
+
+        $aulas = AmbienteVirtual::join('disciplinas', 'disciplinas.id', '=', 'ambiente_virtuals.disciplina_id')
+                ->when($params['disciplina'], function ($query) use ($params) {
+                    return $query->where('disciplina_id', '=', $params['disciplina']);
+                })
+                ->when($params['areas_conhecimento'], function ($query) use ($params) {
+                    return $query->where('disciplinas.areas_conhecimento', 'like', '%' . $params['areas_conhecimento'] . '%');
+                })
+                ->paginate(10);
+
+        return view('ambiente-virtual.index')->with([
+            'user' => Auth::user(),
+            'aulas' => $aulas
+        ]);
+    }
+
     private static function getParams()
     {
         return [
@@ -156,7 +175,9 @@ class AmbienteVirtualService
             'ambiente_virtual_id' => request('ambiente_virtual_id'),
             'comentario' => request('comentario'),
             'class_duration' => request('class_duration'),
-            //'nota' => request('nota')
+            //'nota' => request('nota'),
+            'areas_conhecimento' => request('areas_conhecimento'),
+            'disciplina' => request('disciplina'),
         ];
     }
 }

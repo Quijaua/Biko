@@ -105,4 +105,9 @@ class AmbienteVirtualController extends Controller
             'success' => 'Aula desmarcada como assistida!'
         ]);
     }
+
+    public function search(Request $request)
+    {
+        return AmbienteVirtualService::search($request);
+    }  
 }

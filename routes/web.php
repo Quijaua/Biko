@@ -245,6 +245,7 @@ Route::group(['prefix' => 'ambiente-virtual'], function () {
     Route::post('notas/adicionar/{id}', 'AmbienteVirtualController@anotar')->middleware('auth')->name('ambiente-virtual.anotar');
     Route::post('assistido/marcar', 'AmbienteVirtualController@marcarAssistido')->middleware('auth')->name('ambiente-virtual.marcar-assistido');
     Route::post('assistido/desmarcar', 'AmbienteVirtualController@desmarcarAssistido')->middleware('auth')->name('ambiente-virtual.desmarcar-assistido');
+    Route::any('search', 'AmbienteVirtualController@search')->name('ambiente-virtual/search');
 });
 Route::resource('/ambiente-virtual', 'AmbienteVirtualController')->middleware('auth')->except(['index']);
 
