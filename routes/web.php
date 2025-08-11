@@ -262,6 +262,7 @@ Route::group(['prefix' => 'ead'], function () {
     Route::post('/update/{id}', 'EadController@update')->middleware('auth')->name('ead.update');
     Route::delete('/destroy/{id}', 'EadController@destroy')->middleware('auth')->name('ead.destroy');
     Route::post('/register/store', 'EadController@registerStore')->middleware('auth')->name('ead.register-store');
+    Route::get('/participantes/{id}', 'EadController@participantes')->middleware('auth')->name('ead.participantes');
 });
 Route::get('/aula-programa-esperanca-garcia', 'EadController@register')->name('ead.register');
 

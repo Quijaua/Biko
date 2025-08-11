@@ -84,4 +84,15 @@ class EadController extends Controller
 
         return redirect()->route('ead.register')->with(['success' => 'Presença registrada com sucesso!']);
     }
+
+    public function participantes($id)
+    {
+        $eads = ead::find($id);
+        $participantes = $eads->inscritos()->paginate(10);
+        // dd($participantes);
+        return view('ead.participantes')->with([
+            'eads' => $eads,
+            'participantes' => $participantes
+        ]);
+    }
 }

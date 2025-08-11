@@ -6,11 +6,11 @@
 
 <div class="page-wrapper">
     <div class="container-xl">
-        <div class="row g-2 align-items-center mb-3">
+        <!-- <div class="row g-2 align-items-center mb-3">
             <div class="col">
                 <h2 class="page-title">Informe seu email para receber o link de acesso</h2>
             </div>
-        </div>
+        </div> -->
 
         @if(session::has('success'))
         <div class="row mt-2">
@@ -31,6 +31,7 @@
         </div>
         @endif
 
+        @if(!session::has('success'))
         <div class="row row-cards">
             <div class="col-12">
                 <div class="card">
@@ -174,6 +175,7 @@
                 @endif
             </div>
         </div>
+        @endif
     </div>
 </div>
 

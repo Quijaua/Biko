@@ -90,7 +90,7 @@
 
                                 {{-- Inscritos --}}
                                 <td>
-                                    {{ $ead->inscritos->count() }}
+                                    <a href="{{ route('ead.participantes', $ead->id) }}">{{ $ead->inscritos->count() }}</a>
                                 </td>
 
                                 {{-- Ações --}}
