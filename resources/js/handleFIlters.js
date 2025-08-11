@@ -8,9 +8,9 @@ const cidade_filter = document.getElementById('cidade');
 
 const date_filter = document.getElementById('date');
 
-const areas_conhecimento_filter = document.getElementById('areas_conhecimento');
+const areas_conhecimento_filter = document.getElementsByClassName('areas_conhecimento');
 
-const disciplina_filter = document.getElementById('disciplina');
+const disciplina_filter = document.getElementsByClassName('disciplina');
 
 const limparFiltrosButton = document.getElementById('limparFiltros');
 
@@ -171,11 +171,14 @@ limparFiltrosButton ? limparFiltrosButton.addEventListener('click', () => {
     window.location.href = baseUrl;
   }) : null;
 
-  areas_conhecimento_filter ? areas_conhecimento_filter.addEventListener('change', () => {
-    handleAreasConhecimentoChange(areas_conhecimento_filter.value);
-  }) : null;
+areas_conhecimento_filter ? Array.from(areas_conhecimento_filter).forEach((area) => {
+    area.addEventListener('click', () => {
+        handleAreasConhecimentoChange(area.value);
+    })
+}) : null;
 
-  disciplina_filter ? disciplina_filter.addEventListener('change', () => {
-    disciplinaChange(disciplina_filter.value);
-  }) : null;
-  
+disciplina_filter ? Array.from(disciplina_filter).forEach((disciplina) => {
+    disciplina.addEventListener('click', () => {
+        disciplinaChange(disciplina.value);
+    })
+}) : null;
