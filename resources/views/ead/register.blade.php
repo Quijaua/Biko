@@ -19,13 +19,6 @@
                     {!! \Session::get('success') !!}
                 </div>
             </div>
-            <div class="row">
-                <div class="col-6 m-auto">
-                    <div class="alert alert-warning text-center" role="alert">
-                        A avaliação dessa atividade já foi preenchida!
-                    </div>
-                </div>
-            </div>
         </div>
         @endif
         @if(session::has('error'))
@@ -37,8 +30,10 @@
             </div>
         </div>
         @endif
-
-        @if(!session::has('success'))
+        @php
+        $ids = $evento->inscritos->pluck('id')->toArray();
+        @endphp
+        @if(!in_array(\Auth::user()->id, $ids))
         <div class="row row-cards">
             <div class="col-12">
                 <div class="card">
@@ -180,6 +175,14 @@
                     </div>
                 </form>
                 @endif
+            </div>
+        </div>
+        @else
+        <div class="row">
+            <div class="col-6 m-auto">
+                <div class="alert alert-warning text-center" role="alert">
+                    A avaliação dessa atividade já foi preenchida!
+                </div>
             </div>
         </div>
         @endif
