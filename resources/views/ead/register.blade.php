@@ -42,12 +42,12 @@
                 </div>
             </div>
             @php
-            $evento_data_hora = $evento->data . ' ' . $evento->hora_fim;
-            $evento_data_hora_final = \Carbon\Carbon::parse($evento_data_hora);
+            $evento_data_hora = $evento ? $evento->data->format('Y-m-d') . ' ' . $evento->hora_fim : null;
+            $evento_data_hora_final = $evento ? \Carbon\Carbon::parse($evento_data_hora) : null;
             $now = \Carbon\Carbon::now();
             $form_available = false;
             
-            if ($evento_data_hora_final->diffInMinutes($now) >= 20 && $evento_data_hora_final->diffInMinutes($now) >= -10) {
+            if ($evento_data_hora_final && ($now->diffInMinutes($evento_data_hora_final) >= 20 && $now->diffInMinutes($evento_data_hora_final) >= -10)) {
                 $form_available = true;
             }
             @endphp

@@ -15,6 +15,10 @@ class ead extends Model
         'hora_fim',
     ];
 
+    protected $casts = [
+        'data' => 'date',
+    ];
+
     public function inscritos()
     {
         return $this->belongsToMany(User::class, 'eads_participantes');

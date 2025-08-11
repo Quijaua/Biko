@@ -33,28 +33,28 @@
             <form action="{{ route('ead.update', $ead->id) }}" method="POST" role="search" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
-                    <div class="col">
+                    <div class="col-12 col-md-3">
                         <div class="mb-3">
                             <label class="form-label mb-2" for="titulo">Título</label>
                             <input type="text" class="form-control" id="titulo" name="titulo" aria-describedby="tituloHelp" placeholder="Título do evento" value="{{ $ead->titulo }}" required>
                         </div>
                     </div>
 
-                    <div class="col">
+                    <div class="col-12 col-md-3">
                         <div class="mb-3">
                             <label class="form-label mb-2" for="data">Data</label>
-                            <input type="date" class="form-control" id="data" name="data" aria-describedby="tituloHelp" value="{{ $ead->data }}" required>
+                            <input type="date" class="form-control" id="data" name="data" aria-describedby="tituloHelp" value="{{ $ead->data->format('Y-m-d') }}" required>
                         </div>
                     </div>
 
-                    <div class="col">
+                    <div class="col-12 col-md-3">
                         <div class="mb-3">
                             <label class="form-label mb-2" for="hora_inicio">Horário de inicio</label>
                             <input type="text" class="form-control" id="hora_inicio" name="hora_inicio" aria-describedby="hora_inicioHelp" value="{{ $ead->hora_inicio }}" required>
                         </div>
                     </div>
 
-                    <div class="col">
+                    <div class="col-12 col-md-3">
                         <div class="mb-3">
                             <label class="form-label mb-2" for="hora_fim">Horário de término</label>
                             <input type="text" class="form-control" id="hora_fim" name="hora_fim" aria-describedby="hora_fimHelp" value="{{ $ead->hora_fim }}" required>
@@ -63,7 +63,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-2">
+                    <div class="col-12 col-md-3">
                         <button type="submit" class="btn btn-primary">Salvar</button>
                         <a class="btn btn-outline-primary ms-3" href="{{ route('ead.index') }}">Voltar</a>
                     </div>
@@ -78,8 +78,22 @@
 <script>
     $(document).ready(function() {
 
-        $('#hora_inicio').mask('00:00:00', {reverse: true});
-        $('#hora_fim').mask('00:00:00', {reverse: true});
+        $('#hora_inicio').mask('00:00', {reverse: true});
+        $('#hora_fim').mask('00:00', {reverse: true});
+
+        $('#hora_inicio').change(function() {
+            if ($(this).val().length < 4) {
+                let newValue = $(this).val()+':00';
+                $(this).val(newValue);
+            }
+        })
+
+        $('#hora_fim').change(function() {
+            if ($(this).val().length < 4) {
+                let newValue = $(this).val()+':00';
+                $(this).val(newValue);
+            }
+        })
     })
 </script>
 @endsection

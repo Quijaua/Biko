@@ -12,6 +12,7 @@
             <div class="col-6">
                 <h1 class="text-[34px]">EAD</h1>
             </div>
+            @if(\Auth::user()->role != 'aluno')
             <div class="col-6" style="text-align: right;">
                 
                 <a class="btn btn-primary" href="{{ route('ead.create') }}">
@@ -22,6 +23,7 @@
                 </a>
                 
             </div>
+            @endif
         </div>
         @if(session::has('success'))
         <div class="row mt-2">
@@ -74,7 +76,7 @@
                                 </td>
 
                                 {{-- Data --}}
-                                <td>{{ $ead->data }}</td>
+                                <td>{{ $ead->data->format('d/m/Y') }}</td>
 
                                 {{-- Horario inicio --}}
                                 <td>
