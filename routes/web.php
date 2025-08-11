@@ -124,6 +124,10 @@ Route::get('otp-verify', function () {
     if ($redirect && in_array($redirect, ['plantao-psicologico'])) {
         return redirect()->route('plantao-psicologico.index');
     }
+    
+    if ($redirect && in_array($redirect, ['aula-programa-esperanca-garcia'])) {
+        return redirect()->route('ead.register');
+    }
 
     return redirect()->route('home');
 })->name('otp-verify');
@@ -248,6 +252,18 @@ Route::group(['prefix' => 'ambiente-virtual'], function () {
     Route::any('search', 'AmbienteVirtualController@search')->name('ambiente-virtual/search');
 });
 Route::resource('/ambiente-virtual', 'AmbienteVirtualController')->middleware('auth')->except(['index']);
+
+// ROUTES FOR EAD
+Route::group(['prefix' => 'ead'], function () {
+    Route::get('/', 'EadController@index')->middleware('auth')->name('ead.index');
+    Route::get('/create', 'EadController@create')->middleware('auth')->name('ead.create');
+    Route::post('/store', 'EadController@store')->middleware('auth')->name('ead.store');
+    Route::get('/edit/{id}', 'EadController@edit')->middleware('auth')->name('ead.edit');
+    Route::post('/update/{id}', 'EadController@update')->middleware('auth')->name('ead.update');
+    Route::delete('/destroy/{id}', 'EadController@destroy')->middleware('auth')->name('ead.destroy');
+    Route::post('/register/store', 'EadController@registerStore')->middleware('auth')->name('ead.register-store');
+});
+Route::get('/aula-programa-esperanca-garcia', 'EadController@register')->name('ead.register');
 
 // ROUTES FOR ATENDIMENTO PSICOLOGICO
 Route::get('atendimento-psicologico', 'AtendimentoPsicologicoController@index')->middleware('auth')->name('atendimento-psicologico.index');

@@ -16,7 +16,7 @@
         <div class="card-body">
             <form id="otp-form" action="{{ route('otp-login') }}" method="POST">
                 @csrf
-                <input type="hidden" name="redirect" value="plantao-psicologico">
+                <input type="hidden" name="redirect" value="{{ $redirect ?? 'plantao-psicologico' }}">
                 <div class="mb-3">
                     <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" required autofocus>
                     <div id="emailHelp" class="form-text">Digite o e-mail que você usou para se cadastrar.</div>
