@@ -19,6 +19,13 @@
                     {!! \Session::get('success') !!}
                 </div>
             </div>
+            <div class="row">
+                <div class="col-6 m-auto">
+                    <div class="alert alert-warning text-center" role="alert">
+                        A avaliação dessa atividade já foi preenchida!
+                    </div>
+                </div>
+            </div>
         </div>
         @endif
         @if(session::has('error'))
