@@ -203,7 +203,7 @@ Route::post('coordenadores/create', 'CoordenadoresController@create')->middlewar
 Route::get('coordenadores/edit/{id}', 'CoordenadoresController@edit')->middleware('permissions');
 Route::post('coordenadores/update/{id}', 'CoordenadoresController@update')->middleware('permissions');
 Route::get('coordenadores/disable/{id}', 'CoordenadoresController@disable')->middleware('permissions');
-Route::get('coordenadores/enable/{id}', 'CoordenadoresController@enable')->middleware('permissions');
+Route::get('coordenadores/enable/{id}', 'CoordenadoresController@enable')/*->middleware('permissions')*/;
 Route::any('coordenadores/search', 'CoordenadoresController@search')->name('coordenadores/search');
 
 // ROUTES FOR PROFESSORES MANAGEMENT
