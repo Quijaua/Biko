@@ -157,7 +157,7 @@ class CoordenadoresController extends Controller
       }
 
       $coordenador = Coordenadores::create([
-        'id_user' => $user->id,
+        'id_user' => Auth::user()->id,
         'Status' => $request->input('inputStatus'),
         'NomeCoordenador' => $request->input('inputNomeCoordenador'),
         'NomeSocial' => $request->input('inputNomeSocial'),
