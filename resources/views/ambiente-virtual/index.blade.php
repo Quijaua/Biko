@@ -52,7 +52,7 @@
                 <div class="row">
                     <div class="col-12 mb-3">
                         <div class="form-selectgroup">
-                            @foreach (\App\Disciplina::all() as $disciplina)
+                            @foreach (\App\Disciplina::select('areas_conhecimento')->groupBy('areas_conhecimento')->get() as $disciplina)
                             @php
                             $areas_conhecimento = null;
                             switch ($disciplina->areas_conhecimento) {
