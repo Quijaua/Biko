@@ -147,7 +147,8 @@ class AmbienteVirtualService
     public static function search(Request $request) {
         $params = self::getParams($request);
 
-        $aulas = AmbienteVirtual::join('disciplinas', 'disciplinas.id', '=', 'ambiente_virtuals.disciplina_id')
+        $aulas = AmbienteVirtual::select('ambiente_virtuals.*')
+                ->join('disciplinas', 'disciplinas.id', '=', 'ambiente_virtuals.disciplina_id')
                 ->when($params['disciplina'], function ($query) use ($params) {
                     return $query->where('disciplina_id', '=', $params['disciplina']);
                 })
