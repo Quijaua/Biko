@@ -79,19 +79,14 @@ class Coordenadores extends Model implements Auditable
     'pessoa_com_deficiencia',
   ];
 
-  // public function nucleos()
-  // {
-  //   return $this->belongsToMany(
-  //     Nucleo::class,
-  //     'coordenador_nucleo',
-  //     'coordenador_id',
-  //     'nucleo_id'
-  //   );
-  // }
-
   public function nucleos()
   {
-    return $this->hasMany('App\Nucleo', 'id');
+    return $this->belongsToMany(
+      Nucleo::class,
+      'coordenador_nucleo',
+      'coordenador_id',
+      'nucleo_id'
+    );
   }
 
   public static function ativos()
