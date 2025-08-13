@@ -99,7 +99,7 @@ class Aluno extends Model implements Auditable
 
     public function user()
     {
-        return $this->hasOne('App\User');
+        return $this->belongsTo('App\User', 'id_user'); 
     }
 
     public function familiares()
