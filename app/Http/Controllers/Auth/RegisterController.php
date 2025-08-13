@@ -172,14 +172,14 @@ class RegisterController extends Controller
 
         // Envia e-mail
         if ($myNucleo) {
-          $coordenadores = $myNucleo->coordenadores();
+          $coordenadores = $myNucleo->coordenadores()->get();
         } else {
           $coordenadores = Coordenadores::ativos();
         }
 
         foreach($coordenadores as $coordenador) {
-          if($coordenador['Email']) {
-            Mail::to($coordenador['Email'])->send(new EmailFormularioCoordenador([
+          if($coordenador && isset($coordenador->Email) && !empty($coordenador->Email)) {
+            Mail::to($coordenador->Email)->send(new EmailFormularioCoordenador([
               'message' => 'Olá, coordenador! Um novo estudante foi inserido!'
             ]));
           }
