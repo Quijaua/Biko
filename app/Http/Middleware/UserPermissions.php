@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Nucleo;
 use App\Aluno;
 use App\Coordenadores;
+use DB;
 
 class UserPermissions
 {
@@ -28,6 +29,10 @@ class UserPermissions
 
         if ($role === 'administrador') {
             return $next($request);
+        }
+
+        if ($role === 'professor') {
+            $status = DB::table('professores')->where('id_user', Auth::id())->value('status');
         }
 
         if (in_array($role, ['aluno', 'professor', 'coordenador'])) {
@@ -91,7 +96,7 @@ class UserPermissions
             return back();
         }
 
-        if ($role === 'professor') {
+        if ($role === 'professor' && $status) {
             $currentPath = $request->path();
             $allowedProfessoresIndex = 'professores';
             $allowedAlunosIndex = 'alunos';
@@ -143,6 +148,8 @@ class UserPermissions
                 return back();
             }
 
+            return back();
+        } else {
             return back();
         }
 
