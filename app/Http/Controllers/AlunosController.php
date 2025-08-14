@@ -76,7 +76,9 @@ class AlunosController extends Controller
 
         if ($user->role === 'coordenador') {
             $me = Coordenadores::where('id_user', $user->id)->first();
-            $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+            //$coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray() ?? [1];
+	    $coordenadorNucleos = $user->coordenador?->nucleos()->pluck('nucleos.id')->toArray() ?? [1];
+
             // $nucleo = Nucleo::find($me->id_nucleo);
             $nucleos = Nucleo::whereIn('id', $coordenadorNucleos)->get();
             //$alunos = Aluno::where('id_nucleo', $nucleo->id)->get();

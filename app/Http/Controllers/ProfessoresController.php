@@ -53,7 +53,12 @@ class ProfessoresController extends Controller
       if($user->role === 'coordenador'){
         $me = Coordenadores::where('id_user', $user->id)->first();
         // $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
-        $coordenadorNucleos = DB::table('nucleos')->where('nucleos.id', $me->id_nucleo)->pluck('nucleos.id')->toArray();
+//        $coordenadorNucleos = DB::table('nucleos')->where('nucleos.id', $me->id_nucleo)->pluck('nucleos.id')->toArray();
+$coordenadorNucleos = DB::table('nucleos')
+    ->where('nucleos.id', $me->id_nucleo ?? 1)
+    ->pluck('nucleos.id')
+    ->toArray();
+
         //$professores = Professores::where('id_nucleo', $me->id_nucleo)->get();
         $professores = Professores::whereIn('id_nucleo', $coordenadorNucleos)->paginate(25);
 
