@@ -176,8 +176,15 @@ class UserPermissions
             $allowedProfessoresEnable = 'professores/enable/';
             $allowedNucleosIndex = 'nucleos';
             $allowedNucleosDetails = 'nucleos/details/';
-            $allowedNucleosEdit = 'nucleos/edit/' . $user->coordenador->id_nucleo;
-            $allowedNucleosUpdate = 'nucleos/update/' . $user->coordenador->id_nucleo;
+//            $allowedNucleosEdit = 'nucleos/edit/' . $user->coordenador->id_nucleo;
+//            $allowedNucleosUpdate = 'nucleos/update/' . $user->coordenador->id_nucleo;
+$allowedNucleosEdit = 'nucleos/edit/';
+$allowedNucleosUpdate = 'nucleos/update/';
+
+if ($user->coordenador && $user->coordenador->id_nucleo) {
+    $allowedNucleosEdit .= $user->coordenador->id_nucleo;
+    $allowedNucleosUpdate .= $user->coordenador->id_nucleo;
+}
             $allowedNucleosSearch = 'alunos/nucleo/search';
             $allowedNucleosSearchApi = 'api/alunos/nucleo/search';
 

@@ -43,7 +43,9 @@ class NucleoController extends Controller
       }
 
       if($user->role === 'coordenador'){
-        $myNucleosIds = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+        //$myNucleosIds = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+	$myNucleosIds = $user->coordenador?->nucleos()->pluck('nucleos.id')->toArray() ?? [1];
+
         $nucleos = Nucleo::paginate(25);
 
         return view('nucleos.nucleos')->with([
@@ -272,7 +274,8 @@ class NucleoController extends Controller
           $nucleos = Nucleo::where('Status', 1)->pluck('NomeNucleo', 'id')->all();
           $nucleo = Nucleo::find(request('nid', head(array_keys($nucleos))));
       } else if ($user->role === 'coordenador') {
-          $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+//          $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+	  $coordenadorNucleos = $user->coordenador?->nucleos()->pluck('nucleos.id')->toArray() ?? [1];
           $nucleos = Nucleo::where('Status', 1)->whereIn('id', $coordenadorNucleos)->pluck('NomeNucleo', 'id')->all();
           $nucleo = Nucleo::find(request('nid', head(array_keys($nucleos))));
       } else {
