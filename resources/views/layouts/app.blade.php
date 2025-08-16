@@ -560,7 +560,7 @@
                                                 <path d="M9 12h2" />
                                             </svg>
                                         </span>
-                                        {{ __('Ambiente virtual') }}
+                                        {{ __('Núcleo Virtual') }}
                                     </a>
                                 </li>
                             @endif
@@ -1025,7 +1025,7 @@
                                                     <path d="M9 12h2" />
                                                 </svg>
                                             </span>
-                                            {{ __('Ambiente virtual') }}
+                                            {{ __('Núcleo Virtual') }}
                                         </a>
                                     </li>
                                 @endif

@@ -10,7 +10,7 @@
     <div class="container-xl">
         <div class="row">
             <div class="col-6">
-                <h1 class="text-[34px]">Ambiente Virtual</h1>
+                <h1 class="text-[34px]">Núcleo Virtual</h1>
             </div>
             <div class="col-6" style="text-align: right;">
                 @if($aulas->isEmpty() || $user->role !== 'aluno')
