@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('atendimento_psicologico', function (Blueprint $table) {
+        Schema::table('atendimento_psicologicos', function (Blueprint $table) {
             $table->string('status')->nullable()->after('tipo_encaminhamento');
         });
     }
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('atendimento_psicologico', function (Blueprint $table) {
+        Schema::table('atendimento_psicologicos', function (Blueprint $table) {
             $table->dropColumn('status');
         });
     }

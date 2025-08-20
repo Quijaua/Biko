@@ -72,9 +72,9 @@ class AtendimentoPsicologicoController extends Controller
             'demanda_objetivos'       => 'required|string',
             'registro_atendimento'    => 'required|string',
             'tipo_encaminhamento'     => 'required|in:SUS,CRAS,CREAS,Atendimento finalizado',
+            'status'                  => 'required|in:Atendida/o,Cancelou,Não compareceu,Psi cancelou',
             'descricao_encaminhamento' => 'nullable|string',
             'anexo'                   => 'nullable|file|mimes:pdf|max:10240',
-            'status'                  => 'required|in:Atendida/o,Cancelou,Não compareceu,Psi cancelou',
         ]);
 
         if ($request->hasFile('anexo')) {

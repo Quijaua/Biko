@@ -14,6 +14,7 @@ class AtendimentoPsicologico extends Model
         'demanda_objetivos',
         'registro_atendimento',
         'tipo_encaminhamento',
+        'status',
         'descricao_encaminhamento',
         'anexo',
         'created_by',
