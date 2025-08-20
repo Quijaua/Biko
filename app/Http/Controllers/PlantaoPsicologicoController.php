@@ -295,6 +295,8 @@ class PlantaoPsicologicoController extends Controller
         $ical .= "DESCRIPTION:Atendimento psicológico agendado.\r\n";
         $ical .= "DTSTART:" . $start->format('Ymd\THis') . "\r\n";
         $ical .= "DTEND:" . $end->format('Ymd\THis') . "\r\n";
+        $ical .= "ORGANIZER;CN={$psicologo->name}:MAILTO:{$psicologo->email}\r\n";
+        $ical .= "ATTENDEE;CN={$estudante->name};RSVP=TRUE:MAILTO:{$estudante->email}\r\n";
         $ical .= "LOCATION:Online ou Local Definido\r\n";
         $ical .= "END:VEVENT\r\n";
         $ical .= "END:VCALENDAR\r\n";
