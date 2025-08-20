@@ -76,6 +76,7 @@ class UserPermissions
             $allowedAlunosEdit = 'alunos/edit/' . $user->aluno->id;
             $allowedAlunosUpdate = 'alunos/update/' . $user->aluno->id;
             $allowedAlunosSearch = 'alunos/search';
+            $allowedMaterialDownload = 'nucleo/material/download/';
 
             if ($allowedAlunosIndex === $currentPath) {
                 return $next($request);
@@ -90,6 +91,11 @@ class UserPermissions
                 return $next($request);
             }
             if (strpos($currentPath, $allowedAlunosSearch) !== false) {
+                return $next($request);
+            }
+
+            //RULES FOR NUCLEOS ROUTES
+            if (strpos($currentPath, $allowedMaterialDownload) === 0) {
                 return $next($request);
             }
 
@@ -110,6 +116,7 @@ class UserPermissions
             $allowedCoordenadoresList = 'coordenadores';
             $allowedInactive = 'professores/disable/';
             $allowedNucleosSearchApi = 'api/alunos/nucleo/search';
+            $allowedMaterialDownload = 'nucleo/material/download/';
 
             if ($allowedNucleosSearchApi === $currentPath) {
                 return $next($request);
@@ -146,6 +153,11 @@ class UserPermissions
             }
             if ($allowedInactive === $currentPath) {
                 return back();
+            }
+
+            //RULES FOR NUCLEOS ROUTES
+            if (strpos($currentPath, $allowedMaterialDownload) === 0) {
+                return $next($request);
             }
 
             return back();
@@ -185,8 +197,9 @@ class UserPermissions
             $allowedNucleosDetails = 'nucleos/details/';
 //            $allowedNucleosEdit = 'nucleos/edit/' . $user->coordenador->id_nucleo;
 //            $allowedNucleosUpdate = 'nucleos/update/' . $user->coordenador->id_nucleo;
-$allowedNucleosEdit = 'nucleos/edit/';
-$allowedNucleosUpdate = 'nucleos/update/';
+            $allowedNucleosEdit = 'nucleos/edit/';
+            $allowedNucleosUpdate = 'nucleos/update/';
+            $allowedMaterialDownload = 'nucleo/material/download/';
 
 if ($user->coordenador && $user->coordenador->id_nucleo) {
     $allowedNucleosEdit .= $user->coordenador->id_nucleo;
@@ -296,6 +309,9 @@ if ($user->coordenador && $user->coordenador->id_nucleo) {
                 return $next($request);
             }
             if (strpos($currentPath, $allowedNucleosSearch) === 0) {
+                return $next($request);
+            }
+            if (strpos($currentPath, $allowedMaterialDownload) === 0) {
                 return $next($request);
             }
 
