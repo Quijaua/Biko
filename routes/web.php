@@ -156,12 +156,14 @@ Route::get('nucleos/enable/{id}', 'NucleoController@enable')->middleware('permis
 Route::delete('nucleos/delete/{id}', 'NucleoController@destroy')->middleware('permissions');
 Route::any('nucleos/search', 'NucleoController@search');
 Route::any('nucleos/search', 'NucleoController@search');
-Route::get('nucleo/presences', 'NucleoController@presences_index')->name('nucleo/presences');
-Route::get('nucleo/presences/new', 'NucleoController@presences_new')->name('nucleo/presences/new');
-Route::post('nucleo/presences/create', 'NucleoController@presences_create')->name('nucleo/presences/create');
-Route::get('nucleo/presences/destroy', 'NucleoController@presences_destroy')->name('nucleo/presences/destroy');
-Route::any('nucleo/presences/search', 'NucleoController@search_presences');
-Route::any('nucleo/presences/search', 'NucleoController@search_presences');
+
+Route::group(['prefix' => 'nucleo/presences', 'middleware' => ['auth', 'restrict.professor']], function () {
+    Route::get('/', 'NucleoController@presences_index')->name('nucleo/presences');
+    Route::get('/new', 'NucleoController@presences_new')->name('nucleo/presences/new');
+    Route::post('/create', 'NucleoController@presences_create')->name('nucleo/presences/create');
+    Route::get('/destroy', 'NucleoController@presences_destroy')->name('nucleo/presences/destroy');
+    Route::any('/search', 'NucleoController@search_presences');
+});
 
 Route::get('nucleo/material', 'MaterialController@index')->middleware('auth')->name('nucleo.material');
 Route::post('nucleo/material/create', 'MaterialController@create')->middleware('auth')->name('nucleo.material.create');
@@ -254,15 +256,15 @@ Route::group(['prefix' => 'ambiente-virtual'], function () {
 Route::resource('/ambiente-virtual', 'AmbienteVirtualController')->middleware('auth')->except(['index']);
 
 // ROUTES FOR EAD
-Route::group(['prefix' => 'ead'], function () {
-    Route::get('/', 'EadController@index')->middleware('auth')->name('ead.index');
-    Route::get('/create', 'EadController@create')->middleware('auth')->name('ead.create');
-    Route::post('/store', 'EadController@store')->middleware('auth')->name('ead.store');
-    Route::get('/edit/{id}', 'EadController@edit')->middleware('auth')->name('ead.edit');
-    Route::post('/update/{id}', 'EadController@update')->middleware('auth')->name('ead.update');
-    Route::delete('/destroy/{id}', 'EadController@destroy')->middleware('auth')->name('ead.destroy');
-    Route::post('/register/store', 'EadController@registerStore')->middleware('auth')->name('ead.register-store');
-    Route::get('/participantes/{id}', 'EadController@participantes')->middleware('auth')->name('ead.participantes');
+Route::group(['prefix' => 'ead', 'middleware' => ['auth', 'restrict.professor']], function () {
+    Route::get('/', 'EadController@index')->name('ead.index');
+    Route::get('/create', 'EadController@create')->name('ead.create');
+    Route::post('/store', 'EadController@store')->name('ead.store');
+    Route::get('/edit/{id}', 'EadController@edit')->name('ead.edit');
+    Route::post('/update/{id}', 'EadController@update')->name('ead.update');
+    Route::delete('/destroy/{id}', 'EadController@destroy')->name('ead.destroy');
+    Route::post('/register/store', 'EadController@registerStore')->name('ead.register-store');
+    Route::get('/participantes/{id}', 'EadController@participantes')->name('ead.participantes');
 });
 Route::get('/aula-programa-esperanca-garcia', 'EadController@register')->name('ead.register');
 

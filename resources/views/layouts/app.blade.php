@@ -1089,7 +1089,6 @@
                                         {{ __('Mensagens') }}
                                     </a>
                                 </li>
-                                @endif
                                 <li
                                     class="nav-item  {{ request()->routeIs('ead.index') ? 'bg-primary text-white rounded' : '' }}">
                                     <a class="nav-link" href="{{ route('ead.index') }}">
@@ -1099,6 +1098,7 @@
                                         {{ __('EAD') }}
                                     </a>
                                 </li>
+                                @endif
                             @endif
                             <li class="nav-item mt-3">
                                 <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
