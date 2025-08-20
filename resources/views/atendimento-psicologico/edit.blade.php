@@ -68,7 +68,7 @@
         </div>
 
         <div class="row">
-            <div class="col">
+            <div class="col-4">
                 <div class="mb-3">
                     <label for="registro_atendimento" class="form-label">Registro do Atendimento / Procedimentos</label>
                     <input type="text" class="form-control" id="registro_atendimento" name="registro_atendimento" aria-describedby="registro_atendimentoHelp" value="{{ $dados->registro_atendimento }}" required>
@@ -83,6 +83,19 @@
                         <option value="{{ $opcao }}" {{ $dados->tipo_encaminhamento == $opcao ? 'selected' : '' }}>
                             {{ $opcao }}
                         </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="mb-3">
+                    <label for="status" class="form-label">Status</label>
+                    <select name="status" id="status" class="form-select" required>
+                        <option value="">Selecione</option>
+                        @foreach(['Atendida/o', 'Cancelou', 'Não compareceu', 'Psi cancelou'] as $opcao)
+                            <option value="{{ $opcao }}" {{ $dados->status == $opcao ? 'selected' : '' }}>
+                                {{ $opcao }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
