@@ -45,7 +45,7 @@ class PsicologosController extends Controller
         'supervisora'=> 'nullable|boolean',
       ]);
 
-      $isSupervisora = $request->input('supervisora') ? true : false;
+      $isSupervisora = $request->boolean('supervisora');
       $role = $isSupervisora ? 'psicologa_supervisora' : 'psicologo';
 
       $user = User::where('email', $data['email'])->first();

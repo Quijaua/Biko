@@ -160,7 +160,7 @@
                                         </label>
                                         <label class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio"
-                                                name="supervisora" value="0" />
+                                                name="supervisora" value="0" checked />
                                             <span class="form-check-label">Não</span>
                                         </label>
                                     </div>
