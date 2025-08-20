@@ -276,6 +276,7 @@ Route::get('atendimento-psicologico/edit/{id}' , 'AtendimentoPsicologicoControll
 Route::post('atendimento-psicologico/update/{id}' , 'AtendimentoPsicologicoController@update')->middleware('permissions')->name('atendimento-psicologico.update');
 Route::get('atendimento-psicologico/download/{id}', 'AtendimentoPsicologicoController@download')->middleware('permissions')->name('atendimento-psicologico.download');
 Route::get('atendimento-psicologico/details/{id}', 'AtendimentoPsicologicoController@details')->middleware('permissions')->name('atendimento-psicologico.details');
+Route::any('atendimento-psicologico/estudante/{id}', 'AtendimentoPsicologicoController@showByEstudante')->middleware('permissions')->name('atendimento-psicologico.estudante');
 Route::any('atendimento-psicologico/search', 'AtendimentoPsicologicoController@search')->name('atendimento-psicologico/search');
 
 // ROUTES FOR PLANTAO PSICOLOGICO

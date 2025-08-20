@@ -100,7 +100,15 @@
                                                             <tr>
                                                                 <td><input type="checkbox" class="custom-checkbox" /></td>
 
-                                                                <td class="text-secondary">{{ $psicologo->estudante->NomeAluno ?? 'Estudante não vinculado' }}</td>
+                                                                <td class="text-secondary">
+                                                                    @if($psicologo->estudante)
+                                                                        <a href="{{ route('atendimento-psicologico.estudante', $psicologo->estudante->id) }}">
+                                                                            {{ $psicologo->estudante->NomeAluno }}
+                                                                        </a>
+                                                                    @else
+                                                                        Estudante não vinculado
+                                                                    @endif
+                                                                </td>
 
                                                                 <td class="text-secondary">{{ $psicologo->created_at->format('d/m/Y H:i') }}</td>
 
@@ -220,7 +228,15 @@
                                                             <tr>
                                                                 <td><input type="checkbox" class="custom-checkbox" /></td>
 
-                                                                <td class="text-secondary">{{ $psicologo->estudante->NomeAluno ?? 'Estudante não vinculado' }}</td>
+                                                                <td class="text-secondary">
+                                                                    @if($psicologo->estudante)
+                                                                        <a href="{{ route('atendimento-psicologico.estudante', $psicologo->estudante->id) }}">
+                                                                            {{ $psicologo->estudante->NomeAluno }}
+                                                                        </a>
+                                                                    @else
+                                                                        Estudante não vinculado
+                                                                    @endif
+                                                                </td>
 
                                                                 <td class="text-secondary">{{ $psicologo->created_at->format('d/m/Y H:i') }}</td>
 

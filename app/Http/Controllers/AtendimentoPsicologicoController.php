@@ -21,6 +21,17 @@ class AtendimentoPsicologicoController extends Controller
         ]);
     }
 
+    public function showByEstudante($id)
+    {
+        $estudante = Aluno::findOrFail($id);
+
+        $atendimento_psicologico = AtendimentoPsicologico::where('estudante_id', $id)
+                                    ->orderBy('created_at', 'desc')
+                                    ->paginate(25);
+
+        return view('atendimento-psicologico.index', compact('estudante', 'atendimento_psicologico'));
+    }
+
     public function create()
     {
         $estudantes = Aluno::whereNotNull('NomeAluno')->orderBy('NomeAluno')->pluck('NomeAluno', 'id');
