@@ -127,7 +127,7 @@ class AtendimentoPsicologicoController extends Controller
         $atendimento_psicologico = \App\AtendimentoPsicologico::with('estudante')
             ->when($params['query'], function ($query) use ($params) {
                 $query->whereHas('estudante', function ($q) use ($params) {
-                    $q->where('nome', 'LIKE', '%' . $params['query'] . '%');
+                    $q->where('NomeAluno', 'LIKE', '%' . $params['query'] . '%');
                 });
             })
             ->paginate(25);
