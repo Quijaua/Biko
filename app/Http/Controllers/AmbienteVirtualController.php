@@ -33,7 +33,7 @@ class AmbienteVirtualController extends Controller
         return view('ambiente-virtual.create')->with([
             'user' => Auth::user(),
             'professores' => AmbienteVirtualService::getProfessores(),
-            'disciplinas' => AmbienteVirtualService::getDisciplinas(),
+            'disciplinas' => AmbienteVirtualService::getAllDisciplinas(),
         ]);
     }
 
@@ -60,7 +60,7 @@ class AmbienteVirtualController extends Controller
             'user' => Auth::user(),
             'aula' => AmbienteVirtualService::find($id),
             'professores' => AmbienteVirtualService::getProfessores(),
-            'disciplinas' => AmbienteVirtualService::getDisciplinas(),
+            'disciplinas' => AmbienteVirtualService::getAllDisciplinas(),
         ]);
     }
 

@@ -108,14 +108,18 @@ class AmbienteVirtualService
         return $profssores;
     }
 
+    public static function getAllDisciplinas()
+    {
+        return Disciplina::all();
+    }
+
     public static function getDisciplinas()
     {
-        /*$disciplinas = Nucleo::where('permite_ambiente_virtual', true)->get()->map(function ($disciplina) {
-                return $disciplina->disciplina;
-        });
-
-        return $disciplinas;*/
-        return Disciplina::all();
+        return Disciplina::whereIn('id', function($query) {
+            $query->select('disciplina_id')
+                ->from('ambiente_virtuals')
+                ->whereNotNull('disciplina_id');
+        })->get();
     }
 
     public static function isAssistido($id)

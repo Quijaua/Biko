@@ -79,7 +79,7 @@
                     </div>
                     <div class="col-12 mb-3">
                         <div class="form-selectgroup">
-                            @foreach (\App\Disciplina::all() as $disciplina)
+                            @foreach (\App\Services\AmbienteVirtualService::getDisciplinas() as $disciplina)
                             <label class="form-selectgroup-item">
                                 <input type="checkbox" name="disciplina" value="{{ $disciplina->id }}" class="form-selectgroup-input disciplina" @if(request()->disciplina == $disciplina->id) checked @endif/>
                                 <span class="form-selectgroup-label">{{ $disciplina->nome }}</span>
