@@ -75,6 +75,7 @@
                                             <th class="text-nowrap text-black py-3">Estudante</th>
                                             <th class="text-nowrap text-black py-3">Criado em</th>
                                             <th class="text-nowrap text-black py-3">Responsável</th>
+                                            <th class="text-nowrap text-black py-3">Status</th>
                                             <th class="text-nowrap text-black py-3">Ações</th>
                                         </tr>
                                     </thead>
@@ -88,6 +89,21 @@
                                                 <td class="text-secondary">{{ $psicologo->created_at->format('d/m/Y H:i') }}</td>
 
                                                 <td class="text-secondary">{{ $psicologo->criador->name ?? 'N/A' }}</td>
+
+                                                <td>
+                                                    @php
+                                                        $statusColors = [
+                                                            'Novo' => 'blue',
+                                                            'Atendida/o' => 'green',
+                                                            'Cancelou' => 'yellow',
+                                                            'Não compareceu' => 'red',
+                                                            'Psi cancelou' => 'gray'
+                                                        ];
+                                                        $status = $psicologo->status ?? 'Novo';
+                                                        $color = $statusColors[$status] ?? 'default';
+                                                    @endphp
+                                                    <span class="badge bg-{{ $color }} text-{{ $color }}-fg">{{ $status }}</span>
+                                                </td>
 
                                                 {{-- Ações --}}
                                                 <td>
