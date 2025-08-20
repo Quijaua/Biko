@@ -35,9 +35,12 @@ const handleStatusChange = (status) => {
 const handleNucleoChange = (nucleo) => {
     const handleUrlFormated = () => {
         const urlToFormate = new URL(window.location.href);
-        const shouldFormate = urlToFormate.pathname.includes('/search');
-        if (!shouldFormate) {
-            urlToFormate.pathname += '/search';
+        if (!urlToFormate.pathname.endsWith('/search')) {
+            if (urlToFormate.pathname.endsWith('/')) {
+                urlToFormate.pathname += 'search';
+            } else {
+                urlToFormate.pathname += '/search';
+            }
         }
 
         return urlToFormate;

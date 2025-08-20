@@ -183,6 +183,9 @@ class MaterialController extends Controller
     if ( $user->role === 'professor' ) {
       $nucleos = Nucleo::where('Status', 1)->where('id', $user->professor->id_nucleo)->first();
     }
+    if ( $user->role === 'aluno' ) {
+      $nucleos = Nucleo::where('Status', 1)->where('id', $user->aluno->id_nucleo)->first();
+    }
 
     return view('material.index')->with([
       'user' => $user,
