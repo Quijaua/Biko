@@ -161,8 +161,6 @@ class UserPermissions
             }
 
             return back();
-        } else {
-            return back();
         }
 
         if ($role === 'coordenador') {
