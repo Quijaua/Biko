@@ -101,7 +101,7 @@
                     <div class="card">
                         <div class="card-body">
                         @php
-                            $tipo = Auth::user()->tipo;
+                            $tipo = Auth::user()->role;
                         @endphp
 
                         @if($tipo === 'aluno')
