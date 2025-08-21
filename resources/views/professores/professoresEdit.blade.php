@@ -196,7 +196,7 @@
                                                     class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" id="inputCPF"
                                                     name="inputCPF" aria-describedby="inputCPFHelp"
-                                                    data-mask="000.000.000-00" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" required value="{{ $dados->CPF }}">
+                                                    data-mask="000.000.000-00" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" value="{{ $dados->CPF }}">
                                             </div>
                                         </div>
 

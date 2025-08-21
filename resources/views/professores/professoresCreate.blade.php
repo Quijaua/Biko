@@ -210,7 +210,7 @@
                                                 <input type="text" class="form-control @error('inputCPF') is-invalid @enderror" id="inputCPF"
                                                     name="inputCPF" aria-describedby="inputCPFHelp"
                                                     data-mask="000.000.000-00" placeholder="xxx.xxx.xxx-xx"
-                                                    onblur="checkCPF()" required pattern="\d{3}\.\d{3}\.\d{3}-\d{2}">
+                                                    onblur="checkCPF()" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}">
                                                 @error('inputCPF')
                                                     <span class="invalid-feedback">{{ $message }}</span>
                                                 @enderror

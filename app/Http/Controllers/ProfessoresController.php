@@ -120,7 +120,7 @@ $coordenadorNucleos = DB::table('nucleos')
         'inputNomeProfessor' => ['required', 'string', 'min:3', 'max:100'],
         'inputEmail'         => ['required', 'email', 'max:255', 'unique:professores,email'],
         'inputCPF'           => [
-          'required',
+          'nullable',
           'string',
           'regex:/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/',
           'unique:professores,cpf',
@@ -136,7 +136,6 @@ $coordenadorNucleos = DB::table('nucleos')
         'inputEmail.max'      => 'O e-mail não pode exceder 255 caracteres.',
         'inputEmail.unique'   => 'Este e-mail já está cadastrado.',
 
-        'inputCPF.required' => 'O CPF é obrigatório.',
         'inputCPF.string'   => 'O CPF deve ser informado como texto.',
         'inputCPF.regex'    => 'O CPF deve estar no formato 000.000.000-00.',
         'inputCPF.unique'   => 'Este CPF já está cadastrado.',
@@ -429,7 +428,7 @@ $coordenadorNucleos = DB::table('nucleos')
           Rule::unique('professores', 'email')->ignore($id, 'id'),
         ],
         'inputCPF'           => [
-          'required',
+          'nullable',
           'string',
           'regex:/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/',
           Rule::unique('professores', 'cpf')->ignore($id, 'id'),
@@ -445,7 +444,6 @@ $coordenadorNucleos = DB::table('nucleos')
         'inputEmail.max'      => 'O e-mail não pode exceder 255 caracteres.',
         'inputEmail.unique'   => 'Este e-mail já está cadastrado.',
 
-        'inputCPF.required' => 'O CPF é obrigatório.',
         'inputCPF.string'   => 'O CPF deve ser informado como texto.',
         'inputCPF.regex'    => 'O CPF deve estar no formato 000.000.000-00.',
         'inputCPF.unique'   => 'Este CPF já está cadastrado.',
