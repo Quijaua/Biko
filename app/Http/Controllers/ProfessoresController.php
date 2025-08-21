@@ -739,10 +739,15 @@ $coordenadorNucleos = DB::table('nucleos')
       switch ($user->role) {
         case 'coordenador':
           if (!isset($params['nucleo_id']) || empty($params['nucleo_id'])) {
-            $params['nucleo_id'] = DB::table('nucleos')->where('nucleos.id', $user->coordenador->id_nucleo)->pluck('nucleos.id')->toArray();
-
+            $params['nucleo_id'] = DB::table('nucleos')
+              ->where('nucleos.id', $user->coordenador->id_nucleo)
+              ->pluck('nucleos.id')
+              ->toArray();
           } else {
-            $coordenadorNucleos = DB::table('nucleos')->where('nucleos.id', $params['nucleo_id'])->pluck('nucleos.id')->toArray();
+            $coordenadorNucleos = DB::table('nucleos')
+              ->where('nucleos.id', $params['nucleo_id'])
+              ->pluck('nucleos.id')
+              ->toArray();
 
             if (!is_array($params['nucleo_id'])) {
               $params['nucleo_id'] = [$params['nucleo_id']];
@@ -757,14 +762,18 @@ $coordenadorNucleos = DB::table('nucleos')
         
         case 'professor':
           if (!$params['nucleo_id']) {
-            $params['nucleo_id'] = $user->professor->id_nucleo;
+              $params['nucleo_id'] = $user->professor->id_nucleo; // deixa como string/integer mesmo
           }
           break;
       }
 
       $professores = DB::table('professores')
         ->when($params['nucleo_id'], function ($query) use ($params) {
-          return $query->whereIn('professores.id_nucleo', $params['nucleo_id']);
+          if (is_array($params['nucleo_id'])) {
+            return $query->whereIn('professores.id_nucleo', $params['nucleo_id']);
+          } else {
+            return $query->where('professores.id_nucleo', $params['nucleo_id']);
+          }
         })
         ->when($params['status'], function ($query) use ($params) {
           return $query->where('professores.Status', '=', $params['status'] === 'ativo' ? 1 : 0);
