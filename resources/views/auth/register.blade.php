@@ -489,12 +489,14 @@
                                                 </div>
 
                                                 <input id="role" type="hidden" name="role" value="aluno">
+                                            @if (!in_array(config('app.env'), ['local', 'develop']))
                                             <div class="row">
                                                 <div class="col">
                                                     <div class="h-captcha"
                                                         data-sitekey="{{ config('services.hcaptcha.site_key') }}"></div>
                                                 </div>
                                             </div>
+                                            @endif
 
                                             <div class="mb-3 row mt-3 mb-0">
                                                 <div class="btn-list">
@@ -791,6 +793,7 @@
                     btnSubmit.prop("disabled", true).addClass("d-none");
                     btnLoader.removeClass("d-none");
 
+                    @if (!in_array(config('app.env'), ['local', 'develop']))
                     const hcaptchaVal = $('[name=h-captcha-response]').val();
                     if (!hcaptchaVal) {
                         $(".alert").remove();
@@ -805,6 +808,7 @@
                         }
                         return;
                     }
+                    @endif
 
                     let data = $(this).serialize()
 
@@ -855,10 +859,12 @@
                                 //initialStep.click()
                             }
 
+                            @if (!in_array(config('app.env'), ['local', 'develop']))
                             if (hcaptchaElement && window.hcaptcha) {
                                 const widgetId = hcaptchaElement.getAttribute('data-hcaptcha-widget-id');
                                 window.hcaptcha.reset(widgetId);
                             }
+                            @endif
 
                             btnSubmit.prop("disabled", false).removeClass("d-none");
                             btnLoader.addClass("d-none");

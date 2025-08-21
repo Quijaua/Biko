@@ -54,12 +54,14 @@
 		</label>
 	</div>
 
+    @if (!in_array(config('app.env'), ['local', 'develop']))
     <div class="row mt-4">
         <div class="col">
             <div class="h-captcha"
                 data-sitekey="{{ config('services.hcaptcha.site_key') }}"></div>
         </div>
     </div>
+    @endif
 
 	<div class="form-footer">
 
@@ -162,6 +164,7 @@
         const btnSubmit = $('#btn-submit');
         const hcaptchaElement = document.querySelector('.h-captcha');
 
+        @if (!in_array(config('app.env'), ['local', 'develop']))
         form.on('submit', function(e) {
             const hcaptchaVal = $('[name="h-captcha-response"]').val();
 
@@ -187,6 +190,7 @@
                 return false;
             }
         });
+        @endif
     });
 
     $('document').ready(function() {
