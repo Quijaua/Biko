@@ -90,7 +90,7 @@
                                                         <tr>
                                                             <th></th>
                                                             <th>Estudante</th>
-                                                            <th>Criado em</th>
+                                                            <th>Data do Atendimento</th>
                                                             <th>Responsável</th>
                                                             <th>Ações</th>
                                                         </tr>
@@ -111,7 +111,7 @@
                                                                 </td>
 
                                                                 <td class="text-secondary">
-                                                                    {{ $psicologo->data_atendimento ? \Carbon\Carbon::parse($psicologo->data_atendimento)->format('d/m/Y H:i') : 'Data não definida' }}
+                                                                    {{ \Carbon\Carbon::parse($psicologo->data_atendimento ?: $psicologo->created_at)->format('d/m/Y H:i') }}
                                                                 </td>
 
                                                                 <td class="text-secondary">{{ $psicologo->criador->name ?? 'N/A' }}</td>
