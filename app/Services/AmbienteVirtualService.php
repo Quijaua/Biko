@@ -180,7 +180,7 @@ class AmbienteVirtualService
             'ambiente_virtual_id' => request('ambiente_virtual_id'),
             'comentario' => request('comentario'),
             'class_duration' => request('class_duration'),
-            //'nota' => request('nota'),
+            'nota' => request('nota'),
             'areas_conhecimento' => request('areas_conhecimento'),
             'disciplina' => request('disciplina'),
         ];
