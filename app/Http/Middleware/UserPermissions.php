@@ -361,6 +361,7 @@ if ($user->coordenador && $user->coordenador->id_nucleo) {
             $allowedPsicologosUpdate = 'psicologos/update/';
             $allowedPsicologosSearch = 'psicologos/search';
             $allowedPsicologosDetails = 'psicologos/details/';
+            $allowedPainelSupervisora = 'painel-supervisora';
 
             //RULES FOR PSICOLOGOS ROUTES
             if ($allowedPsicologosIndex === $currentPath) {
@@ -382,6 +383,9 @@ if ($user->coordenador && $user->coordenador->id_nucleo) {
                 return $next($request);
             }
             if (strpos($currentPath, $allowedPsicologosDetails) === 0) {
+                return $next($request);
+            }
+            if (strpos($currentPath, $allowedPainelSupervisora) === 0) {
                 return $next($request);
             }
 

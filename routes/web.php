@@ -289,6 +289,9 @@ Route::post('/plantao-psicologico/agendar', 'PlantaoPsicologicoController@agenda
 Route::get('/api/psicologos/{id}/datas', 'PlantaoPsicologicoController@datasDisponiveis');
 Route::get('/api/psicologos/{id}/horarios', 'PlantaoPsicologicoController@horariosDisponiveis');
 
+// ROUTES FOR PAINEL SUPERVISORA
+Route::get('/painel-supervisora', 'SupervisoraController@index')->middleware('permissions')->name('painel.supervisora');
+
 // ROUTES FOR AUDITORIA
 Route::group(['prefix' => 'auditoria'], function () {
     Route::get('/', 'AuditoriaController@index')->middleware('auth')->name('auditoria.index');
