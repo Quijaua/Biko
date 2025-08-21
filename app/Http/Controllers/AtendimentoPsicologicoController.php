@@ -15,19 +15,58 @@ class AtendimentoPsicologicoController extends Controller
 {
     public function index()
     {
+        $user = Auth::user();
+
+        if ($user->role === 'administrador' || $user->role === 'psicologa_supervisora') {
+            $atendimentos = AtendimentoPsicologico::orderBy('created_at', 'desc')
+                            ->paginate(25);
+        }
+        elseif ($user->role === 'psicologo') {
+            $psicologo = \App\Psicologos::where('user_id', $user->id)->first();
+
+            if ($psicologo) {
+                $atendimentos = AtendimentoPsicologico::where('created_by', $user->id)
+                                ->orderBy('created_at', 'desc')
+                                ->paginate(25);
+            } else {
+                $atendimentos = collect();
+            }
+        }
+        else {
+            abort(403, 'Acesso não autorizado.');
+        }
+
         return view('atendimento-psicologico.index')->with([
-            'user' => Auth::user(),
-            'atendimento_psicologico' => AtendimentoPsicologico::paginate(25),
+            'user' => $user,
+            'atendimento_psicologico' => $atendimentos,
         ]);
     }
 
     public function showByEstudante($id)
     {
+        $user = Auth::user();
         $estudante = Aluno::findOrFail($id);
 
-        $atendimento_psicologico = AtendimentoPsicologico::where('estudante_id', $id)
-                                    ->orderBy('created_at', 'desc')
-                                    ->paginate(25);
+        if ($user->role === 'administrador' || $user->role === 'psicologa_supervisora') {
+            $atendimento_psicologico = AtendimentoPsicologico::where('estudante_id', $id)
+                                        ->orderBy('created_at', 'desc')
+                                        ->paginate(25);
+        }
+        elseif ($user->role === 'psicologo') {
+            $psicologo = \App\Psicologos::where('user_id', $user->id)->first();
+
+            if ($psicologo) {
+                $atendimento_psicologico = AtendimentoPsicologico::where('estudante_id', $id)
+                                            ->where('created_by', $user->id)
+                                            ->orderBy('created_at', 'desc')
+                                            ->paginate(25);
+            } else {
+                $atendimentos = collect();
+            }
+        }
+        else {
+            abort(403, 'Acesso não autorizado.');
+        }
 
         return view('atendimento-psicologico.index', compact('estudante', 'atendimento_psicologico'));
     }
