@@ -15,15 +15,15 @@ class SupervisoraController extends Controller
 
         // Base query
         $query = AtendimentoPsicologico::with(['criador', 'estudante'])
-            ->orderBy('data_atendimento', 'asc');
+            ->orderByRaw('COALESCE(data_atendimento, created_at) ASC');
 
         // Aplica os filtros somente se tiverem sido enviados
         if ($ano) {
-            $query->whereYear('data_atendimento', $ano);
+            $query->whereRaw('YEAR(COALESCE(data_atendimento, created_at)) = ?', [$ano]);
         }
 
         if ($mes) {
-            $query->whereMonth('data_atendimento', $mes);
+            $query->whereRaw('MONTH(COALESCE(data_atendimento, created_at)) = ?', [$mes]);
         }
 
         $atendimentos = $query->get()->groupBy('created_by');

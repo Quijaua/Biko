@@ -104,7 +104,8 @@
                                 @endif
 
                                 <strong>
-                                    {{ ucfirst(\Carbon\Carbon::parse($atendimento->data_atendimento)->translatedFormat('l, d \d\e F')) }} • {{ \Carbon\Carbon::parse($atendimento->data_atendimento)->format('H:i') }}
+                                    {{ ucfirst(\Carbon\Carbon::parse($atendimento->data_atendimento ?: $atendimento->created_at)->translatedFormat('l, d \d\e F')) }} • 
+                                    {{ \Carbon\Carbon::parse($atendimento->data_atendimento ?: $atendimento->created_at)->format('H:i') }}
                                 </strong><br>
                                 Estudante: {{ $atendimento->estudante->NomeAluno }}
                             </li>
