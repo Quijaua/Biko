@@ -85,6 +85,8 @@ class AtendimentoPsicologicoController extends Controller
             'registro_atendimento'    => 'required|string',
             'tipo_encaminhamento'     => 'required|in:SUS,CRAS,CREAS,Atendimento finalizado',
             'descricao_encaminhamento' => 'nullable|string',
+            'data'                    => 'nullable|date',
+            'horario'                 => 'nullable|date_format:H:i',
             'anexo'                   => 'nullable|file|mimes:pdf|max:10240',
         ]);
 
@@ -92,7 +94,15 @@ class AtendimentoPsicologicoController extends Controller
             $data['anexo'] = $request->file('anexo')->store('anexos/atendimentos');
         }
 
+        if (!empty($data['data']) && !empty($data['horario'])) {
+            $data['data_atendimento'] = Carbon::parse($data['data'] . ' ' . $data['horario']);
+        } else {
+            $data['data_atendimento'] = null;
+        }
+
         $data['created_by'] = Auth::id();
+
+        unset($data['data'], $data['horario']);
 
         $atendimento = AtendimentoPsicologico::create($data);
 

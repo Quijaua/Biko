@@ -50,13 +50,13 @@
         <div class="row">
             <div class="col">
                 <div class="mb-3">
-                    <label for="demanda_objetivos" class="form-label">Demanda e Objetivos</label>
+                    <label for="demanda_objetivos" class="form-label required">Demanda e Objetivos</label>
                     <input type="text" class="form-control" id="demanda_objetivos" name="demanda_objetivos" aria-describedby="demanda_objetivosHelp" value="{{ old('demanda_objetivos') }}" required>
                 </div>
             </div>
             <div class="col-5">
                 <div class="mb-3">
-                    <label for="estudante_id" class="form-label">Estudante</label>
+                    <label for="estudante_id" class="form-label required">Estudante</label>
                     <select name="estudante_id" id="estudante_id" class="form-select" required>
                         <option value="">Selecione</option>
                         @foreach($estudantes as $id => $nome)
@@ -70,13 +70,13 @@
         <div class="row">
             <div class="col">
                 <div class="mb-3">
-                    <label for="registro_atendimento" class="form-label">Registro do Atendimento / Procedimentos</label>
+                    <label for="registro_atendimento" class="form-label required">Registro do Atendimento / Procedimentos</label>
                     <input type="text" class="form-control" id="registro_atendimento" name="registro_atendimento" aria-describedby="registro_atendimentoHelp" value="{{ old('registro_atendimento') }}" required>
                 </div>
             </div>
             <div class="col-4">
                 <div class="mb-3">
-                    <label for="tipo_encaminhamento" class="form-label">Registro de Encaminhamento ou Encerramento</label>
+                    <label for="tipo_encaminhamento" class="form-label required">Registro de Encaminhamento ou Encerramento</label>
                     <select name="tipo_encaminhamento" id="tipo_encaminhamento" class="form-select" required>
                         <option value="">Selecione</option>
                         @foreach(['SUS', 'CRAS', 'CREAS', 'Atendimento finalizado'] as $opcao)
@@ -85,6 +85,21 @@
                         </option>
                         @endforeach
                     </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="mb-3">
+                    <label for="data" class="form-label required">Data do atendimento</label>
+                    <input type="date" class="form-control" id="data" name="data" value="{{ old('data') }}" required>
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="horario" class="form-label required">Horário do atendimento</label>
+                    <input type="time" class="form-control" id="horario" name="horario" value="{{ old('horario') }}" required>
                 </div>
             </div>
         </div>

@@ -110,7 +110,9 @@
                                                                     @endif
                                                                 </td>
 
-                                                                <td class="text-secondary">{{ $psicologo->created_at->format('d/m/Y H:i') }}</td>
+                                                                <td class="text-secondary">
+                                                                    {{ $psicologo->data_atendimento ? \Carbon\Carbon::parse($psicologo->data_atendimento)->format('d/m/Y H:i') : 'Data não definida' }}
+                                                                </td>
 
                                                                 <td class="text-secondary">{{ $psicologo->criador->name ?? 'N/A' }}</td>
 
@@ -238,7 +240,9 @@
                                                                     @endif
                                                                 </td>
 
-                                                                <td class="text-secondary">{{ $psicologo->created_at->format('d/m/Y H:i') }}</td>
+                                                                <td class="text-secondary">
+                                                                    {{ $psicologo->data_atendimento ? \Carbon\Carbon::parse($psicologo->data_atendimento)->format('d/m/Y H:i') : 'Data não definida' }}
+                                                                </td>
 
                                                                 <td class="text-secondary">{{ $psicologo->criador->name ?? 'N/A' }}</td>
 

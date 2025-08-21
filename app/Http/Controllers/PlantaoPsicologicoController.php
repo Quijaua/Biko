@@ -228,8 +228,7 @@ class PlantaoPsicologicoController extends Controller
         $atendimento = AtendimentoPsicologico::create([
             // 'psicologo_id' => $psicologo->id,
             'estudante_id' => $aluno->id,
-            'data' => $request->data,
-            'horario' => $request->horario,
+            'data_atendimento' => Carbon::parse($request->data . ' ' . $request->horario),
             'demanda_objetivos' => 'Agendamento automático via sistema.',
             'registro_atendimento' => 'Agendamento realizado.',
             'tipo_encaminhamento' => 'Atendimento finalizado',

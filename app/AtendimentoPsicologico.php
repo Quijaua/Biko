@@ -17,6 +17,7 @@ class AtendimentoPsicologico extends Model
         'status',
         'descricao_encaminhamento',
         'anexo',
+        'data_atendimento',
         'created_by',
         'updated_by',
     ];
