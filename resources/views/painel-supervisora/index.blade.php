@@ -29,6 +29,9 @@
         width: 320px; /* largura mínima do card */
         flex: 0 0 auto; /* impede encolhimento */
     }
+    .card-link:hover {
+        box-shadow: none !important;
+    }
 </style>
 
 <div class="container">
@@ -84,30 +87,32 @@
                     <ul class="list-group">
                         @foreach($lista as $atendimento)
                             <li class="list-group-item">
-                                @php
-                                    $statusColors = [
-                                        'Novo' => 'blue',
-                                        'Atendida/o' => 'green',
-                                        'Cancelou' => 'yellow',
-                                        'Não compareceu' => 'red',
-                                        'Psi cancelou' => 'gray'
-                                    ];
-                                    $status = $atendimento->status ?? 'Novo';
-                                    $color = $statusColors[$status] ?? 'default';
-                                @endphp
+                                <a href="/atendimento-psicologico/details/{{ $lista->first()->id }}" class="card-link">
+                                    @php
+                                        $statusColors = [
+                                            'Novo' => 'blue',
+                                            'Atendida/o' => 'green',
+                                            'Cancelou' => 'yellow',
+                                            'Não compareceu' => 'red',
+                                            'Psi cancelou' => 'gray'
+                                        ];
+                                        $status = $atendimento->status ?? 'Novo';
+                                        $color = $statusColors[$status] ?? 'default';
+                                    @endphp
 
-                                @if ($status !== 'Novo')
-                                <span class="badge bg-{{ $color }} text-{{ $color }}-fg mb-1 {{ $status === 'Novo' ? 'd-none' : '' }}">
-                                    {{ $status }}
-                                </span>
-                                <br>
-                                @endif
+                                    @if ($status !== 'Novo')
+                                    <span class="badge bg-{{ $color }} text-{{ $color }}-fg mb-1 {{ $status === 'Novo' ? 'd-none' : '' }}">
+                                        {{ $status }}
+                                    </span>
+                                    <br>
+                                    @endif
 
-                                <strong>
-                                    {{ ucfirst(\Carbon\Carbon::parse($atendimento->data_atendimento ?: $atendimento->created_at)->translatedFormat('l, d \d\e F')) }} • 
-                                    {{ \Carbon\Carbon::parse($atendimento->data_atendimento ?: $atendimento->created_at)->format('H:i') }}
-                                </strong><br>
-                                Estudante: {{ $atendimento->estudante->NomeAluno }}
+                                    <strong>
+                                        {{ ucfirst(\Carbon\Carbon::parse($atendimento->data_atendimento ?: $atendimento->created_at)->translatedFormat('l, d \d\e F')) }} • 
+                                        {{ \Carbon\Carbon::parse($atendimento->data_atendimento ?: $atendimento->created_at)->format('H:i') }}
+                                    </strong><br>
+                                    Estudante: {{ $atendimento->estudante->NomeAluno }}
+                                </a>
                             </li>
                         @endforeach
                     </ul>
