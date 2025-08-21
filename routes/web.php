@@ -35,7 +35,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'restrict.professor'])->group(function () {
 
   Route::get('/dashboard', function () {
       return view('dashboard');
@@ -280,20 +280,23 @@ Route::any('atendimento-psicologico/estudante/{id}', 'AtendimentoPsicologicoCont
 Route::any('atendimento-psicologico/search', 'AtendimentoPsicologicoController@search')->name('atendimento-psicologico/search');
 
 // ROUTES FOR PLANTAO PSICOLOGICO
-Route::get('/plantao-psicologico', 'PlantaoPsicologicoController@index')->name('plantao-psicologico.index');
-Route::get('/plantao-psicologico/add', 'PlantaoPsicologicoController@show')->name('plantao-psicologico.show');
-Route::post('/plantao-psicologico/store', 'PlantaoPsicologicoController@store')->name('plantao-psicologico.store');
-Route::get('/plantao-psicologico/edit/{id}', 'PlantaoPsicologicoController@edit')->name('plantao-psicologico.edit');
-Route::post('/plantao-psicologico/update/{id}', 'PlantaoPsicologicoController@update')->name('plantao-psicologico.update');
-Route::post('/plantao-psicologico/agendar', 'PlantaoPsicologicoController@agendar')->middleware('auth')->name('plantao-psicologico.agendar');
-Route::get('/api/psicologos/{id}/datas', 'PlantaoPsicologicoController@datasDisponiveis');
-Route::get('/api/psicologos/{id}/horarios', 'PlantaoPsicologicoController@horariosDisponiveis');
+Route::middleware(['restrict.professor'])->group(function () {
+    Route::get('/plantao-psicologico', 'PlantaoPsicologicoController@index')->name('plantao-psicologico.index');
+    Route::get('/plantao-psicologico/add', 'PlantaoPsicologicoController@show')->name('plantao-psicologico.show');
+    Route::post('/plantao-psicologico/store', 'PlantaoPsicologicoController@store')->name('plantao-psicologico.store');
+    Route::get('/plantao-psicologico/edit/{id}', 'PlantaoPsicologicoController@edit')->name('plantao-psicologico.edit');
+    Route::post('/plantao-psicologico/update/{id}', 'PlantaoPsicologicoController@update')->name('plantao-psicologico.update');
+    Route::post('/plantao-psicologico/agendar', 'PlantaoPsicologicoController@agendar')->name('plantao-psicologico.agendar');
+
+    Route::get('/api/psicologos/{id}/datas', 'PlantaoPsicologicoController@datasDisponiveis');
+    Route::get('/api/psicologos/{id}/horarios', 'PlantaoPsicologicoController@horariosDisponiveis');
+});
 
 // ROUTES FOR PAINEL SUPERVISORA
 Route::get('/painel-supervisora', 'SupervisoraController@index')->middleware('permissions')->name('painel.supervisora');
 
 // ROUTES FOR AUDITORIA
-Route::group(['prefix' => 'auditoria'], function () {
+Route::group(['prefix' => 'auditoria', 'middleware' => ['auth', 'restrict.professor']], function () {
     Route::get('/', 'AuditoriaController@index')->middleware('auth')->name('auditoria.index');
 });
 
