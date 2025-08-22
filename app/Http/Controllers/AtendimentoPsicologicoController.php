@@ -120,6 +120,15 @@ class AtendimentoPsicologicoController extends Controller
     public function edit($id)
     {
         $dados = AtendimentoPsicologico::find($id);
+        $userRole = Auth::user()->role;
+
+        if (
+            !in_array($userRole, ['administrador', 'psicologa_supervisora']) &&
+            ($userRole !== 'psicologo' || $dados->created_by !== Auth::id())
+        ) {
+            abort(403, 'Acesso negado.');
+        }
+
         $estudantes = Aluno::whereNotNull('NomeAluno')->orderBy('NomeAluno')->pluck('NomeAluno', 'id');
         return view('atendimento-psicologico.edit', compact('dados', 'estudantes'));
     }
