@@ -87,7 +87,7 @@
                     <ul class="list-group">
                         @foreach($lista as $atendimento)
                             <li class="list-group-item">
-                                <a href="/atendimento-psicologico/details/{{ $lista->first()->id }}" class="card-link">
+                                <a href="/atendimento-psicologico/details/{{ $atendimento->id }}" class="card-link">
                                     @php
                                         $statusColors = [
                                             'Novo' => 'blue',
