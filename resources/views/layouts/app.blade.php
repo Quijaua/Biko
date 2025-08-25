@@ -987,7 +987,7 @@
                                             </a>
                                         </li>
                                         @if (Auth::user()->role === 'administrador')
-                                        <li
+{{--                                       <li
                                             class="nav-item {{ request()->routeIs('painel.supervisora') ? 'bg-primary text-white rounded' : '' }}">
                                             <a class="nav-link" href="{{ route('painel.supervisora') }}">
                                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -1004,7 +1004,7 @@
                                                 </span>
                                                 {{ __('Painel da Supervisora') }}
                                             </a>
-                                        </li>
+                                        </li> --}}
                                         @endif
                                         <li
                                             class="nav-item {{ request()->is('nucleos') ? 'bg-primary text-white rounded' : '' }}">
@@ -1228,7 +1228,7 @@
 
                                                 @if (Session::get('role') !== 'aluno')
                                                     @if (Session::get('verified'))
-                                                        <li class="nav-item">
+                                                        {{-- <li class="nav-item">
                                                             <a class="nav-link" href="/alunos">
                                                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24"
@@ -1461,6 +1461,7 @@
                                                                 {{ __('Psicólogos') }}
                                                             </a>
                                                         </li>
+                                                        --}}
                                                         <li class="nav-item">
                                                             <a class="nav-link" href="/nucleos">
                                                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -1483,7 +1484,7 @@
                                                                 {{ __('Núcleos') }}
                                                             </a>
                                                         </li>
-                                                        {{-- <li class="nav-item">
+                                                        <li class="nav-item">
                                                             <a class="nav-link" href="{{ route('nucleo/presences') }}">
                                                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24"
@@ -1502,7 +1503,7 @@
                                                                 </span>
                                                                 {{ __('Lista de presença') }}
                                                             </a>
-                                                        </li> --}}
+                                                        </li>
                                                     @endif
                                                 @endif
 
