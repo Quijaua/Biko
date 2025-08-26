@@ -987,7 +987,7 @@
                                                 {{ __('Plantão Psicológico') }}
                                             </a>
                                         </li> --}}
-                                        @if (Auth::user()->role === 'administrador' || Auth::user()->role === 'psicologa')
+                                        @if (Auth::user()->role === 'administrador' || Auth::user()->role === 'psicologo')
                                         <li
                                             class="nav-item {{ request()->routeIs('painel.supervisora') ? 'bg-primary text-white rounded' : '' }}">
                                             <a class="nav-link" href="{{ route('painel.supervisora') }}">
@@ -1145,25 +1145,7 @@
                                 </li>  --}}
                                 @endif
 
-                                @if (Auth::user()->role === 'psicologa_supervisora')
-                                {{-- <li
-                                    class="nav-item {{ request()->routeIs('painel.supervisora') ? 'bg-primary text-white rounded' : '' }}">
-                                    <a class="nav-link" href="{{ route('painel.supervisora') }}">
-                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"
-                                                class="icon icon-tabler icons-tabler-outline icon-tabler-layout-kanban">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                                <path d="M4 4l6 0" />
-                                                <path d="M14 4l6 0" />
-                                                <path d="M4 8m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" />
-                                                <path d="M14 8m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v2a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" />
-                                            </svg>
-                                        </span>
-                                        {{ __('Painel da Supervisora') }}
-                                    </a>
-                                </li> --}}
+                                @if (Auth::user()->role === 'psicologo')
                                 <li
                                     class="nav-item {{ request()->routeIs('painel.supervisora') ? 'bg-primary text-white rounded' : '' }}">
                                     <a class="nav-link" href="{{ route('painel.supervisora') }}">
