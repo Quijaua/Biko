@@ -122,7 +122,6 @@ Route::get('otp-verify', function () {
     $user->save();
 
     if ($redirect && in_array($redirect, ['plantao-psicologico']) || $user->role == 'psicologo') {
-        // return redirect()->route('plantao-psicologico.index');
         return redirect()->route('painel.supervisora');
     }
     
