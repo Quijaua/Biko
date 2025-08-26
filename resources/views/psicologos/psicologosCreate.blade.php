@@ -111,8 +111,8 @@
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control @error('inputCRP') is-invalid @enderror" id="inputCRP"
                                         name="crp" aria-describedby="inputCRPHelp"
-                                        data-mask="00/00000" placeholder="xx/xxxxx"
-                                        required pattern="\d{2}\/\d{5}">
+                                        data-mask="00/000000" placeholder="xx/xxxxxx"
+                                        required pattern="\d{2}\/\d{6}">
                                     @error('inputCRP')
                                         <span class="invalid-feedback">{{ $message }}</span>
                                     @enderror
