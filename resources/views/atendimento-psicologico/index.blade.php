@@ -47,7 +47,7 @@
                         <div class="col-10 d-flex align-items-center gap-2">
                             @csrf
                             <input type="text" name="inputQuery" class="form-control"
-                                placeholder="Digite o nome ou sobrenome para encontrar um psicologo(a)" required />
+                                placeholder="Digite o nome ou sobrenome para encontrar estudante" required />
 
                             <button type="submit" class="btn btn-outline-primary d-flex align-items-center gap-1">
                                 <i class="fas fa-search"></i> Buscar
@@ -70,10 +70,10 @@
                             <div class="card-header">
                                 <ul class="nav nav-tabs card-header-tabs" role="tablist">
                                     <li class="nav-item" role="presentation">
-                                        <a href="#tabs-novos" class="nav-link active" data-bs-toggle="tab" aria-selected="true" role="tab">Novos</a>
+                                        <a href="#tabs-novos" class="nav-link active" data-bs-toggle="tab" aria-selected="true" role="tab">Meus Novos Prontuários</a>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <a href="#tabs-todos" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab">Todos</a>
+                                        <a href="#tabs-todos" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab">Todos Prontuários</a>
                                     </li>
                                 </ul>
                             </div>
