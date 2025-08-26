@@ -293,7 +293,7 @@ Route::middleware(['restrict.professor'])->group(function () {
 });
 
 // ROUTES FOR PAINEL SUPERVISORA
-Route::get('/painel-supervisora', 'SupervisoraController@index')->middleware('permissions')->name('painel.supervisora');
+Route::get('/apoio-emocional', 'SupervisoraController@index')->middleware('permissions')->name('painel.supervisora');
 
 // ROUTES FOR AUDITORIA
 Route::group(['prefix' => 'auditoria', 'middleware' => ['auth', 'restrict.professor']], function () {

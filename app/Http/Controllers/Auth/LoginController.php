@@ -104,7 +104,7 @@ class LoginController extends Controller
             }
 
             if (Auth::user()->role == 'psicologo') {
-                return redirect()->intended('plantao-psicologico');
+                return redirect()->intended('apoio-emocional');
             }
 
             return redirect()->intended('home');

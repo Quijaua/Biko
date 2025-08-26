@@ -325,6 +325,7 @@ if ($user->coordenador && $user->coordenador->id_nucleo) {
             $allowedAtendimentoPsicologicoUpdate = 'atendimento-psicologico/update/';
             $allowedAtendimentoPsicologicoSearch = 'atendimento-psicologico/search';
             $allowedAtendimentoPsicologicoDetails = 'atendimento-psicologico/details/';
+            $allowedApoioEmocional = 'apoio-emocional';
 
             //RULES FOR PSICOLOGOS ROUTES
             if ($allowedAtendimentoPsicologicoIndex === $currentPath) {
@@ -348,6 +349,9 @@ if ($user->coordenador && $user->coordenador->id_nucleo) {
             if (strpos($currentPath, $allowedAtendimentoPsicologicoDetails) === 0) {
                 return $next($request);
             }
+            if (strpos($currentPath, $allowedApoioEmocional) === 0) {
+                return $next($request);
+            }
 
             return back();
         }
@@ -362,6 +366,7 @@ if ($user->coordenador && $user->coordenador->id_nucleo) {
             $allowedPsicologosSearch = 'psicologos/search';
             $allowedPsicologosDetails = 'psicologos/details/';
             $allowedPainelSupervisora = 'painel-supervisora';
+            $allowedApoioEmocional = 'apoio-emocional';
 
             //RULES FOR PSICOLOGOS ROUTES
             if ($allowedPsicologosIndex === $currentPath) {
@@ -386,6 +391,9 @@ if ($user->coordenador && $user->coordenador->id_nucleo) {
                 return $next($request);
             }
             if (strpos($currentPath, $allowedPainelSupervisora) === 0) {
+                return $next($request);
+            }
+            if (strpos($currentPath, $allowedApoioEmocional) === 0) {
                 return $next($request);
             }
 
