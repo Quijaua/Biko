@@ -22,6 +22,10 @@ class AtendimentoPsicologico extends Model
         'updated_by',
     ];
 
+    protected $dates = [
+        'data_atendimento',
+    ];
+
     public function estudante()
     {
         return $this->belongsTo(Aluno::class);

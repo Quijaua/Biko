@@ -17,20 +17,9 @@ class AtendimentoPsicologicoController extends Controller
     {
         $user = Auth::user();
 
-        if ($user->role === 'administrador' || $user->role === 'psicologa_supervisora') {
+        if ($user->role === 'administrador' || $user->role === 'psicologa_supervisora' || $user->role === 'psicologo') {
             $atendimentos = AtendimentoPsicologico::orderBy('created_at', 'desc')
                             ->paginate(25);
-        }
-        elseif ($user->role === 'psicologo') {
-            $psicologo = \App\Psicologos::where('user_id', $user->id)->first();
-
-            if ($psicologo) {
-                $atendimentos = AtendimentoPsicologico::where('created_by', $user->id)
-                                ->orderBy('created_at', 'desc')
-                                ->paginate(25);
-            } else {
-                $atendimentos = collect();
-            }
         }
         else {
             abort(403, 'Acesso não autorizado.');
@@ -216,13 +205,14 @@ class AtendimentoPsicologicoController extends Controller
         }
 
         $dados = AtendimentoPsicologico::find($id);
+        $outros_atendimentos = AtendimentoPsicologico::where('estudante_id', $dados->estudante_id)->whereNotIn('id', [$id])->get();
         $estudantes = Aluno::whereNotNull('NomeAluno')->orderBy('NomeAluno')->pluck('NomeAluno', 'id');
         $logs = LogAtendimentoPsicologico::where('atendimento_psicologico_id', $id)
             ->with('user')
             ->latest()
             ->get();
 
-        return view('atendimento-psicologico.details', compact('dados', 'estudantes', 'logs'));
+        return view('atendimento-psicologico.details', compact('dados', 'estudantes', 'logs', 'outros_atendimentos'));
     }
 
     public function destroy(AtendimentoPsicologico $atendimento)

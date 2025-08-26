@@ -169,6 +169,24 @@
                 </div>
             @endif
 
+            <div class="mb-3">
+                @foreach($outros_atendimentos as $outro_atendimento)
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="card-title">
+                                Outros prontuários do estudante
+                            </div>
+                            <div class="col-10">
+                                <p>Data: {{ date('d/m/Y', strtotime($outro_atendimento->data_atendimento)) }}</p>
+                                <a href="/atendimento-psicologico/details/{{ $outro_atendimento->id }}">Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+
         </div>
     </form>
 </div>
