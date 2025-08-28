@@ -72,7 +72,23 @@ class CoordenadoresController extends Controller
 
     public function showForm()
     {
-      $nucleos = Nucleo::get()->where('Status', 1);
+      $user = Auth::user();
+      if ($user->role === 'professor') {
+        abort(403, 'Acesso não autorizado.');
+      }
+
+      // dd(Auth::user()->coordenador->nucleo()->get());
+      $nucleos = collect();
+
+      if (Auth::user()->role === 'coordenador') {
+        $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+        $nucleos = \App\Nucleo::where('Status', 1)->whereIn('id', $coordenadorNucleos)->get();
+      } else {
+        $nucleos = \App\Nucleo::where('Status', 1)->get();
+      }
+
+      // dd($nucleos);
+      // $nucleos = Nucleo::get()->where('Status', 1);
       $povosIndigenas = PovoIndigena::orderByRaw('label = "Sem Informação" DESC')
                       ->orderByRaw('LOWER(label) ASC')
                       ->get();
@@ -103,6 +119,14 @@ class CoordenadoresController extends Controller
       $Foto = $request->file('inputFoto');
       //$Extension = $Foto->getClientOriginalExtension();
       $today = \Carbon\Carbon::now();
+
+      $cpfInput = $request->input('inputCPF');
+      if ($cpfInput) {
+          $cpfExists = Coordenadores::where('CPF', $cpfInput)->exists();
+          if ($cpfExists) {
+              return back()->with('error', 'ESTE CPF JÁ ESTÁ EM USO.');
+          }
+      }
 
       $cgu = $request->input('inputRepresentanteCGU');
       if($cgu){
@@ -141,7 +165,7 @@ class CoordenadoresController extends Controller
       }
 
       $coordenador = Coordenadores::create([
-        'id_user' => $user->id,
+        'id_user' => Auth::user()->id,
         'Status' => $request->input('inputStatus'),
         'NomeCoordenador' => $request->input('inputNomeCoordenador'),
         'NomeSocial' => $request->input('inputNomeSocial'),
@@ -377,20 +401,32 @@ class CoordenadoresController extends Controller
           ->save($path);
       }
 
+      $cpfInput = $request->input('inputCPF');
+      if ($cpfInput && $cpfInput !== $dados->CPF) {
+          $cpfExists = Coordenadores::where('CPF', $cpfInput)
+                                    ->where('id', '<>', $dados->id)
+                                    ->exists();
+          if ($cpfExists) {
+              return back()->with('error', 'ESTE CPF JÁ ESTÁ EM USO.');
+          }
+      }
+
       $currentEmail = Coordenadores::where('id_user', $dados->id_user)->pluck('Email');
       $inputEmail = $request->input('inputEmail');
-      if($inputEmail !== $currentEmail[0]){
-        try {
-          $coordenador = Coordenadores::where('Email',$inputEmail)->get('Email');
-          $user = User::where('id', $dados->id_user)->first();
+      $user = User::find($dados->id_user);
+
+      if($user->email !== $inputEmail){
+          // Verifica se o email já pertence a outro usuário
+          $emailExists = User::where('email', $inputEmail)
+                          ->where('id', '<>', $user->id)
+                          ->exists();
+
+          if($emailExists){
+              return back()->with('error', 'ESTE EMAIL JÁ ESTÁ EM USO.');
+          }
+
           $user->email = $inputEmail;
           $user->save();
-          //dd($professor);
-        } catch (ModelNotFoundException $exception) {
-            return back()->with([
-              'error' => 'ESTE EMAIL JÁ ESTÁ EM USO.',
-            ]);
-        }
       }
 
       $dados->save();

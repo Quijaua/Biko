@@ -56,8 +56,11 @@
                                     </div>
 
                                     <div class="col-12 col-md-6 mt-2">
-                                        <label class="form-label mb-2" for="email">Seu e-mail(obrigatório)</label>
+                                        <label class="form-label mb-2" for="email">Seu e-mail (obrigatório)</label>
                                         <input id="email" name="email" type="email" class="form-control" required>
+                                        <div id="email-feedback" class="mt-1 text-danger small d-none">
+                                            Este e-mail já está cadastrado.
+                                        </div>
                                     </div>
 
                                     <div class="col-12 col-md-6 mt-2">
@@ -209,6 +212,36 @@
     <!-- END PAGE BODY -->
 </div>
 
+<script>
+    $(document).ready(function() {
+        $('#email').on('input', function() {
+            const email = $(this).val();
+
+            if (email.length > 5 && email.includes('@')) {
+                $.ajax({
+                    url: '/verifica-email-professor',
+                    type: 'POST',
+                    data: {
+                        email: email,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        if (response.existe) {
+                            $('#email').addClass('is-invalid');
+                            $('#email-feedback').removeClass('d-none');
+                        } else {
+                            $('#email').removeClass('is-invalid');
+                            $('#email-feedback').addClass('d-none');
+                        }
+                    }
+                });
+            } else {
+                $('#email').removeClass('is-invalid');
+                $('#email-feedback').addClass('d-none');
+            }
+        });
+    });
+</script>
 <script>
     $(document).ready(function() {
         $('#raca_cor').on('change', function() {

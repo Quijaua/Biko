@@ -27,10 +27,10 @@ return new class extends Migration
             $table->unique(['coordenador_id', 'nucleo_id']);
         });
 
-        Schema::table('coordenadores', function (Blueprint $table) {
-            $table->dropForeign(['id_nucleo']);
-            $table->dropColumn('id_nucleo');
-        });
+        // Schema::table('coordenadores', function (Blueprint $table) {
+        //     $table->dropForeign(['id_nucleo']);
+        //     $table->dropColumn('id_nucleo');
+        // });
     }
 
     /**

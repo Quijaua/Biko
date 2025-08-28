@@ -8,6 +8,7 @@ use Session;
 use \Carbon\Carbon;
 use DB;
 
+use App\Aluno;
 use App\Professores;
 use App\Coordenadores;
 use App\Nucleo;
@@ -42,7 +43,9 @@ class NucleoController extends Controller
       }
 
       if($user->role === 'coordenador'){
-        $myNucleosIds = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+        //$myNucleosIds = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+	$myNucleosIds = $user->coordenador?->nucleos()->pluck('nucleos.id')->toArray() ?? [1];
+
         $nucleos = Nucleo::paginate(25);
 
         return view('nucleos.nucleos')->with([
@@ -67,6 +70,10 @@ class NucleoController extends Controller
 
     public function showForm()
     {
+      $user = Auth::user();
+      if ($user->role !== 'administrador') {
+        abort(403, 'Acesso não autorizado.');
+      }
 
       return view('nucleos.nucleosCreate')->with([
         'disciplinas' => Disciplina::all(),
@@ -77,6 +84,14 @@ class NucleoController extends Controller
     {
       $dados = Nucleo::find($id);
       $dados->disciplinas = json_decode($dados->disciplinas);
+
+      $user = Auth::user();
+      if ($user->role === 'coordenador') {
+        $myNucleosIds = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+        if (!in_array($dados->id, $myNucleosIds)) {
+          abort(403, 'Você não tem permissão para excluir este núcleo.');
+        }
+      }
 
       $representantes = $dados->coordenadores()
         ->wherePivot('nucleo_id', $id)
@@ -250,13 +265,20 @@ class NucleoController extends Controller
         $professor = Professores::where('id_user', Auth::user()->id)->first();
       } else if ( $user->role === 'coordenador' ) {
         $professor = Coordenadores::where('id_user', Auth::user()->id)->first();
-      };
+      } else if ( $user->role === 'aluno' ) {
+        $professor = Aluno::where('id_user', Auth::user()->id)->first();
+      }
 
       $nucleos = [];
       if($user->role === 'administrador'){
           $nucleos = Nucleo::where('Status', 1)->pluck('NomeNucleo', 'id')->all();
           $nucleo = Nucleo::find(request('nid', head(array_keys($nucleos))));
-      }else {
+      } else if ($user->role === 'coordenador') {
+//          $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+	  $coordenadorNucleos = $user->coordenador?->nucleos()->pluck('nucleos.id')->toArray() ?? [1];
+          $nucleos = Nucleo::where('Status', 1)->whereIn('id', $coordenadorNucleos)->pluck('NomeNucleo', 'id')->all();
+          $nucleo = Nucleo::find(request('nid', head(array_keys($nucleos))));
+      } else {
           $nucleo = Nucleo::find($professor->id_nucleo);
       }
 

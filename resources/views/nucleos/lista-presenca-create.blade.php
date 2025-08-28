@@ -77,6 +77,7 @@
 @stop
 @section('js')
 <script type="text/javascript" src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
   let listaId = '<?php echo $lista->id ?>';
 

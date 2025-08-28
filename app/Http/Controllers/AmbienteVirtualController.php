@@ -13,6 +13,15 @@ class AmbienteVirtualController extends Controller
 {
     public function index()
     {
+        $user = Auth::user();
+        if ($user->role === 'professor') {
+            $status = \DB::table('professores')->where('id_user', Auth::id())->value('status');
+
+            if (!$status) {
+                abort(403, 'Ops! Seu perfil precisa estar ativo para acessar esta página.');
+            }
+        }
+
         return view('ambiente-virtual.index')->with([
             'user' => Auth::user(),
             'aulas' => AmbienteVirtualService::index(),
@@ -24,7 +33,7 @@ class AmbienteVirtualController extends Controller
         return view('ambiente-virtual.create')->with([
             'user' => Auth::user(),
             'professores' => AmbienteVirtualService::getProfessores(),
-            'disciplinas' => AmbienteVirtualService::getDisciplinas(),
+            'disciplinas' => AmbienteVirtualService::getAllDisciplinas(),
         ]);
     }
 
@@ -41,6 +50,7 @@ class AmbienteVirtualController extends Controller
         return view('ambiente-virtual.show')->with([
             'user' => Auth::user(),
             'aula' => AmbienteVirtualService::find($id),
+            'is_assistido' => AmbienteVirtualService::isAssistido($id),
         ]);
     }
 
@@ -50,7 +60,7 @@ class AmbienteVirtualController extends Controller
             'user' => Auth::user(),
             'aula' => AmbienteVirtualService::find($id),
             'professores' => AmbienteVirtualService::getProfessores(),
-            'disciplinas' => AmbienteVirtualService::getDisciplinas(),
+            'disciplinas' => AmbienteVirtualService::getAllDisciplinas(),
         ]);
     }
 
@@ -79,4 +89,25 @@ class AmbienteVirtualController extends Controller
     {
         return AmbienteVirtualService::anotar($id);
     }
+
+    public function marcarAssistido(Request $request)
+    {
+        AmbienteVirtualService::marcarAssistido();
+        return redirect()->back()->with([
+            'success' => 'Aula marcada como assistida!'
+        ]);
+    }
+
+    public function desmarcarAssistido(Request $request)
+    {
+        AmbienteVirtualService::desmarcarAssistido();
+        return redirect()->back()->with([
+            'success' => 'Aula desmarcada como assistida!'
+        ]);
+    }
+
+    public function search(Request $request)
+    {
+        return AmbienteVirtualService::search($request);
+    }  
 }

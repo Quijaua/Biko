@@ -24,6 +24,7 @@ class DisciplinaController extends Controller
     {
         $disciplina = new Disciplina();
         $disciplina->nome = $request->nome;
+        $disciplina->areas_conhecimento = $request->areas_conhecimento;
         $disciplina->save();
         return redirect()->route('disciplinas.index')->with([
             'success' => 'Disciplina criada com sucesso!'
@@ -41,6 +42,7 @@ class DisciplinaController extends Controller
     {
         $disciplina = Disciplina::find($id);
         $disciplina->nome = $request->nome;
+        $disciplina->areas_conhecimento = $request->areas_conhecimento;
         $disciplina->save();
         return redirect()->route('disciplinas.index')->with([
             'success' => 'Disciplina atualizada com sucesso!'

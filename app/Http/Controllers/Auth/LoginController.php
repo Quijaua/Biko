@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Config;
 use Session;
+use Carbon\Carbon;
+use DB;
 
 use App\Http\Repository\HcaptchaRepository;
 
@@ -48,16 +50,25 @@ class LoginController extends Controller
 
     protected function validator(array $data)
     {
-        if( $this->repository->validate($data['h-captcha-response']) ) {
+        if (in_array(config('app.env'), ['local', 'develop'])) {
             return Validator::make($data, [
                 'email' => ['required', 'string', 'email'],
                 'password' => ['required', 'string'],
             ]);
-          };
-    
-          return Validator::make($data, [
+        }
+
+        $hcaptchaResponse = $data['h-captcha-response'] ?? null;
+
+        if ($hcaptchaResponse && $this->repository->validate($hcaptchaResponse)) {
+            return Validator::make($data, [
+                'email' => ['required', 'string', 'email'],
+                'password' => ['required', 'string'],
+            ]);
+        }
+
+        return Validator::make($data, [
             'hcaptcha' => ['required'],
-          ]);
+        ]);
     }
 
     public function login(Request $request)
@@ -83,6 +94,18 @@ class LoginController extends Controller
 
             $request->session()->regenerate();
             Session::put('role', Auth::user()->role);
+
+            if (Auth::user()->role == 'aluno') {
+                DB::table('alunos_acessos')->insert([
+                    'aluno_id' => Auth::user()->aluno->id,
+                    'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+                    'updated_at' => \Carbon\Carbon::now()->toDateTimeString(),
+                ]);
+            }
+
+            if (Auth::user()->role == 'psicologo') {
+                return redirect()->intended('apoio-emocional');
+            }
 
             return redirect()->intended('home');
         }

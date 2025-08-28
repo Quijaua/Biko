@@ -248,7 +248,7 @@
                             </div>
 
                             <div class="row mb-3">
-                                <h2>Ambiente Virtual</h2>
+                                <h2>Núcleo Virtual</h2>
                                 <div class="rounded border border-gray-300">
                                     <div class="table-responsive">
                                         <table class="table table-hover table-vcenter">

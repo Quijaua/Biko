@@ -47,6 +47,13 @@
                             <input type="file" class="form-control" id="imagem_capa" name="imagem_capa" aria-describedby="imagem_capaHelp" placeholder="Imagem da capa da aula virtual" value="{{ $aula->imagem_capa }}" >
                         </div>
                     </div>
+
+                    <div class="col">
+                        <div class="mb-3">
+                            <label class="form-label mb-2" for="class_duration">Duração</label>
+                            <input type="text" class="form-control" id="class_duration" name="class_duration" aria-describedby="class_durationHelp" value="{{ $aula->class_duration }}" required>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="row">
@@ -116,6 +123,7 @@
 </div>
 
 <script src="{{ asset('dist/libs/tinymce/tinymce.min.js') }}"></script>
+<script src="{{ asset('js/jquery.mask.min.js') }}"></script>
 
 <script>
     $(document).ready(function() {
@@ -128,6 +136,8 @@
         }
 
         tinyMCE.init(options)
+
+        $('#class_duration').mask('00:00:00', {reverse: true});
     })
 </script>
 @endsection

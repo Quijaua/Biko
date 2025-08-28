@@ -95,6 +95,8 @@ var nucleo_filter = document.getElementById('nucleo');
 var listaEspera_filter = document.getElementById('lista_espera');
 var cidade_filter = document.getElementById('cidade');
 var date_filter = document.getElementById('date');
+var areas_conhecimento_filter = document.getElementsByClassName('areas_conhecimento');
+var disciplina_filter = document.getElementsByClassName('disciplina');
 var limparFiltrosButton = document.getElementById('limparFiltros');
 var handleStatusChange = function handleStatusChange(status) {
   var handleUrlFormated = function handleUrlFormated() {
@@ -110,17 +112,23 @@ var handleStatusChange = function handleStatusChange(status) {
   window.location.href = url.toString();
 };
 var handleNucleoChange = function handleNucleoChange(nucleo) {
-  var handleUrlFormated = function handleUrlFormated() {
-    var urlToFormate = new URL(window.location.href);
-    var shouldFormate = urlToFormate.pathname.includes('/search');
-    if (!shouldFormate) {
-      urlToFormate.pathname += '/search';
-    }
-    return urlToFormate;
-  };
-  var url = handleUrlFormated();
-  url.searchParams.set('nucleo', nucleo);
-  window.location.href = url.toString();
+    var handleUrlFormated = function handleUrlFormated() {
+        var urlToFormate = new URL(window.location.href);
+
+        if (!urlToFormate.pathname.endsWith('/search')) {
+            if (urlToFormate.pathname.endsWith('/')) {
+                urlToFormate.pathname += 'search';
+            } else {
+                urlToFormate.pathname += '/search';
+            }
+        }
+
+        return urlToFormate;
+    };
+
+    var url = handleUrlFormated();
+    url.searchParams.set('nucleo', nucleo);
+    window.location.href = url.toString();
 };
 var handleListaEsperaChange = function handleListaEsperaChange(listaEspera) {
   var handleUrlFormated = function handleUrlFormated() {
@@ -161,6 +169,32 @@ var handleDateChange = function handleDateChange(date) {
   url.searchParams.set('date', date);
   window.location.href = url.toString();
 };
+var handleAreasConhecimentoChange = function handleAreasConhecimentoChange(areas_conhecimento) {
+  var handleUrlFormated = function handleUrlFormated() {
+    var urlToFormate = new URL(window.location.href);
+    var shouldFormate = urlToFormate.pathname.includes('/search');
+    if (!shouldFormate) {
+      urlToFormate.pathname += '/search';
+    }
+    return urlToFormate;
+  };
+  var url = handleUrlFormated();
+  url.searchParams.set('areas_conhecimento', areas_conhecimento);
+  window.location.href = url.toString();
+};
+var disciplinaChange = function disciplinaChange(disciplina) {
+  var handleUrlFormated = function handleUrlFormated() {
+    var urlToFormate = new URL(window.location.href);
+    var shouldFormate = urlToFormate.pathname.includes('/search');
+    if (!shouldFormate) {
+      urlToFormate.pathname += '/search';
+    }
+    return urlToFormate;
+  };
+  var url = handleUrlFormated();
+  url.searchParams.set('disciplina', disciplina);
+  window.location.href = url.toString();
+};
 status_filter ? status_filter.addEventListener('change', function () {
   handleStatusChange(status_filter.value);
 }) : null;
@@ -181,6 +215,16 @@ limparFiltrosButton ? limparFiltrosButton.addEventListener('click', function () 
   var url = window.location.origin + window.location.pathname;
   var baseUrl = url.replace(/\/search\/?$/, '');
   window.location.href = baseUrl;
+}) : null;
+areas_conhecimento_filter ? Array.from(areas_conhecimento_filter).forEach(function (area) {
+  area.addEventListener('click', function () {
+    handleAreasConhecimentoChange(area.value);
+  });
+}) : null;
+disciplina_filter ? Array.from(disciplina_filter).forEach(function (disciplina) {
+  disciplina.addEventListener('click', function () {
+    disciplinaChange(disciplina.value);
+  });
 }) : null;
 
 /***/ }),

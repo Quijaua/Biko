@@ -8,6 +8,10 @@ const cidade_filter = document.getElementById('cidade');
 
 const date_filter = document.getElementById('date');
 
+const areas_conhecimento_filter = document.getElementsByClassName('areas_conhecimento');
+
+const disciplina_filter = document.getElementsByClassName('disciplina');
+
 const limparFiltrosButton = document.getElementById('limparFiltros');
 
 const handleStatusChange = (status) => {
@@ -31,9 +35,12 @@ const handleStatusChange = (status) => {
 const handleNucleoChange = (nucleo) => {
     const handleUrlFormated = () => {
         const urlToFormate = new URL(window.location.href);
-        const shouldFormate = urlToFormate.pathname.includes('/search');
-        if (!shouldFormate) {
-            urlToFormate.pathname += '/search';
+        if (!urlToFormate.pathname.endsWith('/search')) {
+            if (urlToFormate.pathname.endsWith('/')) {
+                urlToFormate.pathname += 'search';
+            } else {
+                urlToFormate.pathname += '/search';
+            }
         }
 
         return urlToFormate;
@@ -101,6 +108,43 @@ const handleDateChange = (date) => {
     window.location.href = url.toString();
 };
 
+const handleAreasConhecimentoChange = (areas_conhecimento) => {
+    
+    const handleUrlFormated = () => {
+        const urlToFormate = new URL(window.location.href);
+        const shouldFormate = urlToFormate.pathname.includes('/search');
+        if (!shouldFormate) {
+            urlToFormate.pathname += '/search';
+        }
+
+        return urlToFormate;
+    };
+
+    const url = handleUrlFormated();
+
+    url.searchParams.set('areas_conhecimento', areas_conhecimento);
+
+    window.location.href = url.toString();
+}
+
+const disciplinaChange = (disciplina) => {
+    const handleUrlFormated = () => {
+        const urlToFormate = new URL(window.location.href);
+        const shouldFormate = urlToFormate.pathname.includes('/search');
+        if (!shouldFormate) {
+            urlToFormate.pathname += '/search';
+        }
+
+        return urlToFormate;
+    };
+
+    const url = handleUrlFormated();
+
+    url.searchParams.set('disciplina', disciplina);
+
+    window.location.href = url.toString();
+}
+
 status_filter ? status_filter.addEventListener('change', () => {
     handleStatusChange(status_filter.value);
 }) : null;
@@ -129,4 +173,15 @@ limparFiltrosButton ? limparFiltrosButton.addEventListener('click', () => {
   
     window.location.href = baseUrl;
   }) : null;
-  
+
+areas_conhecimento_filter ? Array.from(areas_conhecimento_filter).forEach((area) => {
+    area.addEventListener('click', () => {
+        handleAreasConhecimentoChange(area.value);
+    })
+}) : null;
+
+disciplina_filter ? Array.from(disciplina_filter).forEach((disciplina) => {
+    disciplina.addEventListener('click', () => {
+        disciplinaChange(disciplina.value);
+    })
+}) : null;

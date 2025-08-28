@@ -52,7 +52,13 @@ class ProfessoresController extends Controller
 
       if($user->role === 'coordenador'){
         $me = Coordenadores::where('id_user', $user->id)->first();
-        $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+        // $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+//        $coordenadorNucleos = DB::table('nucleos')->where('nucleos.id', $me->id_nucleo)->pluck('nucleos.id')->toArray();
+$coordenadorNucleos = DB::table('nucleos')
+    ->where('nucleos.id', $me->id_nucleo ?? 1)
+    ->pluck('nucleos.id')
+    ->toArray();
+
         //$professores = Professores::where('id_nucleo', $me->id_nucleo)->get();
         $professores = Professores::whereIn('id_nucleo', $coordenadorNucleos)->paginate(25);
 
@@ -114,7 +120,7 @@ class ProfessoresController extends Controller
         'inputNomeProfessor' => ['required', 'string', 'min:3', 'max:100'],
         'inputEmail'         => ['required', 'email', 'max:255', 'unique:professores,email'],
         'inputCPF'           => [
-          'required',
+          'nullable',
           'string',
           'regex:/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/',
           'unique:professores,cpf',
@@ -130,7 +136,6 @@ class ProfessoresController extends Controller
         'inputEmail.max'      => 'O e-mail não pode exceder 255 caracteres.',
         'inputEmail.unique'   => 'Este e-mail já está cadastrado.',
 
-        'inputCPF.required' => 'O CPF é obrigatório.',
         'inputCPF.string'   => 'O CPF deve ser informado como texto.',
         'inputCPF.regex'    => 'O CPF deve estar no formato 000.000.000-00.',
         'inputCPF.unique'   => 'Este CPF já está cadastrado.',
@@ -423,7 +428,7 @@ class ProfessoresController extends Controller
           Rule::unique('professores', 'email')->ignore($id, 'id'),
         ],
         'inputCPF'           => [
-          'required',
+          'nullable',
           'string',
           'regex:/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/',
           Rule::unique('professores', 'cpf')->ignore($id, 'id'),
@@ -439,7 +444,6 @@ class ProfessoresController extends Controller
         'inputEmail.max'      => 'O e-mail não pode exceder 255 caracteres.',
         'inputEmail.unique'   => 'Este e-mail já está cadastrado.',
 
-        'inputCPF.required' => 'O CPF é obrigatório.',
         'inputCPF.string'   => 'O CPF deve ser informado como texto.',
         'inputCPF.regex'    => 'O CPF deve estar no formato 000.000.000-00.',
         'inputCPF.unique'   => 'Este CPF já está cadastrado.',
@@ -733,13 +737,21 @@ class ProfessoresController extends Controller
       switch ($user->role) {
         case 'coordenador':
           if (!isset($params['nucleo_id']) || empty($params['nucleo_id'])) {
-            $params['nucleo_id'] = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+            $params['nucleo_id'] = DB::table('nucleos')
+              ->where('nucleos.id', $user->coordenador->id_nucleo)
+              ->pluck('nucleos.id')
+              ->toArray();
           } else {
-            $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+            $coordenadorNucleos = DB::table('nucleos')
+              ->where('nucleos.id', $params['nucleo_id'])
+              ->pluck('nucleos.id')
+              ->toArray();
+
             if (!is_array($params['nucleo_id'])) {
               $params['nucleo_id'] = [$params['nucleo_id']];
             }
             $params['nucleo_id'] = array_intersect($params['nucleo_id'], $coordenadorNucleos);
+
             if (empty($params['nucleo_id'])) {
               $params['nucleo_id'] = $coordenadorNucleos;
             }
@@ -748,14 +760,18 @@ class ProfessoresController extends Controller
         
         case 'professor':
           if (!$params['nucleo_id']) {
-            $params['nucleo_id'] = $user->professor->id_nucleo;
+              $params['nucleo_id'] = $user->professor->id_nucleo; // deixa como string/integer mesmo
           }
           break;
       }
 
       $professores = DB::table('professores')
         ->when($params['nucleo_id'], function ($query) use ($params) {
-          return $query->where('professores.id_nucleo', '=', $params['nucleo_id']);
+          if (is_array($params['nucleo_id'])) {
+            return $query->whereIn('professores.id_nucleo', $params['nucleo_id']);
+          } else {
+            return $query->where('professores.id_nucleo', $params['nucleo_id']);
+          }
         })
         ->when($params['status'], function ($query) use ($params) {
           return $query->where('professores.Status', '=', $params['status'] === 'ativo' ? 1 : 0);

@@ -249,6 +249,23 @@
                                 </div>
 
                                 <div class="row mb-3">
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label class="form-label mb-2" for="participante_quilombola">
+                                        Você participa de comunidade/território quilombola?
+                                        </label>
+                                        <select class="form-select" id="participante_quilombola" name="participante_quilombola">
+                                            <option value="1">Sim</option>
+                                            <option value="0" selected>Não</option>
+                                        </select>
+                                    </div>
+
+                                    <div id="participante_quilombola_qual_wrapper" class="col-12 col-md-6 d-none">
+                                        <label class="form-label mb-2" for="participante_quilombola_qual">
+                                        Qual?
+                                        </label>
+                                        <input class="form-control" type="text" name="participante_quilombola_qual"/>
+                                    </div>
+
                                     <div class="col-md-3">
                                         <div>
                                             <label class="form-label" for="inputGenero">Identidade de
@@ -1165,6 +1182,15 @@
                         selectNucleo.addClass('is-valid')
                         $('.invalid-feedback').removeClass('d-block')
                         $('.invalid-feedback').addClass('d-none')
+                    }
+                })
+
+                $('#participante_quilombola').on('change', function() {
+                    if ($(this).val() === '1') {
+                        $('#participante_quilombola_qual_wrapper').removeClass('d-none');
+                        $('#participante_quilombola_qual_wrapper').fadeIn();
+                    } else {
+                        $('#participante_quilombola_qual_wrapper').fadeOut();
                     }
                 })
             })

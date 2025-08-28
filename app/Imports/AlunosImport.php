@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Aluno;
+use App\Nucleo;
 use Carbon\Carbon;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -22,6 +23,8 @@ class AlunosImport implements ToModel, WithHeadingRow
     */
     public function model(array $row)
     {
+        $nucleo = Nucleo::find($this->id);
+
         return new Aluno([
             'Status' =>  $row['status'],
             'NomeAluno' =>  $row['seu_nome'],
@@ -38,7 +41,8 @@ class AlunosImport implements ToModel, WithHeadingRow
             'Raca' =>  $row['raca'],
             'Genero' =>  $row['genero'],
             'TemFilhos' =>  $row['filhos'],
-            'id_nucleo' => $this->id
+            'id_nucleo' => $nucleo->id ?? $this->id,
+            'NomeNucleo' => $nucleo->NomeNucleo ?? null,
         ]);
     }
 }

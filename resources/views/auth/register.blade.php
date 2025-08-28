@@ -364,6 +364,22 @@
 
                                                 {{-- Escolaridade --}}
                                                 <div class="row">
+                                                    <div class="col-12 col-md-6">
+                                                        <label class="form-label mb-2" for="participante_quilombola">
+                                                        Você participa de comunidade/território quilombola?
+                                                        </label>
+                                                        <select class="form-select" id="participante_quilombola" name="participante_quilombola">
+                                                            <option value="1">Sim</option>
+                                                            <option value="0" selected>Não</option>
+                                                        </select>
+                                                    </div>
+                                                    <div id="participante_quilombola_qual_wrapper" class="col-12 col-md-6 d-none">
+                                                        <label class="form-label mb-2" for="participante_quilombola_qual">
+                                                        Qual?
+                                                        </label>
+                                                        <input class="form-control" type="text" name="participante_quilombola_qual" />
+                                                    </div>
+
                                                     <div class="col">
                                                         <div class="mb-3">
                                                             <label class="form-label mb-2" for="inputEscolaridade">Qual a
@@ -473,12 +489,14 @@
                                                 </div>
 
                                                 <input id="role" type="hidden" name="role" value="aluno">
+                                            @if (!in_array(config('app.env'), ['local', 'develop']))
                                             <div class="row">
                                                 <div class="col">
                                                     <div class="h-captcha"
                                                         data-sitekey="{{ config('services.hcaptcha.site_key') }}"></div>
                                                 </div>
                                             </div>
+                                            @endif
 
                                             <div class="mb-3 row mt-3 mb-0">
                                                 <div class="btn-list">
@@ -505,11 +523,11 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="successModalLabel">Modal title</h1>
+                        <h1 class="modal-title fs-5" id="successModalLabel">👏 Cadastro efetuado com sucesso</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        Parabens, seu cadastro foi realizado com sucesso. Em breve uma pessoa da coordenação entrará em contato.
+                        Parabéns, seu cadastro foi realizado com sucesso. Em breve uma pessoa da coordenação entrará em contato.
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
@@ -775,6 +793,7 @@
                     btnSubmit.prop("disabled", true).addClass("d-none");
                     btnLoader.removeClass("d-none");
 
+                    @if (!in_array(config('app.env'), ['local', 'develop']))
                     const hcaptchaVal = $('[name=h-captcha-response]').val();
                     if (!hcaptchaVal) {
                         $(".alert").remove();
@@ -789,6 +808,7 @@
                         }
                         return;
                     }
+                    @endif
 
                     let data = $(this).serialize()
 
@@ -839,15 +859,26 @@
                                 //initialStep.click()
                             }
 
+                            @if (!in_array(config('app.env'), ['local', 'develop']))
                             if (hcaptchaElement && window.hcaptcha) {
                                 const widgetId = hcaptchaElement.getAttribute('data-hcaptcha-widget-id');
                                 window.hcaptcha.reset(widgetId);
                             }
+                            @endif
 
                             btnSubmit.prop("disabled", false).removeClass("d-none");
                             btnLoader.addClass("d-none");
                         }
                     })
+                })
+
+                $('#participante_quilombola').on('change', function() {
+                    if ($(this).val() === '1') {
+                        $('#participante_quilombola_qual_wrapper').removeClass('d-none');
+                        $('#participante_quilombola_qual_wrapper').fadeIn();
+                    } else {
+                        $('#participante_quilombola_qual_wrapper').fadeOut();
+                    }
                 })
             })
             </script>

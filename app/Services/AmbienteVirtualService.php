@@ -2,12 +2,16 @@
 
 namespace App\Services;
 
+use Illuminate\Http\Request;
 use App\AmbienteVirtual;
 use App\Nucleo;
 use App\Professores;
 use App\Disciplina;
 use App\Comentario;
 use App\Nota;
+use DB;
+use Carbon\Carbon;
+use Auth;
 
 use File;
 
@@ -93,23 +97,74 @@ class AmbienteVirtualService
 
     public static function getProfessores()
     {
-        $professores = Professores::all()->map(function ($professor) {
-            if ($professor->nucleo && $professor->nucleo->permite_ambiente_virtual) {
-                return $professor;
-            }
-        });
+        $profssores = DB::table('nucleos_professores_disciplinas')
+            ->join('professores', 'nucleos_professores_disciplinas.professor_id', '=', 'professores.id')
+            ->join('nucleos', 'nucleos_professores_disciplinas.nucleo_id', '=', 'nucleos.id')
+            ->where('nucleos.permite_ambiente_virtual', true)
+            ->select('professores.*')
+            ->distinct()
+            ->get();
 
-        return $professores->filter();
+        return $profssores;
+    }
+
+    public static function getAllDisciplinas()
+    {
+        return Disciplina::all();
     }
 
     public static function getDisciplinas()
     {
-        /*$disciplinas = Nucleo::where('permite_ambiente_virtual', true)->get()->map(function ($disciplina) {
-                return $disciplina->disciplina;
-        });
+        return Disciplina::whereIn('id', function($query) {
+            $query->select('disciplina_id')
+                ->from('ambiente_virtuals')
+                ->whereNotNull('disciplina_id');
+        })->get();
+    }
 
-        return $disciplinas;*/
-        return Disciplina::all();
+    public static function isAssistido($id)
+    {
+        if ( Auth::user()->role === 'aluno' ) {
+            return DB::table('alunos_ambiente_virtuals_watched')->where('aluno_id', Auth::user()->aluno->id)->where('ambiente_virtual_id', $id)->where('deleted_at', null)->exists();
+        }
+
+        return false;
+    }
+
+    public static function marcarAssistido()
+    {
+        $data = [
+            'aluno_id' => request('aluno_id'),
+            'ambiente_virtual_id' => request('ambiente_virtual_id'),
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+        ];
+
+        return DB::table('alunos_ambiente_virtuals_watched')->insert($data);
+    }
+
+    public static function desmarcarAssistido()
+    {
+        return DB::table('alunos_ambiente_virtuals_watched')->where('aluno_id', request('aluno_id'))->where('ambiente_virtual_id', request('ambiente_virtual_id'))->update(['deleted_at' => Carbon::now()->format('Y-m-d H:i:s')]);
+    }
+
+    public static function search(Request $request) {
+        $params = self::getParams($request);
+
+        $aulas = AmbienteVirtual::select('ambiente_virtuals.*')
+                ->join('disciplinas', 'disciplinas.id', '=', 'ambiente_virtuals.disciplina_id')
+                ->when($params['disciplina'], function ($query) use ($params) {
+                    return $query->where('disciplina_id', '=', $params['disciplina']);
+                })
+                ->when($params['areas_conhecimento'], function ($query) use ($params) {
+                    return $query->where('disciplinas.areas_conhecimento', 'like', '%' . $params['areas_conhecimento'] . '%');
+                })
+                ->paginate(10);
+
+        return view('ambiente-virtual.index')->with([
+            'user' => Auth::user(),
+            'aulas' => $aulas
+        ]);
     }
 
     private static function getParams()
@@ -124,7 +179,10 @@ class AmbienteVirtualService
             'disciplina_id' => request('disciplina_id'),
             'ambiente_virtual_id' => request('ambiente_virtual_id'),
             'comentario' => request('comentario'),
-            //'nota' => request('nota')
+            'class_duration' => request('class_duration'),
+            'nota' => request('nota'),
+            'areas_conhecimento' => request('areas_conhecimento'),
+            'disciplina' => request('disciplina'),
         ];
     }
 }

@@ -64,9 +64,27 @@
                         <h1>Aula: {{ $aula->titulo }} (Professor: {{ $aula->professor->NomeProfessor }})</h1>
                         <p>@php echo strip_tags($aula->descricao); @endphp</p>
                         <strong>Matéria:</strong> {{ $aula->disciplina->nome ?? "Sem matéria" }}
+                        @if($aula->class_duration)<p><strong>Duração:</strong> {{ $aula->class_duration }}</p>@endif
+                        @if(Auth::user()->role == 'aluno')
+                        <form id="formMarcarAssistido" action="{{ route('ambiente-virtual.marcar-assistido') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="aluno_id" value="{{ Auth::user()->aluno->id }}">
+                            <input type="hidden" name="ambiente_virtual_id" value="{{ $aula->id }}">
+                        </form>
+                        <form id="formDesmarcarAssistido" action="{{ route('ambiente-virtual.desmarcar-assistido') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="aluno_id" value="{{ Auth::user()->aluno->id }}">
+                            <input type="hidden" name="ambiente_virtual_id" value="{{ $aula->id }}">
+                        </form>
+                        @if(!$is_assistido)
+                        <button type="submit" form="formMarcarAssistido" class="btn btn-success mt-2" >Marcar como assistido</button>
+                        @endif
+                        @if($is_assistido)
+                        <button type="submit" form="formDesmarcarAssistido" class="btn btn-secondary mt-2" >Desmarcar como assistido</button>
+                        @endif
+                        @endif
                     </div>
 
-                    <?php //dd($aula->nota) ?>
                     @foreach($aula->nota as $nota)
                     @if(Auth::user()->id === $nota->user_id)
                     <div class="card mb-2">
@@ -82,6 +100,11 @@
                     @endforeach
                     <div class="card">
                         <div class="card-body">
+                        @php
+                            $tipo = Auth::user()->role;
+                        @endphp
+
+                        @if($tipo === 'aluno')
                             <form action="{{ route('ambiente-virtual.anotar', $aula) }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="user_id" value="{{ Auth::user()->id }}" />
@@ -92,6 +115,9 @@
                                 </div>
                                 <button type="submit" class="btn btn-primary mt-2">Anotar</button>
                             </form>
+                        @else
+                            <p class="text-muted">Apenas estudantes podem fazer anotações nesta aula.</p>
+                        @endif
                         </div>
                     </div>
                 </div>
@@ -109,7 +135,16 @@
                                     <p><strong>Comentário:</strong> <?php echo strip_tags($comentario->comentario); ?></p>
                                 </div>
                                 <div class="col-12 col-md-4">
-                                    <p><strong>Estudante:</strong> {{ $comentario->user->aluno->NomeAluno ?? $comentario->user->name }}</p>
+                                    <p>
+                                        @if($comentario->user->aluno)
+                                            <strong>Estudante:</strong> {{ $comentario->user->aluno->NomeAluno }}
+                                        @elseif($comentario->user->professor)
+                                            <strong>Professor:</strong> {{ $comentario->user->professor->NomeProfessor }}
+                                        @else
+                                            <strong>Usuário:</strong> {{ $comentario->user->name }}
+                                        @endif
+                                    </p>
+
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <p><strong>Data:</strong> {{ $comentario->created_at->format('d/m/Y') }}</p>

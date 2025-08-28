@@ -220,6 +220,7 @@
                                                                         d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
                                                                 </svg></span> Ver Detalhes
                                                         </a>
+                                                        @if (Session::get('role') !== 'professor')
                                                         <a href="/coordenadores/edit/{{ $coordenador->id }}"
                                                             class="btn btn-primary">
                                                             <span><svg xmlns="http://www.w3.org/2000/svg" width="24"
@@ -235,20 +236,23 @@
                                                                     <path d="M16 5l3 3" />
                                                                 </svg></span> Editar
                                                         </a>
-                                                        @if ($coordenador->Status === 1)
-                                                        <a onclick="modalShow('Inativar coordenador', 'Tem certeza que deseja inativar esse coordenador?', 'danger', e => window.location.href = '/coordenadores/disable/{{ $coordenador->id }}');">
-                                                                <span class="status-btn status-inativo ms-8">
-                                                                    <span class="status-circle"></span>
-                                                                    Inativar
-                                                                </span>
-                                                            </a>
-                                                        @else
-                                                            <a href="/coordenadores/enable/{{ $coordenador->id }}">
-                                                                <span class="status-btn status-ativo ms-8">
-                                                                    Ativar
-                                                                    <span class="status-circle"></span>
-                                                                </span>
-                                                            </a>
+                                                        @endif
+                                                        @if (Session::get('role') !== 'professor' && $coordenador->id_user == Auth::user()->id)
+                                                            @if ($coordenador->Status === 1)
+                                                            <a onclick="modalShow('Inativar coordenador', 'Tem certeza que deseja inativar esse coordenador?', 'danger', e => window.location.href = '/coordenadores/disable/{{ $coordenador->id }}');">
+                                                                    <span class="status-btn status-inativo ms-8">
+                                                                        <span class="status-circle"></span>
+                                                                        Inativar
+                                                                    </span>
+                                                                </a>
+                                                            @else
+                                                                <a href="/coordenadores/enable/{{ $coordenador->id }}">
+                                                                    <span class="status-btn status-ativo ms-8">
+                                                                        Ativar
+                                                                        <span class="status-circle"></span>
+                                                                    </span>
+                                                                </a>
+                                                            @endif
                                                         @endif
                                                     </div>
                                                 </td>

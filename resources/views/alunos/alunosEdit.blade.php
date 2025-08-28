@@ -269,6 +269,23 @@
                                 </div>
 
                                 <div class="row mb-3">
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label class="form-label mb-2" for="participante_quilombola">
+                                        Você participa de comunidade/território quilombola?
+                                        </label>
+                                        <select class="form-select" id="participante_quilombola" name="participante_quilombola">
+                                            <option value="1" <?php if ($dados->participante_quilombola) echo 'selected=selected'; ?>>Sim</option>
+                                            <option value="0" <?php if (!$dados->participante_quilombola) echo 'selected=selected'; ?>>Não</option>
+                                        </select>
+                                    </div>
+
+                                    <div id="participante_quilombola_qual_wrapper" class="col-12 col-md-6 <?php if (!$dados->participante_quilombola) { echo 'd-none'; } ?>">
+                                        <label class="form-label mb-2" for="participante_quilombola_qual">
+                                        Qual?
+                                        </label>
+                                        <input class="form-control" type="text" name="participante_quilombola_qual" value="{{ $dados->participante_quilombola_qual }}"/>
+                                    </div>
+
                                     <div class="col-md-3">
                                         <div>
                                             <label class="form-label mb-2" for="inputGenero">Identidade de
@@ -1463,6 +1480,15 @@
                         $('select[name=pessoa_com_deficiencia]').prop('disabled', false);
                     } else {
                         $('select[name=pessoa_com_deficiencia]').prop('disabled', true);
+                    }
+                })
+
+                $('#participante_quilombola').on('change', function() {
+                    if ($(this).val() === '1') {
+                        $('#participante_quilombola_qual_wrapper').removeClass('d-none');
+                        $('#participante_quilombola_qual_wrapper').fadeIn();
+                    } else {
+                        $('#participante_quilombola_qual_wrapper').fadeOut();
                     }
                 })
             })

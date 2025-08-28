@@ -269,6 +269,7 @@
                                                                             d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
                                                                     </svg></span> Ver Detalhes
                                                             </a>
+                                                            @if (Session::get('role') !== 'professor')
                                                             <a href="/professores/edit/{{ $professor->id }}"
                                                                 class="btn btn-primary">
                                                                 <span><svg xmlns="http://www.w3.org/2000/svg" width="24"
@@ -285,24 +286,27 @@
                                                                         <path d="M16 5l3 3" />
                                                                     </svg></span> Editar
                                                             </a>
+                                                            @endif
 
-                                                            @if ($professor->Status === 1)
-    <!--                                                            <a href="/professores/disable/{{ $professor->id }}"> -->
-                                                                <a onclick="modalShow('Inativar professor', 'Tem certeza que deseja inativar esse professor?', 'danger', e => window.location.href = '/professores/disable/{{ $professor->id }}');">
+                                                            @if (Session::get('role') !== 'professor')
+                                                                @if ($professor->Status === 1)
+        <!--                                                            <a href="/professores/disable/{{ $professor->id }}"> -->
+                                                                    <a onclick="modalShow('Inativar professor', 'Tem certeza que deseja inativar esse professor?', 'danger', e => window.location.href = '/professores/disable/{{ $professor->id }}');">
 
-                                                                    <span class="status-btn status-inativo ms-8">
-                                                                        <span class="status-circle"></span>
-                                                                        Inativar
-                                                                    </span>
-                                                                </a>
-                                                            @else
-                                                                <a href="/professores/enable/{{ $professor->id }}">
-    <!--                                                            <a onclick="modalShow('Inativar professor', 'Tem certeza que deseja inativar esse professor?', 'danger', e => window.location.href = '/professores/enable/{{ $professor->id }}');"> -->
-                                                                    <span class="status-btn status-ativo ms-8">
-                                                                        Ativar
-                                                                        <span class="status-circle"></span>
-                                                                    </span>
-                                                                </a>
+                                                                        <span class="status-btn status-inativo ms-8">
+                                                                            <span class="status-circle"></span>
+                                                                            Inativar
+                                                                        </span>
+                                                                    </a>
+                                                                @else
+                                                                    <a href="/professores/enable/{{ $professor->id }}">
+        <!--                                                            <a onclick="modalShow('Inativar professor', 'Tem certeza que deseja inativar esse professor?', 'danger', e => window.location.href = '/professores/enable/{{ $professor->id }}');"> -->
+                                                                        <span class="status-btn status-ativo ms-8">
+                                                                            Ativar
+                                                                            <span class="status-circle"></span>
+                                                                        </span>
+                                                                    </a>
+                                                                @endif
                                                             @endif
                                                         </div>
                                                     </td>

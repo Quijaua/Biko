@@ -58,21 +58,31 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        if (in_array(config('app.env'), ['local', 'develop'])) {
+            return Validator::make($data, [
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                //'password' => ['required', 'string', 'min:8', 'confirmed'],
+                'role' => ['required', 'string', 'max:255'],
+                'phone' => ['required', 'string', 'min:11']
+            ]);
+        }
 
-      if( $this->repository->validate($data['h-captcha-response']) ) {
+        $hcaptchaResponse = $data['h-captcha-response'] ?? null;
+
+        if ($hcaptchaResponse && $this->repository->validate($hcaptchaResponse)) {
+            return Validator::make($data, [
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                //'password' => ['required', 'string', 'min:8', 'confirmed'],
+                'role' => ['required', 'string', 'max:255'],
+                'phone' => ['required', 'string', 'min:11']
+            ]);
+        }
+
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            //'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'role' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'min:11']
+            'hcaptcha' => ['required'],
         ]);
-      };
-
-      return Validator::make($data, [
-        'hcaptcha' => ['required'],
-      ]);
-
     }
 
     /**
@@ -172,14 +182,14 @@ class RegisterController extends Controller
 
         // Envia e-mail
         if ($myNucleo) {
-          $coordenadores = $myNucleo->coordenadores();
+          $coordenadores = $myNucleo->coordenadores()->get();
         } else {
           $coordenadores = Coordenadores::ativos();
         }
 
         foreach($coordenadores as $coordenador) {
-          if($coordenador['Email']) {
-            Mail::to($coordenador['Email'])->send(new EmailFormularioCoordenador([
+          if($coordenador && isset($coordenador->Email) && !empty($coordenador->Email)) {
+            Mail::to($coordenador->Email)->send(new EmailFormularioCoordenador([
               'message' => 'Olá, coordenador! Um novo estudante foi inserido!'
             ]));
           }

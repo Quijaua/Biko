@@ -87,6 +87,10 @@
             $user = Auth::user();
             $ambiente_virtual = false;
 
+            if ($user->role === 'professor') {
+                $status = \DB::table('professores')->where('id_user', Auth::id())->value('status');
+            }
+
             if ($user->role === 'aluno') {
                 $aluno_nucleo = $user->aluno->nucleo;
                 $aluno_nucleo->permite_ambiente_virtual ? ($ambiente_virtual = true) : ($ambiente_virtual = false);
@@ -407,6 +411,96 @@
                                         </a>
                                     </li>
                                     <li
+                                        class="nav-item {{ request()->is('psicologos') ? 'bg-primary text-white rounded' : '' }}">
+                                        <a class="nav-link" href="/psicologos">
+                                            <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-brain">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                    <path d="M15.5 13a3.5 3.5 0 0 0 -3.5 3.5v1a3.5 3.5 0 0 0 7 0v-1.8" />
+                                                    <path d="M8.5 13a3.5 3.5 0 0 1 3.5 3.5v1a3.5 3.5 0 0 1 -7 0v-1.8" />
+                                                    <path d="M17.5 16a3.5 3.5 0 0 0 0 -7h-.5" />
+                                                    <path d="M19 9.3v-2.8a3.5 3.5 0 0 0 -7 0" />
+                                                    <path d="M6.5 16a3.5 3.5 0 0 1 0 -7h.5" />
+                                                    <path d="M5 9.3v-2.8a3.5 3.5 0 0 1 7 0v10" />
+                                                </svg>
+                                            </span>
+                                            {{ __('Psicólogos') }}
+                                        </a>
+                                    </li>
+                                    <li
+                                        class="nav-item {{ request()->is('atendimento-psicologico') ? 'bg-primary text-white rounded' : '' }}">
+                                        <a class="nav-link" href="/atendimento-psicologico">
+                                            <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-calendar-week">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
+                                                    <path d="M16 3v4" />
+                                                    <path d="M8 3v4" />
+                                                    <path d="M4 11h16" />
+                                                    <path d="M7 14h.013" />
+                                                    <path d="M10.01 14h.005" />
+                                                    <path d="M13.01 14h.005" />
+                                                    <path d="M16.015 14h.005" />
+                                                    <path d="M13.015 17h.005" />
+                                                    <path d="M7.01 17h.005" />
+                                                    <path d="M10.01 17h.005" />
+                                                </svg>
+                                            </span>
+                                            {{ __('Atendimento Psicológico') }}
+                                        </a>
+                                    </li>
+                                    <li
+                                        class="nav-item {{ request()->is('plantao-psicologico') ? 'bg-primary text-white rounded' : '' }}">
+                                        <a class="nav-link" href="/plantao-psicologico">
+                                            <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-calendar-week">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
+                                                    <path d="M16 3v4" />
+                                                    <path d="M8 3v4" />
+                                                    <path d="M4 11h16" />
+                                                    <path d="M7 14h.013" />
+                                                    <path d="M10.01 14h.005" />
+                                                    <path d="M13.01 14h.005" />
+                                                    <path d="M16.015 14h.005" />
+                                                    <path d="M13.015 17h.005" />
+                                                    <path d="M7.01 17h.005" />
+                                                    <path d="M10.01 17h.005" />
+                                                </svg>
+                                            </span>
+                                            {{ __('Plantão Psicológico') }}
+                                        </a>
+                                    </li>
+                                    @if (Auth::user()->role === 'psicologa_supervisora' || Auth::user()->role === 'administrador')
+                                    <li
+                                        class="nav-item {{ request()->routeIs('painel.supervisora') ? 'bg-primary text-white rounded' : '' }}">
+                                        <a class="nav-link" href="{{ route('painel.supervisora') }}">
+                                            <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-layout-kanban">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                    <path d="M4 4l6 0" />
+                                                    <path d="M14 4l6 0" />
+                                                    <path d="M4 8m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" />
+                                                    <path d="M14 8m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v2a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" />
+                                                </svg>
+                                            </span>
+                                            {{ __('Painel da Supervisora') }}
+                                        </a>
+                                    </li>
+                                    @endif
+                                    <li
                                         class="nav-item {{ request()->is('nucleos') ? 'bg-primary text-white rounded' : '' }}">
                                         <a class="nav-link" href="/nucleos">
                                             <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -448,6 +542,7 @@
                                 @endif
                             @endif
 
+                            @if (($user->role === 'professor' && $status != 0) || ($user->role !== 'professor'))
                             <li
                                 class="nav-item {{ request()->routeIs('nucleo.material') ? 'bg-primary text-white rounded' : '' }}">
                                 <a class="nav-link" href="{{ route('nucleo.material') }}">
@@ -465,7 +560,10 @@
                                     {{ __('Material') }}
                                 </a>
                             </li>
+                            @endif
+                            @if (($user->role === 'professor' && $status != 0) || ($user->role !== 'professor'))
                             @if ($ambiente_virtual)
+                            
                                 <li
                                     class="nav-item {{ request()->routeIs('ambiente-virtual.index') ? 'bg-primary text-white rounded' : '' }}">
                                     <a class="nav-link" href="{{ route('ambiente-virtual.index') }}">
@@ -482,9 +580,10 @@
                                                 <path d="M9 12h2" />
                                             </svg>
                                         </span>
-                                        {{ __('Ambiente virtual') }}
+                                        {{ __('Núcleo Virtual') }}
                                     </a>
                                 </li>
+                            @endif
                             @endif
 
                             @if (Session::get('role') === 'administrador')
@@ -824,6 +923,113 @@
                                                 {{ __('Coordenadores') }}
                                             </a>
                                         </li>
+
+                                        {{-- <li
+                                            class="nav-item {{ request()->is('psicologos') ? 'bg-primary text-white rounded' : '' }}">
+                                            <a class="nav-link" href="/psicologos">
+                                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-brain">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                        <path d="M15.5 13a3.5 3.5 0 0 0 -3.5 3.5v1a3.5 3.5 0 0 0 7 0v-1.8" />
+                                                        <path d="M8.5 13a3.5 3.5 0 0 1 3.5 3.5v1a3.5 3.5 0 0 1 -7 0v-1.8" />
+                                                        <path d="M17.5 16a3.5 3.5 0 0 0 0 -7h-.5" />
+                                                        <path d="M19 9.3v-2.8a3.5 3.5 0 0 0 -7 0" />
+                                                        <path d="M6.5 16a3.5 3.5 0 0 1 0 -7h.5" />
+                                                        <path d="M5 9.3v-2.8a3.5 3.5 0 0 1 7 0v10" />
+                                                    </svg>
+                                                </span>
+                                                {{ __('Psicólogos') }}
+                                            </a>
+                                        </li>
+                                        <li
+                                            class="nav-item {{ request()->is('atendimento-psicologico') ? 'bg-primary text-white rounded' : '' }}">
+                                            <a class="nav-link" href="/atendimento-psicologico">
+                                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-stethoscope">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                        <path d="M6 4h-1a2 2 0 0 0 -2 2v3.5h0a5.5 5.5 0 0 0 11 0v-3.5a2 2 0 0 0 -2 -2h-1" />
+                                                        <path d="M8 15a6 6 0 1 0 12 0v-3" />
+                                                        <path d="M11 3v2" /><path d="M6 3v2" />
+                                                        <path d="M20 10m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                                    </svg>
+                                                </span>
+                                                {{ __('Atendimento Psicológico') }}
+                                            </a>
+                                        </li>
+                                        <li
+                                            class="nav-item {{ request()->is('plantao-psicologico') ? 'bg-primary text-white rounded' : '' }}">
+                                            <a class="nav-link" href="/plantao-psicologico">
+                                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-calendar-week">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                        <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
+                                                        <path d="M16 3v4" />
+                                                        <path d="M8 3v4" />
+                                                        <path d="M4 11h16" />
+                                                        <path d="M7 14h.013" />
+                                                        <path d="M10.01 14h.005" />
+                                                        <path d="M13.01 14h.005" />
+                                                        <path d="M16.015 14h.005" />
+                                                        <path d="M13.015 17h.005" />
+                                                        <path d="M7.01 17h.005" />
+                                                        <path d="M10.01 17h.005" />
+                                                    </svg>
+                                                </span>
+                                                {{ __('Plantão Psicológico') }}
+                                            </a>
+                                        </li> --}}
+                                        @if (Auth::user()->role === 'administrador' || Auth::user()->role === 'psicologo')
+                                        <li
+                                            class="nav-item {{ request()->routeIs('painel.supervisora') ? 'bg-primary text-white rounded' : '' }}">
+                                            <a class="nav-link" href="{{ route('painel.supervisora') }}">
+                                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-brain">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                        <path d="M15.5 13a3.5 3.5 0 0 0 -3.5 3.5v1a3.5 3.5 0 0 0 7 0v-1.8" />
+                                                        <path d="M8.5 13a3.5 3.5 0 0 1 3.5 3.5v1a3.5 3.5 0 0 1 -7 0v-1.8" />
+                                                        <path d="M17.5 16a3.5 3.5 0 0 0 0 -7h-.5" />
+                                                        <path d="M19 9.3v-2.8a3.5 3.5 0 0 0 -7 0" />
+                                                        <path d="M6.5 16a3.5 3.5 0 0 1 0 -7h.5" />
+                                                        <path d="M5 9.3v-2.8a3.5 3.5 0 0 1 7 0v10" />
+                                                    </svg>
+                                                </span>
+                                                {{ __('Apoio Emocional') }}
+                                            </a>
+                                        </li>
+
+                                        {{-- <li
+                                            class="nav-item {{ request()->routeIs('painel.supervisora') ? 'bg-primary text-white rounded' : '' }}">
+                                            <a class="nav-link" href="{{ route('painel.supervisora') }}">
+                                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-brain">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                        <path d="M15.5 13a3.5 3.5 0 0 0 -3.5 3.5v1a3.5 3.5 0 0 0 7 0v-1.8" />
+                                                        <path d="M8.5 13a3.5 3.5 0 0 1 3.5 3.5v1a3.5 3.5 0 0 1 -7 0v-1.8" />
+                                                        <path d="M17.5 16a3.5 3.5 0 0 0 0 -7h-.5" />
+                                                        <path d="M19 9.3v-2.8a3.5 3.5 0 0 0 -7 0" />
+                                                        <path d="M6.5 16a3.5 3.5 0 0 1 0 -7h.5" />
+                                                        <path d="M5 9.3v-2.8a3.5 3.5 0 0 1 7 0v10" />
+                                                    </svg>
+                                                </span>
+                                                {{ __('Apoio Emocional 1') }}
+                                            </a>
+                                        </li> --}}
+                                        @endif
                                         <li
                                             class="nav-item {{ request()->is('nucleos') ? 'bg-primary text-white rounded' : '' }}">
                                             <a class="nav-link" href="/nucleos">
@@ -844,7 +1050,7 @@
                                                 {{ __('Núcleos') }}
                                             </a>
                                         </li>
-                                        <li
+                                        {{-- <li
                                             class="nav-item {{ request()->routeIs('nucleo/presences') ? 'bg-primary text-white rounded' : '' }}">
                                             <a class="nav-link" href="{{ route('nucleo/presences') }}">
                                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -862,11 +1068,12 @@
                                                 </span>
                                                 {{ __('Lista de presença') }}
                                             </a>
-                                        </li>
+                                        </li> --}}
                                     @endif
                                 @endif
+                                @if (($user->role === 'professor' && $status != 0) || ($user->role !== 'professor'))
                                 @if ($ambiente_virtual)
-                                    <li
+                                {{--    <li
                                         class="nav-item {{ request()->routeIs('ambiente-virtual.index') ? 'bg-primary text-white rounded' : '' }}">
                                         <a class="nav-link" href="{{ route('ambiente-virtual.index') }}">
                                             <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -882,10 +1089,21 @@
                                                     <path d="M9 12h2" />
                                                 </svg>
                                             </span>
-                                            {{ __('Ambiente virtual') }}
+                                            {{ __('Núcleo Virtual') }}
                                         </a>
-                                    </li>
+                                    </li> --}}
                                 @endif
+                                @endif
+
+                                <li
+                                    class="nav-item  {{ request()->routeIs('ead.index') ? 'bg-primary text-white rounded' : '' }}">
+                                    <a class="nav-link" href="{{ route('ead.index') }}">
+                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-school"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 9l-10 -4l-10 4l10 4l10 -4v6" /><path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4" /></svg>
+                                        </span>
+                                        {{ __('EAD') }}
+                                    </a>
+                                </li>
 
                                 @if (Session::get('role') === 'administrador')
                                     <li
@@ -907,7 +1125,8 @@
                                     </li>
 
                                 @endif
-                                <li
+                                @if (($user->role === 'professor' && $status != 0) || ($user->role !== 'professor'))
+                                {{-- <li
                                     class="nav-item {{ request()->routeIs('nucleo.material') ? 'bg-primary text-white rounded' : '' }}">
                                     <a class="nav-link" href="{{ route('nucleo.material') }}">
                                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -923,9 +1142,11 @@
                                         </span>
                                         {{ __('Material') }}
                                     </a>
-                                </li>
+                                </li>  --}}
+                                @endif
 
-                                <li
+                                @if (($user->role === 'professor' && $status != 0) || ($user->role !== 'professor'))
+                                {{-- <li
                                     class="nav-item  {{ request()->routeIs('messages.index') ? 'bg-primary text-white rounded' : '' }}">
                                     <a class="nav-link" href="{{ route('messages.index') }}">
                                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -941,7 +1162,8 @@
                                         </span>
                                         {{ __('Mensagens') }}
                                     </a>
-                                </li>
+                                </li> --}}
+                                @endif
                             @endif
                             <li class="nav-item mt-3">
                                 <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -1010,7 +1232,7 @@
 
                                                 @if (Session::get('role') !== 'aluno')
                                                     @if (Session::get('verified'))
-                                                        <li class="nav-item">
+                                                        {{-- <li class="nav-item">
                                                             <a class="nav-link" href="/alunos">
                                                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24"
@@ -1223,7 +1445,28 @@
                                                                 {{ __('Coordenadores') }}
                                                             </a>
                                                         </li>
-                                                        <li class="nav-item">
+                                                        <li
+                                                            class="nav-item">
+                                                            <a class="nav-link" href="/psicologos">
+                                                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-brain">
+                                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                                        <path d="M15.5 13a3.5 3.5 0 0 0 -3.5 3.5v1a3.5 3.5 0 0 0 7 0v-1.8" />
+                                                                        <path d="M8.5 13a3.5 3.5 0 0 1 3.5 3.5v1a3.5 3.5 0 0 1 -7 0v-1.8" />
+                                                                        <path d="M17.5 16a3.5 3.5 0 0 0 0 -7h-.5" />
+                                                                        <path d="M19 9.3v-2.8a3.5 3.5 0 0 0 -7 0" />
+                                                                        <path d="M6.5 16a3.5 3.5 0 0 1 0 -7h.5" />
+                                                                        <path d="M5 9.3v-2.8a3.5 3.5 0 0 1 7 0v10" />
+                                                                    </svg>
+                                                                </span>
+                                                                {{ __('Psicólogos') }}
+                                                            </a>
+                                                        </li>
+                                                        --}}
+                                                        {{-- <li class="nav-item">
                                                             <a class="nav-link" href="/nucleos">
                                                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24"
@@ -1244,8 +1487,8 @@
                                                                 </span>
                                                                 {{ __('Núcleos') }}
                                                             </a>
-                                                        </li>
-                                                        {{-- <li class="nav-item">
+                                                        </li> --}}
+                                                        <li class="nav-item">
                                                             <a class="nav-link" href="{{ route('nucleo/presences') }}">
                                                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24"
@@ -1264,10 +1507,11 @@
                                                                 </span>
                                                                 {{ __('Lista de presença') }}
                                                             </a>
-                                                        </li> --}}
+                                                        </li>
                                                     @endif
                                                 @endif
 
+                                                @if (($user->role === 'professor' && $status != 0) || ($user->role !== 'professor'))
                                                 <li class="nav-item">
                                                     <a class="nav-link" href="{{ route('nucleo.material') }}">
                                                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -1287,6 +1531,28 @@
                                                     </a>
                                                 </li>
 
+                                <li
+                                        class="nav-item {{ request()->routeIs('ambiente-virtual.index') ? 'bg-primary text-white rounded' : '' }}">
+                                        <a class="nav-link" href="{{ route('ambiente-virtual.index') }}">
+                                            <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-checklist">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path
+                                                        d="M9.615 20h-2.615a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8" />
+                                                    <path d="M14 19l2 2l4 -4" />
+                                                    <path d="M9 8h4" />
+                                                    <path d="M9 12h2" />
+                                                </svg>
+                                            </span>
+                                            {{ __('Núcleo Virtual') }}
+                                        </a>
+                                    </li>
+                                                @endif
+
+                                                @if (($user->role === 'professor' && $status != 0) || ($user->role !== 'professor'))
                                                 <li class="nav-item ">
                                                     <a class="nav-link" href="{{ route('messages.index') }}">
                                                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -1304,6 +1570,7 @@
                                                         {{ __('Mensagens') }}
                                                     </a>
                                                 </li>
+                                                @endif
                                             @endif
                                         </ul>
                                     </div>
@@ -1316,7 +1583,7 @@
                                             style="background-image: url({{ asset('images/user.png') }})"></span>
                                         <div class="d-none d-xl-block ps-2">
                                             <div>{{ Auth::user()->name }}</div>
-                                            <div class="mt-1 small text-secondary">{{ Auth::user()->role }}</div>
+                                            <div class="mt-1 small text-secondary">{{ Auth::user()->formatted_role }}</div>
                                         </div>
                                     </a>
                                 </div>

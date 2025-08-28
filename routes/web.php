@@ -1,9 +1,13 @@
 <?php
 
 use App\User;
+use App\Nucleo;
 use App\Mail\MessageOtpLogin;
+use App\Mail\EmailFormularioCoordenador;
+use App\Mail\EmailFormularioSejaUmProfessor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +35,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'restrict.professor'])->group(function () {
 
   Route::get('/dashboard', function () {
       return view('dashboard');
@@ -75,38 +79,55 @@ Route::get('pre-cadastro', function () {
 // ROUTES FOR ALTERNATIVE LOGIN
 //OTP
 Route::post('otp-login', function () {
-    $user = User::where('email', request()->email)->first();
+    $email = request()->email;
+    $redirect = request()->redirect;
+    $user = \App\User::where('email', $email)->first();
 
     if (!$user) {
-        return back()->with('error', 'Email não cadastrado.');
+        return back()->with('error', 'Email não cadastrado.');
     }
 
-    $otp_hash = Hash::make(Carbon::now());
-
+    $otp_hash = \Illuminate\Support\Str::random(40); // melhor que Hash::make por ser persistente
     $user->otp_hash = $otp_hash;
     $user->save();
 
-    Mail::to($user->email)->send(new MessageOtpLogin($user->email));
+    $url = route('otp-verify', [
+        'email' => $user->email,
+        'token' => $otp_hash,
+        'redirect' => $redirect,
+    ]);
+
+    \Mail::to($user->email)->send(new \App\Mail\MessageOtpLogin($user->email, $url, $user));
 
     return back()->with('success', 'Quase lá! Confira seu e-mail e clique no link que enviamos para entrar no sistema.');
 })->name('otp-login');
 
 Route::get('otp-verify', function () {
-    $user = User::where('email', request()->email)->first();
+    $email = request()->email;
     $otp_hash = request()->token;
+    $redirect = request()->redirect;
+
+    $user = \App\User::where('email', $email)->first();
 
     if (!$user) {
-        return redirect()->route('login')->with('error', 'Usuário não encontrado.');
+        return redirect()->route('login')->with('error', 'Usuário não encontrado.');
     }
 
-    if (!$otp_hash || $user->otp_hash != $otp_hash) {
+    if (!$otp_hash || $user->otp_hash !== $otp_hash) {
         return redirect()->route('login')->with('error', 'Token inválido.');
     }
 
-    Auth::login($user);
-
+    \Auth::login($user);
     $user->otp_hash = null;
     $user->save();
+
+    if ($redirect && in_array($redirect, ['plantao-psicologico']) || $user->role == 'psicologo') {
+        return redirect()->route('painel.supervisora');
+    }
+    
+    if ($redirect && in_array($redirect, ['aula-programa-esperanca-garcia'])) {
+        return redirect()->route('ead.register');
+    }
 
     return redirect()->route('home');
 })->name('otp-verify');
@@ -135,12 +156,14 @@ Route::get('nucleos/enable/{id}', 'NucleoController@enable')->middleware('permis
 Route::delete('nucleos/delete/{id}', 'NucleoController@destroy')->middleware('permissions');
 Route::any('nucleos/search', 'NucleoController@search');
 Route::any('nucleos/search', 'NucleoController@search');
-Route::get('nucleo/presences', 'NucleoController@presences_index')->name('nucleo/presences');
-Route::get('nucleo/presences/new', 'NucleoController@presences_new')->name('nucleo/presences/new');
-Route::post('nucleo/presences/create', 'NucleoController@presences_create')->name('nucleo/presences/create');
-Route::get('nucleo/presences/destroy', 'NucleoController@presences_destroy')->name('nucleo/presences/destroy');
-Route::any('nucleo/presences/search', 'NucleoController@search_presences');
-Route::any('nucleo/presences/search', 'NucleoController@search_presences');
+
+Route::group(['prefix' => 'nucleo/presences', 'middleware' => ['auth', 'restrict.professor']], function () {
+    Route::get('/', 'NucleoController@presences_index')->name('nucleo/presences');
+    Route::get('/new', 'NucleoController@presences_new')->name('nucleo/presences/new');
+    Route::post('/create', 'NucleoController@presences_create')->name('nucleo/presences/create');
+    Route::get('/destroy', 'NucleoController@presences_destroy')->name('nucleo/presences/destroy');
+    Route::any('/search', 'NucleoController@search_presences');
+});
 
 Route::get('nucleo/material', 'MaterialController@index')->middleware('auth')->name('nucleo.material');
 Route::post('nucleo/material/create', 'MaterialController@create')->middleware('auth')->name('nucleo.material.create');
@@ -148,7 +171,7 @@ Route::get('nucleo/material/inactive/{id}', 'MaterialController@inactive')->midd
 Route::get('nucleo/material/restore/{id}', 'MaterialController@restore')->middleware('auth')->name('nucleo.material.restore');
 Route::delete('nucleo/material/delete/{id}', 'MaterialController@delete')->middleware('auth')->name('nucleo.material.delete');
 Route::get('nucleo/material/search', 'MaterialController@search');
-Route::put('nucleo/material/edit/{id}', 'MaterialController@edit')->middleware(['auth', 'permissions'])->name('material.edit');
+Route::put('nucleo/material/edit/{id}', 'MaterialController@edit')->middleware(['auth'/*, 'permissions'*/])->name('material.edit');
 Route::get('nucleo/material/download/{id}', 'MaterialController@download')->middleware(['auth', 'permissions'])->name('material.download');
 
 Route::post('nucleo/professores-disciplinas/create', 'NucleoProfessoresDisciplinasController@create')->name('professores-disciplinas.create');
@@ -177,12 +200,12 @@ Route::get('alunos/log/{id}', 'AlunosController@logActionView')->name('alunos/lo
 Route::get('coordenadores', 'CoordenadoresController@index')->middleware('permissions');
 Route::get('coordenadores/details/{id}', 'CoordenadoresController@details')->middleware('permissions');
 Route::get('coordenadores/export/', 'CoordenadoresController@export')->name('coordenadores/export/');
-Route::get('coordenadores/add', 'CoordenadoresController@showForm')->middleware('permissions');
+Route::get('coordenadores/add', 'CoordenadoresController@showForm')/*->middleware('permissions')*/;
 Route::post('coordenadores/create', 'CoordenadoresController@create')->middleware('permissions');
 Route::get('coordenadores/edit/{id}', 'CoordenadoresController@edit')->middleware('permissions');
 Route::post('coordenadores/update/{id}', 'CoordenadoresController@update')->middleware('permissions');
 Route::get('coordenadores/disable/{id}', 'CoordenadoresController@disable')->middleware('permissions');
-Route::get('coordenadores/enable/{id}', 'CoordenadoresController@enable')->middleware('permissions');
+Route::get('coordenadores/enable/{id}', 'CoordenadoresController@enable')/*->middleware('permissions')*/;
 Route::any('coordenadores/search', 'CoordenadoresController@search')->name('coordenadores/search');
 
 // ROUTES FOR PROFESSORES MANAGEMENT
@@ -197,6 +220,15 @@ Route::post('professores/update/{id}', 'ProfessoresController@update')->middlewa
 Route::get('professores/disable/{id}', 'ProfessoresController@disable')->middleware('permissions');
 Route::get('professores/enable/{id}', 'ProfessoresController@enable')->middleware('permissions');
 Route::any('professores/search', 'ProfessoresController@search')->name('professores/search');
+
+// ROUTES FOR PSICOLOGOS MANAGEMENT
+Route::get('psicologos', 'PsicologosController@index')->middleware('permissions')->name('psicologos.psicologos');
+Route::get('psicologos/details/{id}', 'PsicologosController@details')->middleware('permissions');
+Route::get('psicologos/add', 'PsicologosController@show')->middleware('permissions');
+Route::post('psicologos/create', 'PsicologosController@create')->middleware('permissions');
+Route::get('psicologos/edit/{id}' , 'PsicologosController@edit')->middleware('permissions');
+Route::post('psicologos/update/{id}', 'PsicologosController@update')->middleware('permissions');
+Route::any('psicologos/search', 'PsicologosController@search')->name('psicologos/search');
 
 // ROUTES FOR MESSAGE MANAGEMENT
 Route::get('mensagens', 'MensagensController@index')->middleware('permissions')->name('messages.index');
@@ -217,11 +249,54 @@ Route::group(['prefix' => 'ambiente-virtual'], function () {
     Route::get('/', 'AmbienteVirtualController@index')->middleware('auth')->name('ambiente-virtual.index');
     Route::post('comentarios/adicionar/{id}', 'AmbienteVirtualController@comentar')->middleware('auth')->name('ambiente-virtual.comentar');
     Route::post('notas/adicionar/{id}', 'AmbienteVirtualController@anotar')->middleware('auth')->name('ambiente-virtual.anotar');
+    Route::post('assistido/marcar', 'AmbienteVirtualController@marcarAssistido')->middleware('auth')->name('ambiente-virtual.marcar-assistido');
+    Route::post('assistido/desmarcar', 'AmbienteVirtualController@desmarcarAssistido')->middleware('auth')->name('ambiente-virtual.desmarcar-assistido');
+    Route::any('search', 'AmbienteVirtualController@search')->name('ambiente-virtual/search');
 });
 Route::resource('/ambiente-virtual', 'AmbienteVirtualController')->middleware('auth')->except(['index']);
 
+// ROUTES FOR EAD
+Route::group(['prefix' => 'ead', 'middleware' => ['auth', 'restrict.professor']], function () {
+    Route::get('/', 'EadController@index')->name('ead.index');
+    Route::get('/create', 'EadController@create')->name('ead.create');
+    Route::post('/store', 'EadController@store')->name('ead.store');
+    Route::get('/edit/{id}', 'EadController@edit')->name('ead.edit');
+    Route::post('/update/{id}', 'EadController@update')->name('ead.update');
+    Route::delete('/destroy/{id}', 'EadController@destroy')->name('ead.destroy');
+    Route::post('/register/store', 'EadController@registerStore')->name('ead.register-store');
+    Route::get('/participantes/{id}', 'EadController@participantes')->name('ead.participantes');
+});
+Route::get('/aula-programa-esperanca-garcia', 'EadController@register')->name('ead.register');
+
+// ROUTES FOR ATENDIMENTO PSICOLOGICO
+Route::get('atendimento-psicologico', 'AtendimentoPsicologicoController@index')->middleware('auth')->name('atendimento-psicologico.index');
+Route::get('atendimento-psicologico/create', 'AtendimentoPsicologicoController@create')->middleware('permissions')->name('atendimento-psicologico.create');
+Route::post('atendimento-psicologico/store', 'AtendimentoPsicologicoController@store')->middleware('permissions')->name('atendimento-psicologico.store');
+Route::get('atendimento-psicologico/edit/{id}' , 'AtendimentoPsicologicoController@edit')->middleware('permissions')->name('atendimento-psicologico.edit');
+Route::post('atendimento-psicologico/update/{id}' , 'AtendimentoPsicologicoController@update')->middleware('permissions')->name('atendimento-psicologico.update');
+Route::get('atendimento-psicologico/download/{id}', 'AtendimentoPsicologicoController@download')->middleware('permissions')->name('atendimento-psicologico.download');
+Route::get('atendimento-psicologico/details/{id}', 'AtendimentoPsicologicoController@details')->middleware('permissions')->name('atendimento-psicologico.details');
+Route::any('atendimento-psicologico/estudante/{id}', 'AtendimentoPsicologicoController@showByEstudante')->middleware('permissions')->name('atendimento-psicologico.estudante');
+Route::any('atendimento-psicologico/search', 'AtendimentoPsicologicoController@search')->name('atendimento-psicologico/search');
+
+// ROUTES FOR PLANTAO PSICOLOGICO
+Route::middleware(['restrict.professor'])->group(function () {
+    Route::get('/plantao-psicologico', 'PlantaoPsicologicoController@index')->name('plantao-psicologico.index');
+    Route::get('/plantao-psicologico/add', 'PlantaoPsicologicoController@show')->name('plantao-psicologico.show');
+    Route::post('/plantao-psicologico/store', 'PlantaoPsicologicoController@store')->name('plantao-psicologico.store');
+    Route::get('/plantao-psicologico/edit/{id}', 'PlantaoPsicologicoController@edit')->name('plantao-psicologico.edit');
+    Route::post('/plantao-psicologico/update/{id}', 'PlantaoPsicologicoController@update')->name('plantao-psicologico.update');
+    Route::post('/plantao-psicologico/agendar', 'PlantaoPsicologicoController@agendar')->name('plantao-psicologico.agendar');
+
+    Route::get('/api/psicologos/{id}/datas', 'PlantaoPsicologicoController@datasDisponiveis');
+    Route::get('/api/psicologos/{id}/horarios', 'PlantaoPsicologicoController@horariosDisponiveis');
+});
+
+// ROUTES FOR PAINEL SUPERVISORA
+Route::get('/apoio-emocional', 'SupervisoraController@index')->middleware('permissions')->name('painel.supervisora');
+
 // ROUTES FOR AUDITORIA
-Route::group(['prefix' => 'auditoria'], function () {
+Route::group(['prefix' => 'auditoria', 'middleware' => ['auth', 'restrict.professor']], function () {
     Route::get('/', 'AuditoriaController@index')->middleware('auth')->name('auditoria.index');
 });
 
@@ -240,6 +315,12 @@ Route::group(['prefix' => 'codigo-personalizado'], function () {
 // SEJA UM PROFESSOR
 Route::get('/seja-um-professor', function () {
     return view('seja-um-professor.index');
+});
+
+Route::post('/verifica-email-professor', function (Illuminate\Http\Request $request) {
+    $existe = App\User::where('email', $request->email)->exists();
+
+    return response()->json(['existe' => $existe]);
 });
 
 Route::post('/seja-um-professor', function (Request $request) {
@@ -273,11 +354,24 @@ Route::post('/seja-um-professor', function (Request $request) {
 
     $professor = App\Professores::create($professor_data);
 
+    // RECUPERA OS COORDENADORES DO NUCLEO SELECIONADO E ENVIA EMAIL
+    $myNucleo = Nucleo::find($request->nucleo_id);
+    $coordenadores = $myNucleo->coordenadores()->get();
+
+    foreach($coordenadores as $coordenador) {
+        if($coordenador['Email']) {
+        Mail::to($coordenador['Email'])->send(new EmailFormularioCoordenador([
+            'message' => 'Olá, coordenador! Um novo professor foi inserido!'
+        ]));
+        }
+    }
     return view('seja-um-professor.index')->with([
         'success' => true,
     ]);
 
 })->name('seja-um-professor.create');
+
+Route::get('/novos-voluntarios', [App\Http\Controllers\VoluntarioController::class, 'index'])->name('novos-voluntarios');
 
 // ROUTES FOR ADMINISTRADORES MANAGEMENT
 Route::group(['prefix' => 'administradores'], function () {

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Nucleo;
 use App\Aluno;
 use App\Coordenadores;
+use DB;
 
 class UserPermissions
 {
@@ -28,6 +29,10 @@ class UserPermissions
 
         if ($role === 'administrador') {
             return $next($request);
+        }
+
+        if ($role === 'professor') {
+            $status = DB::table('professores')->where('id_user', Auth::id())->value('status');
         }
 
         if (in_array($role, ['aluno', 'professor', 'coordenador'])) {
@@ -71,6 +76,7 @@ class UserPermissions
             $allowedAlunosEdit = 'alunos/edit/' . $user->aluno->id;
             $allowedAlunosUpdate = 'alunos/update/' . $user->aluno->id;
             $allowedAlunosSearch = 'alunos/search';
+            $allowedMaterialDownload = 'nucleo/material/download/';
 
             if ($allowedAlunosIndex === $currentPath) {
                 return $next($request);
@@ -88,10 +94,15 @@ class UserPermissions
                 return $next($request);
             }
 
+            //RULES FOR NUCLEOS ROUTES
+            if (strpos($currentPath, $allowedMaterialDownload) === 0) {
+                return $next($request);
+            }
+
             return back();
         }
 
-        if ($role === 'professor') {
+        if ($role === 'professor' && $status) {
             $currentPath = $request->path();
             $allowedProfessoresIndex = 'professores';
             $allowedAlunosIndex = 'alunos';
@@ -105,6 +116,7 @@ class UserPermissions
             $allowedCoordenadoresList = 'coordenadores';
             $allowedInactive = 'professores/disable/';
             $allowedNucleosSearchApi = 'api/alunos/nucleo/search';
+            $allowedMaterialDownload = 'nucleo/material/download/';
 
             if ($allowedNucleosSearchApi === $currentPath) {
                 return $next($request);
@@ -143,6 +155,11 @@ class UserPermissions
                 return back();
             }
 
+            //RULES FOR NUCLEOS ROUTES
+            if (strpos($currentPath, $allowedMaterialDownload) === 0) {
+                return $next($request);
+            }
+
             return back();
         }
 
@@ -158,9 +175,13 @@ class UserPermissions
             $allowedAlunosInactive = 'alunos/disable/';
             $allowedAlunosActive = 'alunos/enable/';
             $allowedCoordenadoresList = 'coordenadores';
+            $allowedCoordenadoresAdd = 'coordenadores/add';
+            $allowedCoordenadoresCreate = 'coordenadores/create';
             $allowedCoordenadoresDetails = 'coordenadores/details/';
-            $allowedCoordenadoresEdit = 'coordenadores/edit/' . $user->coordenador->id;
+            $allowedCoordenadoresEdit = 'coordenadores/edit/';
             $allowedCoordenadoresUpdate = 'coordenadores/update/';
+            $allowedCoordenadoresDisable = 'coordenadores/disable/';
+            $allowedCoordenadoresEnable = 'coordenadores/enable/';
             $allowedProfessoresIndex = 'professores';
             $allowedProfessoresSearch = 'professores/search';
             $allowedProfessoresAdd = 'professores/add';
@@ -172,8 +193,16 @@ class UserPermissions
             $allowedProfessoresEnable = 'professores/enable/';
             $allowedNucleosIndex = 'nucleos';
             $allowedNucleosDetails = 'nucleos/details/';
-            $allowedNucleosEdit = 'nucleos/edit/' . $user->coordenador->id_nucleo;
-            $allowedNucleosUpdate = 'nucleos/update/' . $user->coordenador->id_nucleo;
+//            $allowedNucleosEdit = 'nucleos/edit/' . $user->coordenador->id_nucleo;
+//            $allowedNucleosUpdate = 'nucleos/update/' . $user->coordenador->id_nucleo;
+            $allowedNucleosEdit = 'nucleos/edit/';
+            $allowedNucleosUpdate = 'nucleos/update/';
+            $allowedMaterialDownload = 'nucleo/material/download/';
+
+if ($user->coordenador && $user->coordenador->id_nucleo) {
+    $allowedNucleosEdit .= $user->coordenador->id_nucleo;
+    $allowedNucleosUpdate .= $user->coordenador->id_nucleo;
+}
             $allowedNucleosSearch = 'alunos/nucleo/search';
             $allowedNucleosSearchApi = 'api/alunos/nucleo/search';
 
@@ -213,13 +242,25 @@ class UserPermissions
             if ($currentPath === $allowedCoordenadoresList) {
                 return $next($request);
             }
+            if ($currentPath === $allowedCoordenadoresAdd) {
+                return $next($request);
+            }
+            if ($currentPath === $allowedCoordenadoresCreate) {
+                return $next($request);
+            }
             if (strpos($currentPath, $allowedCoordenadoresDetails) === 0) {
                 return $next($request);
             }
-            if ($currentPath === $allowedCoordenadoresEdit) {
+            if (strpos($currentPath, $allowedCoordenadoresEdit) === 0) {
                 return $next($request);
             }
             if (strpos($currentPath, $allowedCoordenadoresUpdate) === 0) {
+                return $next($request);
+            }
+            if (strpos($currentPath, $allowedCoordenadoresDisable) === 0) {
+                return $next($request);
+            }
+            if (strpos($currentPath, $allowedCoordenadoresEnable) === 0) {
                 return $next($request);
             }
 
@@ -266,6 +307,93 @@ class UserPermissions
                 return $next($request);
             }
             if (strpos($currentPath, $allowedNucleosSearch) === 0) {
+                return $next($request);
+            }
+            if (strpos($currentPath, $allowedMaterialDownload) === 0) {
+                return $next($request);
+            }
+
+            return back();
+        }
+
+        if ($role === 'psicologo') {
+            $currentPath = $request->path();
+            $allowedAtendimentoPsicologicoIndex = 'atendimento-psicologico';
+            $allowedAtendimentoPsicologicoCreate = 'atendimento-psicologico/create';
+            $allowedAtendimentoPsicologicoStore = 'atendimento-psicologico/store';
+            $allowedAtendimentoPsicologicoEdit = 'atendimento-psicologico/edit/';
+            $allowedAtendimentoPsicologicoUpdate = 'atendimento-psicologico/update/';
+            $allowedAtendimentoPsicologicoSearch = 'atendimento-psicologico/search';
+            $allowedAtendimentoPsicologicoDetails = 'atendimento-psicologico/details/';
+            $allowedApoioEmocional = 'apoio-emocional';
+
+            //RULES FOR PSICOLOGOS ROUTES
+            if ($allowedAtendimentoPsicologicoIndex === $currentPath) {
+                return $next($request);
+            }
+            if ($allowedAtendimentoPsicologicoCreate === $currentPath) {
+                return $next($request);
+            }
+            if ($allowedAtendimentoPsicologicoStore === $currentPath) {
+                return $next($request);
+            }
+            if (strpos($currentPath, $allowedAtendimentoPsicologicoEdit) === 0) {
+                return $next($request);
+            }
+            if (strpos($currentPath, $allowedAtendimentoPsicologicoUpdate) === 0) {
+                return $next($request);
+            }
+            if (strpos($currentPath, $allowedAtendimentoPsicologicoSearch) !== false) {
+                return $next($request);
+            }
+            if (strpos($currentPath, $allowedAtendimentoPsicologicoDetails) === 0) {
+                return $next($request);
+            }
+            if (strpos($currentPath, $allowedApoioEmocional) === 0) {
+                return $next($request);
+            }
+
+            return back();
+        }
+
+        if ($role === 'psicologa_supervisora') {
+            $currentPath = $request->path();
+            $allowedPsicologosIndex = 'psicologos';
+            $allowedPsicologosAdd = 'psicologos/add';
+            $allowedPsicologosCreate = 'psicologos/create';
+            $allowedPsicologosEdit = 'psicologos/edit/';
+            $allowedPsicologosUpdate = 'psicologos/update/';
+            $allowedPsicologosSearch = 'psicologos/search';
+            $allowedPsicologosDetails = 'psicologos/details/';
+            $allowedPainelSupervisora = 'painel-supervisora';
+            $allowedApoioEmocional = 'apoio-emocional';
+
+            //RULES FOR PSICOLOGOS ROUTES
+            if ($allowedPsicologosIndex === $currentPath) {
+                return $next($request);
+            }
+            if ($allowedPsicologosAdd === $currentPath) {
+                return $next($request);
+            }
+            if ($allowedPsicologosCreate === $currentPath) {
+                return $next($request);
+            }
+            if (strpos($currentPath, $allowedPsicologosEdit) === 0) {
+                return $next($request);
+            }
+            if (strpos($currentPath, $allowedPsicologosUpdate) === 0) {
+                return $next($request);
+            }
+            if (strpos($currentPath, $allowedPsicologosSearch) !== false) {
+                return $next($request);
+            }
+            if (strpos($currentPath, $allowedPsicologosDetails) === 0) {
+                return $next($request);
+            }
+            if (strpos($currentPath, $allowedPainelSupervisora) === 0) {
+                return $next($request);
+            }
+            if (strpos($currentPath, $allowedApoioEmocional) === 0) {
                 return $next($request);
             }
 

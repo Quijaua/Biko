@@ -10,6 +10,10 @@ class HcaptchaRepository
 {
   public function validate($challenge)
   {
+    if (config('app.env') === 'develop' || config('app.env') === 'local') {
+      return true;
+    }
+
     $secret = config('services.hcaptcha.secret');
 
     //dd($secret);

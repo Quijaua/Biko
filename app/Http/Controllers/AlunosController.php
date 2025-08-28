@@ -76,7 +76,9 @@ class AlunosController extends Controller
 
         if ($user->role === 'coordenador') {
             $me = Coordenadores::where('id_user', $user->id)->first();
-            $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+            //$coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray() ?? [1];
+	    $coordenadorNucleos = $user->coordenador?->nucleos()->pluck('nucleos.id')->toArray() ?? [1];
+
             // $nucleo = Nucleo::find($me->id_nucleo);
             $nucleos = Nucleo::whereIn('id', $coordenadorNucleos)->get();
             //$alunos = Aluno::where('id_nucleo', $nucleo->id)->get();
@@ -247,6 +249,8 @@ class AlunosController extends Controller
             'povo_indigenas_id' => $request->input('povo_indigenas_id'),
             'terra_indigenas_id' => $request->input('terra_indigenas_id'),
             'pessoa_com_deficiencia' => $request->input('pessoa_com_deficiencia'),
+            'participante_quilombola' => $request->input('participante_quilombola'),
+            'participante_quilombola_qual' => $request->input('participante_quilombola_qual'),
         ]);
 
         if ($Foto) {
@@ -390,6 +394,8 @@ class AlunosController extends Controller
         $dados->povo_indigenas_id = $request->input('povo_indigenas_id') ?? NULL;
         $dados->terra_indigenas_id = $request->input('terra_indigenas_id') ?? NULL;
         $dados->pessoa_com_deficiencia = $request->input('pessoa_com_deficiencia');
+        $dados->participante_quilombola = $request->input('participante_quilombola');
+        $dados->participante_quilombola_qual = $request->input('participante_quilombola_qual');
         if ($request->input('inputComoSoube') != 'outros') {
             $dados->ComoSoubeOutros = NULL;
         } else {
@@ -536,16 +542,21 @@ class AlunosController extends Controller
 
     public function export(Request $request)
     {
-        $nucleo = $request->input('nucleo');
-        $nucleo_ativo = Nucleo::find($request->input('nucleo'));
-        $today = Carbon::now()->format('d-m-Y');
-        $nome_arquivo = $nucleo_ativo ? 'nucleo-' . $nucleo_ativo->NomeNucleo . '-' . $today : 'nucleo-todos-' . $today;
+        $user = Auth::user();
+        if ($user->role === 'coordenador' || $user->role === 'administrador') {
+            $nucleo = $request->input('nucleo');
+            $nucleo_ativo = Nucleo::find($request->input('nucleo'));
+            $today = Carbon::now()->format('d-m-Y');
+            $nome_arquivo = $nucleo_ativo ? 'nucleo-' . $nucleo_ativo->NomeNucleo . '-' . $today : 'nucleo-todos-' . $today;
 
-        if ($nucleo === null) {
-            return (new AlunosExport())->download($nome_arquivo . '.xlsx');
+            if ($nucleo === null) {
+                return (new AlunosExport())->download($nome_arquivo . '.xlsx');
+            }
+
+            return (new AlunosExport($nucleo))->download($nome_arquivo . '.xlsx');
+        } else {
+            abort(403, 'Acesso não autorizado.');
         }
-
-        return (new AlunosExport($nucleo))->download($nome_arquivo . '.xlsx');
     }
 
     public function logActionView($id)

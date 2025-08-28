@@ -20,11 +20,20 @@ class MaterialController extends Controller
       abort(403, 'Usuário não autenticado.');
     }
 
+    if ($user->role === 'professor') {
+      $status = \DB::table('professores')->where('id_user', Auth::id())->value('status');
+
+      if (!$status) {
+        abort(403, 'Ops! Seu perfil precisa estar ativo para acessar esta página.');
+      }
+    }
+
     if ( $user->role === 'administrador' ) {
       $nucleos = Nucleo::where('Status', 1)->paginate(25);
       $files = Material::paginate(25);
     } elseif ( $user->role === 'coordenador' ) {
-      $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+//      $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+      $coordenadorNucleos = $user->coordenador?->nucleos()->pluck('nucleos.id')->toArray() ?? [1];
       $nucleos = Nucleo::where('Status', 1)->whereIn('id', $coordenadorNucleos)->get();
       $files = Material::where('status', 1)->whereIn('nucleo_id', $coordenadorNucleos)->paginate(25);
     } elseif ( $user->role === 'professor' ) {
@@ -119,10 +128,18 @@ class MaterialController extends Controller
 
   public function delete($id)
   {
+    $user = Auth::user();
+    if (!$user) {
+      abort(403, 'Usuário não autenticado.');
+    }
+  
     $file = Material::find($id);
-
     if (!$file) {
       return redirect()->route('nucleo.material')->with('error', 'Material não encontrado.');
+    }
+
+    if ($user->role == 'professor' && $file->user_id !== $user->id) {
+      abort(403, 'Ops! Só é possível excluir materiais que você criou');
     }
 
     $filePath = public_path('uploads/' . $file->file);
@@ -165,6 +182,9 @@ class MaterialController extends Controller
     }
     if ( $user->role === 'professor' ) {
       $nucleos = Nucleo::where('Status', 1)->where('id', $user->professor->id_nucleo)->first();
+    }
+    if ( $user->role === 'aluno' ) {
+      $nucleos = Nucleo::where('Status', 1)->where('id', $user->aluno->id_nucleo)->first();
     }
 
     return view('material.index')->with([
