@@ -987,7 +987,7 @@
                                                 {{ __('Plantão Psicológico') }}
                                             </a>
                                         </li> --}}
-                                        @if (Auth::user()->role === 'administrador' || Auth::user()->role === 'psicologo')
+                                        @if (Auth::user()->role === 'administrador' || Auth::user()->role === 'psicologo' || Auth::user()->role === 'psicologa_supervisora' )
                                         <li
                                             class="nav-item {{ request()->routeIs('painel.supervisora') ? 'bg-primary text-white rounded' : '' }}">
                                             <a class="nav-link" href="{{ route('painel.supervisora') }}">
