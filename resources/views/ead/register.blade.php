@@ -31,7 +31,7 @@
         </div>
         @endif
         @php
-        $ids = $evento->inscritos->pluck('id')->toArray();
+        $ids = $evento ? $evento->inscritos->pluck('id')->toArray() : [];
         @endphp
         @if(!in_array(\Auth::user()->id, $ids))
         <div class="row row-cards">
@@ -56,6 +56,13 @@
             @endphp
             <div class="col-12">
                 <h2>AVALIAÇÃO DA ATIVIDADE PEDAGÓGICA</h2>
+
+                @if(!$evento)
+                    <div class="alert alert-warning text-center" role="alert">
+                        Nenhum evento encontrado para hoje.
+                    </div>
+                @endif
+
                 @if($form_available)
                 <form action="{{ route('ead.register-store') }}" method="POST">
                     @csrf
