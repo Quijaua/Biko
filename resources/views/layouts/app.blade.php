@@ -721,7 +721,6 @@
                                 </li>
                                 @endif
                                 @if (Session::get('role') !== 'aluno')
-                                    @if (Session::get('verified'))
                                     <li class="nav-item {{ request()->is('dashboard') ? 'bg-primary text-white rounded' : '' }}">
                                 <a class="nav-link" href="/dashboard">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -1069,7 +1068,6 @@
                                                 {{ __('Lista de presença') }}
                                             </a>
                                         </li> --}}
-                                    @endif
                                 @endif
                                 @if (($user->role === 'professor' && $status != 0) || ($user->role !== 'professor'))
                                 @if ($ambiente_virtual)
