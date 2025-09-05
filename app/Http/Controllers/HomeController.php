@@ -39,7 +39,12 @@ class HomeController extends Controller
 
         Session::put('role', $user->role);
         Session::put('verified', $user->email_verified_at);
-        $nucleos = DB::table('nucleos')->get();
+
+        if ($user->role === 'coordenador') {
+          $nucleos = $user->coordenador?->nucleos()->get() ?? DB::table('nucleos')->get();
+        } else {
+          $nucleos = DB::table('nucleos')->get();
+        }
 
         if ($user->first_login) {
             return view('first_login.change_password');
