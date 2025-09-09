@@ -121,10 +121,14 @@ Route::get('otp-verify', function () {
     $user->otp_hash = null;
     $user->save();
 
+    if ($redirect && in_array($redirect, ['plantao-psicologico']) && $user->role == 'aluno') {
+        return redirect('/plantao-psicologico');
+    }
+
     if ($redirect && in_array($redirect, ['plantao-psicologico']) || $user->role == 'psicologo') {
         return redirect()->route('painel.supervisora');
     }
-    
+
     if ($redirect && in_array($redirect, ['aula-programa-esperanca-garcia'])) {
         return redirect()->route('ead.register');
     }
