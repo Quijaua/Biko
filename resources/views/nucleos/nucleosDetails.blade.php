@@ -649,7 +649,7 @@
                                             <tbody id="tableBody" class="bg-white rounded">
                                                 @foreach ($novosVoluntarios as $voluntario)
                                                 <tr>
-                                                    <td>{{ $voluntario->NomeProfessor }}</td>
+                                                    <td><a href="/professores/details/{{ $voluntario->id }}">{{ $voluntario->NomeProfessor }}</a></td>
                                                     <td>{{ $voluntario->created_at->format('d/m/Y H:i') }}</td>
                                                 </tr>
                                                 @endforeach
