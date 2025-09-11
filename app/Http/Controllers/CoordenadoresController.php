@@ -422,26 +422,25 @@ class CoordenadoresController extends Controller
           // 2) Ou se existir usuário com esse CPF (desde que você tenha CPF no User)
           $userByCpf = Coordenadores::where('cpf', $cpfInput)->first(); // Ajuste se o nome do campo for outro
 
-          $correctUser = User::where('email', $inputEmail)->first();
+          if ($userByEmail && $userByCpf && $userByEmail->id_user === $userByCpf->id_user) {
+              $correctUser = User::where('email', $inputEmail)->first();
 
-          // dd($userByEmail, $userByCpf, $correctUser);
-
-          if ($userByEmail && $userByCpf && $correctUser && $userByEmail->user_id === $userByCpf->user_id) {
               // Já existe usuário com este e-mail → troca o id_user do coordenador
               $dados->id_user = $correctUser->id;
+
+              $correctUserId = $correctUser->id;
+          } else {
+            $correctUserId = $user->id;
           }
 
           if ($user->email !== $inputEmail) {
               // Se não achou nem pelo email nem pelo CPF, então atualiza o e-mail do user atual
               $emailExists = User::where('email', $inputEmail)
-                            ->where('id', '<>', $user->id)
+                            ->where('id', '<>', $correctUserId)
                             ->exists();
               if ($emailExists) {
                   return back()->with('error', 'ESTE EMAIL JÁ ESTÁ EM USO.');
               }
-
-              $user->email = $inputEmail;
-              $user->save();
           }
       }
 
