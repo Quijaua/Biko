@@ -429,7 +429,9 @@ class CoordenadoresController extends Controller
           if ($userByEmail && $userByCpf && $correctUser && $userByEmail->user_id === $userByCpf->user_id) {
               // Já existe usuário com este e-mail → troca o id_user do coordenador
               $dados->id_user = $correctUser->id;
-          } else {
+          }
+
+          if ($user->email !== $inputEmail) {
               // Se não achou nem pelo email nem pelo CPF, então atualiza o e-mail do user atual
               $emailExists = User::where('email', $inputEmail)
                             ->where('id', '<>', $user->id)

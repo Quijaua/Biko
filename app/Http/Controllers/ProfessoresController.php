@@ -706,6 +706,8 @@ $coordenadorNucleos = DB::table('nucleos')
 
       if($user->role === 'coordenador'){
         $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+        // $me = Coordenadores::where('id_user', $user->id)->first();
+        // $coordenadorNucleos = $me ? [$me->id_nucleo] : [];
         $professor = Professores::find($id);
         if($professor && in_array($professor->id_nucleo, $coordenadorNucleos)){
           $professor->Status = 1;
