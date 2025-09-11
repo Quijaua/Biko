@@ -366,6 +366,9 @@ if ($user->coordenador && $user->coordenador->id_nucleo) {
             $allowedPsicologosSearch = 'psicologos/search';
             $allowedPsicologosDetails = 'psicologos/details/';
             $allowedPainelSupervisora = 'painel-supervisora';
+            $allowedAtendimentoPsicologicoIndex = 'atendimento-psicologico';
+            $allowedAtendimentoPsicologicoSearch = 'atendimento-psicologico/search';
+            $allowedAtendimentoPsicologicoDetails = 'atendimento-psicologico/details/';
             $allowedApoioEmocional = 'apoio-emocional';
 
             //RULES FOR PSICOLOGOS ROUTES
@@ -391,6 +394,15 @@ if ($user->coordenador && $user->coordenador->id_nucleo) {
                 return $next($request);
             }
             if (strpos($currentPath, $allowedPainelSupervisora) === 0) {
+                return $next($request);
+            }
+            if ($allowedAtendimentoPsicologicoIndex === $currentPath) {
+                return $next($request);
+            }
+            if (strpos($currentPath, $allowedAtendimentoPsicologicoSearch) !== false) {
+                return $next($request);
+            }
+            if (strpos($currentPath, $allowedAtendimentoPsicologicoDetails) === 0) {
                 return $next($request);
             }
             if (strpos($currentPath, $allowedApoioEmocional) === 0) {
