@@ -705,9 +705,15 @@ $coordenadorNucleos = DB::table('nucleos')
       $user = Auth::user();
 
       if($user->role === 'coordenador'){
-        $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
-        // $me = Coordenadores::where('id_user', $user->id)->first();
-        // $coordenadorNucleos = $me ? [$me->id_nucleo] : [];
+        $user = Auth::user();
+        $coordenador = $user->coordenador;
+        if (!$coordenador || $coordenador->id_user !== $user->id) {
+            $coordenador = \App\Coordenadores::where('Email', $user->email)->first();
+        }
+        $coordenadorNucleos = $coordenador
+            ? $coordenador->nucleos()->pluck('nucleos.id')->toArray()
+            : [];
+
         $professor = Professores::find($id);
         if($professor && in_array($professor->id_nucleo, $coordenadorNucleos)){
           $professor->Status = 1;
