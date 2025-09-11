@@ -165,7 +165,7 @@ class CoordenadoresController extends Controller
       }
 
       $coordenador = Coordenadores::create([
-        'id_user' => Auth::user()->id,
+        'id_user' => $user->id,
         'Status' => $request->input('inputStatus'),
         'NomeCoordenador' => $request->input('inputNomeCoordenador'),
         'NomeSocial' => $request->input('inputNomeSocial'),
@@ -415,18 +415,32 @@ class CoordenadoresController extends Controller
       $inputEmail = $request->input('inputEmail');
       $user = User::find($dados->id_user);
 
-      if($user->email !== $inputEmail){
-          // Verifica se o email já pertence a outro usuário
-          $emailExists = User::where('email', $inputEmail)
-                          ->where('id', '<>', $user->id)
-                          ->exists();
+      if ($user->email !== $inputEmail) {
+          // 1) Se existir usuário com esse e-mail
+          $userByEmail = Coordenadores::where('email', $inputEmail)->first();
 
-          if($emailExists){
-              return back()->with('error', 'ESTE EMAIL JÁ ESTÁ EM USO.');
+          // 2) Ou se existir usuário com esse CPF (desde que você tenha CPF no User)
+          $userByCpf = Coordenadores::where('cpf', $cpfInput)->first(); // Ajuste se o nome do campo for outro
+
+          $correctUser = User::where('email', $inputEmail)->first();
+
+          // dd($userByEmail, $userByCpf, $correctUser);
+
+          if ($userByEmail && $userByCpf && $correctUser && $userByEmail->user_id === $userByCpf->user_id) {
+              // Já existe usuário com este e-mail → troca o id_user do coordenador
+              $dados->id_user = $correctUser->id;
+          } else {
+              // Se não achou nem pelo email nem pelo CPF, então atualiza o e-mail do user atual
+              $emailExists = User::where('email', $inputEmail)
+                            ->where('id', '<>', $user->id)
+                            ->exists();
+              if ($emailExists) {
+                  return back()->with('error', 'ESTE EMAIL JÁ ESTÁ EM USO.');
+              }
+
+              $user->email = $inputEmail;
+              $user->save();
           }
-
-          $user->email = $inputEmail;
-          $user->save();
       }
 
       $dados->save();
