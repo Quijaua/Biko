@@ -167,6 +167,8 @@
                         Baixar Anexo
                     </a>
                 </div>
+            @else
+                <p class="text-muted">Sem anexo</p>
             @endif
 
             <div class="mb-3">
