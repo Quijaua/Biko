@@ -9,6 +9,7 @@ use App\Aluno;
 use App\LogAtendimentoPsicologico;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use DB;
 
 class AtendimentoPsicologicoController extends Controller
@@ -245,12 +246,11 @@ class AtendimentoPsicologicoController extends Controller
             abort(404, 'Arquivo não encontrado.');
         }
 
-        $filePath = public_path('storage/' . $atendimento->anexo);
-
-        if (!file_exists($filePath)) {
+        // usando o disco 'public'
+        if (!Storage::disk('public')->exists($atendimento->anexo)) {
             abort(404, 'Arquivo não encontrado no servidor.');
         }
 
-        return response()->download($filePath);
+        return Storage::disk('public')->download($atendimento->anexo);
     }
 }
