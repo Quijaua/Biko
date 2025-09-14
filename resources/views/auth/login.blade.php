@@ -73,15 +73,20 @@
 	</div>
 
 </div>
+
 <div class="text-center text-secondary mt-3">
-@if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Esqueceu a senha?') }}
-                                    </a>
-                                @endif
-
-
+    @if (Route::has('password.request'))
+    <div class="d-flex justify-content-center gap-3">
+        <a class="btn btn-link" href="{{ route('password.request') }}">
+            {{ __('Esqueceu a senha?') }}
+        </a>
+        <a class="btn btn-link" href="{{ route('password.request') }}">
+            Primeiro acesso
+        </a>
+    </div>
+    @endif
 </div>
+
 	</div>
 </div>
 
