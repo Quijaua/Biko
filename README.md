@@ -72,17 +72,13 @@ Biko é uma aplicação web que centraliza e simplifica processos acadêmicos e 
    php artisan serve
    ```
 
-8. **Acesse a aplicação**:
-   - Abra o navegador e vá para: [http://localhost:8000](http://localhost:8000)
-
 ---
 
 ## Instruções de Utilização
 
 ### Acessando a Aplicação
 
-1. Após iniciar o servidor, abra o navegador e acesse: [http://localhost:8000](http://localhost:8000).
-2. Faça login com suas credenciais fornecidas pelo administrador.
+Após iniciar o servidor, abra o navegador e acesse: [http://localhost:8000](http://localhost:8000).
 
 ---
 
