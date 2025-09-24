@@ -181,6 +181,7 @@
                             </div>
                             <div class="col-10">
                                 <p>Data: {{ date('d/m/Y', strtotime($outro_atendimento->data_atendimento)) }}</p>
+                                <p>Psicologo: {{ $outro_atendimento->criador->name }}</p>
                                 <a href="/atendimento-psicologico/details/{{ $outro_atendimento->id }}">Detalhes</a>
                             </div>
                         </div>
