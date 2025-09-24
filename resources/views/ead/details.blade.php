@@ -61,14 +61,14 @@
                         </div>
                     </div>
 
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-3">
                         <div class="mb-3">
                             <label class="form-label mb-2" for="descricao">Descrição</label>
                             <input type="text" class="form-control" id="descricao" name="descricao" aria-describedby="descricaoHelp" value="{{ $ead->descricao }}" disabled>
                         </div>
                     </div>
 
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-3">
                         <div class="mb-3">
                             <label class="form-label mb-2" for="link">Link da Aula</label>
                             <div class="mt-3">
@@ -77,14 +77,24 @@
                         </div>
                     </div>
 
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-3">
                         <div class="mb-3">
-                            <label class="form-label mb-2" for="material_apoio">Material de Apoio</label>
+                            <label class="form-label mb-2" for="tipo">Tipo</label>
+                            <select class="form-select" aria-label="Default select example" name="tipo" id="tipo" disabled>
+                                <option value="Palestras" @if($ead->tipo == 'Palestras') selected @endif >Palestras</option>
+                                <option value="Encontros pedagógicos" @if($ead->tipo == 'Encontros pedagógicos') selected @endif >Encontros pedagógicos</option>
+                                <option value="Encontros GARCIA" @if($ead->tipo == 'Encontros GARCIA') selected @endif >Encontros GARCIA</option>
+                            </select>
                         </div>
+                    </div>
+
+                    @if($ead->material_apoio)
+                    <div class="col-12">
                         <div class="mb-3">
                             <a href="{{ asset('eads/' . $ead->id . '/' . $ead->material_apoio) }}" target="_blank">{{  $ead->material_apoio }}</a>
                         </div>
                     </div>
+                    @endif
                 </div>
 
                 <div class="row">

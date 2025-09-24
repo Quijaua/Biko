@@ -16,6 +16,7 @@ class ead extends Model
         'descricao',
         'link',
         'material_apoio',
+        'tipo',
     ];
 
     protected $casts = [

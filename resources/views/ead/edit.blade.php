@@ -61,37 +61,48 @@
                         </div>
                     </div>
 
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-3">
                         <div class="mb-3">
                             <label class="form-label mb-2" for="descricao">Descrição</label>
                             <input type="text" class="form-control" id="descricao" name="descricao" aria-describedby="descricaoHelp" value="{{ $ead->descricao }}" required>
                         </div>
                     </div>
 
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-3">
                         <div class="mb-3">
                             <label class="form-label mb-2" for="link">Link da Aula</label>
                             <input type="text" class="form-control" id="link" name="link" aria-describedby="linkHelp" value="{{ $ead->link }}" required>
                         </div>
                     </div>
 
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-3">
                         <div class="mb-3">
                             <label class="form-label mb-2" for="material_apoio">Material de Apoio</label>
                             <input type="file" class="form-control" id="material_apoio" name="material_apoio" aria-describedby="material_apoioHelp" >
                         </div>
                     </div>
 
+                    <div class="col-12 col-md-3">
+                        <div class="mb-3">
+                            <label class="form-label mb-2" for="tipo">Tipo</label>
+                            <select class="form-select" aria-label="Default select example" name="tipo" id="tipo">
+                                <option value="Palestras" @if($ead->tipo == 'Palestras') selected @endif >Palestras</option>
+                                <option value="Encontros pedagógicos" @if($ead->tipo == 'Encontros pedagógicos') selected @endif >Encontros pedagógicos</option>
+                                <option value="Encontros GARCIA" @if($ead->tipo == 'Encontros GARCIA') selected @endif >Encontros GARCIA</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    @if($ead->material_apoio)
                     <div class="col-12">
-                        @if($ead->material_apoio)
                         <div class="mb-3">
                             <a href="{{ asset('eads/' . $ead->id . '/' . $ead->material_apoio) }}" target="_blank">{{  $ead->material_apoio }}</a>
                             <span id="remove_material" class="text-danger px-2" style="cursor: pointer;" data-id="{{ $ead->id }}">
                                 <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-dashed-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8.56 3.69a9 9 0 0 0 -2.92 1.95" /><path d="M3.69 8.56a9 9 0 0 0 -.69 3.44" /><path d="M3.69 15.44a9 9 0 0 0 1.95 2.92" /><path d="M8.56 20.31a9 9 0 0 0 3.44 .69" /><path d="M15.44 20.31a9 9 0 0 0 2.92 -1.95" /><path d="M20.31 15.44a9 9 0 0 0 .69 -3.44" /><path d="M20.31 8.56a9 9 0 0 0 -1.95 -2.92" /><path d="M15.44 3.69a9 9 0 0 0 -3.44 -.69" /><path d="M14 14l-4 -4" /><path d="M10 14l4 -4" /></svg>
                             </span>
                         </div>
-                        @endif
                     </div>
+                    @endif
                 </div>
 
                 <div class="row">
