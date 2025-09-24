@@ -27,9 +27,25 @@ class EadController extends Controller
         return view('ead.create');
     }
 
+    public function details($id)
+    {
+        $ead = ead::find($id);
+        return view('ead.details')->with(['ead' => $ead]);
+    }
+
     public function store(Request $request)
     {
-        $ead = ead::create($request->except('_token'));
+        $ead = ead::create($request->except(['_token', 'material_apoio']));
+
+        // Verifica se existe upload de arquivos e salva
+        if ($request->hasFile('material_apoio')) {
+            $file = $request->file('material_apoio');
+            $fileName = time() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
+            $file->move(public_path('eads' . '/' . $ead->id . '/'), $fileName);
+            $ead->material_apoio = $fileName;
+            $ead->save();
+        }
+
         return redirect()->route('ead.index')->with(['success' => 'Evento criado com sucesso!']);
     }
 
@@ -42,7 +58,21 @@ class EadController extends Controller
     public function update(Request $request, $id)
     {
         $ead = ead::find($id);
-        $ead->update($request->except('_token'));
+        // Verifica se existe upload de arquivos e salva
+        if ($request->hasFile('material_apoio')) {
+            // Verifica se existe material de apoio e deleta
+            if ($ead->material_apoio) {
+                unlink(public_path('eads' . '/' . $ead->id . '/' . $ead->material_apoio));
+            }
+            $file = $request->file('material_apoio');
+            $fileName = time() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
+            $file->move(public_path('eads' . '/' . $ead->id . '/'), $fileName);
+            $ead->material_apoio = $fileName;
+            $ead->save();
+        }
+
+        $ead->update($request->except([ '_token', 'material_apoio' ]));
+
         return redirect()->route('ead.index')->with(['success' => 'Evento editado com sucesso!']);
     }
 

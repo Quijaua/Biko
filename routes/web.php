@@ -262,6 +262,7 @@ Route::resource('/ambiente-virtual', 'AmbienteVirtualController')->middleware('a
 // ROUTES FOR EAD
 Route::group(['prefix' => 'ead', 'middleware' => ['auth', 'restrict.professor']], function () {
     Route::get('/', 'EadController@index')->name('ead.index');
+    Route::get('/details/{id}', 'EadController@details')->name('ead.details');
     Route::get('/create', 'EadController@create')->name('ead.create');
     Route::post('/store', 'EadController@store')->name('ead.store');
     Route::get('/edit/{id}', 'EadController@edit')->name('ead.edit');

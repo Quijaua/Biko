@@ -60,6 +60,30 @@
                             <input type="text" class="form-control" id="hora_fim" name="hora_fim" aria-describedby="hora_fimHelp" value="{{ $ead->hora_fim }}" required>
                         </div>
                     </div>
+
+                    <div class="col-12 col-md-4">
+                        <div class="mb-3">
+                            <label class="form-label mb-2" for="descricao">Descrição</label>
+                            <input type="text" class="form-control" id="descricao" name="descricao" aria-describedby="descricaoHelp" value="{{ $ead->descricao }}" required>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <div class="mb-3">
+                            <label class="form-label mb-2" for="link">Link da Aula</label>
+                            <input type="text" class="form-control" id="link" name="link" aria-describedby="linkHelp" value="{{ $ead->link }}" required>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <div class="mb-3">
+                            <label class="form-label mb-2" for="material_apoio">Material de Apoio</label>
+                            <input type="file" class="form-control" id="material_apoio" name="material_apoio" aria-describedby="material_apoioHelp" >
+                        </div>
+                        <div class="mb-3">
+                            <a href="{{ asset('eads/' . $ead->id . '/' . $ead->material_apoio) }}" target="_blank">{{  $ead->material_apoio }}</a>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="row">

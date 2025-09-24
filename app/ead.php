@@ -13,6 +13,9 @@ class ead extends Model
         'data',
         'hora_inicio',
         'hora_fim',
+        'descricao',
+        'link',
+        'material_apoio',
     ];
 
     protected $casts = [
