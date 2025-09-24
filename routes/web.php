@@ -268,6 +268,7 @@ Route::group(['prefix' => 'ead', 'middleware' => ['auth', 'restrict.professor']]
     Route::get('/edit/{id}', 'EadController@edit')->name('ead.edit');
     Route::post('/update/{id}', 'EadController@update')->name('ead.update');
     Route::delete('/destroy/{id}', 'EadController@destroy')->name('ead.destroy');
+    Route::get('/remove_material', 'EadController@remove_material')->name('ead.remove_material');
     Route::post('/register/store', 'EadController@registerStore')->name('ead.register-store');
     Route::get('/participantes/{id}', 'EadController@participantes')->name('ead.participantes');
 });

@@ -83,6 +83,16 @@ class EadController extends Controller
         return redirect()->route('ead.index')->with(['success' => 'Evento excluido com sucesso!']);
     }
 
+    public function remove_material(Request $request)
+    {
+        $ead = ead::find($request->ead_id);
+        $file = $ead->material_apoio;
+        unlink(public_path('eads/' . $ead->id . '/' . $file));
+        $ead->material_apoio = null;
+        $ead->save();
+        return response()->json(['success' => 'Material de apoio removido com sucesso!']);
+    }
+
     public function register()
     {
         if (!Auth::check()) {

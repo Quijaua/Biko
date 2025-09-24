@@ -80,9 +80,17 @@
                             <label class="form-label mb-2" for="material_apoio">Material de Apoio</label>
                             <input type="file" class="form-control" id="material_apoio" name="material_apoio" aria-describedby="material_apoioHelp" >
                         </div>
+                    </div>
+
+                    <div class="col-12">
+                        @if($ead->material_apoio)
                         <div class="mb-3">
                             <a href="{{ asset('eads/' . $ead->id . '/' . $ead->material_apoio) }}" target="_blank">{{  $ead->material_apoio }}</a>
+                            <span id="remove_material" class="text-danger px-2" style="cursor: pointer;" data-id="{{ $ead->id }}">
+                                <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-dashed-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8.56 3.69a9 9 0 0 0 -2.92 1.95" /><path d="M3.69 8.56a9 9 0 0 0 -.69 3.44" /><path d="M3.69 15.44a9 9 0 0 0 1.95 2.92" /><path d="M8.56 20.31a9 9 0 0 0 3.44 .69" /><path d="M15.44 20.31a9 9 0 0 0 2.92 -1.95" /><path d="M20.31 15.44a9 9 0 0 0 .69 -3.44" /><path d="M20.31 8.56a9 9 0 0 0 -1.95 -2.92" /><path d="M15.44 3.69a9 9 0 0 0 -3.44 -.69" /><path d="M14 14l-4 -4" /><path d="M10 14l4 -4" /></svg>
+                            </span>
                         </div>
+                        @endif
                     </div>
                 </div>
 
@@ -117,6 +125,22 @@
                 let newValue = $(this).val()+':00';
                 $(this).val(newValue);
             }
+        })
+
+        $('#remove_material').click(function() {
+            let id = $(this).attr('data-id');
+
+            $.ajax({
+                url: '{{ route('ead.remove_material') }}',
+                method: 'GET',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    ead_id: id
+                },
+                success: function(response) {
+                    location.reload();
+                }
+            })
         })
     })
 </script>
