@@ -36,7 +36,12 @@ class AmbienteVirtual extends Model implements Auditable
 
     public function comentario()
     {
-        return $this->hasMany('App\Comentario', 'ambiente_virtual_id');
+        return $this->hasMany('App\Comentario', 'ambiente_virtual_id')->whereNull('comentario_id');
+    }
+
+    public function respostas()
+    {
+        return $this->hasMany('App\Comentario', 'ambiente_virtual_id')->whereNotNull('comentario_id');
     }
 
     public function nota()

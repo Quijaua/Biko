@@ -86,6 +86,22 @@ class AmbienteVirtualService
         return redirect()->route('ambiente-virtual.show', $id);
     }
 
+    public static function responder($comentario)
+    {
+        $params = self::getParams();
+        $id = $params['ambiente_virtual_id'];
+        $data = [
+            'user_id' => $params['user_id'],
+            'ambiente_virtual_id' => $params['ambiente_virtual_id'],
+            'comentario_id' => $params['comentario_id'],
+            'comentario' => $params['comentario'],
+        ];
+
+        Comentario::create($data);
+
+        return redirect()->route('ambiente-virtual.show', $id);
+    }
+
     public static function anotar($id)
     {
         $params = self::getParams();
@@ -179,6 +195,7 @@ class AmbienteVirtualService
             'disciplina_id' => request('disciplina_id'),
             'ambiente_virtual_id' => request('ambiente_virtual_id'),
             'comentario' => request('comentario'),
+            'comentario_id' => request('comentario_id'),
             'class_duration' => request('class_duration'),
             'nota' => request('nota'),
             'areas_conhecimento' => request('areas_conhecimento'),

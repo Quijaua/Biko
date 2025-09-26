@@ -105,7 +105,7 @@
                         @endphp
 
                         @if($tipo === 'aluno')
-                            <form action="{{ route('ambiente-virtual.anotar', $aula) }}" method="POST">
+                            <form id="formAnotar" action="{{ route('ambiente-virtual.anotar', $aula) }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="user_id" value="{{ Auth::user()->id }}" />
                                 <input type="hidden" name="ambiente_virtual_id" value="{{ $aula->id }}" />
@@ -113,7 +113,7 @@
                                     <label class="mb-2" for="comentarios">Anotações</label>
                                     <textarea class="form-control" id="nota" name="nota" rows="3"></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-primary mt-2">Anotar</button>
+                                <button form="formAnotar" type="submit" class="btn btn-primary mt-2">Anotar</button>
                             </form>
                         @else
                             <p class="text-muted">Apenas estudantes podem fazer anotações nesta aula.</p>
@@ -149,13 +149,44 @@
                                 <div class="col-12 col-md-4">
                                     <p><strong>Data:</strong> {{ $comentario->created_at->format('d/m/Y') }}</p>
                                 </div>
+
+                                <div class="col-12 col-md-4">
+                                    <p>
+                                        <!-- Button trigger modal resposta -->
+                                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#respostaModal" data-comentario-id="{{ $comentario->id }}" >
+                                        Responder
+                                        </button>
+                                    </p>
+                                </div>
+
+                                @if($aula->respostas->where('comentario_id', $comentario->id)->count() > 0)
+                                <div class="col-12 ">
+                                    <div class="accordion accordion-flush" id="accordion<?php echo $comentario->id; ?>">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse<?php echo $comentario->id; ?>" aria-expanded="false" aria-controls="flush-collapse<?php echo $comentario->id; ?>">
+                                                    {{  $aula->respostas->where('comentario_id', $comentario->id)->count() }} resposta<?php if(count($aula->respostas->where('comentario_id', $comentario->id)) > 1) echo 's'; ?>
+                                                </button>
+                                            </h2>
+                                            <div id="flush-collapse<?php echo $comentario->id; ?>" class="accordion-collapse collapse" data-bs-parent="#accordion<?php echo $comentario->id; ?>">
+                                                <div class="accordion-body">
+                                                    @foreach($aula->respostas->where('comentario_id', $comentario->id) as $resposta)
+                                                    <p><strong>{{  $resposta->user->name }}</strong>: <?php echo strip_tags($resposta->comentario); ?></p>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
+
                             </div>
                         </div>
                     </div>
                     @endforeach
                     <div class="card">
                         <div class="card-body">
-                            <form action="{{ route('ambiente-virtual.comentar', $aula) }}" method="POST">
+                            <form id="formComentar" action="{{ route('ambiente-virtual.comentar', $aula) }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="user_id" value="{{ Auth::user()->id }}" />
                                 <input type="hidden" name="ambiente_virtual_id" value="{{ $aula->id }}" />
@@ -163,12 +194,37 @@
                                     <label class="mb-2" for="comentarios">Comentar</label>
                                     <textarea class="form-control" id="comentarios" name="comentario" rows="3"></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-primary mt-2">Comentar</button>
+                                <button form="formComentar" type="submit" class="btn btn-primary mt-2">Comentar</button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Modal Resposta -->
+            <div class="modal modal-lg fade" id="respostaModal" tabindex="-1" aria-labelledby="respostaModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="respostaModalLabel">Responder comentario</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="formResponderComentario" action="{{ route('ambiente-virtual.responder-comentario') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="user_id" value="{{ Auth::user()->id }}" />
+                                <input type="hidden" name="ambiente_virtual_id" value="{{ $aula->id }}" />
+                                <div class="form-group">
+                                    <label class="mb-2" for="comentarios">Responder</label>
+                                    <textarea class="form-control" id="comentarios" name="comentario" rows="3"></textarea>
+                                </div>
+                                <button id="btnEnviarResposta" form="formResponderComentario" type="submit" class="btn btn-primary mt-2">Enviar resposta</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -199,6 +255,25 @@
         tinyMCE.init(options)
 
         tinyMCE.init(optionsNotas)
+
+        $('#respostaModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var comentario_id = button.data('comentario-id')
+            var modal = $(this)
+            modal.find('.modal-body form').append('<input type="hidden" name="comentario_id" value="' + comentario_id + '" />')
+        })
+
+        $('#respostaModal').on('hide.bs.modal', function (event) {
+            $('#formResponderComentario').trigger('reset')
+        })
+
+        $('#formResponderComentario').on('submit', function() {
+            let comentario = $(this).find('#comentarios').val()
+            if(!comentario || comentario == '') {
+                $('.modal-body').append('<div class="col-12 m-auto mt-2"><div class="alert alert-danger" role="alert">O campo da resposta precisa ser preenchido</div></div>')
+                return false
+            }
+        })
     })
 </script>
 @endsection

@@ -252,6 +252,7 @@ Route::resource('/disciplinas', 'DisciplinaController')->middleware('auth')->exc
 Route::group(['prefix' => 'ambiente-virtual'], function () {
     Route::get('/', 'AmbienteVirtualController@index')->middleware('auth')->name('ambiente-virtual.index');
     Route::post('comentarios/adicionar/{id}', 'AmbienteVirtualController@comentar')->middleware('auth')->name('ambiente-virtual.comentar');
+    Route::post('comentarios/responder', 'AmbienteVirtualController@responder')->middleware('auth')->name('ambiente-virtual.responder-comentario');
     Route::post('notas/adicionar/{id}', 'AmbienteVirtualController@anotar')->middleware('auth')->name('ambiente-virtual.anotar');
     Route::post('assistido/marcar', 'AmbienteVirtualController@marcarAssistido')->middleware('auth')->name('ambiente-virtual.marcar-assistido');
     Route::post('assistido/desmarcar', 'AmbienteVirtualController@desmarcarAssistido')->middleware('auth')->name('ambiente-virtual.desmarcar-assistido');
