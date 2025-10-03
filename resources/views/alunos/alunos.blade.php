@@ -157,6 +157,7 @@
                 <th class="text-nowrap text-black py-3"></th>
                   <th class="text-nowrap text-black py-3">Foto</th>
                   <th class="text-nowrap text-black py-3">Nome</th>
+                  <th class="text-nowrap text-black py-3">Email</th>
                   <th class="text-nowrap text-black py-3">Núcleo</th>
                   <th class="text-nowrap text-black py-3">Situação</th>
                   <th class="text-nowrap text-black py-3">Lista de Espera</th>
@@ -177,6 +178,11 @@
                   {{-- Nome --}}
                   <td class="text-secondary">
                     {{ $aluno->NomeSocial ?? $aluno->NomeAluno }}
+                  </td>
+
+                  {{-- Email --}}
+                  <td class="text-secondary">
+                    {{ $aluno->Email }}
                   </td>
 
                   {{-- Núcleo --}}
