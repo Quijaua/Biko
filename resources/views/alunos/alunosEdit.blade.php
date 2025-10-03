@@ -49,6 +49,26 @@
                             </div>
                         </div>
                         <div class="col-4 d-flex gap-3 justify-content-end align-items-center">
+
+                            @if(in_array(Auth::user()->role, ['administrador', 'coordenador']))
+                                <button
+                                    type="button"
+                                    class="btn btn-danger"
+                                    onclick="
+                                        if (!confirm('Tem certeza que deseja excluir este Aluno?')) return;
+                                        document.getElementById('delete-nucleo-form').submit();
+                                    ">
+                                    Excluir Aluno
+                                </button>
+                                <form id="delete-nucleo-form"
+                                        action="{{ url('alunos/delete/'.$dados->id) }}"
+                                        method="POST"
+                                        style="display: none;">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
+                            @endif
+
                             <a class="btn btn-secondary" href="{{ Auth::user()->role === 'aluno' ? '/home' : '/alunos' }}">voltar</a>
                             <button type="submit" class="btn btn-primary" form="editForm" id="submitBtn"><span><svg
                                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"

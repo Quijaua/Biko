@@ -174,6 +174,7 @@ class UserPermissions
             $allowedAlunosUpdate = 'alunos/update/';
             $allowedAlunosInactive = 'alunos/disable/';
             $allowedAlunosActive = 'alunos/enable/';
+            $allowedAlunosDelete = 'alunos/delete/';
             $allowedCoordenadoresList = 'coordenadores';
             $allowedCoordenadoresAdd = 'coordenadores/add';
             $allowedCoordenadoresCreate = 'coordenadores/create';
@@ -235,6 +236,9 @@ if ($user->coordenador && $user->coordenador->id_nucleo) {
                 return $next($request);
             }
             if (strpos($currentPath, $allowedAlunosActive) === 0) {
+                return $next($request);
+            }
+            if (strpos($currentPath, $allowedAlunosDelete) === 0) {
                 return $next($request);
             }
 

@@ -568,4 +568,24 @@ class AlunosController extends Controller
       ]);
     }
 
+    public function delete($id)
+    {
+        $user = Auth::user();
+
+        if (!in_array($user->role, ['administrador', 'coordenador'])) {
+            abort(403, 'Acesso não autorizado.');
+        }
+
+        $aluno = Aluno::findOrFail($id);
+
+        // Se quiser excluir também o usuário vinculado
+        if ($aluno->id_user) {
+            User::where('id', $aluno->id_user)->delete();
+        }
+
+        $aluno->delete();
+
+        return redirect('alunos')->with('success', 'Aluno excluído com sucesso.');
+    }
+
 }
