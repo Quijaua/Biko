@@ -369,7 +369,9 @@ Route::post('/seja-um-professor', function (Request $request) {
     foreach($coordenadores as $coordenador) {
         if($coordenador['Email']) {
         Mail::to($coordenador['Email'])->send(new EmailFormularioCoordenador([
-            'message' => 'Olá, coordenador! Um novo professor foi inserido!'
+            'message' => 'Olá, coordenador! Um novo professor foi inserido!',
+            'professor_name' => $professor->NomeProfessor,
+            'professor_link' => url('professores/details/' . $professor->id),
         ]));
         }
     }

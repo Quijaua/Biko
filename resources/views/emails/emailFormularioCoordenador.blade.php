@@ -1,4 +1,12 @@
 <div>
-    <!-- Happiness is not something readymade. It comes from your own actions. - Dalai Lama -->
-    {{$data['message']}}
+    <p>{{ $data['message'] }}</p>
+
+    <p><strong>Nome do professor:</strong> {{ $data['professor_name'] }}</p>
+
+    <p>
+        <strong>Link do cadastro:</strong>
+        <a href="{{ $data['professor_link'] }}" target="_blank">
+            Acessar cadastro
+        </a>
+    </p>
 </div>
