@@ -1,12 +1,22 @@
 <div>
     <p>{{ $data['message'] }}</p>
 
-    <p><strong>Nome do professor:</strong> {{ $data['professor_name'] }}</p>
+    @if(isset($data['aluno_nome']) && !empty($data['aluno_nome']))
+        <p>
+            <strong>Nome do aluno(a):</strong> {{ $data['aluno_nome'] }}
+        </p>
+    @endif
 
-    <p>
-        <strong>Link do cadastro:</strong>
-        <a href="{{ $data['professor_link'] }}" target="_blank">
-            Acessar cadastro
-        </a>
-    </p>
+    @if(isset($data['professor_nome']) && !empty($data['professor_nome']))
+        <p>
+            <strong>Nome do professor(a):</strong> {{ $data['professor_nome'] }}
+        </p>
+    @endif
+
+    @if(isset($data['link_cadastro']) && !empty($data['link_cadastro']))
+        <p>
+            <strong>Link do cadastro:</strong>
+            <a href="{{ $data['link_cadastro'] }}">Acessar cadastro</a>
+        </p>
+    @endif
 </div>
