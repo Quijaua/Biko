@@ -136,11 +136,15 @@ class RegisterController extends Controller
 
         Session::put('verified',$user->email_verified_at);
 
+        // Definir status automaticamente se for Núcleo Virtual
+        $nucleoVirtualId = env('NUCLEO_AMBIENTE_VIRTUAL'); // ID do Núcleo Virtual do .env
+        $statusAluno = !isset($data['inputNucleo']) && empty($data['inputNucleo']) ? 1 : 0;
+
         $aluno = Aluno::create([
             'NomeAluno' => $user->name,
             'NomeSocial' => isset($data['NomeSocial']) ? $data['NomeSocial'] : NULL,
             'id_user' => $user->id,
-            'Status' => 0,
+            'Status' => $statusAluno,
             'FoneCelular' => $user->phone,
             'Escolaridade' => $data['inputEscolaridade'],
             'Email' => $data['email'],
