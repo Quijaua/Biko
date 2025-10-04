@@ -460,7 +460,10 @@ class AlunosController extends Controller
 
         $alunos = DB::table('alunos')
             ->when($params['inputQuery'], function ($query) use ($params) {
-                return $query->where('alunos.NomeAluno', 'LIKE', '%' . $params['inputQuery'] . '%');
+                return $query->where(function ($q) use ($params) {
+                    $q->where('alunos.NomeAluno', 'LIKE', '%' . $params['inputQuery'] . '%')
+                    ->orWhere('alunos.Email', 'LIKE', '%' . $params['inputQuery'] . '%');
+                });
             })
             ->when($params['nucleo'], function ($query) use ($params) {
                 return $query->where('alunos.id_nucleo', '=', $params['nucleo']);
