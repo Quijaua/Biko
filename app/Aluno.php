@@ -18,6 +18,7 @@ class Aluno extends Model implements Auditable
         'id_nucleo',
         'Foto',
         'ListaEspera',
+        'Bolsista',
         'CPF',
         'RG',
         'temFilhos',

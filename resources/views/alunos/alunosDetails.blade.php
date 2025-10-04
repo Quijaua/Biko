@@ -510,7 +510,7 @@
                                             </h3>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 mb-3">
                                         <div>
                                             <label class="form-label mb-2" for="inputNucleo">Núcleo</label>
                                             <select name="inputNucleo" class="form-select" disabled>
@@ -526,7 +526,7 @@
                                         <div class="mb-3 invalid-feedback d-block d-none">Por favor, selecione um núcleo.
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 mb-3">
                                         <div>
                                             <label class="form-label mb-2 d-block">Lista de Espera</label>
 
@@ -544,6 +544,25 @@
                                                 <label class="form-check-label" for="listaEsperaNao">Não</label>
                                             </div>
 
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" id="campoBolsista" style="display: none;">
+                                        <div>
+                                            <label class="form-label mb-2 d-block">Bolsista</label>
+
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inputBolsista"
+                                                    id="bolsistaSim" value="Sim"
+                                                    @if ($dados->Bolsista === 'Sim') checked @endif>
+                                                <label class="form-check-label" for="bolsistaSim">Sim</label>
+                                            </div>
+
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inputBolsista"
+                                                    id="bolsistaNao" value="Não"
+                                                    @if ($dados->Bolsista === 'Não') checked @endif>
+                                                <label class="form-check-label" for="bolsistaNao">Não</label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

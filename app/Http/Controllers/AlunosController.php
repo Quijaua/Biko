@@ -178,6 +178,8 @@ class AlunosController extends Controller
             ]);
         }
 
+        $bolsista = $request->input('inputNucleo') == env('NUCLEO_AMBIENTE_VIRTUAL') ? $request->input('inputBolsista') : null;
+
         Aluno::create([
             'id_user' => $user->id,
             'Status' => $request->input('inputStatus'),
@@ -187,6 +189,7 @@ class AlunosController extends Controller
             'NomeNucleo' => $nome_nucleo->NomeNucleo,
             'Foto' => $foto,
             'ListaEspera' => $request->input('inputListaEspera'),
+            'Bolsista' => $bolsista,
             'CPF' => $request->input('inputCPF'),
             'RG' => $request->input('inputRG'),
             'Email' => $request->input('inputEmail'),
@@ -329,6 +332,7 @@ class AlunosController extends Controller
             $dados->CPF = $dados->CPF;
         }
         $dados->ListaEspera = $request->input('inputListaEspera');
+        $dados->Bolsista = $request->input('inputNucleo') == env('NUCLEO_AMBIENTE_VIRTUAL') ? $request->input('inputBolsista') : null;
         $dados->RG = $request->input('inputRG');
         $dados->temFilhos = $request->input('temFilhos');
         $dados->filhosQt = $request->input('filhosQt');
