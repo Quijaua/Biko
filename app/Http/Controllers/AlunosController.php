@@ -14,6 +14,7 @@ use App\User;
 use App\AlunoInfoFamiliares;
 use App\PovoIndigena;
 use App\TerraIndigena;
+use App\Acompanhamento;
 use Image;
 use Session;
 use Carbon\Carbon;
@@ -537,6 +538,16 @@ class AlunosController extends Controller
                         ->orderByRaw('LOWER(label) ASC')
                         ->get();
 
+        $acompanhamentos = [];
+        if (in_array($user->role, ['administrador', 'coordenador', 'professor'])) {
+            if ($dados->id_nucleo == env('NUCLEO_AMBIENTE_VIRTUAL')) {
+                $acompanhamentos = Acompanhamento::with('aluno', 'autor')
+                    ->where('aluno_id', $dados->id)
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+            }
+        }
+
         return view('alunos.alunosDetails')->with([
             'user' => $user,
             'dados' => $dados,
@@ -544,6 +555,7 @@ class AlunosController extends Controller
             'familiares' => $familiares,
             'povo_indigenas' => $povosIndigenas,
             'terra_indigenas' => TerraIndigena::all(),
+            'acompanhamentos' => $acompanhamentos,
         ]);
     }
 
@@ -593,6 +605,28 @@ class AlunosController extends Controller
         $aluno->delete();
 
         return redirect('alunos')->with('success', 'Aluno excluído com sucesso.');
+    }
+
+    public function store(Request $request, $aluno_id)
+    {
+        $user = Auth::user();
+        $aluno = Aluno::findOrFail($aluno_id);
+
+        if (!in_array($user->role, ['administrador', 'coordenador', 'professor']) && $aluno->id_nucleo == env('NUCLEO_AMBIENTE_VIRTUAL')) {
+            abort(403, 'Acesso não autorizado.');
+        }
+
+        $request->validate([
+            'comentario' => 'required|string|max:2000',
+        ]);
+
+        Acompanhamento::create([
+            'aluno_id' => $aluno_id,
+            'user_id' => Auth::id(),
+            'comentario' => $request->input('comentario'),
+        ]);
+
+        return back()->with('success', 'Comentário adicionado com sucesso!');
     }
 
 }
