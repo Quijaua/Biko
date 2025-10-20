@@ -33,21 +33,21 @@
             <form action="{{ route('ambiente-virtual.store') }}" method="POST" role="search" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
-                    <div class="col">
+                    <div class="col-12 col-md-4">
                         <div class="mb-3">
                             <label class="form-label mb-2" for="titulo">Título</label>
                             <input type="text" class="form-control" id="titulo" name="titulo" aria-describedby="tituloHelp" placeholder="Título da aula virtual" required>
                         </div>
                     </div>
 
-                    <div class="col">
+                    <div class="col-12 col-md-4">
                         <div class="mb-3">
                             <label class="form-label mb-2" for="imagem_capa">Imagem da capa</label>
                             <input type="file" class="form-control" id="imagem_capa" name="imagem_capa" aria-describedby="imagem_capaHelp" placeholder="Imagem da capa da aula virtual" required>
                         </div>
                     </div>
 
-                    <div class="col">
+                    <div class="col-12 col-md-4">
                         <div class="mb-3">
                             <label class="form-label mb-2" for="class_duration">Duração</label>
                             <input type="text" class="form-control" id="class_duration" name="class_duration" aria-describedby="class_durationHelp" required>
@@ -56,14 +56,14 @@
                 </div>
 
                 <div class="row">
-                    <div class="col">
+                    <div class="col-12 col-md-4">
                         <div class="mb-3">
                             <label class="form-label mb-2" for="yt_url">Link</label>
                             <input type="text" class="form-control" id="yt_url" name="yt_url" aria-describedby="yt_urlHelp" placeholder="Link da aula virtual" required>
                         </div>
                     </div>
 
-                    <div class="col">
+                    <div class="col-12 col-md-4">
                         <div class="mb-3">
                             <label class="form-label mb-2" for="professor_id">Nome do professor</label>
                             <select name="professor_id" class="form-select" required>
@@ -75,7 +75,7 @@
                         </div>
                     </div>
 
-                    <!--div class="col">
+                    <!--div class="col-12 col-md-4">
                         <div class="mb-3">
                             <label class="form-label mb-2" for="disciplina_id">Disciplina</label>
                             <select name="disciplina_id" class="form-select" >
@@ -88,7 +88,7 @@
                             </select>
                         </div>
                     </div-->
-                    <div class="col">
+                    <div class="col-12 col-md-4">
                         <div class="mb-3">
                             <label class="form-label mb-2" for="disciplina_id">Disciplina</label>
                             <select name="disciplina_id" class="form-select" >
@@ -110,10 +110,11 @@
                     </div>
                 </div>
 
+
                 <div class="row">
-                    <div class="col-2">
-                        <button type="submit" class="btn btn-primary">Salvar</button>
-                        <a class="btn btn-outline-primary ms-3" href="{{ route('ambiente-virtual.index') }}">Voltar</a>
+                    <div class="col-12 col-md-4">
+                        <a class="btn btn-outline-primary" href="{{ route('ambiente-virtual.index') }}">Voltar</a>
+                        <button type="submit" class="btn btn-primary ms-6">Salvar</button>
                     </div>
                 </div>
             </form>
