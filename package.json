@@ -14,7 +14,7 @@
     "popper.js": "^1.12",
     "sass": "^1.15.2",
     "sass-loader": "^10.5.2",
-    "vite": "^6.3.6"
+    "vite": "^6.4.1"
   },
   "dependencies": {
     "@vue/compat": "^3.1.0",
