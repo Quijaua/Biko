@@ -99,6 +99,22 @@
                             </select>
                         </div>
                     </div>
+
+                    <div class="col">
+                        <div class="mb-3">
+                            <label class="form-label mb-2" for="peso">Peso</label>
+                            <select name="peso" class="form-select" >
+                                <option value="" selected>Selecione</option>
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="row">

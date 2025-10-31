@@ -100,6 +100,22 @@
                             </select>
                         </div>
                     </div>
+
+                    <div class="col">
+                        <div class="mb-3">
+                            <label class="form-label mb-2" for="peso">Peso</label>
+                            <select name="peso" class="form-select" >
+                                <option value="" selected>Selecione</option>
+                                <option value="0" @if($aula->peso == 0) selected @endif>0</option>
+                                <option value="1" @if($aula->peso == 1) selected @endif>1</option>
+                                <option value="2" @if($aula->peso == 2) selected @endif>2</option>
+                                <option value="3" @if($aula->peso == 3) selected @endif>3</option>
+                                <option value="4" @if($aula->peso == 4) selected @endif>4</option>
+                                <option value="5" @if($aula->peso == 5) selected @endif>5</option>
+                                <option value="6" @if($aula->peso == 6) selected @endif>6</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="row">

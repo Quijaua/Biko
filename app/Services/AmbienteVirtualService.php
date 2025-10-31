@@ -21,7 +21,7 @@ class AmbienteVirtualService
 
     public static function index()
     {
-        return AmbienteVirtual::paginate(10);
+        return AmbienteVirtual::orderBy('peso', 'asc')->paginate(10);
     }
 
     public static function store()
@@ -200,6 +200,7 @@ class AmbienteVirtualService
             'nota' => request('nota'),
             'areas_conhecimento' => request('areas_conhecimento'),
             'disciplina' => request('disciplina'),
+            'peso' => request('peso'),
         ];
     }
 }

@@ -22,6 +22,7 @@ class AmbienteVirtual extends Model implements Auditable
         'professor_id',
         'disciplina_id',
         'class_duration',
+        'peso',
     ];
 
     public function professor()
