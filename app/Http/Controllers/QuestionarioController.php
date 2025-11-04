@@ -168,4 +168,57 @@ class QuestionarioController extends Controller
         $quiz->delete();
         return redirect()->back()->with('success', 'Questionário excluído com sucesso!');
     }
+
+    public function responder(Request $request)
+    {
+        // Lógica para processar as respostas do questionário
+        // Você pode salvar as respostas no banco de dados ou processá-las conforme necessário
+        $quiz = Quiz::find($request->input('quiz_id'));
+        $quizAttemptClass = config('laravel-quiz.models.quiz_attempt', \Harishdurga\LaravelQuiz\Models\QuizAttempt::class);        
+        $quizAttemptAnswerClass = config('laravel-quiz.models.quiz_attempt_answer', \Harishdurga\LaravelQuiz\Models\QuizAttemptAnswer::class);
+        $participant = auth()->user();
+
+        foreach ($request->input('question') as $questionId => $answer) {
+            if(is_array($answer)) {
+                // Múltiplas respostas (checkboxes)
+                foreach ($answer as $ans) {
+                    // Processar cada resposta
+                    // Exemplo: salvar a resposta no banco de dados
+                    $quiz_attempt = $quizAttemptClass::create([
+                        'quiz_id' => $quiz->id,
+                        'participant_id' => $participant->id,
+                        'participant_type' => $participant->role,
+                    ]);
+
+                    $quizAttemptAnswerClass::create(
+                        [
+                            'quiz_attempt_id' => $quiz_attempt->id,
+                            'quiz_question_id' => $questionId,
+                            'question_option_id' => $ans,
+                        ]
+                    );
+                }
+                // continue;
+            } else {
+                // Resposta única (radio buttons ou textarea)
+                // Processar cada resposta
+                // Exemplo: salvar a resposta no banco de dados
+                $quiz_attempt = $quizAttemptClass::create([
+                    'quiz_id' => $quiz->id,
+                    'participant_id' => $participant->id,
+                    'participant_type' => $participant->role,
+                ]);
+
+                $quizAttemptAnswerClass::create(
+                    [
+                        'quiz_attempt_id' => $quiz_attempt->id,
+                        'quiz_question_id' => $questionId,
+                        'question_option_id' => $answer,
+                    ]
+                );
+            }
+        }
+
+        return redirect()->back()->with('success', 'Questionário respondido com sucesso!');
+    }
 }

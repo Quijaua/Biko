@@ -46,7 +46,8 @@ class AmbienteVirtualService
 
     public static function find($id)
     {
-        return AmbienteVirtual::find($id);
+        // dd(AmbienteVirtual::find($id)->load('questionarios'));
+        return AmbienteVirtual::find($id)->load('questionarios');
     }
 
     public static function update($id)

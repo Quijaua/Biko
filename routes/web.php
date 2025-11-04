@@ -266,6 +266,7 @@ Route::group(['prefix' => 'ambiente-virtual'], function () {
     Route::get('questionario/{id}/edit', 'QuestionarioController@edit')->middleware('auth')->name('ambiente-virtual.questionario.edit');
     Route::put('questionario/{id}/update', 'QuestionarioController@update')->middleware('auth')->name('ambiente-virtual.questionario.update');
     Route::delete('questionario/{id}/destroy', 'QuestionarioController@destroy')->middleware('auth')->name('ambiente-virtual.questionario.destroy');
+    Route::post('questionario/responder', 'QuestionarioController@responder')->middleware('auth')->name('ambiente-virtual.questionario.responder');
 });
 Route::resource('/ambiente-virtual', 'AmbienteVirtualController')->middleware('auth')->except(['index']);
 

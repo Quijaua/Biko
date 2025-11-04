@@ -137,4 +137,9 @@ class Aluno extends Model implements Auditable
     {
         return $this->belongsTo('App\TerraIndigena', 'terra_indigenas_id');
     }
+
+    // public function questionarios()
+    // {
+    //     return $this->hasMany('App\Models\QuizAttempt', 'aluno_id');
+    // }
 }
