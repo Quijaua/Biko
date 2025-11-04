@@ -49,4 +49,9 @@ class AmbienteVirtual extends Model implements Auditable
     {
         return $this->hasMany('App\Nota', 'ambiente_virtual_id');
     }
+
+    public function questionarios()
+    {
+        return $this->hasMany('App\Models\Quiz', 'ambiente_virtual_id');
+    }
 }

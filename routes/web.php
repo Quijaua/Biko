@@ -7,6 +7,7 @@ use App\Mail\EmailFormularioCoordenador;
 use App\Mail\EmailFormularioSejaUmProfessor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 
 /*
@@ -259,6 +260,12 @@ Route::group(['prefix' => 'ambiente-virtual'], function () {
     Route::post('assistido/marcar', 'AmbienteVirtualController@marcarAssistido')->middleware('auth')->name('ambiente-virtual.marcar-assistido');
     Route::post('assistido/desmarcar', 'AmbienteVirtualController@desmarcarAssistido')->middleware('auth')->name('ambiente-virtual.desmarcar-assistido');
     Route::any('search', 'AmbienteVirtualController@search')->name('ambiente-virtual/search');
+    Route::get('questionario', 'QuestionarioController@questionario')->middleware('auth')->name('ambiente-virtual.questionario');
+    Route::get('questionario/create/{id}', 'QuestionarioController@create')->middleware('auth')->name('ambiente-virtual.questionario.create');
+    Route::post('questionario/store', 'QuestionarioController@store')->middleware('auth')->name('ambiente-virtual.questionario.store');
+    Route::get('questionario/{id}/edit', 'QuestionarioController@edit')->middleware('auth')->name('ambiente-virtual.questionario.edit');
+    Route::put('questionario/{id}/update', 'QuestionarioController@update')->middleware('auth')->name('ambiente-virtual.questionario.update');
+    Route::delete('questionario/{id}/destroy', 'QuestionarioController@destroy')->middleware('auth')->name('ambiente-virtual.questionario.destroy');
 });
 Route::resource('/ambiente-virtual', 'AmbienteVirtualController')->middleware('auth')->except(['index']);
 

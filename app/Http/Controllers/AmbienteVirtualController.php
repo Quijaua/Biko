@@ -114,5 +114,5 @@ class AmbienteVirtualController extends Controller
     public function search(Request $request)
     {
         return AmbienteVirtualService::search($request);
-    }  
+    }
 }
