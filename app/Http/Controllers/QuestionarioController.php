@@ -12,7 +12,6 @@ class QuestionarioController extends Controller
     public function questionario(Request $request)
     {
         $ambiente_virtual = AmbienteVirtual::find($request->aula)->load('questionarios');
-
         return view('ambiente-virtual.questionario.index')->with([
             'ambiente_virtual' => $ambiente_virtual,
         ]);
@@ -33,8 +32,8 @@ class QuestionarioController extends Controller
             'name' => $request->input('name'),
             'slug' => Str::slug($request->input('name')),
             'description' => $request->input('description'),
-            'total_marks' => $request->input('total_marks') ?? 0,
-            'pass_marks' => $request->input('pass_marks') ?? 0,
+            'total_marks' => $request->input('total_marks') ?? 10,
+            'pass_marks' => $request->input('pass_marks') ?? 6,
             'max_attempts' => $request->input('max_attempts') ?? 0,
             'is_published' => $request->input('is_published') ?? 1,
             'valid_from' => $request->input('valid_from') ?? now(),
@@ -66,7 +65,7 @@ class QuestionarioController extends Controller
             $quizQuestionClass::create([
                 'quiz_id' => $quiz->id,
                 'question_id' => $question->id,
-                'marks' => $questionData['marks'] ?? 0,
+                'marks' => $questionData['marks'] ?? 10 / count($questions),
                 'order' => 0,
                 'negative_marks' => $questionData['negative_marks'] ?? 0,
                 'is_optional' => $questionData['is_optional'] ?? false,
@@ -101,8 +100,8 @@ class QuestionarioController extends Controller
             'name' => $request->input('name'),
             'slug' => Str::slug($request->input('name')),
             'description' => $request->input('description'),
-            'total_marks' => $request->input('total_marks') ?? 0,
-            'pass_marks' => $request->input('pass_marks') ?? 0,
+            'total_marks' => $request->input('total_marks') ?? 10,
+            'pass_marks' => $request->input('pass_marks') ?? 6,
             'max_attempts' => $request->input('max_attempts') ?? 0,
             'is_published' => $request->input('is_published') ?? 1,
             'valid_from' => $request->input('valid_from') ?? now(),
@@ -135,7 +134,7 @@ class QuestionarioController extends Controller
             $quizQuestionClass::create([
                 'quiz_id' => $quiz->id,
                 'question_id' => $question->id,
-                'marks' => $questionData['marks'] ?? 0,
+                'marks' => $questionData['marks'] ?? 10 / count($questions),
                 'order' => 0,
                 'negative_marks' => $questionData['negative_marks'] ?? 0,
                 'is_optional' => $questionData['is_optional'] ?? false,
@@ -178,17 +177,18 @@ class QuestionarioController extends Controller
         $quizAttemptAnswerClass = config('laravel-quiz.models.quiz_attempt_answer', \Harishdurga\LaravelQuiz\Models\QuizAttemptAnswer::class);
         $participant = auth()->user();
 
+        $quiz_attempt = $quizAttemptClass::create([
+            'quiz_id' => $quiz->id,
+            'participant_id' => $participant->id,
+            'participant_type' => 'App\Aluno',
+        ]);
+
         foreach ($request->input('question') as $questionId => $answer) {
             if(is_array($answer)) {
                 // Múltiplas respostas (checkboxes)
                 foreach ($answer as $ans) {
                     // Processar cada resposta
                     // Exemplo: salvar a resposta no banco de dados
-                    $quiz_attempt = $quizAttemptClass::create([
-                        'quiz_id' => $quiz->id,
-                        'participant_id' => $participant->id,
-                        'participant_type' => $participant->role,
-                    ]);
 
                     $quizAttemptAnswerClass::create(
                         [
@@ -198,16 +198,11 @@ class QuestionarioController extends Controller
                         ]
                     );
                 }
-                // continue;
+
             } else {
                 // Resposta única (radio buttons ou textarea)
                 // Processar cada resposta
                 // Exemplo: salvar a resposta no banco de dados
-                $quiz_attempt = $quizAttemptClass::create([
-                    'quiz_id' => $quiz->id,
-                    'participant_id' => $participant->id,
-                    'participant_type' => $participant->role,
-                ]);
 
                 $quizAttemptAnswerClass::create(
                     [

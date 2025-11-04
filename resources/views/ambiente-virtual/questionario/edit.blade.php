@@ -90,7 +90,7 @@
                                         
                                         @if ($question->question->question_type_id == 1 || $question->question->question_type_id == 2)
                                         <label class="form-label options-label">Opções (para múltipla escolha)</label>
-                                        <div class="options-container mb-3" style="/*display: none;*/">
+                                        <div class="options-container mb-3">
                                             <div class="options-list">
                                                 @foreach ($question->question->options as $key => $option)
                                                 <div class="input-group mb-2">
