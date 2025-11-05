@@ -267,6 +267,11 @@
                                 @endforeach
                                 <button id="btnEnviarQuestionario" form="formResponderQuestionario" type="submit" class="btn btn-primary mt-2">Responder</button>
                             </form>
+                            <div class="row mt-3 d-none" id="quest_alert">
+                                <div class="col-12 m-auto">
+                                    <div id="quest_message" class="alert alert-success text-center" role="alert"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -322,6 +327,42 @@
             }
         })
     })
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#formResponderQuestionario').on('submit', function(e) {
+            e.preventDefault()
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                success: function(response) {
+                    $('#btnEnviarQuestionario').hide();
+                    $('#quest_message').addClass('alert-success');
+                    $('#quest_message').text('Questionário respondido com sucesso!');
+                    $('#quest_alert').removeClass('d-none');
+                   
+                    Object.entries(response.correct_answers).forEach(questionItem => {
+                        const questionId = questionItem[0];
+                        const correctOptions = questionItem[1];
+                        correctOptions.forEach(opt =>  {
+                            // Destaca a resposta correta em verde
+                            $('#formResponderQuestionario').find(`input[name="question[${questionId}]"][value="${opt}"]`).attr('disabled','disabled').parent().css('font-weight', 'bold').css('color', 'green').append('(Resposta correta)');
+                            // Destaca as respostas incorretas em vermelho
+                            $('#formResponderQuestionario').find(`input[name="question[${questionId}]"]`).not(`[value="${opt}"]`).attr('disabled','disabled').parent().css('color', 'red');
+                        });
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error submitting form:', error);
+                }
+            });
+        });
+    });
 </script>
 @endsection
 

@@ -218,6 +218,14 @@ class QuestionarioController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', 'Questionário respondido com sucesso!');
+        $correctAnswers = $quiz->questions()->with('question.options')->get()->mapWithKeys(function ($quizQuestion) {
+            $correctOptions = $quizQuestion->question->options->where('is_correct', true)->pluck('id');
+            return [$quizQuestion->id => $correctOptions];
+        });
+
+        return response()->json([
+            'success' => true, 'message' => 'Questionário respondido com sucesso!',
+            'correct_answers' => $correctAnswers,
+        ]);
     }
 }
