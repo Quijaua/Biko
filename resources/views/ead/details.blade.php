@@ -63,6 +63,19 @@
 
                     <div class="col-12 col-md-3">
                         <div class="mb-3">
+                            <label class="form-label mb-2" for="semestre">Semestre</label>
+                            <select class="form-select" aria-label="Default select example" name="semestre" id="semestre" disabled>
+                                <option value="02/2024" @if($ead->semestre == '02/2024') selected @endif>02/2024</option>
+                                <option value="01/2025" @if($ead->semestre == '01/2025') selected @endif>01/2025</option>
+                                <option value="02/2025" @if($ead->semestre == '02/2025') selected @endif>02/2025</option>
+                                <option value="01/2026" @if($ead->semestre == '01/2026') selected @endif>01/2026</option>
+                                <option value="02/2026" @if($ead->semestre == '02/2026') selected @endif>02/2026</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-3">
+                        <div class="mb-3">
                             <label class="form-label mb-2" for="descricao">Descrição</label>
                             <input type="text" class="form-control" id="descricao" name="descricao" aria-describedby="descricaoHelp" value="{{ $ead->descricao }}" disabled>
                         </div>

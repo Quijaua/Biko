@@ -63,6 +63,19 @@
 
                     <div class="col-12 col-md-3">
                         <div class="mb-3">
+                            <label class="form-label mb-2" for="semestre">Semestre</label>
+                            <select class="form-select" aria-label="Default select example" name="semestre" id="semestre">
+                                <option value="02/2024">02/2024</option>
+                                <option value="01/2025">01/2025</option>
+                                <option value="02/2025">02/2025</option>
+                                <option value="01/2026">01/2026</option>
+                                <option value="02/2026">02/2026</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-3">
+                        <div class="mb-3">
                             <label class="form-label mb-2" for="descricao">Descrição</label>
                             <input type="text" class="form-control" id="descricao" name="descricao" aria-describedby="descricaoHelp" required>
                         </div>

@@ -14,6 +14,7 @@ class ead extends Model
         'hora_inicio',
         'hora_fim',
         'descricao',
+        'semestre',
         'link',
         'material_apoio',
         'tipo',
