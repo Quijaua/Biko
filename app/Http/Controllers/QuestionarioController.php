@@ -27,6 +27,8 @@ class QuestionarioController extends Controller
 
     public function store(Request $request)
     {
+        $aula_id = $request->input('ambiente_virtual_id');
+
         $quiz_data = [
             'ambiente_virtual_id' => $request->input('ambiente_virtual_id'),
             'name' => $request->input('name'),
@@ -81,7 +83,8 @@ class QuestionarioController extends Controller
                 }
             }
         }
-        return redirect()->back()->with('success', 'Questionário criado com sucesso!');
+
+        return redirect()->route('ambiente-virtual.questionario', ['aula' => $aula_id])->with('success', 'Questionário criado com sucesso!');
     }
 
     public function edit($id)
@@ -95,6 +98,7 @@ class QuestionarioController extends Controller
 
     public function update(Request $request, $id)
     {
+        $aula_id = $request->input('ambiente_virtual_id');
         $quiz_data = [
             'ambiente_virtual_id' => $request->input('ambiente_virtual_id'),
             'name' => $request->input('name'),
@@ -151,7 +155,7 @@ class QuestionarioController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', 'Questionário atualizado com sucesso!');
+        return redirect()->route('ambiente-virtual.questionario', ['aula' => $aula_id])->with('success', 'Questionário atualizado com sucesso!');
     }
 
     public function destroy($id)
