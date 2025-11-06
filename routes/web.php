@@ -282,6 +282,7 @@ Route::group(['prefix' => 'ead', 'middleware' => ['auth', 'restrict.professor']]
     Route::get('/remove_material', 'EadController@remove_material')->name('ead.remove_material');
     Route::post('/register/store', 'EadController@registerStore')->name('ead.register-store');
     Route::get('/participantes/{id}', 'EadController@participantes')->name('ead.participantes');
+    Route::get('/participacao', 'EadController@participacao')->name('ead.participacao');
 });
 Route::get('/aula-programa-esperanca-garcia', 'EadController@register')->name('ead.register');
 

@@ -129,10 +129,45 @@ class EadController extends Controller
     {
         $eads = ead::find($id);
         $participantes = $eads->inscritos()->paginate(10);
-        // dd($participantes);
         return view('ead.participantes')->with([
             'eads' => $eads,
             'participantes' => $participantes
+        ]);
+    }
+
+    public function participacao()
+    {
+        $eads = Ead::query()
+            ->select('semestre', 'tipo', DB::raw('ANY_VALUE(id) as id'))
+            ->groupBy(['semestre', 'tipo'])
+            ->get();
+
+        $counters_tipo = [];
+        $counters_participantes = [];
+
+        foreach ($eads as $ead) {
+            if (!isset($counters_tipo[$ead->tipo])) {
+                $counters_tipo[$ead->tipo] = 0;
+            }
+            $counters_tipo[$ead->tipo]++;
+
+            foreach ($ead->inscritos as $inscrito) {
+                if (!isset($counters_participantes[$inscrito->id])) {
+                    $counters_participantes[$inscrito->id] = [
+                        'participation' => []
+                    ];
+                }
+                if (!isset($counters_participantes[$inscrito->id]['participation'][$ead->tipo])) {
+                    $counters_participantes[$inscrito->id]['participation'][$ead->tipo] = 0;
+                }
+                $counters_participantes[$inscrito->id]['participation'][$ead->tipo]++;
+            }
+        }
+
+        return view('ead.participacao')->with([
+            'counters_tipo' => $counters_tipo,
+            'counters_participantes' => $counters_participantes,
+            'eads' => $eads
         ]);
     }
 }
