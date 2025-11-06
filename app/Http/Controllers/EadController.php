@@ -144,12 +144,18 @@ class EadController extends Controller
 
         $counters_tipo = [];
         $counters_participantes = [];
+        $nucleo_ambiente_virtual = config('global.nucleo_ambiente_virtual');
 
         foreach ($eads as $ead) {
             if (!isset($counters_tipo[$ead->tipo])) {
                 $counters_tipo[$ead->tipo] = 0;
             }
             $counters_tipo[$ead->tipo]++;
+
+            // Filtra somente os alunos inscritos no núcleo virtual especificado
+            $ead->inscritos = $ead->inscritos->filter(function ($inscrito) use ($nucleo_ambiente_virtual) {
+                return $inscrito->aluno->id_nucleo == $nucleo_ambiente_virtual;
+            });
 
             foreach ($ead->inscritos as $inscrito) {
                 if (!isset($counters_participantes[$inscrito->id])) {
