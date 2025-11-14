@@ -1,12 +1,7 @@
+@extends('layouts.app')
+@inject('session', 'Session')
+@section('content')
 
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Controle de Rendimento Acadêmico</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
             background-color: #f8f9fa;
@@ -130,8 +125,7 @@
             margin-top: 0.5rem;
         }
     </style>
-</head>
-<body>
+
     <header class="header">
         <div class="container">
             <div class="row align-items-center">
@@ -204,6 +198,7 @@
                                         <th scope="col">Palestras</th>
                                         <th scope="col">Encontros Pedagógicos</th>
                                         <th scope="col">Encontros GARCIA</th>
+                                        <th scope="col">Aulas síncronas</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -252,6 +247,23 @@
                                                 // Cálculo de porcentagem pode ser ajustado conforme necessário
                                                 $participation = isset($counters_participantes[$inscrito->id]['participation']['Encontros GARCIA']) ? $counters_participantes[$inscrito->id]['participation']['Encontros GARCIA'] : 0;
                                                 $total = isset($counters_tipo['Encontros GARCIA']) ? $counters_tipo['Encontros GARCIA'] : 0;
+                                                $percentage = $total > 0 ? ($participation / $total) * 100 : 0;
+                                            @endphp
+                                             <span class="badge badge-performance
+                                                @if($percentage < 50) performance-d @endif
+                                                @if($percentage >= 50 && $percentage < 75) performance-b @endif
+                                                @if($percentage >= 75) performance-a @endif
+                                             ">
+                                                ({{ round($percentage) }}%)
+                                            </span>
+                                        </td>
+                                        <td>{{ isset($counters_participantes[$inscrito->id]['participation']['Aulas síncronas']) ? $counters_participantes[$inscrito->id]['participation']['Aulas síncronas'] : 0 }}
+                                            /
+                                            {{ isset($counters_tipo['Aulas síncronas']) ? $counters_tipo['Aulas síncronas'] : 0 }}
+                                            @php
+                                                // Cálculo de porcentagem pode ser ajustado conforme necessário
+                                                $participation = isset($counters_participantes[$inscrito->id]['participation']['Aulas síncronas']) ? $counters_participantes[$inscrito->id]['participation']['Aulas síncronas'] : 0;
+                                                $total = isset($counters_tipo['Aulas síncronas']) ? $counters_tipo['Aulas síncronas'] : 0;
                                                 $percentage = $total > 0 ? ($participation / $total) * 100 : 0;
                                             @endphp
                                              <span class="badge badge-performance
@@ -317,5 +329,4 @@
         // Chama a função de atualização quando uma aba é ativada
         document.addEventListener('shown.bs.tab', updateStats);
     </script>
-</body>
-</html>
+@endsection

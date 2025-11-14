@@ -102,6 +102,7 @@
                                 <option value="Palestras" @if($ead->tipo == 'Palestras') selected @endif >Palestras</option>
                                 <option value="Encontros pedagógicos" @if($ead->tipo == 'Encontros pedagógicos') selected @endif >Encontros pedagógicos</option>
                                 <option value="Encontros GARCIA" @if($ead->tipo == 'Encontros GARCIA') selected @endif >Encontros GARCIA</option>
+                                <option value="Encontros GARCIA" @if($ead->tipo == 'Aulas síncronas') selected @endif >Aulas síncronas</option>
                             </select>
                         </div>
                     </div>

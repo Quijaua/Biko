@@ -102,6 +102,7 @@
                                 <option value="Palestras">Palestras</option>
                                 <option value="Encontros pedagógicos">Encontros pedagógicos</option>
                                 <option value="Encontros GARCIA">Encontros GARCIA</option>
+                                <option value="Aulas síncronas">Aulas síncronas</option>
                             </select>
                         </div>
                     </div>
