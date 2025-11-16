@@ -491,18 +491,20 @@
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" type="radio" name="inputBolsista"
                                                     id="bolsistaSim" value="Sim"
-						@if (!empty($dados) && $dados->Bolsista === 'Sim')
-							checked
-						@endif>
+@if (!empty($dados) && $dados->Bolsista === 'Sim')
+    checked
+@endif>
+
                                                 <label class="form-check-label" for="bolsistaSim">Sim</label>
                                             </div>
 
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" type="radio" name="inputBolsista"
                                                     id="bolsistaNao" value="Não"
-							@if (!empty($dados) && $dados->Bolsista === 'Não')
-							    checked
-							@endif>
+@if (!empty($dados) && $dados->Bolsista === 'Não')
+    checked
+@endif>
+
                                                 <label class="form-check-label" for="bolsistaNao">Não</label>
                                             </div>
                                         </div>
