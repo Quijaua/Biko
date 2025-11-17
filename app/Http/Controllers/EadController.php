@@ -138,8 +138,8 @@ class EadController extends Controller
     public function participacao()
     {
         $eads = Ead::query()
-            ->select('semestre', 'tipo', DB::raw('MIN(id) as id'))
-            ->groupBy(['semestre', 'tipo'])
+            ->select('semestre', DB::raw('MIN(tipo) as tipo'), DB::raw('MIN(id) as id'))
+            ->groupBy(['semestre'])
             ->get();
 
         $counters_tipo = [];
