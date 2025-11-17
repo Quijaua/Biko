@@ -38,6 +38,8 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
+                        @php //dd($evento) @endphp
+                        <p><strong>Aula: {{  $evento->titulo ?? "Sem título" }} - {{ $evento->data->format('d/m/Y') }}</strong></p>
                         <p>Programa Esperança Garcia: Lista de Presença do Módulo 2 | Pedagógico</p>
                         <p>Esse é o link fixo das atividades síncronas do módulo 2 da área pedagógica do Programa Esperança Garcia.</p>
                         <p>O preenchimento do formulário é obrigatório para cômputo da presença na atividade em conformidade com o Termo de Compromisso.</p>
