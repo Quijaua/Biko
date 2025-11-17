@@ -88,7 +88,7 @@
                         </div>
                     </div>
 
-                    <div class="col-12 col-md-3">
+                    <div class="col-12 col-md-12">
                         <div class="mb-3">
                             <label class="form-label mb-2" for="material_apoio">Material de Apoio</label>
                             <input type="file" class="form-control" id="material_apoio" name="material_apoio" aria-describedby="material_apoioHelp" >
@@ -120,6 +120,9 @@
 </div>
 
 <script src="{{ asset('js/jquery.mask.min.js') }}"></script>
+<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+<link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+<script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
 
 <script>
     $(document).ready(function() {
@@ -141,6 +144,21 @@
             }
         })
 
+        FilePond.registerPlugin(FilePondPluginFileValidateType);
+        const inputElement = document.querySelector('input[type="file"]');
+        const pond = FilePond.create(inputElement, {
+            labelIdle: 'Arraste o arquivo aqui ou <span class="filepond--label-action">Procurar</span>',
+            credits: false,
+            acceptedFileTypes: ['application/pdf', 'image/jpeg', 'image/png'],
+            labelFileTypeNotAllowed: 'Formato de arquivo inválido',
+            allowMultiple: false,
+            server: {
+                url: "{{ route('ead.upload') }}",
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            }
+        });
     })
 </script>
 @endsection

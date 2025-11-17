@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\ead;
@@ -38,11 +40,17 @@ class EadController extends Controller
         $ead = ead::create($request->except(['_token', 'material_apoio']));
 
         // Verifica se existe upload de arquivos e salva
-        if ($request->hasFile('material_apoio')) {
-            $file = $request->file('material_apoio');
-            $fileName = time() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
-            $file->move(public_path('eads' . '/' . $ead->id . '/'), $fileName);
-            $ead->material_apoio = $fileName;
+        // if ($request->hasFile('material_apoio')) {
+        if ($request->material_apoio) {
+            // $file = $request->file('material_apoio');
+            // $fileName = time() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
+            // $file->move(public_path('eads' . '/' . $ead->id . '/'), $fileName);
+            // $ead->material_apoio = $fileName;
+            // $ead->save();
+            $tmpFile = Storage::disk('public')->get('eads/tmp/' . $request->material_apoio);
+            $file = Storage::disk('public')->get('eads/tmp/' . $request->material_apoio);
+            Storage::move('eads/tmp/' . $request->material_apoio, 'eads/' . $ead->id . '/' . $request->material_apoio);
+            $ead->material_apoio = $request->material_apoio;
             $ead->save();
         }
 
@@ -59,16 +67,17 @@ class EadController extends Controller
     {
         $ead = ead::find($id);
         // Verifica se existe upload de arquivos e salva
-        if ($request->hasFile('material_apoio')) {
+        if ($request->material_apoio) {
             // Verifica se existe material de apoio e deleta
             if ($ead->material_apoio) {
                 unlink(public_path('eads' . '/' . $ead->id . '/' . $ead->material_apoio));
             }
-            $file = $request->file('material_apoio');
-            $fileName = time() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
-            $file->move(public_path('eads' . '/' . $ead->id . '/'), $fileName);
-            $ead->material_apoio = $fileName;
+            $tmpFile = Storage::disk('public')->get('eads/tmp/' . $request->material_apoio);
+            $file = Storage::disk('public')->get('eads/tmp/' . $request->material_apoio);
+            Storage::move('eads/tmp/' . $request->material_apoio, 'eads/' . $ead->id . '/' . $request->material_apoio);
+            $ead->material_apoio = $request->material_apoio;
             $ead->save();
+            Storage::disk('public')->delete('eads/tmp/' . $request->material_apoio);
         }
 
         $ead->update($request->except([ '_token', 'material_apoio' ]));
@@ -87,7 +96,7 @@ class EadController extends Controller
     {
         $ead = ead::find($request->ead_id);
         $file = $ead->material_apoio;
-        unlink(public_path('eads/' . $ead->id . '/' . $file));
+        Storage::disk('public')->delete('eads/' . $ead->id . '/' . $file);
         $ead->material_apoio = null;
         $ead->save();
         return response()->json(['success' => 'Material de apoio removido com sucesso!']);
@@ -175,5 +184,14 @@ class EadController extends Controller
             'counters_participantes' => $counters_participantes,
             'eads' => $eads
         ]);
+    }
+
+    public function upload(Request $request)
+    {
+        $tmpFile = $request->file('material_apoio');
+        $path = Storage::disk('public')->path('eads/tmp');
+        $fileName = time() . '_' . preg_replace('/\s+/', '_', $tmpFile->getClientOriginalName());
+        $tmpFile->move($path, $fileName);
+        return $fileName;
     }
 }

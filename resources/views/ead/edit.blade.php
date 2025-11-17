@@ -30,7 +30,7 @@
     @endif
     <div class="row">
         <div class="col-12">
-            <form action="{{ route('ead.update', $ead->id) }}" method="POST" role="search" enctype="multipart/form-data">
+            <form id="ead-form" action="{{ route('ead.update', $ead->id) }}" method="POST" role="search" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-12 col-md-3">
@@ -88,7 +88,7 @@
                         </div>
                     </div>
 
-                    <div class="col-12 col-md-3">
+                    <div class="col-12 col-md-12">
                         <div class="mb-3">
                             <label class="form-label mb-2" for="material_apoio">Material de Apoio</label>
                             <input type="file" class="form-control" id="material_apoio" name="material_apoio" aria-describedby="material_apoioHelp" >
@@ -110,7 +110,7 @@
                     @if($ead->material_apoio)
                     <div class="col-12">
                         <div class="mb-3">
-                            <a href="{{ asset('eads/' . $ead->id . '/' . $ead->material_apoio) }}" target="_blank">{{  $ead->material_apoio }}</a>
+                            <a href="{{ asset('storage/eads/' . $ead->id . '/' . $ead->material_apoio) }}" target="_blank">{{  $ead->material_apoio }}</a>
                             <span id="remove_material" class="text-danger px-2" style="cursor: pointer;" data-id="{{ $ead->id }}">
                                 <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-dashed-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8.56 3.69a9 9 0 0 0 -2.92 1.95" /><path d="M3.69 8.56a9 9 0 0 0 -.69 3.44" /><path d="M3.69 15.44a9 9 0 0 0 1.95 2.92" /><path d="M8.56 20.31a9 9 0 0 0 3.44 .69" /><path d="M15.44 20.31a9 9 0 0 0 2.92 -1.95" /><path d="M20.31 15.44a9 9 0 0 0 .69 -3.44" /><path d="M20.31 8.56a9 9 0 0 0 -1.95 -2.92" /><path d="M15.44 3.69a9 9 0 0 0 -3.44 -.69" /><path d="M14 14l-4 -4" /><path d="M10 14l4 -4" /></svg>
                             </span>
@@ -131,6 +131,9 @@
 </div>
 
 <script src="{{ asset('js/jquery.mask.min.js') }}"></script>
+<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+<link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+<script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
 
 <script>
     $(document).ready(function() {
@@ -156,7 +159,7 @@
             let id = $(this).attr('data-id');
 
             $.ajax({
-                url: '{{ route('ead.remove_material') }}',
+                url: "{{ route('ead.remove_material') }}",
                 method: 'GET',
                 data: {
                     _token: '{{ csrf_token() }}',
@@ -167,6 +170,22 @@
                 }
             })
         })
+
+        FilePond.registerPlugin(FilePondPluginFileValidateType);
+        const inputElement = document.querySelector('input[type="file"]');
+        const pond = FilePond.create(inputElement, {
+            labelIdle: 'Arraste o arquivo aqui ou <span class="filepond--label-action">Procurar</span>',
+            credits: false,
+            acceptedFileTypes: ['application/pdf', 'image/jpeg', 'image/png'],
+            labelFileTypeNotAllowed: 'Formato de arquivo inválido',
+            allowMultiple: false,
+            server: {
+                url: "{{ route('ead.upload') }}",
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            }
+        });
     })
 </script>
 @endsection

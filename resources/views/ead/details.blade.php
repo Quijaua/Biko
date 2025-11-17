@@ -104,7 +104,7 @@
                     @if($ead->material_apoio)
                     <div class="col-12">
                         <div class="mb-3">
-                            <a href="{{ asset('eads/' . $ead->id . '/' . $ead->material_apoio) }}" target="_blank">{{  $ead->material_apoio }}</a>
+                            <a href="{{ asset('storage/eads/' . $ead->id . '/' . $ead->material_apoio) }}" target="_blank">{{  $ead->material_apoio }}</a>
                         </div>
                     </div>
                     @endif
