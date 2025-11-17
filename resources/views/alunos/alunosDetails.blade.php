@@ -64,6 +64,13 @@
                                 <a class="btn btn-primary" href="/alunos/edit/{{ $dados->id }}"><i
                                         class="me-2 fas fa-user-edit"></i> Editar Dados</a>
                             </div>
+                            <div>
+                                <form action="{{  route('alunos/delete', ['id' => $dados->id]) }}" method="POST" id="deleteForm">
+                                    @method('DELETE')
+                                    @csrf
+                                    <button class="btn btn-danger" type="submit"><i class="me-2 fas fa-user-times"></i> Excluir</button>
+                                </form>
+                            </div>
                             @endif
                         </div>
                     </div>

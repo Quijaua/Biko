@@ -200,7 +200,7 @@ Route::post('alunos/familiares/update/{id}', 'AlunoInfoFamiliaresController@upda
 Route::post('alunos/familiares/delete/{id}', 'AlunoInfoFamiliaresController@delete')->name('alunos/familiares/delete');
 Route::get('alunos/export/', 'AlunosController@export')->name('alunos/export/');
 Route::get('alunos/log/{id}', 'AlunosController@logActionView')->name('alunos/log');
-Route::delete('alunos/delete/{id}', 'AlunosController@delete')->name('permissions');
+Route::delete('alunos/delete/{id}', 'AlunosController@delete')->name('alunos/delete');
 Route::post('alunos/acompanhamento/{id}', 'AlunosController@store')->middleware('permissions');
 
 // ROUTES FOR COORDENADORES MANAGEMENT
