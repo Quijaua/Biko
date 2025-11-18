@@ -66,12 +66,12 @@
                             </div>
                             <div>
                                 <button
-                                    class="btn btn-danger" type="button"><i class="me-2 fas fa-user-times"
+                                    class="btn btn-danger" type="button"
                                     onclick="
                                     e => e.preventDefault(); modalShow('Excluir aluno', 'Tem certeza que deseja excluir esse aluno?', 'danger', e => document.getElementById('deleteForm').submit());
                                 "
                                 >
-                                    </i> Excluir
+                                    <i class="me-2 fas fa-user-times"></i> Excluir
                                 </button>
                                 <form action="{{  route('alunos/delete', ['id' => $dados->id]) }}" method="POST" id="deleteForm">
                                     @method('DELETE')

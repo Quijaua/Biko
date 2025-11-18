@@ -57,6 +57,7 @@
                                     onclick="
                                         e => e.preventDefault(); modalShow('Excluir aluno', 'Tem certeza que deseja excluir esse aluno?', 'danger', e => document.getElementById('delete-nucleo-form').submit());
                                     ">
+                                    <i class="me-2 fas fa-user-times"></i>
                                     Excluir Aluno
                                 </button>
                                 <form id="delete-nucleo-form"
