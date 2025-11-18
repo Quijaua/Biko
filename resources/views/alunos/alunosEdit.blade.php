@@ -55,8 +55,7 @@
                                     type="button"
                                     class="btn btn-danger"
                                     onclick="
-                                        if (!confirm('Tem certeza que deseja excluir este Aluno?')) return;
-                                        document.getElementById('delete-nucleo-form').submit();
+                                        e => e.preventDefault(); modalShow('Excluir aluno', 'Tem certeza que deseja excluir esse aluno?', 'danger', e => document.getElementById('delete-nucleo-form').submit());
                                     ">
                                     Excluir Aluno
                                 </button>

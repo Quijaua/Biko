@@ -65,10 +65,17 @@
                                         class="me-2 fas fa-user-edit"></i> Editar Dados</a>
                             </div>
                             <div>
+                                <button
+                                    class="btn btn-danger" type="button"><i class="me-2 fas fa-user-times"
+                                    onclick="
+                                    e => e.preventDefault(); modalShow('Excluir aluno', 'Tem certeza que deseja excluir esse aluno?', 'danger', e => document.getElementById('deleteForm').submit());
+                                "
+                                >
+                                    </i> Excluir
+                                </button>
                                 <form action="{{  route('alunos/delete', ['id' => $dados->id]) }}" method="POST" id="deleteForm">
                                     @method('DELETE')
                                     @csrf
-                                    <button class="btn btn-danger" type="submit"><i class="me-2 fas fa-user-times"></i> Excluir</button>
                                 </form>
                             </div>
                             @endif
