@@ -32,36 +32,22 @@
         <div class="col-12">
             <form action="{{ route('ead.store') }}" method="POST" role="search" enctype="multipart/form-data">
                 @csrf
-                <div class="row">
-                    <div class="col-12 col-md-3">
+                <div class="row p-2">
+                    <div class="col-12 col-md-4">
                         <div class="mb-3">
                             <label class="form-label mb-2" for="titulo">Título</label>
                             <input type="text" class="form-control" id="titulo" name="titulo" aria-describedby="tituloHelp" placeholder="Título do evento" required>
                         </div>
                     </div>
 
-                    <div class="col-12 col-md-3">
+                    <div class="col-6 col-md-2">
                         <div class="mb-3">
                             <label class="form-label mb-2" for="data">Data</label>
                             <input type="date" class="form-control" id="data" name="data" aria-describedby="tituloHelp" required>
                         </div>
                     </div>
 
-                    <div class="col-12 col-md-3">
-                        <div class="mb-3">
-                            <label class="form-label mb-2" for="hora_inicio">Horário de inicio</label>
-                            <input type="text" class="form-control" id="hora_inicio" name="hora_inicio" aria-describedby="hora_inicioHelp" required>
-                        </div>
-                    </div>
-
-                    <div class="col-12 col-md-3">
-                        <div class="mb-3">
-                            <label class="form-label mb-2" for="hora_fim">Horário de término</label>
-                            <input type="text" class="form-control" id="hora_fim" name="hora_fim" aria-describedby="hora_fimHelp" required>
-                        </div>
-                    </div>
-
-                    <div class="col-12 col-md-3">
+                    <div class="col-6 col-md-2">
                         <div class="mb-3">
                             <label class="form-label mb-2" for="semestre">Semestre</label>
                             <select class="form-select" aria-label="Default select example" name="semestre" id="semestre">
@@ -71,6 +57,20 @@
                                 <option value="01/2026">01/2026</option>
                                 <option value="02/2026">02/2026</option>
                             </select>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-2">
+                        <div class="mb-3">
+                            <label class="form-label mb-2" for="hora_inicio">Horário de inicio</label>
+                            <input type="text" class="form-control" id="hora_inicio" name="hora_inicio" aria-describedby="hora_inicioHelp" required>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-2">
+                        <div class="mb-3">
+                            <label class="form-label mb-2" for="hora_fim">Horário de término</label>
+                            <input type="text" class="form-control" id="hora_fim" name="hora_fim" aria-describedby="hora_fimHelp" required>
                         </div>
                     </div>
 
@@ -88,13 +88,6 @@
                         </div>
                     </div>
 
-                    <div class="col-12 col-md-12">
-                        <div class="mb-3">
-                            <label class="form-label mb-2" for="material_apoio">Material de Apoio</label>
-                            <input type="file" class="form-control" id="material_apoio" name="material_apoio" aria-describedby="material_apoioHelp" >
-                        </div>
-                    </div>
-
                     <div class="col-12 col-md-3">
                         <div class="mb-3">
                             <label class="form-label mb-2" for="tipo">Tipo</label>
@@ -106,12 +99,21 @@
                             </select>
                         </div>
                     </div>
+
+
+                    <div class="col-12 col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label mb-2" for="material_apoio">Material de Apoio</label>
+                            <input type="file" class="form-control" id="material_apoio" name="material_apoio" aria-describedby="material_apoioHelp" >
+                        </div>
+                    </div>
+
                 </div>
 
-                <div class="row">
+                <div class="row p-2">
                     <div class="col-12 col-md-3">
-                        <button type="submit" class="btn btn-primary">Salvar</button>
-                        <a class="btn btn-outline-primary ms-3" href="{{ route('ead.index') }}">Voltar</a>
+                        <a class="btn btn-outline-primary" href="{{ route('ead.index') }}">Voltar</a>
+                        <button type="submit" class="btn btn-primary ms-3">Salvar</button>
                     </div>
                 </div>
             </form>

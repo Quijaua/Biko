@@ -65,8 +65,7 @@
                             <tr>
                             <th class="text-nowrap text-black py-3">Título</th>
                             <th class="text-nowrap text-black py-3">Data</th>
-                            <th class="text-nowrap text-black py-3">Horário Inicial</th>
-                            <th class="text-nowrap text-black py-3">Horário Final</th>
+                            <th class="text-nowrap text-black py-3">Tipos</th>
                             <th class="text-nowrap text-black py-3">Inscritos</th>
                             <th class="text-nowrap text-black py-3">Ações</th>
                             </tr>
@@ -83,14 +82,8 @@
                                 {{-- Data --}}
                                 <td>{{ $ead->data->format('d/m/Y') }}</td>
 
-                                {{-- Horario inicio --}}
                                 <td>
-                                    {{ $ead->hora_inicio }}
-                                </td>
-
-                                {{-- Horario fim --}}
-                                <td>
-                                    {{ $ead->hora_fim }}
+                                    {{ $ead->tipo }}
                                 </td>
 
                                 {{-- Inscritos --}}
