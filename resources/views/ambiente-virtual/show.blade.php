@@ -234,14 +234,16 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="questionarioModalLabel">{{ $aula->titulo }} ({{  $aula->questionarios->first()->name  }})</h1>
+                            <h1 class="modal-title fs-5" id="questionarioModalLabel">{{ $aula->titulo }} ({{  $aula->questionarios->first()->name ?? '' }})</h1>
+
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <form id="formResponderQuestionario" action="{{ route('ambiente-virtual.questionario.responder') }}" method="POST">
                                 @csrf
-                                <input type="hidden" name="quiz_id" value="{{ $aula->questionarios->first()->id }}" />
-                                @foreach($aula->questionarios->first()->questions as $question)
+                                <input type="hidden" name="quiz_id" value="{{ $aula->questionarios->first()->id ?? '' }}" />
+				@if ($aula->questionario && $aula->questionario->questions->isNotEmpty())
+                                	@foreach($aula->questionarios->first()->questions as $question)
                                 <p><strong>Pergunta</strong>: {{ $question->question->name }}</p>
                                 @if($question->question->options)
                                     <p>Op√ß√µes:</p>
@@ -263,8 +265,12 @@
                                         @endif
                                     @endforeach
                                 @endif
+øº
+
                                 <hr>
                                 @endforeach
+				@endif
+
                                 <button id="btnEnviarQuestionario" form="formResponderQuestionario" type="submit" class="btn btn-primary mt-2">Responder</button>
                             </form>
                             <div class="row mt-3 d-none" id="quest_alert">
