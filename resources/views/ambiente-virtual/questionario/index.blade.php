@@ -62,10 +62,10 @@
                     <strong>Participantes que responderam ao questionário:</strong>
                     <div class="row">
                         <div class="col mt-2">
-                            @if($ambiente_virtual->questionarios->count() > 0)
+                            @if(!$ambiente_virtual->questionarios->first()->attempts->isEmpty())
                                 @foreach($ambiente_virtual->questionarios as $questionario)
                                     @foreach($questionario->attempts as $attempt)
-                                        <p>{{ $attempt->participant->NomeAluno }} - Score: {{ $attempt->calculate_score() }} - Data: {{ $attempt->created_at->format('d/m/Y') }}</p>
+                                        <p>{{ $attempt->participant->NomeAluno ?? 'N/A' }} - Score: {{ $attempt->calculate_score() }} - Data: {{ $attempt->created_at->format('d/m/Y') }}</p>
                                     @endforeach
                                 @endforeach
                             @else

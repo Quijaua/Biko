@@ -83,7 +83,7 @@
                         <button type="submit" form="formDesmarcarAssistido" class="btn btn-secondary mt-2" >Desmarcar como assistido</button>
                         @endif
                         @endif
-                        @if($aula->questionarios)
+                        @if($aula->questionarios->isNotEmpty())
                         <!-- trigger para responder questionario -->
                         <button class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#questionarioModal">Responder Questionário</button>
                         @endif
@@ -235,41 +235,40 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="questionarioModalLabel">{{ $aula->titulo }} ({{  $aula->questionarios->first()->name ?? '' }})</h1>
-
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <form id="formResponderQuestionario" action="{{ route('ambiente-virtual.questionario.responder') }}" method="POST">
                                 @csrf
-                                <input type="hidden" name="quiz_id" value="{{ $aula->questionarios->first()->id ?? '' }}" />
-				@if ($aula->questionario && $aula->questionario->questions->isNotEmpty())
-                                	@foreach($aula->questionarios->first()->questions as $question)
-                                <p><strong>Pergunta</strong>: {{ $question->question->name }}</p>
-                                @if($question->question->options)
-                                    <p>Opções:</p>
-                                    @foreach($question->question->options as $option)
-                                        @if($question->question->question_type_id == 1)
-                                            <label>
-                                                <input class type="radio" name="question[{{ $question->question->id }}]" value="{{ $option->id }}" required>
-                                                {{ $option->name }}
-                                            </label><br>
+                                <!-- <input type="hidden" name="quiz_id" value="{{ $aula->questionarios->first()->id ?? '' }}" /> -->
+                                @if ($aula->questionarios->isNotEmpty())
+                                    <input type="hidden" name="quiz_id" value="{{ $aula->questionarios->first()->id }}" />
+                                    @foreach($aula->questionarios->first()->questions as $question)
+                                        <p><strong>Pergunta</strong>: {{ $question->question->name }}</p>
+                                        @if($question->question->options)
+                                            <p>Opções:</p>
+                                            @foreach($question->question->options as $option)
+                                                @if($question->question->question_type_id == 1)
+                                                    <label>
+                                                        <input class type="radio" name="question[{{ $question->question->id }}]" value="{{ $option->id }}" required>
+                                                        {{ $option->name }}
+                                                    </label><br>
+                                                @endif
+                                                @if($question->question->question_type_id == 2)
+                                                    <label>
+                                                        <input type="checkbox" name="question[{{ $question->question->id }}][]" value="{{ $option->id }}" required>
+                                                        {{ $option->name }}
+                                                    </label><br>
+                                                @endif
+                                                @if($question->question->question_type_id == 3)
+                                                    <textarea name="question[{{ $question->question->id }}]" rows="3" cols="50" required></textarea>
+                                                @endif
+                                            @endforeach
                                         @endif
-                                        @if($question->question->question_type_id == 2)
-                                            <label>
-                                                <input type="checkbox" name="question[{{ $question->question->id }}][]" value="{{ $option->id }}" required>
-                                                {{ $option->name }}
-                                            </label><br>
-                                        @endif
-                                        @if($question->question->question_type_id == 3)
-                                            <textarea name="question[{{ $question->question->id }}]" rows="3" cols="50" required></textarea>
-                                        @endif
+
+                                        <hr>
                                     @endforeach
                                 @endif
-��
-
-                                <hr>
-                                @endforeach
-				@endif
 
                                 <button id="btnEnviarQuestionario" form="formResponderQuestionario" type="submit" class="btn btn-primary mt-2">Responder</button>
                             </form>
