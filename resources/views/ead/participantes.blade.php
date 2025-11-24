@@ -11,6 +11,10 @@
         <div class="row">
             <div class="col-6">
                 <h1 class="text-[34px]">EAD - Participantes</h1>
+                <p><strong>Evento</strong>: {{ $eads->titulo }}</p>
+                <p><strong>Data</strong>: {{ $eads->data->format('d/m/Y') }}</p>
+                <p><strong>Hora Início</strong>: {{ $eads->hora_inicio }}</p>
+                <p><strong>Hora Fim</strong>: {{ $eads->hora_fim }}</p>
             </div>
             @if(\Auth::user()->role != 'aluno')
             <div class="col-6" style="text-align: right;">
