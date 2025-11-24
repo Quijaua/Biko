@@ -35,10 +35,10 @@
         @endphp
         @if(!in_array(\Auth::user()->id, $ids))
         <div class="row row-cards">
+            @if($evento)
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        @php //dd($evento) @endphp
                         <p><strong>Aula: {{  $evento->titulo ?? "Sem título" }} - {{ $evento->data->format('d/m/Y') }}</strong></p>
                         <p>Programa Esperança Garcia: Lista de Presença do Módulo 2 | Pedagógico</p>
                         <p>Esse é o link fixo das atividades síncronas do módulo 2 da área pedagógica do Programa Esperança Garcia.</p>
@@ -46,6 +46,7 @@
                     </div>
                 </div>
             </div>
+            @endif
             @php
             $evento_data_hora = $evento ? $evento->data->format('Y-m-d') . ' ' . $evento->hora_fim : null;
             $evento_data_hora_final = $evento ? \Carbon\Carbon::parse($evento_data_hora) : null;
