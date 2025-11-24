@@ -101,6 +101,12 @@
                         </div>
                     </div>
 
+                    <div class="col-12 col-md-3">
+                        <div class="mb-3">
+                            <a href="{{ route('ead.participantes', $ead->id) }}">Participantes</a>
+                        </div>
+                    </div>
+
                     @if($ead->material_apoio)
                     <div class="col-12">
                         <div class="mb-3">
