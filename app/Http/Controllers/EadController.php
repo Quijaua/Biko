@@ -129,6 +129,8 @@ class EadController extends Controller
             'questao_2' => $request->questao_2,
             'questao_3' => $request->questao_3,
             'questao_4' => $request->questao_4,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
         ]);
 
         return redirect()->route('ead.register')->with(['success' => 'Presença registrada com sucesso!']);
@@ -138,6 +140,8 @@ class EadController extends Controller
     {
         $eads = ead::find($id);
         $participantes = $eads->inscritos()->paginate(10);
+        $eads->duracao = self::getTimeInterval($eads->hora_inicio, $eads->hora_fim);
+        
         return view('ead.participantes')->with([
             'eads' => $eads,
             'participantes' => $participantes
@@ -193,5 +197,13 @@ class EadController extends Controller
         $fileName = time() . '_' . preg_replace('/\s+/', '_', $tmpFile->getClientOriginalName());
         $tmpFile->move($path, $fileName);
         return $fileName;
+    }
+
+    private static function getTimeInterval($start, $end)
+    {
+        $startTime = Carbon::createFromFormat('H:i', $start);
+        $endTime = Carbon::createFromFormat('H:i', $end);
+        $difference = $startTime->diff($endTime);
+        return $difference->format('%hh %imin');
     }
 }

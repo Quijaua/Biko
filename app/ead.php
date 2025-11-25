@@ -26,6 +26,6 @@ class ead extends Model
 
     public function inscritos()
     {
-        return $this->belongsToMany(User::class, 'eads_participantes');
+        return $this->belongsToMany(User::class, 'eads_participantes')->select('users.*', 'eads_participantes.*')->withTimestamps();
     }
 }
