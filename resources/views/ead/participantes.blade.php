@@ -400,6 +400,12 @@
                 >
             </div>
 
+            @php
+                function getAvatarFromName(string $texto): string {
+                    if ($texto === '') return '';
+                    return mb_strtoupper(mb_substr($texto, 0, 1, 'UTF-8'), 'UTF-8');
+                }
+            @endphp
             <div class="table-container">
                 <table id="participantsTable">
                     <thead>
@@ -414,12 +420,12 @@
                         <tr>
                             <td>
                                 <div class="participant-name">
-                                    <div class="participant-avatar">A</div>
+                                    <div class="participant-avatar">{{ getAvatarFromName($participante->name) }}</div>
                                     {{ $participante->name }}
                                 </div>
                             </td>
                             <td><span style="color: #48bb78; font-weight: 500;">✓ Presente</span></td>
-                            <td>{{  $participante->created_at->format('H:m')  }}</td>
+                            <td>{{  $participante->created_at?->format('H:m') ?? 'Não registrado' }}</td>
                         </tr>
                         @endforeach
                     </tbody>
