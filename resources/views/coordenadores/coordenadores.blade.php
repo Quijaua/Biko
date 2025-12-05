@@ -130,7 +130,7 @@
                         <div class="col-10 d-flex align-items-center gap-2">
                             @csrf
                             <input type="text" name="inputQuery" class="form-control"
-                                placeholder="Digite o nome ou sobrenome para encontrar um professor(a)" required />
+                                placeholder="Digite o nome ou sobrenome para encontrar um coordenador(a)" required />
 
                             <button type="submit" class="btn btn-outline-primary d-flex align-items-center gap-1">
                                 <i class="fas fa-search"></i> Buscar
