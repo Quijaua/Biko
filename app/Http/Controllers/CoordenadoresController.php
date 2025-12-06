@@ -487,7 +487,7 @@ class CoordenadoresController extends Controller
 
       $coordenadores = DB::table('coordenadores')
         ->when($params['inputQuery'], function ($query) use ($params) {
-            return $query->where('coordenadores.NomeCoordenador', 'LIKE', '%' . $params['inputQuery'] . '%');
+            return $query->where('coordenadores.NomeCoordenador', 'LIKE', '%' . $params['inputQuery'] . '%')->orWhere('coordenadores.Email', 'LIKE', '%' . $params['inputQuery'] . '%');
         })
         ->when($params['nucleo'], function ($query) use ($params) {
             return $query->where('coordenadores.id_nucleo', '=', $params['nucleo']);
