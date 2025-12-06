@@ -66,7 +66,7 @@
           <div class="col-md-3">
             <select class="form-select" id="cidade" name="cidade">
               <option value="" @selected(request('cidade')=='')>Cidade</option>
-              @foreach(\App\Nucleo::whereNotNull('Cidade')->get() as $nuc)
+              @foreach(\App\Nucleo::whereNotNull('Cidade')->select('Cidade')->groupBy('Cidade')->get() as $nuc)
               <option value="{{ $nuc->Cidade }}" @selected(request('cidade')==$nuc->Cidade)>
                 {{ $nuc->Cidade }}
               </option>
@@ -136,7 +136,7 @@
             <div class="col-10 d-flex align-items-center gap-2">
                 @csrf
                 <input type="text" name="inputQuery" class="form-control"
-                    placeholder="Digite o nome ou sobrenome para encontrar um professor(a)" required />
+                    placeholder="Digite o nome para encontrar um núcleo" required />
 
                 <button type="submit" class="btn btn-outline-primary d-flex align-items-center gap-1">
                     <i class="fas fa-search"></i> Buscar
