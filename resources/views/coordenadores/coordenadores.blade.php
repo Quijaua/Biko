@@ -181,12 +181,11 @@
                                                     <td class="text-secondary">{{ $coordenador->NomeSocial }}</td>
                                                 @endif
                                                 {{-- NUCLEO --}}
-                                                @php $nomeNucleo = \App\Nucleo::where('id', $coordenador->id_nucleo)->get('NomeNucleo'); @endphp
-                                                @if($nomeNucleo->isEmpty())
-                                                <td></td>
-                                                @else
-                                                <td class="text-secondary">{{ $nomeNucleo[0]['NomeNucleo'] }}</td>
-                                                @endif
+                                                <td class="text-secondary">
+                                                    @foreach ($coordenador->nucleos as $nucleo)
+                                                    <span class="mr-4">{{ $nucleo->NomeNucleo }}</span>
+                                                    @endforeach
+                                                </td>
 
 
                                                 {{-- Situação --}}
