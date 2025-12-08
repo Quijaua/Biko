@@ -9,7 +9,7 @@ use Image;
 use Session;
 use App\Exports\CoordenadoresExport;
 use Maatwebsite\Excel\Facades\Excel;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 use App\Coordenadores;
 use App\Nucleo;
@@ -486,11 +486,13 @@ class CoordenadoresController extends Controller
       $params = self::getParams($request);
 
       $coordenadores = DB::table('coordenadores')
+        ->leftJoin('coordenador_nucleo', 'coordenadores.id', '=', 'coordenador_nucleo.coordenador_id')
+        ->leftJoin('nucleos', 'coordenador_nucleo.nucleo_id', '=', 'nucleos.id')
         ->when($params['inputQuery'], function ($query) use ($params) {
             return $query->where('coordenadores.NomeCoordenador', 'LIKE', '%' . $params['inputQuery'] . '%')->orWhere('coordenadores.Email', 'LIKE', '%' . $params['inputQuery'] . '%');
         })
         ->when($params['nucleo'], function ($query) use ($params) {
-            return $query->where('coordenadores.id_nucleo', '=', $params['nucleo']);
+            return $query->where('coordenador_nucleo.nucleo_id', '=', $params['nucleo']);
         })
         ->when($params['status'], function ($query) use ($params) {
             return $query->where('coordenadores.Status', '=', $params['status'] === 'ativo' ? 1 : 0);

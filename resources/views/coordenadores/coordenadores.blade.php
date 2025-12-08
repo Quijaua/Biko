@@ -182,9 +182,11 @@
                                                 @endif
                                                 {{-- NUCLEO --}}
                                                 <td class="text-secondary">
+                                                    @if (isset($coordenador->nucleos))
                                                     @foreach ($coordenador->nucleos as $nucleo)
                                                     <span class="mr-4">{{ $nucleo->NomeNucleo }}</span>
                                                     @endforeach
+                                                    @endif
                                                 </td>
 
 
