@@ -31,6 +31,8 @@
                             Inscrição e vagas</a>
                         <a class="nav-link" id="tab-professores" data-bs-toggle="pill" href="#professores" role="tab">
                             Professores</a>
+                        <a class="nav-link" id="tab-novos-voluntarios" data-bs-toggle="pill" href="#novos-voluntarios" role="tab">
+                            Novos voluntários</a>
                         {{-- <a class="nav-link" id="tab-privacidade" data-bs-toggle="pill" href="#privacidade" role="tab">
                             Privacidade</a> --}}
                     </div>
@@ -616,6 +618,39 @@
                                                     <td>{{ $professorDisciplina->horario_inicial }}</td>
                                                     <td>{{ $professorDisciplina->horario_final }}</td>
                                                     <td>{{ $professorDisciplina->dia_semana }}</td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- Novos voluntários --}}
+                            <div class="tab-pane fade" id="novos-voluntarios" role="tabpanel"
+                                aria-labelledby="tab-novos-voluntarios">
+
+                                <div class="row">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover table-vcenter">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-nowrap text-black py-3">Nome</th>
+                                                    <th class="text-nowrap text-black py-3">Data do Cadastro</th>
+                                                </tr>
+                                            </thead>
+
+                                            @if ($novosVoluntarios->isEmpty())
+                                            <div class="row">
+                                                <div class="col text-center m-auto mt-4 mb-4">Nenhum registro encontrado.</div>
+                                            </div>
+                                            @endif
+
+                                            <tbody id="tableBody" class="bg-white rounded">
+                                                @foreach ($novosVoluntarios as $voluntario)
+                                                <tr>
+                                                    <td><a href="/professores/details/{{ $voluntario->id }}">{{ $voluntario->NomeProfessor }}</a></td>
+                                                    <td>{{ $voluntario->created_at->format('d/m/Y H:i') }}</td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>

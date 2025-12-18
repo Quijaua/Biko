@@ -11,7 +11,7 @@
                 <a href="{{ route('novos-voluntarios') }}" class="btn btn-primary">Novos Voluntários</a>
             </div>
             @endif
-            <div class="card">
+            <div class="card mb-3">
                 <div class="card-header">Dashboard</div>
 
                 <div class="card-body">
@@ -33,6 +33,18 @@
                     <p><a href="http://uneafrobrasil.org" target="_blank"><strong>UNEAfro Brasil</strong></a></p>
                 </div>
             </div>
+            @if ($user->role === 'coordenador' && $nucleos->isNotEmpty())
+                <div>
+                    <h3>Núcleos que faço parte</h3>
+                    <div class="d-flex flex-wrap gap-2">
+                        @foreach ($nucleos as $nucleo)
+                            <a href="{{ url('/nucleos/details/' . $nucleo->id) }}" class="btn btn-primary">
+                                {{ $nucleo->NomeNucleo }}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
 </div>

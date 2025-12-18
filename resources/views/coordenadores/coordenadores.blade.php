@@ -130,7 +130,7 @@
                         <div class="col-10 d-flex align-items-center gap-2">
                             @csrf
                             <input type="text" name="inputQuery" class="form-control"
-                                placeholder="Digite o nome ou sobrenome para encontrar um professor(a)" required />
+                                placeholder="Digite o nome ou sobrenome para encontrar um coordenador(a)" required />
 
                             <button type="submit" class="btn btn-outline-primary d-flex align-items-center gap-1">
                                 <i class="fas fa-search"></i> Buscar
@@ -181,12 +181,13 @@
                                                     <td class="text-secondary">{{ $coordenador->NomeSocial }}</td>
                                                 @endif
                                                 {{-- NUCLEO --}}
-                                                @php $nomeNucleo = \App\Nucleo::where('id', $coordenador->id_nucleo)->get('NomeNucleo'); @endphp
-                                                @if($nomeNucleo->isEmpty())
-                                                <td></td>
-                                                @else
-                                                <td class="text-secondary">{{ $nomeNucleo[0]['NomeNucleo'] }}</td>
-                                                @endif
+                                                <td class="text-secondary">
+                                                    @if (isset($coordenador->nucleos))
+                                                    @foreach ($coordenador->nucleos as $nucleo)
+                                                    <span class="mr-4">{{ $nucleo->NomeNucleo }}</span>
+                                                    @endforeach
+                                                    @endif
+                                                </td>
 
 
                                                 {{-- Situação --}}

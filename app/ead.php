@@ -13,6 +13,11 @@ class ead extends Model
         'data',
         'hora_inicio',
         'hora_fim',
+        'descricao',
+        'semestre',
+        'link',
+        'material_apoio',
+        'tipo',
     ];
 
     protected $casts = [
@@ -21,6 +26,6 @@ class ead extends Model
 
     public function inscritos()
     {
-        return $this->belongsToMany(User::class, 'eads_participantes');
+        return $this->belongsToMany(User::class, 'eads_participantes')->select('users.*', 'eads_participantes.*')->withTimestamps();
     }
 }

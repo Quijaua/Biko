@@ -7,6 +7,7 @@ use App\Mail\EmailFormularioCoordenador;
 use App\Mail\EmailFormularioSejaUmProfessor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 
 /*
@@ -121,10 +122,14 @@ Route::get('otp-verify', function () {
     $user->otp_hash = null;
     $user->save();
 
+    if ($redirect && in_array($redirect, ['plantao-psicologico']) && $user->role == 'aluno') {
+        return redirect('/plantao-psicologico');
+    }
+
     if ($redirect && in_array($redirect, ['plantao-psicologico']) || $user->role == 'psicologo') {
         return redirect()->route('painel.supervisora');
     }
-    
+
     if ($redirect && in_array($redirect, ['aula-programa-esperanca-garcia'])) {
         return redirect()->route('ead.register');
     }
@@ -195,6 +200,8 @@ Route::post('alunos/familiares/update/{id}', 'AlunoInfoFamiliaresController@upda
 Route::post('alunos/familiares/delete/{id}', 'AlunoInfoFamiliaresController@delete')->name('alunos/familiares/delete');
 Route::get('alunos/export/', 'AlunosController@export')->name('alunos/export/');
 Route::get('alunos/log/{id}', 'AlunosController@logActionView')->name('alunos/log');
+Route::delete('alunos/delete/{id}', 'AlunosController@delete')->name('alunos/delete');
+Route::post('alunos/acompanhamento/{id}', 'AlunosController@store')->middleware('permissions');
 
 // ROUTES FOR COORDENADORES MANAGEMENT
 Route::get('coordenadores', 'CoordenadoresController@index')->middleware('permissions');
@@ -248,23 +255,35 @@ Route::resource('/disciplinas', 'DisciplinaController')->middleware('auth')->exc
 Route::group(['prefix' => 'ambiente-virtual'], function () {
     Route::get('/', 'AmbienteVirtualController@index')->middleware('auth')->name('ambiente-virtual.index');
     Route::post('comentarios/adicionar/{id}', 'AmbienteVirtualController@comentar')->middleware('auth')->name('ambiente-virtual.comentar');
+    Route::post('comentarios/responder', 'AmbienteVirtualController@responder')->middleware('auth')->name('ambiente-virtual.responder-comentario');
     Route::post('notas/adicionar/{id}', 'AmbienteVirtualController@anotar')->middleware('auth')->name('ambiente-virtual.anotar');
     Route::post('assistido/marcar', 'AmbienteVirtualController@marcarAssistido')->middleware('auth')->name('ambiente-virtual.marcar-assistido');
     Route::post('assistido/desmarcar', 'AmbienteVirtualController@desmarcarAssistido')->middleware('auth')->name('ambiente-virtual.desmarcar-assistido');
     Route::any('search', 'AmbienteVirtualController@search')->name('ambiente-virtual/search');
+    Route::get('questionario', 'QuestionarioController@questionario')->middleware('auth')->name('ambiente-virtual.questionario');
+    Route::get('questionario/create/{id}', 'QuestionarioController@create')->middleware('auth')->name('ambiente-virtual.questionario.create');
+    Route::post('questionario/store', 'QuestionarioController@store')->middleware('auth')->name('ambiente-virtual.questionario.store');
+    Route::get('questionario/{id}/edit', 'QuestionarioController@edit')->middleware('auth')->name('ambiente-virtual.questionario.edit');
+    Route::put('questionario/{id}/update', 'QuestionarioController@update')->middleware('auth')->name('ambiente-virtual.questionario.update');
+    Route::delete('questionario/{id}/destroy', 'QuestionarioController@destroy')->middleware('auth')->name('ambiente-virtual.questionario.destroy');
+    Route::post('questionario/responder', 'QuestionarioController@responder')->middleware('auth')->name('ambiente-virtual.questionario.responder');
 });
 Route::resource('/ambiente-virtual', 'AmbienteVirtualController')->middleware('auth')->except(['index']);
 
 // ROUTES FOR EAD
 Route::group(['prefix' => 'ead', 'middleware' => ['auth', 'restrict.professor']], function () {
     Route::get('/', 'EadController@index')->name('ead.index');
+    Route::get('/details/{id}', 'EadController@details')->name('ead.details');
     Route::get('/create', 'EadController@create')->name('ead.create');
     Route::post('/store', 'EadController@store')->name('ead.store');
     Route::get('/edit/{id}', 'EadController@edit')->name('ead.edit');
     Route::post('/update/{id}', 'EadController@update')->name('ead.update');
     Route::delete('/destroy/{id}', 'EadController@destroy')->name('ead.destroy');
+    Route::get('/remove_material', 'EadController@remove_material')->name('ead.remove_material');
     Route::post('/register/store', 'EadController@registerStore')->name('ead.register-store');
     Route::get('/participantes/{id}', 'EadController@participantes')->name('ead.participantes');
+    Route::get('/participacao', 'EadController@participacao')->name('ead.participacao');
+    Route::any('/upload', 'EadController@upload')->name('ead.upload');
 });
 Route::get('/aula-programa-esperanca-garcia', 'EadController@register')->name('ead.register');
 
@@ -361,7 +380,9 @@ Route::post('/seja-um-professor', function (Request $request) {
     foreach($coordenadores as $coordenador) {
         if($coordenador['Email']) {
         Mail::to($coordenador['Email'])->send(new EmailFormularioCoordenador([
-            'message' => 'Olá, coordenador! Um novo professor foi inserido!'
+            'message' => 'Olá, coordenador! Um novo professor foi inserido!',
+            'professor_name' => $professor->NomeProfessor,
+            'link_cadastro' => url('professores/details/' . $professor->id),
         ]));
         }
     }

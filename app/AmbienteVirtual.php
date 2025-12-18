@@ -22,6 +22,7 @@ class AmbienteVirtual extends Model implements Auditable
         'professor_id',
         'disciplina_id',
         'class_duration',
+        'peso',
     ];
 
     public function professor()
@@ -36,11 +37,21 @@ class AmbienteVirtual extends Model implements Auditable
 
     public function comentario()
     {
-        return $this->hasMany('App\Comentario', 'ambiente_virtual_id');
+        return $this->hasMany('App\Comentario', 'ambiente_virtual_id')->whereNull('comentario_id');
+    }
+
+    public function respostas()
+    {
+        return $this->hasMany('App\Comentario', 'ambiente_virtual_id')->whereNotNull('comentario_id');
     }
 
     public function nota()
     {
         return $this->hasMany('App\Nota', 'ambiente_virtual_id');
+    }
+
+    public function questionarios()
+    {
+        return $this->hasMany('App\Models\Quiz', 'ambiente_virtual_id');
     }
 }

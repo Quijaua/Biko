@@ -21,7 +21,7 @@ class AmbienteVirtualService
 
     public static function index()
     {
-        return AmbienteVirtual::paginate(10);
+        return AmbienteVirtual::orderBy('peso', 'asc')->paginate(10);
     }
 
     public static function store()
@@ -46,7 +46,8 @@ class AmbienteVirtualService
 
     public static function find($id)
     {
-        return AmbienteVirtual::find($id);
+        // dd(AmbienteVirtual::find($id)->load('questionarios'));
+        return AmbienteVirtual::find($id)->load('questionarios');
     }
 
     public static function update($id)
@@ -82,6 +83,22 @@ class AmbienteVirtualService
         $params = self::getParams();
 
         Comentario::create($params);
+
+        return redirect()->route('ambiente-virtual.show', $id);
+    }
+
+    public static function responder($comentario)
+    {
+        $params = self::getParams();
+        $id = $params['ambiente_virtual_id'];
+        $data = [
+            'user_id' => $params['user_id'],
+            'ambiente_virtual_id' => $params['ambiente_virtual_id'],
+            'comentario_id' => $params['comentario_id'],
+            'comentario' => $params['comentario'],
+        ];
+
+        Comentario::create($data);
 
         return redirect()->route('ambiente-virtual.show', $id);
     }
@@ -179,10 +196,12 @@ class AmbienteVirtualService
             'disciplina_id' => request('disciplina_id'),
             'ambiente_virtual_id' => request('ambiente_virtual_id'),
             'comentario' => request('comentario'),
+            'comentario_id' => request('comentario_id'),
             'class_duration' => request('class_duration'),
             'nota' => request('nota'),
             'areas_conhecimento' => request('areas_conhecimento'),
             'disciplina' => request('disciplina'),
+            'peso' => request('peso'),
         ];
     }
 }

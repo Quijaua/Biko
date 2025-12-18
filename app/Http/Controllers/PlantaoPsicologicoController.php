@@ -270,8 +270,8 @@ class PlantaoPsicologicoController extends Controller
             'dataHora' => $dataHoraFormatada
         ], function ($mail) use ($estudante, $icsPath) {
             $mail->to($estudante->email)
-                ->subject('Confirmação de Agendamento Psicológico')
-                ->attach($icsPath);
+                ->subject('Confirmação de Agendamento Psicológico');
+                // ->attach($icsPath);
         });
 
         session()->flash('success', 'Atendimento agendado com sucesso.');

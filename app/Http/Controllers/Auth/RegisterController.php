@@ -136,11 +136,15 @@ class RegisterController extends Controller
 
         Session::put('verified',$user->email_verified_at);
 
+        // Definir status automaticamente se for Núcleo Virtual
+        $nucleoVirtualId = env('NUCLEO_AMBIENTE_VIRTUAL'); // ID do Núcleo Virtual do .env
+        $statusAluno = !isset($data['inputNucleo']) && empty($data['inputNucleo']) ? 1 : 0;
+
         $aluno = Aluno::create([
             'NomeAluno' => $user->name,
             'NomeSocial' => isset($data['NomeSocial']) ? $data['NomeSocial'] : NULL,
             'id_user' => $user->id,
-            'Status' => 0,
+            'Status' => $statusAluno,
             'FoneCelular' => $user->phone,
             'Escolaridade' => $data['inputEscolaridade'],
             'Email' => $data['email'],
@@ -181,18 +185,29 @@ class RegisterController extends Controller
         ]);
 
         // Envia e-mail
-        if ($myNucleo) {
-          $coordenadores = $myNucleo->coordenadores()->get();
-        } else {
-          $coordenadores = Coordenadores::ativos();
-        }
+        // Busca coordenadores do núcleo
+        $coordenadores = $myNucleo ? $myNucleo->coordenadores()->get() : collect();
 
-        foreach($coordenadores as $coordenador) {
-          if($coordenador && isset($coordenador->Email) && !empty($coordenador->Email)) {
-            Mail::to($coordenador->Email)->send(new EmailFormularioCoordenador([
-              'message' => 'Olá, coordenador! Um novo estudante foi inserido!'
-            ]));
-          }
+        // Se não houver coordenadores, envia para o admin (id = 1)
+        if ($coordenadores->isEmpty()) {
+            $admin = User::find(1); // Administrador
+            if ($admin && $admin->email) {
+                Mail::to($admin->email)->send(new EmailFormularioCoordenador([
+                    'message' => 'Olá, administrador! Um novo estudante foi inserido (nenhum coordenador no núcleo).',
+                    'aluno_nome' => $user->name,
+                    'link_cadastro' => url('alunos/details/' . $aluno->id),
+                ]));
+            }
+        } else {
+            foreach ($coordenadores as $coordenador) {
+                if ($coordenador && !empty($coordenador->Email)) {
+                    Mail::to($coordenador->Email)->send(new EmailFormularioCoordenador([
+                        'message' => 'Olá, coordenador! Um novo estudante foi inserido!',
+                        'aluno_nome' => $user->name,
+                        'link_cadastro' => url('alunos/details/' . $aluno->id),
+                    ]));
+                }
+            }
         }
 
         Mail::to($data['email'])->send(new EmailFormularioEstudante([

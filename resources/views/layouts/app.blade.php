@@ -92,8 +92,10 @@
             }
 
             if ($user->role === 'aluno') {
-                $aluno_nucleo = $user->aluno->nucleo;
-                $aluno_nucleo->permite_ambiente_virtual ? ($ambiente_virtual = true) : ($ambiente_virtual = false);
+                $aluno_nucleo_id = $user->aluno->id_nucleo ?? null;
+                $nucleoAmbienteVirtual = env('NUCLEO_AMBIENTE_VIRTUAL');
+
+                $ambiente_virtual = ($aluno_nucleo_id && $aluno_nucleo_id == $nucleoAmbienteVirtual);
             } elseif ($user->role !== 'aluno') {
                 $ambiente_virtual = true;
             }
@@ -719,9 +721,31 @@
                                         {{ __('Meus dados') }}
                                     </a>
                                 </li>
+				@if ($ambiente_virtual)
+				<li class="nav-item {{ request()->is('plantao-psicologico') ? 'bg-primary text-white rounded' : '' }}">
+                                            <a class="nav-link" href="/plantao-psicologico">
+                                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-brain">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                        <path d="M15.5 13a3.5 3.5 0 0 0 -3.5 3.5v1a3.5 3.5 0 0 0 7 0v-1.8" />
+                                                        <path d="M8.5 13a3.5 3.5 0 0 1 3.5 3.5v1a3.5 3.5 0 0 1 -7 0v-1.8" />
+                                                        <path d="M17.5 16a3.5 3.5 0 0 0 0 -7h-.5" />
+                                                        <path d="M19 9.3v-2.8a3.5 3.5 0 0 0 -7 0" />
+                                                        <path d="M6.5 16a3.5 3.5 0 0 1 0 -7h.5" />
+                                                        <path d="M5 9.3v-2.8a3.5 3.5 0 0 1 7 0v10" />
+                                                    </svg>
+                                                </span>
+                                                {{ __('Apoio Emocional') }}
+                                            </a>
+                                        </li>
+				@else
+				@endif
+
                                 @endif
                                 @if (Session::get('role') !== 'aluno')
-                                    @if (Session::get('verified'))
                                     <li class="nav-item {{ request()->is('dashboard') ? 'bg-primary text-white rounded' : '' }}">
                                 <a class="nav-link" href="/dashboard">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -987,7 +1011,7 @@
                                                 {{ __('Plantão Psicológico') }}
                                             </a>
                                         </li> --}}
-                                        @if (Auth::user()->role === 'administrador' || Auth::user()->role === 'psicologo')
+                                        @if (Auth::user()->role === 'administrador' || Auth::user()->role === 'psicologo' || Auth::user()->role === 'psicologa_supervisora' )
                                         <li
                                             class="nav-item {{ request()->routeIs('painel.supervisora') ? 'bg-primary text-white rounded' : '' }}">
                                             <a class="nav-link" href="{{ route('painel.supervisora') }}">
@@ -1069,11 +1093,10 @@
                                                 {{ __('Lista de presença') }}
                                             </a>
                                         </li> --}}
-                                    @endif
                                 @endif
-                                @if (($user->role === 'professor' && $status != 0) || ($user->role !== 'professor'))
+                                @if (($user->role === 'professor' && $status != 0) || ($user->role !== 'professor' && $user->role !== 'aluno'))
                                 @if ($ambiente_virtual)
-                                {{--    <li
+                                    <li
                                         class="nav-item {{ request()->routeIs('ambiente-virtual.index') ? 'bg-primary text-white rounded' : '' }}">
                                         <a class="nav-link" href="{{ route('ambiente-virtual.index') }}">
                                             <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -1091,7 +1114,7 @@
                                             </span>
                                             {{ __('Núcleo Virtual') }}
                                         </a>
-                                    </li> --}}
+                                    </li>
                                 @endif
                                 @endif
 
@@ -1531,9 +1554,10 @@
                                                     </a>
                                                 </li>
 
+                                @if ($ambiente_virtual)
                                 <li
-                                        class="nav-item {{ request()->routeIs('ambiente-virtual.index') ? 'bg-primary text-white rounded' : '' }}">
-                                        <a class="nav-link" href="{{ route('ambiente-virtual.index') }}">
+                                        class="nav-item">
+                                        <a class="nav-link" href="https://ead.peregum.org.br/" target="_blank">
                                             <span class="nav-link-icon d-md-none d-lg-inline-block">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -1547,9 +1571,31 @@
                                                     <path d="M9 12h2" />
                                                 </svg>
                                             </span>
-                                            {{ __('Núcleo Virtual') }}
+                                            {{ __('Curso Preparatório') }}
                                         </a>
                                     </li>
+                                @else
+                                <li
+                                    class="nav-item">
+                                    <a class="nav-link" href="{{ route('ambiente-virtual.index') }}">
+                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                class="icon icon-tabler icons-tabler-outline icon-tabler-checklist">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path
+                                                    d="M9.615 20h-2.615a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8" />
+                                                <path d="M14 19l2 2l4 -4" />
+                                                <path d="M9 8h4" />
+                                                <path d="M9 12h2" />
+                                            </svg>
+                                        </span>
+                                        {{ __('Núcleo Virtual') }}
+                                    </a>
+                                </li>
+                                @endif
+
                                                 @endif
 
                                                 @if (($user->role === 'professor' && $status != 0) || ($user->role !== 'professor'))

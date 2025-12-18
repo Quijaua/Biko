@@ -21,6 +21,11 @@
                     </span>
                     Adicionar novo evento
                 </a>
+
+                <a class="btn btn-primary" href="{{ route('ead.participacao') }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-message-circle-exclamation"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15.02 19.52c-2.34 .736 -5 .606 -7.32 -.52l-4.7 1l1.3 -3.9c-2.324 -3.437 -1.426 -7.872 2.1 -10.374c3.526 -2.501 8.59 -2.296 11.845 .48c1.96 1.671 2.898 3.963 2.755 6.227" /><path d="M19 16v3" /><path d="M19 22v.01" /></svg>
+                    Participação
+                </a>
                 
             </div>
             @endif
@@ -60,8 +65,7 @@
                             <tr>
                             <th class="text-nowrap text-black py-3">Título</th>
                             <th class="text-nowrap text-black py-3">Data</th>
-                            <th class="text-nowrap text-black py-3">Horário Inicial</th>
-                            <th class="text-nowrap text-black py-3">Horário Final</th>
+                            <th class="text-nowrap text-black py-3">Tipos</th>
                             <th class="text-nowrap text-black py-3">Inscritos</th>
                             <th class="text-nowrap text-black py-3">Ações</th>
                             </tr>
@@ -78,14 +82,8 @@
                                 {{-- Data --}}
                                 <td>{{ $ead->data->format('d/m/Y') }}</td>
 
-                                {{-- Horario inicio --}}
                                 <td>
-                                    {{ $ead->hora_inicio }}
-                                </td>
-
-                                {{-- Horario fim --}}
-                                <td>
-                                    {{ $ead->hora_fim }}
+                                    {{ $ead->tipo }}
                                 </td>
 
                                 {{-- Inscritos --}}
@@ -96,7 +94,7 @@
                                 {{-- Ações --}}
                                 <td>
                                     <div class="btn-list flex-nowrap">
-                                    <a href="#" class="btn btn-outline-secondary">
+                                    <a href="{{ route('ead.details', $ead->id) }}" class="btn btn-outline-secondary">
                                         <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-eye">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                             <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />

@@ -1,7 +1,7 @@
 @component('mail::message')
 Olá, {{ $user->name }}!
 
-Recebemos sua solicitação de acesso sem senha ao Sistema Exemplo.
+Recebemos sua solicitação de acesso sem senha ao Sistema Biko - UNEafro Brasil.
 
 Para entrar, basta clicar no botão abaixo:
 

@@ -49,6 +49,26 @@
                             </div>
                         </div>
                         <div class="col-4 d-flex gap-3 justify-content-end align-items-center">
+
+                            @if(in_array(Auth::user()->role, ['administrador', 'coordenador']))
+                                <button
+                                    type="button"
+                                    class="btn btn-danger"
+                                    onclick="
+                                        e => e.preventDefault(); modalShow('Excluir aluno', 'Tem certeza que deseja excluir esse aluno?', 'danger', e => document.getElementById('delete-nucleo-form').submit());
+                                    ">
+                                    <i class="me-2 fas fa-user-times"></i>
+                                    Excluir Aluno
+                                </button>
+                                <form id="delete-nucleo-form"
+                                        action="{{ url('alunos/delete/'.$dados->id) }}"
+                                        method="POST"
+                                        style="display: none;">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
+                            @endif
+
                             <a class="btn btn-secondary" href="{{ Auth::user()->role === 'aluno' ? '/home' : '/alunos' }}">voltar</a>
                             <button type="submit" class="btn btn-primary" form="editForm" id="submitBtn"><span><svg
                                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -515,7 +535,7 @@
                                             </h3>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 mb-3">
                                         <div>
                                             <label class="form-label mb-2" for="inputNucleo">Núcleo</label>
                                             <select name="inputNucleo" class="form-select" >
@@ -531,7 +551,7 @@
                                         <div class="mb-3 invalid-feedback d-block d-none">Por favor, selecione um núcleo.
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 mb-3">
                                         <div>
                                             <label class="form-label mb-2 d-block">Lista de Espera</label>
 
@@ -551,8 +571,51 @@
 
                                         </div>
                                     </div>
+                                    <div class="col-md-6" id="campoBolsista" style="display: none;">
+                                        <div>
+                                            <label class="form-label mb-2 d-block">Bolsista</label>
+
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inputBolsista"
+                                                    id="bolsistaSim" value="Sim"
+                                                    @if ($dados->Bolsista === 'Sim') checked @endif>
+                                                <label class="form-check-label" for="bolsistaSim">Sim</label>
+                                            </div>
+
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inputBolsista"
+                                                    id="bolsistaNao" value="Não"
+                                                    @if ($dados->Bolsista === 'Não') checked @endif>
+                                                <label class="form-check-label" for="bolsistaNao">Não</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function () {
+                                    const selectNucleo = document.querySelector("select[name='inputNucleo']");
+                                    const campoBolsista = document.getElementById("campoBolsista");
+
+                                    // id do núcleo virtual definido no .env
+                                    const nucleoVirtual = {{ env('NUCLEO_AMBIENTE_VIRTUAL') }};
+
+                                    function verificarNucleo() {
+                                        if (selectNucleo.value == nucleoVirtual) {
+                                            campoBolsista.style.display = "block";
+                                        } else {
+                                            campoBolsista.style.display = "none";
+                                        }
+                                    }
+
+                                    // Executa ao carregar
+                                    verificarNucleo();
+
+                                    // Executa ao alterar o núcleo
+                                    selectNucleo.addEventListener("change", verificarNucleo);
+                                });
+                            </script>
 
 
                             {{-- Endereço --}}

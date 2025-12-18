@@ -4,6 +4,7 @@
 /public/uploads
 /public/aulas-virtuais
 /public/images
+/public/eads
 /storage/*.key
 /vendor
 .idea

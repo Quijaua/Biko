@@ -131,7 +131,7 @@
         <div class="col-10 d-flex align-items-center gap-2">
           @csrf
           <input type="text" name="inputQuery" class="form-control"
-            placeholder="Digite o nome ou sobrenome para encontrar um(a) estudante" required />
+            placeholder="Digite nome, sobrenome ou e-mail para encontrar um(a) estudante" required />
 
           <button type="submit" class="btn btn-outline-primary d-flex align-items-center gap-1">
             <i class="fas fa-search"></i> Buscar
@@ -157,6 +157,7 @@
                 <th class="text-nowrap text-black py-3"></th>
                   <th class="text-nowrap text-black py-3">Foto</th>
                   <th class="text-nowrap text-black py-3">Nome</th>
+                  <th class="text-nowrap text-black py-3">Email</th>
                   <th class="text-nowrap text-black py-3">Núcleo</th>
                   <th class="text-nowrap text-black py-3">Situação</th>
                   <th class="text-nowrap text-black py-3">Lista de Espera</th>
@@ -177,6 +178,11 @@
                   {{-- Nome --}}
                   <td class="text-secondary">
                     {{ $aluno->NomeSocial ?? $aluno->NomeAluno }}
+                  </td>
+
+                  {{-- Email --}}
+                  <td class="text-secondary">
+                    {{ $aluno->Email }}
                   </td>
 
                   {{-- Núcleo --}}

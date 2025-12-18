@@ -450,7 +450,7 @@
                                             </h3>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 mb-3">
                                         <div>
                                             <label class="form-label mb-2" for="inputNucleo">Núcleo</label>
                                             <select id="inpurtNucleo" name="inputNucleo"
@@ -469,7 +469,7 @@
                                         </div>
                                         <div class="mb-3 invalid-feedback d-block">Por favor, selecione um núcleo.</div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 mb-3">
                                         <div>
                                             <label class="form-label mb-2 d-block">Lista de Espera</label>
                                             <div class="form-check form-check-inline">
@@ -484,8 +484,55 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-6" id="campoBolsista" style="display: none;">
+                                        <div>
+                                            <label class="form-label mb-2 d-block">Bolsista</label>
+
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inputBolsista"
+                                                    id="bolsistaSim" value="Sim"
+						@if (!empty($dados) && $dados->Bolsista === 'Sim')
+							checked
+						@endif>
+                                                <label class="form-check-label" for="bolsistaSim">Sim</label>
+                                            </div>
+
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inputBolsista"
+                                                    id="bolsistaNao" value="Não"
+							@if (!empty($dados) && $dados->Bolsista === 'Não')
+							    checked
+							@endif>
+                                                <label class="form-check-label" for="bolsistaNao">Não</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function () {
+                                    const selectNucleo = document.querySelector("select[name='inputNucleo']");
+                                    const campoBolsista = document.getElementById("campoBolsista");
+
+                                    // id do núcleo virtual definido no .env
+                                    const nucleoVirtual = {{ env('NUCLEO_AMBIENTE_VIRTUAL') }};
+
+                                    function verificarNucleo() {
+                                        if (selectNucleo.value == nucleoVirtual) {
+                                            campoBolsista.style.display = "block";
+                                        } else {
+                                            campoBolsista.style.display = "none";
+                                        }
+                                    }
+
+                                    // Executa ao carregar
+                                    verificarNucleo();
+
+                                    // Executa ao alterar o núcleo
+                                    selectNucleo.addEventListener("change", verificarNucleo);
+                                });
+                            </script>
 
                             {{-- Endereço --}}
                             <div class="tab-pane fade" id="endereco" role="tabpanel" aria-labelledby="tab-endereco">

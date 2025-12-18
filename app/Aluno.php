@@ -18,6 +18,7 @@ class Aluno extends Model implements Auditable
         'id_nucleo',
         'Foto',
         'ListaEspera',
+        'Bolsista',
         'CPF',
         'RG',
         'temFilhos',
@@ -136,4 +137,9 @@ class Aluno extends Model implements Auditable
     {
         return $this->belongsTo('App\TerraIndigena', 'terra_indigenas_id');
     }
+
+    // public function questionarios()
+    // {
+    //     return $this->hasMany('App\Models\QuizAttempt', 'aluno_id');
+    // }
 }

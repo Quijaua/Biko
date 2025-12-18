@@ -249,11 +249,16 @@ class NucleoController extends Controller
         ->where('RepresentanteCGU', 'sim')
         ->get(['NomeCoordenador']);
 
+      $novosVoluntarios = Professores::where('id_nucleo', $id)
+        ->orderBy('created_at', 'desc')
+        ->get();
+
       return view('nucleos.nucleosDetails')->with([
         'dados' => $dados,
         'representantes' => $representantes,
         'disciplinas' => Disciplina::all(),
         'professoresDisciplinas' => $dados->professoresDisciplinas,
+        'novosVoluntarios' => $novosVoluntarios,
       ]);
     }
 

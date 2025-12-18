@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(TerraIndigenaTableSeeder::class);
         $this->call(PovoIndigenaTableSeeder::class);
         $this->call(TrumaiPovoIndigenaSeeder::class);
+        $this->call(\Harishdurga\LaravelQuiz\Database\Seeders\QuestionTypeSeeder::class);
     }
 }

@@ -383,19 +383,35 @@ $coordenadorNucleos = DB::table('nucleos')
         return view('professores.professoresEdit')->with([
           'dados' => $dados,
           'nucleos' => $nucleos,
+          'povo_indigenas' => $povosIndigenas,
+          'terra_indigenas' => TerraIndigena::all(),
         ]);
       }
 
       if($user->role === 'coordenador'){
-        $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+        $user = Auth::user();
+        $coordenador = $user->coordenador;
+        if (!$coordenador || $coordenador->id_user !== $user->id) {
+            $coordenador = \App\Coordenadores::where('Email', $user->email)->first();
+        }
+        $coordenadorNucleos = $coordenador
+            ? $coordenador->nucleos()->pluck('nucleos.id')->toArray()
+            : [];
+
         $professor = Professores::find($id);
         if($professor && in_array($professor->id_nucleo, $coordenadorNucleos)){
           $dados = Professores::find($id);
-          $nucleos = Nucleo::where('Status', 1)->where('id', $nucleoId[0]['id_nucleo'])->get();
+          $nucleos = !empty($coordenadorNucleos)
+                  ? Nucleo::where('Status', 1)
+                      ->whereIn('id', $coordenadorNucleos)
+                      ->get()
+                  : collect();
 
           return view('professores.professoresEdit')->with([
             'dados' => $dados,
             'nucleos' => $nucleos,
+            'povo_indigenas' => $povosIndigenas,
+            'terra_indigenas' => TerraIndigena::all(),
           ]);
         }else{
           return back()->with('error', 'Ação não permitida.');
@@ -705,7 +721,15 @@ $coordenadorNucleos = DB::table('nucleos')
       $user = Auth::user();
 
       if($user->role === 'coordenador'){
-        $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
+        $user = Auth::user();
+        $coordenador = $user->coordenador;
+        if (!$coordenador || $coordenador->id_user !== $user->id) {
+            $coordenador = \App\Coordenadores::where('Email', $user->email)->first();
+        }
+        $coordenadorNucleos = $coordenador
+            ? $coordenador->nucleos()->pluck('nucleos.id')->toArray()
+            : [];
+
         $professor = Professores::find($id);
         if($professor && in_array($professor->id_nucleo, $coordenadorNucleos)){
           $professor->Status = 1;

@@ -8,7 +8,12 @@ class Comentario extends Model
 {
     protected $table = 'comentarios';
 
-    protected $fillable = ['user_id', 'ambiente_virtual_id', 'comentario'];
+    protected $fillable = [
+        'user_id',
+        'ambiente_virtual_id',
+        'comentario',
+        'comentario_id',
+    ];
 
     public function user()
     {

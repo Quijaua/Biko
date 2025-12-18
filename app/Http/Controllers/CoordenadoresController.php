@@ -9,7 +9,7 @@ use Image;
 use Session;
 use App\Exports\CoordenadoresExport;
 use Maatwebsite\Excel\Facades\Excel;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 use App\Coordenadores;
 use App\Nucleo;
@@ -165,7 +165,7 @@ class CoordenadoresController extends Controller
       }
 
       $coordenador = Coordenadores::create([
-        'id_user' => Auth::user()->id,
+        'id_user' => $user->id,
         'Status' => $request->input('inputStatus'),
         'NomeCoordenador' => $request->input('inputNomeCoordenador'),
         'NomeSocial' => $request->input('inputNomeSocial'),
@@ -415,18 +415,33 @@ class CoordenadoresController extends Controller
       $inputEmail = $request->input('inputEmail');
       $user = User::find($dados->id_user);
 
-      if($user->email !== $inputEmail){
-          // Verifica se o email já pertence a outro usuário
-          $emailExists = User::where('email', $inputEmail)
-                          ->where('id', '<>', $user->id)
-                          ->exists();
+      if ($user->email !== $inputEmail) {
+          // 1) Se existir usuário com esse e-mail
+          $userByEmail = Coordenadores::where('email', $inputEmail)->first();
 
-          if($emailExists){
-              return back()->with('error', 'ESTE EMAIL JÁ ESTÁ EM USO.');
+          // 2) Ou se existir usuário com esse CPF (desde que você tenha CPF no User)
+          $userByCpf = Coordenadores::where('cpf', $cpfInput)->first(); // Ajuste se o nome do campo for outro
+
+          if ($userByEmail && $userByCpf && $userByEmail->id_user === $userByCpf->id_user) {
+              $correctUser = User::where('email', $inputEmail)->first();
+
+              // Já existe usuário com este e-mail → troca o id_user do coordenador
+              $dados->id_user = $correctUser->id;
+
+              $correctUserId = $correctUser->id;
+          } else {
+            $correctUserId = $user->id;
           }
 
-          $user->email = $inputEmail;
-          $user->save();
+          if ($user->email !== $inputEmail) {
+              // Se não achou nem pelo email nem pelo CPF, então atualiza o e-mail do user atual
+              $emailExists = User::where('email', $inputEmail)
+                            ->where('id', '<>', $correctUserId)
+                            ->exists();
+              if ($emailExists) {
+                  return back()->with('error', 'ESTE EMAIL JÁ ESTÁ EM USO.');
+              }
+          }
       }
 
       $dados->save();
@@ -470,17 +485,20 @@ class CoordenadoresController extends Controller
       $user = Auth::user();
       $params = self::getParams($request);
 
-      $coordenadores = DB::table('coordenadores')
-        ->when($params['inputQuery'], function ($query) use ($params) {
-            return $query->where('coordenadores.NomeCoordenador', 'LIKE', '%' . $params['inputQuery'] . '%');
-        })
-        ->when($params['nucleo'], function ($query) use ($params) {
-            return $query->where('coordenadores.id_nucleo', '=', $params['nucleo']);
-        })
-        ->when($params['status'], function ($query) use ($params) {
-            return $query->where('coordenadores.Status', '=', $params['status'] === 'ativo' ? 1 : 0);
-        })
-        ->paginate(25);
+      $coordenadores = Coordenadores::where(function ($query) use ($params) {
+        if ($params['inputQuery']) {
+          $query->where('NomeCoordenador', 'LIKE', '%' . $params['inputQuery'] . '%')->orWhere('Email', 'LIKE', '%' . $params['inputQuery'] . '%');
+        }
+        if ($params['nucleo']) {
+          $query->whereHas('nucleos', function ($query) use ($params) {
+            $query->where('nucleos.id', '=', $params['nucleo']);
+          });
+        }
+        if ($params['status']) {
+          $query->where('Status', '=', $params['status'] === 'ativo' ? 1 : 0);
+        }
+      })
+      ->paginate(25);
 
       return view('coordenadores.coordenadores')->with([
         'user' => $user,
