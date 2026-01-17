@@ -13,6 +13,74 @@ Biko é uma aplicação web que centraliza e simplifica processos acadêmicos e 
 3. [Credenciais para Teste](#credenciais-para-teste)
 4. [Funcionalidades](#funcionalidades-da-aplicação)
 5. [Cargos da Aplicação](#cargos-da-aplicação)
+6. [Estrutura do projeto](#estrutura-do-projeto)
+
+---
+
+## **Estrutura Do Projeto**
+
+A seguir uma visão resumida da estrutura principal do projeto e a função das pastas mais relevantes:
+
+```
+biko/
+├── .env.example          # Exemplo de variáveis de ambiente
+├── .gitignore            # Regras de ignore do Git
+├── artisan               # CLI (Artisan)
+├── composer.json         # Dependências PHP e autoload (Composer)
+├── composer.lock         # Versões travadas das dependências
+├── package.json          # Dependências frontend (npm)
+├── package-lock.json     # Lockfile npm/yarn.lock também presente
+├── Dockerfile            # Imagem para container
+├── README.md             # Este documento
+├── app/                  # Código da aplicação (Models, Controllers, Services)
+│   ├── Console/          # comandos Artisan customizados
+│   ├── Events/
+│   ├── Exceptions/
+│   ├── Exports/          # classes para exportação (Excel/CSV)
+│   ├── Http/
+│   │   ├── Controllers/  # controllers web/API
+│   │   ├── Middleware/   # middlewares (auth, roles, etc.)
+│   │   └── Requests/     # Form requests / validação
+│   ├── Imports/          # classes de importação (Excel)
+│   ├── Listeners/        # listeners de eventos
+│   ├── Mail/             # Mailable classes
+│   ├── Models/           # Eloquent models e related
+│   ├── Providers/        # Service providers
+│   └── Services/         # Lógica de negócio reaproveitável
+├── bootstrap/            # Bootstrapping (app.php, cache)
+│   └── cache/
+├── config/               # Arquivos de configuração Laravel (app, auth, queue...)
+├── database/             # Migrations, seeders, factories e scripts
+│   ├── factories/
+│   ├── migrations/      # muitas migrations para as tabelas do sistema
+│   ├── seeders/         # seeders (Administrador, Alunos, Professores...)
+│   └── scripts/         # utilitários SQL
+├── public/               # Front controller e assets públicos compilados
+│   ├── index.php         # entrada pública
+│   ├── css/
+│   ├── js/
+│   ├── fonts/
+│   └── dist/            # assets compilados (tabler, libs, imgs, js, css)
+├── resources/            # assets não compilados, views e traduções
+│   ├── js/
+│   ├── sass/
+│   ├── lang/            # pt_BR, en
+│   └── views/           # Blade templates (alunos, professores, layouts...)
+│       ├── layouts/
+│       ├── alunos/
+│       ├── professores/
+│       ├── coordenadores/
+│       └── (várias outras pastas por funcionalidade)
+├── routes/               # Definição de rotas (web.php, api.php, channels.php, console.php)
+├── storage/              # Uploads, cache, sessions e logs
+│   ├── app/
+│   ├── framework/
+│   └── logs/
+├── tests/                # Testes (Feature, Unit)
+├── vendor/               # Dependências gerenciadas pelo Composer
+├── vite.config.mjs       # Config do Vite (frontend)
+└── phpunit.xml           # Configuração de testes
+```
 
 ---
 
