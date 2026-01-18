@@ -128,7 +128,25 @@
 
                         <div class="card-body p-0">
                             <a href="{{route('ambiente-virtual.show', $aula)}}">
-                                <img class="simg-responsive" src="{{ asset('aulas-virtuais/imagens/' . $aula->id . '/' . $aula->imagem_capa) }}" alt="{{ $aula->titulo }}">
+                                @php
+                                    $alt = $aula->alt_text;
+
+                                    if (!$alt) {
+                                        $alt = 'Banner da aula "' . $aula->titulo . '"';
+
+                                        if ($aula->professor && $aula->professor->NomeProfessor) {
+                                            $alt .= ', com o professor (a) ' . $aula->professor->NomeProfessor;
+                                        }
+
+                                        if ($aula->disciplina && $aula->disciplina->nome) {
+                                            $alt .= ($aula->professor && $aula->professor->NomeProfessor) ? ' e ' : ', ';
+                                            $alt .= 'disciplina ' . $aula->disciplina->nome;
+                                        }
+
+                                        $alt .= '.';
+                                    }
+                                @endphp
+                                <img class="simg-responsive" src="{{ asset('aulas-virtuais/imagens/' . $aula->id . '/' . $aula->imagem_capa) }}" alt="{{ $alt }}">
                             </a>
                         </div>
 
