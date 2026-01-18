@@ -15,9 +15,9 @@
 				<div class="page-pretitle">
 					Visão geral
 				</div>
-				<h2 class="page-title">
+				<h1 class="page-title">
 					Dashboard
-				</h2>
+				</h1>
 			</div>
     </div>
 	</div>
@@ -25,6 +25,8 @@
 
 <div class="page-body">
   <div class="container-xl">
+    <h2 class="visually-hidden">Indicadores gerais</h2>  
+
     <div class="row row-cards">
       @php
         $cadastros = DB::select('select count(*) as qtd, DATE_FORMAT(created_at,"%Y-%m-%d") as dia FROM users GROUP BY dia');
