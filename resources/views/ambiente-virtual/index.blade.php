@@ -90,7 +90,7 @@
                     <div class="col-6">
                         {{-- Botões --}}
                         <div class="col-md-12 d-flex gap-2">
-                            <a class="btn btn-light w-100" id="limparFiltros">
+                            <button type="button" class="btn btn-light w-100" id="limparFiltros">
                                 <span>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -102,7 +102,7 @@
                                     </svg>
                                 </span>
                                 Limpar filtros
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>

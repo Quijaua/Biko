@@ -115,14 +115,18 @@
                         <div class="nav-item dropdown">
                             <div class="nav-item dd-none d-md-flex me-3">
                                 <div class="btn-list">
-                                    <a href="{{ route('login') }}" class="btn btn-5" rel="noreferrer">
+                                    <a href="{{ route('login') }}" class="btn btn-5" rel="noreferrer" title="Login" aria-label="Entrar no sistema">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round"
-                                            class="icon icon-tabler icons-tabler-outline icon-tabler-login-2">
+                                            class="icon icon-tabler icons-tabler-outline icon-tabler-login-2"
+                                            aria-hidden="true">
+
+                                            <title>Ícone de login</title>
+                                            <descr>Ícone decorativo representando a ação de login</descr>
+
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path
-                                                d="M9 8v-2a2 2 0 0 1 2 -2h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-2" />
+                                            <path d="M9 8v-2a2 2 0 0 1 2 -2h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-2" />
                                             <path d="M3 12h13l-3 -3" />
                                             <path d="M13 15l3 -3" />
                                         </svg>
@@ -133,7 +137,12 @@
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                                 stroke-linecap="round" stroke-linejoin="round"
-                                                class="icon icon-tabler icons-tabler-outline icon-tabler-contract">
+                                                class="icon icon-tabler icons-tabler-outline icon-tabler-contract"
+                                                aria-hidden="true">
+
+                                                <title>Ícone de pré-inscrição</title>
+                                                <descr>Ícone decorativo representando a ação de pré-inscrição</descr>
+
                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                                 <path d="M8 21h-2a3 3 0 0 1 -3 -3v-1h5.5" />
                                                 <path d="M17 8.5v-3.5a2 2 0 1 1 2 2h-2" />
@@ -176,13 +185,12 @@
             </div>
 
             <!-- Sidebar OFFCANVAS para telas pequenas -->
-            <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="sidebar-offcanvas">
+            <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="sidebar-offcanvas" aria-label="Menu lateral">
                 <div class="offcanvas-header">
                     <h5 class="offcanvas-title">
                         @if($app_name != null){{ $app_name }}@else{{ config('app.name') }}@endif
                     </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
-                        aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Fechar menu"></button>
                 </div>
                 <div class="offcanvas-body">
                     <ul class="navbar-nav">
@@ -1623,15 +1631,14 @@
                                 </div>
 
                                 <div>
-                                    <a href="#" class="nav-link d-flex lh-1 text-reset p-0"
-                                        data-bs-toggle="dropdown" aria-label="Open user menu">
+                                    <div class="nav-link d-flex lh-1 text-reset p-0" aria-label="Dados do usuário">
                                         <span class="avatar avatar-sm"
                                             style="background-image: url({{ asset('images/user.png') }})"></span>
                                         <div class="d-none d-xl-block ps-2">
                                             <div>{{ Auth::user()->name }}</div>
                                             <div class="mt-1 small text-secondary">{{ Auth::user()->formatted_role }}</div>
                                         </div>
-                                    </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1651,16 +1658,16 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="modalInfo" tabindex="-1" style="display: none;" aria-hidden="true">
+    <div class="modal fade" id="modalInfo" tabindex="-1" style="display: none;" aria-hidden="true" role="dialog" aria-labelledby="modalInfoTitle" aria-describedby="modalInfoDesc">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         
         <div class="modal-header">
-          <h5 class="modal-title">Título do Modal</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          <h5 class="modal-title" id="modalInfoTitle">Título do Modal</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar Modal"></button>
         </div>
   
-        <div class="modal-body">
+        <div class="modal-body" id="modalInfoDesc">
           <p>Conteúdo do modal aqui.</p>
         </div>
   
