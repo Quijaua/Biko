@@ -35,7 +35,7 @@
                     <ul class="nav nav-tabs card-header-tabs steps-tabs justify-content-center" data-bs-toggle="tabs">
                     <li id="step-back" class="nav-item d-none">
                         <a id="step-back-link" href="javascript:void(0)" class="nav-link">
-                        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-left"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M5 12l6 6" /><path d="M5 12l6 -6" /></svg>
+                        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-left"  aria-hidden="true"><title>Ícone de voltar</title><descr>Botão para retornar à etapa anterior do pré-cadastro</descr><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M5 12l6 6" /><path d="M5 12l6 -6" /></svg>
                         <!-- <span class="step-circle"><-</span> -->
                         </a>
                     </li>
@@ -125,6 +125,12 @@
                                     </small>
 
                                     <div class="mb-3 invalid-feedback invalid-nucleo d-block">Por favor, selecione um núcleo.</div>
+
+                                    <div>
+                                        <button type="button" id="btnContinue" class="btn btn-primary" disabled>
+                                            Continuar
+                                        </button>
+                                    </div>
                                   <!--/a-->
 
                                 </div>
@@ -640,7 +646,7 @@
                         step2Valid = true;
                         document.getElementById('step-3').classList.remove('disabled');
 
-                        document.getElementById("step-3").click();
+                        // document.getElementById("step-3").click();
                         document.getElementById("step-back").classList.remove("d-none");
                         document.getElementById("step-back").classList.add("d-block");
                         inputNucleo.required = false;
@@ -690,9 +696,18 @@
 
                     document.getElementById("nucleoSelecionadoTexto").innerText = nucleoSelecionadoTexto;
 
+                    // document.getElementById("step-3").click();
+                    // stepFrom++;
+
+                    const btnContinue = document.getElementById("btnContinue");
+                    btnContinue.disabled = false;
+                    btnContinue.focus();
+                }
+
+                document.getElementById("btnContinue").addEventListener("click", function() {
                     document.getElementById("step-3").click();
                     stepFrom++;
-                }
+                });
 
                 document.querySelectorAll('.nav-tabs a[data-bs-toggle="tab"]').forEach(tab => {
                     tab.addEventListener('show.bs.tab', (e) => {
