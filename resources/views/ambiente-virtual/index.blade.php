@@ -109,6 +109,8 @@
             </div>
 
             <div class="row row-cards">
+                <h2 class="visually-hidden">Lista de aulas</h2>
+
                 @if($aulas->isEmpty())
                 <p>Nenhum registro encontrado.</p>
                 @else

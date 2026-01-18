@@ -6,11 +6,20 @@
     <!-- PAGE HEADER -->
     <div class="row justify-content-center">
         <div class="col-8">
-            @if ($user->role !== 'aluno')
-            <div class="mb-3 d-flex justify-content-end">
-                <a href="{{ route('novos-voluntarios') }}" class="btn btn-primary">Novos Voluntários</a>
+            <div class="row">
+                <div class="col">
+                    <h1 class="page-title">
+                        Dashboard
+                    </h1>
+                </div>
+                <div class="col">
+                    @if ($user->role !== 'aluno')
+                    <div class="mb-3 d-flex justify-content-end">
+                        <a href="{{ route('novos-voluntarios') }}" class="btn btn-primary">Novos Voluntários</a>
+                    </div>
+                    @endif
+                </div>
             </div>
-            @endif
             <div class="card mb-3">
                 <div class="card-header">Dashboard</div>
 
@@ -35,7 +44,7 @@
             </div>
             @if ($user->role === 'coordenador' && $nucleos->isNotEmpty())
                 <div>
-                    <h3>Núcleos que faço parte</h3>
+                    <h2>Núcleos que faço parte</h2>
                     <div class="d-flex flex-wrap gap-2">
                         @foreach ($nucleos as $nucleo)
                             <a href="{{ url('/nucleos/details/' . $nucleo->id) }}" class="btn btn-primary">

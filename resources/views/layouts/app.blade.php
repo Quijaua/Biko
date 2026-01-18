@@ -160,6 +160,8 @@
                     </div>
                 </div>
             </header>
+
+            <h1 class="visually-hidden">Acesso ao sistema</h1>
         @endguest
 
         @auth
@@ -691,9 +693,9 @@
             <aside class="navbar navbar-vertical navbar-expand-lg navbar-dark bg-dark d-none d-lg-flex"
                 style="width: 250px;">
                 <div class="container-fluid p-2">
-                    <h1 class="navbar-brand text-white my-3">
+                    <p class="navbar-brand text-white my-3">
                         @if($app_name != null){{ $app_name }}@else{{ config('app.name') }}@endif
-                    </h1>
+                    </p>
                     <div class="collapse navbar-collapse" id="sidebar-menu">
                         <ul class="navbar-nav">
                             @if (!\Auth()->user()->first_login)

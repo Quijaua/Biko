@@ -9,7 +9,7 @@
         <div class="container-xl">
             <div class="row g-2 align-items-center">
                 <div class="col">
-                    <h2 class="page-title">Configurações</h2>
+                    <h1 class="page-title">Configurações</h1>
                 </div>
             </div>
         </div>
@@ -26,7 +26,7 @@
 
                             <div class="row d-flex">
                                 <div class="col-8">
-                                    <h1 class="text-[34px]">Administradores</h1>
+                                    <h2 class="text-[34px]">Administradores</h2>
                                 </div>
                             </div>
 

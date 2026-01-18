@@ -60,7 +60,7 @@
                     <form class="row g-2 align-items-end">
 
                         <div class="col-md-12">
-                            <h3 class="card-title mb-3 d-flex align-items-center">
+                            <h2 class="card-title mb-3 d-flex align-items-center">
                                 <span class="mx-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -79,7 +79,7 @@
                                     </svg>
                                 </span>
                                 Filtros avançados
-                            </h3>
+                            </h2>
                         </div>
 
                         {{-- Núcleo --}}
@@ -150,6 +150,8 @@
                         </div>
                         @else
                         <div class="card">
+                            <h2 class="visually-hidden">Lista de coordenadores</h2>
+
                             <div class="table-responsive">
                                 <table class="table table-hover table-vcenter">
                                     <thead>
