@@ -27,10 +27,10 @@
                     $my_token = app('auth.password.broker')->createToken($user);
                     $url = $app['url']->to('/');
                     ?>
-                    <p><?php echo '<a href="'.$url.'/password/reset/'.$my_token.'?email='.$user->email.'">Clique aqui</a> para cadastrar ou alterar a sua senha no sistema.'; ?></p>
+                    <p><?php echo '<a href="'.$url.'/password/reset/'.$my_token.'?email='.$user->email.'" class="text-link">Clique aqui</a> para cadastrar ou alterar a sua senha no sistema.'; ?></p>
                     <p>Aqui você poderá acompanhar a sua jornada e seu desempenho durante a permanência no projeto.</p>
                     <p>Boa sorte e bons estudos!</p>
-                    <p><a href="http://uneafrobrasil.org" target="_blank"><strong>UNEAfro Brasil</strong></a></p>
+                    <p><a href="http://uneafrobrasil.org" class="text-link" target="_blank"><strong>UNEAfro Brasil</strong></a></p>
                 </div>
             </div>
             @if ($user->role === 'coordenador' && $nucleos->isNotEmpty())

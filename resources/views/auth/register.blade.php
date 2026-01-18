@@ -646,7 +646,7 @@
                         step2Valid = true;
                         document.getElementById('step-3').classList.remove('disabled');
 
-                        // document.getElementById("step-3").click();
+                        document.getElementById("step-3").click();
                         document.getElementById("step-back").classList.remove("d-none");
                         document.getElementById("step-back").classList.add("d-block");
                         inputNucleo.required = false;

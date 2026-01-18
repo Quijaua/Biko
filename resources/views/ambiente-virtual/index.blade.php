@@ -127,7 +127,7 @@
                         </div>
 
                         <div class="card-body p-0">
-                            <a href="{{route('ambiente-virtual.show', $aula)}}">
+                            <a href="{{route('ambiente-virtual.show', $aula)}}" class="img-wcag">
                                 @php
                                     $alt = $aula->alt_text;
 
