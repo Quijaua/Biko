@@ -15,6 +15,7 @@ class AmbienteVirtual extends Model implements Auditable
         'titulo',
         'descricao',
         'imagem_capa',
+        'alt_text',
         'yt_url',
         'notas',
         'comentarios',
