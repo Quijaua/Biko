@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div>
-            <p style="font-size: 35px;"><span><a href="/psicologos" class="text-primary">
+            <h1 style="font-size: 35px; line-height: normal;"><span><a href="/psicologos" class="text-primary" aria-label="Voltar para psicólogos">
                         <svg xmlns="http://www.w3.org/2000/svg" style="width: 45px; height: 45px;" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round"
@@ -14,7 +14,7 @@
                             <path d="M8 12h8" />
                             <path d="M12 8l-4 4" />
                         </svg>
-                    </a></span> Detalhes do psicólogo(a)</p>
+                    </a></span> Detalhes do psicólogo(a)</h1>
         </div>
         <div class="card">
             <div class="row g-0">
@@ -23,7 +23,7 @@
                     <div class="row mb-3">
                         <div class="col-9">
                             <div>
-                                <h3 class="mb-0">Meu Perfil</h3>
+                                <h2 class="mb-0">Meu Perfil</h2>
                                 <small class="text-muted">
                                     Pré-cadastro feito em {{ $dados->created_at }} |
                                     Atualizado em {{ $dados->updated_at }}

@@ -1,6 +1,8 @@
     @extends('layouts.app')
 
     @section('content')
+        <h1 class="visually-hidden">Pré-Inscrição</h1>
+
         <style>
             .nav-link.disabled {
                 pointer-events: none;

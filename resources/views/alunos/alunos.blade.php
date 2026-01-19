@@ -57,6 +57,7 @@
 
           {{-- Núcleo --}}
           <div class="col-md-3">
+            <label for="nucleo" class="visually-hidden">Núcleo</label>
             <select class="form-select" id="nucleo" name="nucleo">
               <option value="" @selected(request('nucleo')=='' )>Núcleo</option>
               @foreach(\App\Nucleo::all() as $nuc)
@@ -70,6 +71,7 @@
 
           {{-- Situação --}}
           <div class="col-md-3">
+            <label for="status" class="visually-hidden">Situação</label>
             <select class="form-select" id="status" name="status">
               <option value="" @selected(request('status')=='' )>Situação</option>
               <!--option value="ativo" @selected(request('status')=='ativo' )>Ativos</option-->
@@ -81,6 +83,7 @@
 
           {{-- Lista de Espera --}}
           <div class="col-md-3">
+            <label for="lista_espera" class="visually-hidden">Lista de espera</label>
             <select class="form-select" id="lista_espera" name="lista_espera">
               <option value="">Lista de espera</option>
               <option value="Sim" @selected(request('lista_espera')=='Sim' )>Sim</option>
@@ -156,21 +159,21 @@
             <table class="table table-hover table-vcenter">
               <thead>
                 <tr>
-                <th class="text-nowrap text-black py-3"></th>
-                  <th class="text-nowrap text-black py-3">Foto</th>
-                  <th class="text-nowrap text-black py-3">Nome</th>
-                  <th class="text-nowrap text-black py-3">Email</th>
-                  <th class="text-nowrap text-black py-3">Núcleo</th>
-                  <th class="text-nowrap text-black py-3">Situação</th>
-                  <th class="text-nowrap text-black py-3">Lista de Espera</th>
-                  <th class="text-nowrap text-black py-3">Ações</th>
+                  <th scope="col" class="text-nowrap text-black py-3"><span class="visually-hidden">Selecionar</span></th>
+                  <th scope="col" class="text-nowrap text-black py-3">Foto</th>
+                  <th scope="col" class="text-nowrap text-black py-3">Nome</th>
+                  <th scope="col" class="text-nowrap text-black py-3">Email</th>
+                  <th scope="col" class="text-nowrap text-black py-3">Núcleo</th>
+                  <th scope="col" class="text-nowrap text-black py-3">Situação</th>
+                  <th scope="col" class="text-nowrap text-black py-3">Lista de Espera</th>
+                  <th scope="col" class="text-nowrap text-black py-3">Ações</th>
                 </tr>
 
               </thead>
               <tbody class="bg-white rounded">
                 @foreach($alunos as $aluno)
                 <tr>
-                  <td><input type="checkbox" class="custom-checkbox" /></td>
+                  <td><input type="checkbox" class="custom-checkbox" aria-label="Selecionar estudante {{ $aluno->NomeSocial ?? $aluno->NomeAluno }}" /></td>
 
                   {{-- Foto --}}
                   <td>

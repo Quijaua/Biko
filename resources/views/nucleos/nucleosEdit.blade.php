@@ -4,7 +4,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <div class="container">
         <div>
-            <p style="font-size: 35px;"><span><a href="/nucleos" class="text-primary">
+            <h1 style="font-size: 35px; line-height: normal;"><span><a href="/nucleos" class="text-primary" aria-label="Voltar para núcleos">
                         <svg xmlns="http://www.w3.org/2000/svg" style="width: 45px; height: 45px;" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round"
@@ -15,7 +15,7 @@
                             <path d="M8 12h8" />
                             <path d="M12 8l-4 4" />
                         </svg>
-                    </a></span> Detalhes do núcleo</p>
+                    </a></span> Detalhes do núcleo</h1>
         </div>
         <div class="card">
             <div class="row g-0">

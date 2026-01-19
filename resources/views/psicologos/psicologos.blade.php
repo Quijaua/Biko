@@ -54,7 +54,8 @@
                         <form action="/psicologos/search" method="POST" class="p-4 bg-white" role="search">
                             <div class="col-10 d-flex align-items-center gap-2">
                                 @csrf
-                                <input type="text" name="inputQuery" class="form-control"
+                                <label for="inputQuery" class="visually-hidden">Pesquisar psicologo(a)</label>
+                                <input type="text" id="inputQuery" name="inputQuery" class="form-control"
                                     placeholder="Digite o nome ou sobrenome para encontrar um psicologo(a)" required />
 
                                 <button type="submit" class="btn btn-outline-primary d-flex align-items-center gap-1">
@@ -79,19 +80,19 @@
                                     <table class="table table-hover table-vcenter">
                                         <thead>
                                             <tr>
-                                                <th class="text-nowrap text-black py-3"></th>
-                                                <th class="text-nowrap text-black py-3">Nome</th>
-                                                <th class="text-nowrap text-black py-3">CRP</th>
-                                                <th class="text-nowrap text-black py-3">Telefone</th>
-                                                <th class="text-nowrap text-black py-3">E-mail</th>
-                                                <th class="text-nowrap text-black py-3">Ações</th>
+                                                <th scope="col" class="text-nowrap text-black py-3"><span class="visually-hidden">Selecionar</span></th>
+                                                <th scope="col" class="text-nowrap text-black py-3">Nome</th>
+                                                <th scope="col" class="text-nowrap text-black py-3">CRP</th>
+                                                <th scope="col" class="text-nowrap text-black py-3">Telefone</th>
+                                                <th scope="col" class="text-nowrap text-black py-3">E-mail</th>
+                                                <th scope="col" class="text-nowrap text-black py-3">Ações</th>
                                             </tr>
 
                                         </thead>
                                         <tbody class="bg-white rounded">
                                             @foreach ($psicologos as $psicologo)
                                                 <tr>
-                                                    <td><input type="checkbox" class="custom-checkbox" /></td>
+                                                    <td><input type="checkbox" class="custom-checkbox" aria-label="Selecionar psicólogo (a) {{ $psicologo->nome }}" /></td>
 
                                                     {{-- Nome --}}
                                                     <td class="text-secondary">{{ $psicologo->nome }}</td>

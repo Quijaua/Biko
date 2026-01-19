@@ -112,6 +112,7 @@
 
                         {{-- Núcleo --}}
                         <div class="col-md-4">
+                            <label for="nucleo" class="visually-hidden">Núcleo</label>
                             <select class="form-select" id="nucleo" name="nucleo">
                                 <option value="" @selected(request('nucleo') == '')>Núcleo</option>
                                 @foreach (\App\Nucleo::all() as $nuc)
@@ -124,6 +125,7 @@
 
                         {{-- Situação --}}
                         <div class="col-md-4">
+                            <label for="status" class="visually-hidden">Situação</label>
                             <select class="form-select" id="status" name="status">
                                 <option value="" @selected(request('status') == '')>Situação</option>
                                 <option value="ativo" @selected(request('status') == 'ativo')>Ativo</option>
@@ -206,20 +208,20 @@
                                     <table class="table table-hover table-vcenter">
                                         <thead>
                                             <tr>
-                                                <th class="text-nowrap text-black py-3"></th>
-                                                <th class="text-nowrap text-black py-3">Foto</th>
-                                                <th class="text-nowrap text-black py-3">Nome</th>
-                                                <!-- <th class="text-nowrap text-black py-3">CPF</th> -->
-                                                <th class="text-nowrap text-black py-3">Novo Voluntário</th>
-                                                <th class="text-nowrap text-black py-3">Situação</th>
-                                                <th class="text-nowrap text-black py-3">Ações</th>
+                                                <th scope="col" class="text-nowrap text-black py-3"><span class="visually-hidden">Selecionar</span></th>
+                                                <th scope="col" class="text-nowrap text-black py-3">Foto</th>
+                                                <th scope="col" class="text-nowrap text-black py-3">Nome</th>
+                                                <!-- <th scope="col" class="text-nowrap text-black py-3">CPF</th> -->
+                                                <th scope="col" class="text-nowrap text-black py-3">Novo Voluntário</th>
+                                                <th scope="col" class="text-nowrap text-black py-3">Situação</th>
+                                                <th scope="col" class="text-nowrap text-black py-3">Ações</th>
                                             </tr>
 
                                         </thead>
                                         <tbody class="bg-white rounded">
                                             @foreach ($professores as $professor)
                                                 <tr>
-                                                    <td><input type="checkbox" class="custom-checkbox" /></td>
+                                                    <td><input type="checkbox" class="custom-checkbox" aria-label="Selecionar professor (a) {{ $professor->NomeProfessor ?? $professor->NomeSocial }}" /></td>
 
                                                     {{-- Foto --}}
                                                     <td>

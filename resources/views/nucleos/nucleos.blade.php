@@ -64,6 +64,7 @@
 
           {{-- Núcleo --}}
           <div class="col-md-3">
+            <label for="cidade" class="visually-hidden">Cidade</label>
             <select class="form-select" id="cidade" name="cidade">
               <option value="" @selected(request('cidade')=='')>Cidade</option>
               @foreach(\App\Nucleo::whereNotNull('Cidade')->select('Cidade')->groupBy('Cidade')->get() as $nuc)
@@ -76,6 +77,7 @@
 
           {{-- Situação --}}
           <div class="col-md-4">
+            <label for="status" class="visually-hidden">Situação</label>
             <select class="form-select" id="status" name="status">
               <option value="" @selected(request('status')=='' )>Situação</option>
               <option value="ativo" @selected(request('status')=='ativo' )>Ativo</option>
@@ -162,19 +164,19 @@
                   <table class="table table-hover table-vcenter">
                       <thead>
                           <tr>
-                              <th class="text-nowrap text-black py-3"></th>
-                              <th class="text-nowrap text-black py-3">Nome</th>
-                              <!-- <th class="text-nowrap text-black py-3">Cidade</th>
-                              <th class="text-nowrap text-black py-3">Telefone</th> -->
-                              <th class="text-nowrap text-black py-3">Situação</th>
-                              <th class="text-nowrap text-black py-3">Ações</th>
+                              <th scope="col" class="text-nowrap text-black py-3"><span class="visually-hidden">Selecionar</span></th>
+                              <th scope="col" class="text-nowrap text-black py-3">Nome</th>
+                              <!-- <th scope="col" class="text-nowrap text-black py-3">Cidade</th>
+                              <th scope="col" class="text-nowrap text-black py-3">Telefone</th> -->
+                              <th scope="col" class="text-nowrap text-black py-3">Situação</th>
+                              <th scope="col" class="text-nowrap text-black py-3">Ações</th>
                           </tr>
 
                       </thead>
                       <tbody class="bg-white rounded">
                           @foreach ($nucleos as $nucleo)
                               <tr>
-                                  <td><input type="checkbox" class="custom-checkbox" /></td>
+                                  <td><input type="checkbox" class="custom-checkbox" aria-label="Selecionar núcleo {{ $nucleo->NomeNucleo }}" /></td>
                                   {{-- Nome --}}
                                   <td>{{ $nucleo->NomeNucleo }}</td>
 

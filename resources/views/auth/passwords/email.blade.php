@@ -2,10 +2,12 @@
 
 @section('content')
 <div class="container">
+    <h1 class="visually-hidden">Alterar senha</h1>
+
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Alteração de Senha') }}</div>
+                <div class="card-header">{{ __('Primeiro Acesso') }}</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -18,7 +20,7 @@
                         @csrf
 
                         <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Email') }}</label>
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-mail') }}</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
@@ -34,7 +36,7 @@
                         <div class="form-group row mt-3">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Enviar o link para alteração de senha') }}
+                                    {{ __('Enviar link por e-mail') }}
                                 </button>
                             </div>
                         </div>

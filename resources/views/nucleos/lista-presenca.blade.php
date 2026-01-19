@@ -76,6 +76,7 @@
                         <div class="row">
                             {{-- Núcleo --}}
                             <div class="col-md-4" style="margin-top: 20px;">
+                                <label for="nucleo" class="visually-hidden">Núcleo</label>
                                 <select class="form-select" id="nucleo" name="nucleo">
                                     <option value="" @selected(request('nucleo') == '')>Núcleo</option>
                                     @foreach (\App\Nucleo::all() as $nuc)
@@ -89,7 +90,7 @@
                             {{-- Periodo --}}
                             <div class="col-4">
                                 <?php $today = \Carbon\Carbon::now()->format('Y-m-d'); ?>
-                                <small>Período de</small>
+                                <label for="date">Período de</label>
                                 <input type="date" class="form-control" id="date" name="date"
                                     aria-describedby="dateHelp" max="{{ $today }}" value="{{ request('date') }}">
                             </div>
@@ -162,10 +163,10 @@
                         <table class="table table-hover table-vcenter">
                             <thead>
                                 <tr>
-                                    <th class="text-nowrap text-black py-3"></th>
-                                    <th scope="text-nowrap text-black py-3">Data</th>
-                                    <th scope="text-nowrap text-black py-3">Núcleo</th>
-                                    <th scope="text-nowrap text-black py-3">Ações</th>
+                                    <th scope="col" class="text-nowrap text-black py-3"><span class="visually-hidden">Selecionar</span></th>
+                                    <th scope="col" scope="text-nowrap text-black py-3">Data</th>
+                                    <th scope="col" scope="text-nowrap text-black py-3">Núcleo</th>
+                                    <th scope="col" scope="text-nowrap text-black py-3">Ações</th>
 
                                 </tr>
 
@@ -173,7 +174,7 @@
                             <tbody class="bg-white rounded">
                                 @foreach ($nucleo->listas_presenca as $lista)
                                     <tr>
-                                        <td><input type="checkbox" class="custom-checkbox" /></td>
+                                        <td><input type="checkbox" class="custom-checkbox" aria-label="Selecionar lista de presença do dia {{ $lista->date->format('d/m/Y') }}" /></td>
                                         <td class="text-secondary">{{ $lista->date->format('d/m/Y') }}</td>
                                         <td class="text-secondary">{{ $nucleo->NomeNucleo }}</td>
                                         <td class="text-secondary">

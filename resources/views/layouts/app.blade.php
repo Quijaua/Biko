@@ -160,8 +160,6 @@
                     </div>
                 </div>
             </header>
-
-            <h1 class="visually-hidden">Acesso ao sistema</h1>
         @endguest
 
         @auth

@@ -4,7 +4,7 @@
 <div class="page">
 	<div class="container container-tight py-4">
         <div class="card card-md">
-
+            <h1 class="visually-hidden">Acesso ao sistema</h1>
 
 	        <div class="card-body">
 		        <h2 class="h2 text-center mb-4">{{ __('Login') }}</h2>

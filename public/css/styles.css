@@ -121,13 +121,17 @@ a.img-wcag {
 }
 
 .text-link {
-  color: #0058a9 !important;
+  color: #003a7a !important;
+  text-decoration: underline;
 }
 .text-secondary {
   color: #3e5676 !important;
 }
 .text-muted {
   color: #445a79 !important;
+}
+.text-black-50 {
+  color: rgba(0, 0, 0, .75) !important;
 }
 .form-text {
   color: #505a65 !important;

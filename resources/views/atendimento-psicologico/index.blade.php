@@ -88,17 +88,17 @@
                                                 <table class="table table-hover table-vcenter">
                                                     <thead>
                                                         <tr>
-                                                            <th></th>
-                                                            <th>Estudante</th>
-                                                            <th>Data do Atendimento</th>
-                                                            <th>Responsável</th>
-                                                            <th>Ações</th>
+                                                            <th scope="col"><span class="visually-hidden">Selecionar</span></th>
+                                                            <th scope="col">Estudante</th>
+                                                            <th scope="col">Data do Atendimento</th>
+                                                            <th scope="col">Responsável</th>
+                                                            <th scope="col">Ações</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         @foreach ($atendimento_psicologico->where('status', '') as $psicologo)
                                                             <tr>
-                                                                <td><input type="checkbox" class="custom-checkbox" /></td>
+                                                                <td><input type="checkbox" class="custom-checkbox" aria-label="Selecionar atendimento do estudante {{ $psicologo->estudante->NomeAluno ?? 'sem estudante vinculado' }}" /></td>
 
                                                                 <td class="text-secondary">
                                                                     @if($psicologo->estudante)
@@ -228,7 +228,7 @@
                                                     <tbody>
                                                         @foreach ($atendimento_psicologico as $psicologo)
                                                             <tr>
-                                                                <td><input type="checkbox" class="custom-checkbox" /></td>
+                                                                <td><input type="checkbox" class="custom-checkbox" aria-label="Selecionar atendimento do estudante {{ $psicologo->estudante->NomeAluno ?? 'sem estudante vinculado' }}"  /></td>
 
                                                                 <td class="text-secondary">
                                                                     @if($psicologo->estudante)

@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div>
-            <p style="font-size: 35px;"><span><a href="/alunos" class="text-primary">
+            <h1 style="font-size: 35px; line-height: normal;"><span><a href="/alunos" class="text-primary" aria-label="Voltar para estudantes">
                         <svg xmlns="http://www.w3.org/2000/svg" style="width: 45px; height: 45px;" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round"
@@ -14,7 +14,7 @@
                             <path d="M8 12h8" />
                             <path d="M12 8l-4 4" />
                         </svg>
-                    </a></span> Adicionar novo estudante</p>
+                    </a></span> Adicionar novo estudante</h1>
         </div>
 
         <div class="card">
@@ -41,7 +41,7 @@
                     <div class="row mb-3">
                         <div class="col-9">
                             <div>
-                                <h3 class="mb-0">Meu Perfil</h3>
+                                <h2 class="mb-0">Meu Perfil</h2>
                                 <small class="text-muted">
                                     Pré-cadastro feito em <?php echo date('Y-m-d H:i:s'); ?> |
                                     Atualizado em <?php echo date('Y-m-d H:i:s'); ?>
@@ -430,7 +430,7 @@
                                     <div class="col-md-6 mb-3">
                                         <div>
                                             <label class="form-label mb-2" for="inputNucleo">Núcleo</label>
-                                            <select id="inpurtNucleo" name="inputNucleo"
+                                            <select id="inputNucleo" name="inputNucleo"
                                                 class="form-select form-control is-invalid" required>
                                                 <option value="" selected>Selecione</option>
                                                 @foreach ($nucleos as $nucleo)
