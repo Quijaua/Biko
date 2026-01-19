@@ -121,31 +121,29 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label mb-3" for="inputAreaAtuacao">Área de atuação</label>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="inputAreaAtuacao"
-                                                    id="inputAreaAtuacao1" value="educacao">
-                                                <label class="form-label mb-2 form-check-label"
-                                                    for="inputAreaAtuacao1">Educação</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="inputAreaAtuacao"
-                                                    id="inputAreaAtuacao2" value="esporte">
-                                                <label class="form-label mb-2 form-check-label"
-                                                    for="inputAreaAtuacao2">Esporte</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="inputAreaAtuacao"
-                                                    id="inputAreaAtuacao3" value="cultura">
-                                                <label class="form-label mb-2 form-check-label"
-                                                    for="inputAreaAtuacao3">Cultura</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="inputAreaAtuacao"
-                                                    id="inputAreaAtuacao4" value="outro">
-                                                <label class="form-label mb-2 form-check-label"
-                                                    for="inputAreaAtuacao4">Outro</label>
-                                            </div>
+                                            <fieldset>
+                                                <legend class="form-label mb-3">Área de atuação</legend>
+
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inputAreaAtuacao" id="area_educacao" value="educacao">
+                                                    <label class="form-check-label" for="area_educacao">Educação</label>
+                                                </div>
+
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inputAreaAtuacao" id="area_esporte" value="esporte">
+                                                    <label class="form-check-label" for="area_esporte">Esporte</label>
+                                                </div>
+
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inputAreaAtuacao" id="area_cultura" value="cultura">
+                                                    <label class="form-check-label" for="area_cultura">Cultura</label>
+                                                </div>
+
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inputAreaAtuacao" id="area_outro" value="outro">
+                                                    <label class="form-check-label" for="area_outro">Outro</label>
+                                                </div>
+                                            </fieldset>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -415,22 +413,19 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="mb-3">
-                                            <label class="form-label mb-2" for="inputTaxaInscricao">Tem taxa de
-                                                inscrição</label><br>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="inputTaxaInscricao"
-                                                    id="inputTaxaInscricao1" value="sim"
-                                                    onclick="showInput('#TaxaInscricaoValor')" >
-                                                <label class="form-label mb-2 form-check-label"
-                                                    for="inputTaxaInscricao1">Sim</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="inputTaxaInscricao"
-                                                    id="inputTaxaInscricao2" value="nao"
-                                                    onclick="hideTaxaInput('#TaxaInscricaoValor')" checked>
-                                                <label class="form-label mb-2 form-check-label"
-                                                    for="inputTaxaInscricao2">Não</label>
-                                            </div>
+                                            <fieldset>
+                                                <legend class="form-label mb-2">Tem taxa de inscrição?</legend>
+
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inputTaxaInscricao" id="taxa_inscricao_sim" value="sim" aria-controls="TaxaInscricaoValor" aria-expanded="false" onclick="showInput('#TaxaInscricaoValor')">
+                                                    <label class="form-check-label" for="taxa_inscricao_sim">Sim</label>
+                                                </div>
+
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inputTaxaInscricao" id="taxa_inscricao_nao" value="nao" aria-controls="TaxaInscricaoValor" aria-expanded="true" onclick="hideTaxaInput('#TaxaInscricaoValor')" checked>
+                                                    <label class="form-check-label" for="taxa_inscricao_nao">Não</label>
+                                                </div>
+                                            </fieldset>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -507,21 +502,21 @@
                                     <div class="col-12 text-center mt-3 mb-3 text-danger">É necessário criar o núcleo para adicionar professores</div>
                                     <div class="col-md-4">
                                         <div class="mb-3">
-                                            <label class="form-label mb-2" for="inputHorarios">Horário Inicial</label>
+                                            <label class="form-label mb-2" for="inputHorarioInicial">Horário Inicial</label>
                                             <input type="time" class="form-control" id="inputHorarioInicial"
                                                 name="inputHorarioInicial" aria-describedby="inputHorarioInicialHelp" disabled>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="mb-3">
-                                            <label class="form-label mb-2" for="inputHorarios">Horário Final</label>
+                                            <label class="form-label mb-2" for="inputHorarioFinal">Horário Final</label>
                                             <input type="time" class="form-control" id="inputHorarioFinal"
                                                 name="inputHorarioFinal" aria-describedby="inputHorarioFinalHelp" disabled>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="mb-3">
-                                            <label class="form-label mb-2" for="inputHorarios">Dia da semana</label>
+                                            <label class="form-label mb-2" for="inputDiaSemana">Dia da semana</label>
                                             <select name="inputDiaSemana" id="inputDiaSemana" class="form-select" disabled>
                                                 <option value="Segunda-feira">Segunda-feira</option>
                                                 <option value="Terça-feira">Terça-feira</option>

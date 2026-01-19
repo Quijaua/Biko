@@ -155,27 +155,21 @@
 
                         <div class="row">
                             <div class="col-md-6">
-                                <div>
-                                    <div class="form-label">É uma supervisora?</div>
+                                <fieldset>
+                                    <legend class="form-label">É uma supervisora?</legend>
+
                                     <div>
-                                        <label class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio"
-                                                name="supervisora" value="1"
-                                                <?php if ($dados->supervisora) {
-                                                    echo 'checked';
-                                                } ?> />
-                                            <span class="form-check-label">Sim</span>
-                                        </label>
-                                        <label class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio"
-                                                name="supervisora" value="0"
-                                                <?php if (!$dados->supervisora) {
-                                                    echo 'checked';
-                                                } ?> />
-                                            <span class="form-check-label">Não</span>
-                                        </label>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="supervisora" id="supervisora_sim" value="1" <?php if ($dados->supervisora) {echo 'checked';} ?>>
+                                            <label class="form-check-label" for="supervisora_sim">Sim</label>
+                                        </div>
+
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="supervisora" id="supervisora_nao" value="0" <?php if (!$dados->supervisora) {echo 'checked';} ?>>
+                                            <label class="form-check-label" for="supervisora_nao">Não</label>
+                                        </div>
                                     </div>
-                                </div>
+                                </fieldset>
                             </div>
                         </div>
 
