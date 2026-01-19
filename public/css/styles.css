@@ -132,11 +132,15 @@ a.img-wcag {
 .form-text {
   color: #505a65 !important;
 }
-.text-danger {
-  color: #f69292 !important;
-}
 .invalid-feedback {
   color: #b60000 !important;
+}
+.text-danger {
+  color: #b60000 !important;
+}
+
+.bg-dark .text-danger {
+  color: #f69292 !important;
 }
 
 .alert-success {
@@ -149,6 +153,13 @@ header.navbar-expand-md .nav-link {
 }
 aside.navbar .nav-item.bg-primary .nav-link {
   color: #fff !important;
+}
+
+.nav.flex-column .nav-link.active {
+  color: #0055a3 !important;
+}
+.nav.flex-column .nav-link {
+  color: #445a79 !important;
 }
 
 .steps-tabs a.nav-link,

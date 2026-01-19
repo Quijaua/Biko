@@ -50,7 +50,7 @@
                     <div class="col-6 col-md-2">
                         <div class="mb-3">
                             <label class="form-label mb-2" for="semestre">Semestre</label>
-                            <select class="form-select" aria-label="Default select example" name="semestre" id="semestre">
+                            <select class="form-select" name="semestre" id="semestre">
                                 <option value="02/2024" @if($ead->semestre == '02/2024') selected @endif>02/2024</option>
                                 <option value="01/2025" @if($ead->semestre == '01/2025') selected @endif>01/2025</option>
                                 <option value="02/2025" @if($ead->semestre == '02/2025') selected @endif>02/2025</option>
@@ -91,7 +91,7 @@
                     <div class="col-12 col-md-3">
                         <div class="mb-3">
                             <label class="form-label mb-2" for="tipo">Tipo</label>
-                            <select class="form-select" aria-label="Default select example" name="tipo" id="tipo">
+                            <select class="form-select" name="tipo" id="tipo">
                                 <option value="Palestras" @if($ead->tipo == 'Palestras') selected @endif >Palestras</option>
                                 <option value="Encontros pedagógicos" @if($ead->tipo == 'Encontros pedagógicos') selected @endif >Encontros pedagógicos</option>
                                 <option value="Encontros GARCIA" @if($ead->tipo == 'Encontros GARCIA') selected @endif >Encontros GARCIA</option>

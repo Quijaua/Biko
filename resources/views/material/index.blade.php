@@ -229,7 +229,7 @@
                                                                         </h5>
                                                                         <button type="button" class="btn-close"
                                                                             data-bs-dismiss="modal"
-                                                                            aria-label="Fechar"></button>
+                                                                            aria-label="Fechar modal"></button>
                                                                     </div>
                                                                     <div class="modal-body text-center">
                                                                         <p class="mb-0">Deseja inativar este material?</p>
@@ -268,7 +268,7 @@
                                                                     </h5>
                                                                     <button type="button" class="btn-close"
                                                                         data-bs-dismiss="modal"
-                                                                        aria-label="Fechar"></button>
+                                                                        aria-label="Fechar modal"></button>
                                                                 </div>
                                                                 <div class="modal-body text-center">
                                                                     <p class="mb-0">Deseja excluir este material?
@@ -376,7 +376,7 @@
                         <div class="modal-header">
                             <h5 class="modal-title text-primary">Adicionar novo material</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Fechar"></button>
+                                aria-label="Fechar modal"></button>
                         </div>
                         <div class="modal-body">
                             <form action="{{ route('nucleo.material.create') }}" method="post"
@@ -436,7 +436,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title text-primary">Editar material</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar modal"></button>
             </div>
             <form action="" method="POST">
                 @csrf

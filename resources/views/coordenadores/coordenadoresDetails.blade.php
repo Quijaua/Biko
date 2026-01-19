@@ -108,7 +108,7 @@
                                             <div class="d-flex align-items-center">
                                                 <!-- Box do preview/ícone -->
                                                 <div class="avatar avatar-xl rounded border d-flex align-items-center justify-content-center me-3"
-                                                    style="width: 96px; height: 96px; background-color: #f8f9fa; overflow: hidden; position: relative;">
+                                                    style="width: 96px; height: 96px; background-color: #f8f9fa; color: #000; overflow: hidden; position: relative;">
 
                                                     <!-- Preview da imagem -->
                                                     @if ($dados->Foto)

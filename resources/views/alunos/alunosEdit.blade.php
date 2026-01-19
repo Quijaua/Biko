@@ -39,7 +39,7 @@
                 <!-- Form content -->
                 <div class="col-md-10 p-4">
                     <div class="row mb-3">
-                        <div class="col-8">
+                        <div class="col">
                             <div>
                             <h3 class="mb-0">Meu Perfil</h3>
                                 <small class="text-muted">
@@ -47,39 +47,6 @@
                                     Atualizado em {{ $dados->updated_at }}
                                 </small>
                             </div>
-                        </div>
-                        <div class="col-4 d-flex gap-3 justify-content-end align-items-center">
-
-                            @if(in_array(Auth::user()->role, ['administrador', 'coordenador']))
-                                <button
-                                    type="button"
-                                    class="btn btn-danger"
-                                    onclick="
-                                        e => e.preventDefault(); modalShow('Excluir aluno', 'Tem certeza que deseja excluir esse aluno?', 'danger', e => document.getElementById('delete-nucleo-form').submit());
-                                    ">
-                                    <i class="me-2 fas fa-user-times"></i>
-                                    Excluir Aluno
-                                </button>
-                                <form id="delete-nucleo-form"
-                                        action="{{ url('alunos/delete/'.$dados->id) }}"
-                                        method="POST"
-                                        style="display: none;">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
-                            @endif
-
-                            <a class="btn btn-secondary" href="{{ Auth::user()->role === 'aluno' ? '/home' : '/alunos' }}">voltar</a>
-                            <button type="submit" class="btn btn-primary" form="editForm" id="submitBtn"><span><svg
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        class="icon icon-tabler icons-tabler-outline icon-tabler-device-floppy">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
-                                        <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                        <path d="M14 4l0 4l-6 0l0 -4" />
-                                    </svg></span> Salvar</button>
                         </div>
                     </div>
                     @if (\Session::has('success'))
@@ -134,7 +101,7 @@
                                         <div class="d-flex align-items-center">
                                             <!-- Box do preview/ícone -->
                                             <div class="avatar avatar-xl rounded border d-flex align-items-center justify-content-center me-3"
-                                                style="width: 96px; height: 96px; background-color: #f8f9fa; overflow: hidden; position: relative;">
+                                                style="width: 96px; height: 96px; background-color: #f8f9fa; color: #000; overflow: hidden; position: relative;">
 
                                                 <!-- Preview da imagem -->
                                                 @if ($dados->Foto)
@@ -1400,6 +1367,39 @@
 
 
                     </form>
+                </div>
+
+                <div class="card-footer d-flex gap-3 justify-content-end align-items-center">
+                    @if(in_array(Auth::user()->role, ['administrador', 'coordenador']))
+                        <button
+                            type="button"
+                            class="btn btn-danger"
+                            onclick="
+                                e => e.preventDefault(); modalShow('Excluir aluno', 'Tem certeza que deseja excluir esse aluno?', 'danger', e => document.getElementById('delete-nucleo-form').submit());
+                            ">
+                            <i class="me-2 fas fa-user-times"></i>
+                            Excluir Aluno
+                        </button>
+                        <form id="delete-nucleo-form"
+                                action="{{ url('alunos/delete/'.$dados->id) }}"
+                                method="POST"
+                                style="display: none;">
+                            @csrf
+                            @method('DELETE')
+                        </form>
+                    @endif
+
+                    <a class="btn btn-secondary" href="{{ Auth::user()->role === 'aluno' ? '/home' : '/alunos' }}">voltar</a>
+                    <button type="submit" class="btn btn-primary" form="editForm" id="submitBtn"><span><svg
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-device-floppy">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
+                                <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                <path d="M14 4l0 4l-6 0l0 -4" />
+                            </svg></span> Salvar</button>
                 </div>
             </div>
         </div>

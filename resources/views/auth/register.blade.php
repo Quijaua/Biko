@@ -533,7 +533,7 @@
                     <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="successModalLabel">👏 Cadastro efetuado com sucesso</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar modal"></button>
                     </div>
                     <div class="modal-body">
                         Parabéns, seu cadastro foi realizado com sucesso. Em breve uma pessoa da coordenação entrará em contato.
@@ -720,14 +720,14 @@
                         if (targetTab === '#nucleo_do_cursinho' && !step1Valid) {
                             e.preventDefault();
                             $(".alert").remove();
-                            $("#form-content").prepend('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Por favor, selecione um estado primeiro!<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                            $("#form-content").prepend('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Por favor, selecione um estado primeiro!<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
                             return;
                         }
                         
                         if (targetTab === '#formulario_de_precadastro' && (!step1Valid || !step2Valid)) {
                             e.preventDefault();
                             $(".alert").remove();
-                            $("#form-content").prepend('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Por favor, complete as etapas anteriores primeiro!<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                            $("#form-content").prepend('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Por favor, complete as etapas anteriores primeiro!<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
                             return;
                         }
                     });
@@ -815,7 +815,7 @@
                     const hcaptchaVal = $('[name=h-captcha-response]').val();
                     if (!hcaptchaVal) {
                         $(".alert").remove();
-                        $(".h-captcha").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Por favor complete o desafio hCaptcha<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                        $(".h-captcha").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Por favor complete o desafio hCaptcha<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
 
                         btnSubmit.prop("disabled", false).removeClass("d-none");
                         btnLoader.addClass("d-none");
