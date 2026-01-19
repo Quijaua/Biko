@@ -15,9 +15,9 @@
 				<div class="page-pretitle">
 					Visão geral
 				</div>
-				<h2 class="page-title">
+				<h1 class="page-title">
 					Dashboard
-				</h2>
+				</h1>
 			</div>
     </div>
 	</div>
@@ -25,6 +25,8 @@
 
 <div class="page-body">
   <div class="container-xl">
+    <h2 class="visually-hidden">Indicadores gerais</h2>  
+
     <div class="row row-cards">
       @php
         $cadastros = DB::select('select count(*) as qtd, DATE_FORMAT(created_at,"%Y-%m-%d") as dia FROM users GROUP BY dia');
@@ -146,7 +148,11 @@
           <div class="card">
             <div class="card-body">
               <div class="d-flex mb-3">
-                <h3 class="card-title">Cadastros por dia</h3>
+                <h3 id="chart-dia-title">Cadastros por dia</h3>
+                <p id="chart-dia-desc" class="visually-hidden">
+                  Gráfico de área mostrando a quantidade de cadastros ao longo do tempo.
+                  Os valores exatos estão disponíveis na tabela a seguir.
+                </p>
                 <div class="ms-auto">
                   <div class="dropdown">
                     <a class="dropdown-toggle text-secondary" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="filtro-cadastros-label">
@@ -162,9 +168,22 @@
                   </div>
                 </div>
               </div>
-              <div id="chart-dia" style="height: 350px;"></div>
+              <div id="chart-dia" role="img" aria-labelledby="chart-dia-title" aria-describedby="chart-dia-desc" tabindex="0" style="height: 350px;"></div>
             </div>
           </div>
+
+          <table id="table-cadastros" class="visually-hidden" aria-labelledby="chart-dia-title">
+            <caption>Cadastros por dia</caption>
+            <thead>
+              <tr>
+                <th scope="col">Data</th>
+                <th scope="col">Quantidade de cadastros</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- preenchido via JS -->
+            </tbody>
+          </table>
         </div>
 
         <script>
@@ -181,6 +200,17 @@
                 .then(json => {
                   const seriesData = json.map(item => [item.date, item.count]);
                   chartDia.updateSeries([{ name: "Cadastros", data: seriesData }]);
+
+                  var tbodyCadastros = document.querySelector('#table-cadastros tbody');
+                  atualizarTabela(json, tbodyCadastros, [
+                    {
+                      key: 'date',
+                      format: v => new Date(v).toLocaleDateString('pt-BR')
+                    },
+                    {
+                      key: 'count'
+                    }
+                  ]);
                 });
             }
 
@@ -193,7 +223,12 @@
                 toolbar: { show: false },
                 animations: { enabled: true }
               },
-              dataLabels: { enabled: false },
+              dataLabels: {
+                enabled: true,
+                formatter: function (val) {
+                  return val;
+                }
+              },
               fill: { opacity: 0.2, type: 'solid' },
               stroke: { width: 2, curve: "smooth" },
               series: [{ name: "Cadastros", data: [] }],
@@ -238,11 +273,30 @@
         <div class="col-lg-6 col-xl-5 d-grid">
           <div class="card">
             <div class="card-body">
-              <h3 class="card-title">Por mês</h3>
-              <div id="chart-mes"></div>
+              <h3 id="chart-mes-title" class="card-title">Por mês</h3>
+
+              <p id="chart-mes-desc" class="visually-hidden">
+                Gráfico de barras mostrando a quantidade de cadastros por mês.
+                Os valores exatos estão disponíveis na tabela a seguir.
+              </p>
+
+              <div id="chart-mes" role="img" aria-labelledby="chart-mes-title" aria-describedby="chart-mes-desc" tabindex="0" style="height: 320px;"></div>
             </div>
           </div>
         </div>
+
+        <table id="table-mes" class="visually-hidden" aria-labelledby="chart-mes-title">
+          <caption>Cadastros por mês</caption>
+          <thead>
+            <tr>
+              <th scope="col">Mês</th>
+              <th scope="col">Quantidade de cadastros</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- preenchido via JS -->
+          </tbody>
+        </table>
 
         <script>
           // Por mês
@@ -262,6 +316,11 @@
               const [ano, mes] = m.split('-');
               return mes && ano ? `${mes}/${ano}` : 'Indefinido';
             });
+
+            const dadosTabela = mesesLabels.map((label, index) => ({
+              mes: label,
+              qtd: mesesData[index] ?? 0
+            }));
 
             window.ApexCharts && (new ApexCharts(
               document.getElementById('chart-mes'),
@@ -307,17 +366,42 @@
                 legend: { show: false }
               }
             )).render();
+
+            const tbody = document.querySelector('#table-mes tbody');
+            atualizarTabela(dadosTabela, tbody, [
+              { key: 'mes' },
+              { key: 'qtd' }
+            ]);
           });
         </script>
 
         <div class="col-lg-12 col-xl-7">
           <div class="card">
             <div class="card-body">
-              <h3 class="card-title">Estudantes do Núcleo Virtual por Estado</h3>
-              <div id="chart-uf-nucleo1"></div>
+              <h3 id="chart-uf-nucleo1-title" class="card-title">Estudantes do Núcleo Virtual por Estado</h3>
+
+              <p id="chart-uf-nucleo1-desc" class="visually-hidden">
+                Gráfico de barras horizontais mostrando a quantidade de estudantes por estado.
+                Os valores exatos estão disponíveis na tabela a seguir.
+              </p>
+
+              <div id="chart-uf-nucleo1" role="img" aria-labelledby="chart-uf-nucleo1-title" aria-describedby="chart-uf-nucleo1-desc" tabindex="0" style="height: 320px;"></div>
             </div>
           </div>
         </div>
+
+        <table id="table-uf-nucleo1" class="visually-hidden" aria-labelledby="chart-uf-nucleo1-title">
+          <caption>Estudantes do Núcleo Virtual por Estado</caption>
+          <thead>
+            <tr>
+              <th scope="col">Estado (UF)</th>
+              <th scope="col">Quantidade de estudantes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- preenchido via JS -->
+          </tbody>
+        </table>
 
         <script>
           document.addEventListener("DOMContentLoaded", function () {
@@ -369,15 +453,34 @@
               colors: [ tabler.getColor("blue") ],
               legend: { show: false }
             }).render();
+
+            const tbody = document.querySelector('#table-uf-nucleo1 tbody');
+            atualizarTabela(
+              ufLabels.map((uf, index) => ({
+                uf: uf,
+                qtd: ufData[index]
+              })),
+              tbody,
+              [
+                { key: 'uf' },
+                { key: 'qtd' }
+              ]
+            );
           });
         </script>
 
         <div class="col-lg-12 col-xl-12">
           <div class="card">
             <div class="card-body">
-              <h3 class="card-title">Alunos por núcleo</h3>
+              <h3 id="chart-nucleo-title" class="card-title">Alunos por núcleo</h3>
+
+              <p id="chart-nucleo-desc" class="visually-hidden">
+                Gráfico de barras mostrando a quantidade de alunos por núcleo.
+                Os valores exatos estão disponíveis na tabela a seguir.
+              </p>
+
               <div style="overflow-x: auto;">
-                <div id="chart-nucleo" style="height: 500px;"></div>
+                <div id="chart-nucleo" role="img" aria-labelledby="chart-nucleo-title" aria-describedby="chart-nucleo-desc" tabindex="0" style="height: 500px;"></div>
               </div>
             </div>
           </div>
@@ -452,6 +555,16 @@
                 legend: { show: false }
               }
             ).render();
+
+            const tbody = document.querySelector('#table-nucleo tbody');
+            atualizarTabela(
+              nucLabels.map((label, index) => ({ label, count: nucData[index] })),
+              tbody,
+              [
+                { key: 'label' },
+                { key: 'count' }
+              ]
+            );
           });
         </script>
 
@@ -459,50 +572,157 @@
         <div class="col-lg-6 col-xl-6">
           <div class="card">
             <div class="card-body">
-              <h3 class="card-title text-center">Por Raça</h3>
-              <div id="chart-raca" style="height: 240px;"></div>
+              <h3 id="chart-raca-title" class="card-title text-center">Por Raça</h3>
+
+              <p id="chart-raca-desc" class="visually-hidden">
+                Gráfico em formato donut mostrando a distribuição de participantes por raça.
+                Os valores exatos estão disponíveis na tabela a seguir.
+              </p>
+
+              <div id="chart-raca" role="img" aria-labelledby="chart-raca-title" aria-describedby="chart-raca-desc" tabindex="0" style="height: 240px;"></div>
             </div>
           </div>
+
+          <table id="table-raca" class="visually-hidden" aria-labelledby="chart-raca-title">
+            <caption>Distribuição por raça</caption>
+            <thead>
+              <tr>
+                <th scope="col">Raça</th>
+                <th scope="col">Quantidade</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
         </div>
+
         <div class="col-lg-6 col-xl-6">
           <div class="card">
             <div class="card-body">
-              <h3 class="card-title text-center">Por Gênero</h3>
-              <div id="chart-genero" style="height: 240px;"></div>
+              <h3 class="card-title text-center" id="chart-genero-title">Por Gênero</h3>
+
+              <p id="chart-genero-desc" class="visually-hidden">
+                Gráfico em formato de donut mostrando a distribuição de cadastros por gênero.
+                Os valores exatos estão disponíveis na tabela abaixo.
+              </p>
+
+              <div id="chart-genero" role="img" aria-labelledby="chart-genero-title" aria-describedby="chart-genero-desc" tabindex="0" style="height: 240px;"></div>
             </div>
           </div>
+
+          <table id="table-genero" class="visually-hidden" aria-labelledby="chart-genero-title">
+            <caption>Cadastros por gênero</caption>
+            <thead>
+              <tr>
+                <th scope="col">Gênero</th>
+                <th scope="col">Quantidade</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
         </div>
+
         <div class="col-lg-6 col-xl-6">
           <div class="card">
             <div class="card-body">
-              <h3 class="card-title text-center">Faixa etária</h3>
-              <div id="chart-etaria" style="height: 240px;"></div>
+              <h3 class="card-title text-center" id="chart-etaria-title">Por Faixa Etária</h3>
+
+              <p id="chart-etaria-desc" class="visually-hidden">
+                Gráfico em formato de donut mostrando a distribuição de cadastros por faixa etária.
+                Os valores exatos estão disponíveis na tabela abaixo.
+              </p>
+
+              <div id="chart-etaria" role="img" aria-labelledby="chart-etaria-title" aria-describedby="chart-etaria-desc" tabindex="0" style="height: 240px;"></div>
             </div>
           </div>
+
+          <table id="table-etaria" class="visually-hidden" aria-labelledby="chart-etaria-title">
+            <caption>Cadastros por faixa etária</caption>
+            <thead>
+              <tr>
+                <th scope="col">Faixa Etária</th>
+                <th scope="col">Quantidade</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
         </div>
+
         <div class="col-lg-6 col-xl-6">
           <div class="card">
             <div class="card-body">
-              <h3 class="card-title text-center">Como Soube</h3>
-              <div id="chart-soube" style="height: 240px;"></div>
+              <h3 class="card-title text-center" id="titulo-soube">Como Soube</h3>
+
+              <p id="desc-soube" class="visually-hidden">
+                Gráfico em formato donut mostrando como os alunos souberam do programa.
+                Os valores exatos estão disponíveis na tabela abaixo.
+              </p>
+
+              <div id="chart-soube" role="img" aria-labelledby="titulo-soube" aria-describedby="desc-soube" tabindex="0" style="height: 240px;"></div>
             </div>
           </div>
+
+          <table id="table-soube" class="visually-hidden" aria-labelledby="titulo-soube">
+            <caption>Como Soube - dados</caption>
+            <thead>
+              <tr>
+                <th scope="col">Fonte</th>
+                <th scope="col">Quantidade</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
         </div>
+
         <div class="col-lg-6 col-xl-6">
           <div class="card">
             <div class="card-body">
-              <h3 class="card-title text-center">Escola Pública ou Privada</h3>
-              <div id="chart-escola" style="height: 240px;"></div>
+              <h3 class="card-title text-center" id="titulo-escola">Escola Pública ou Privada</h3>
+
+              <p id="desc-escola" class="visually-hidden">
+                Gráfico em formato donut mostrando a quantidade de alunos de escola pública ou privada.
+                Os valores exatos estão disponíveis na tabela abaixo.
+              </p>
+
+              <div id="chart-escola" role="img" aria-labelledby="titulo-escola" aria-describedby="desc-escola" tabindex="0" style="height: 240px;"></div>
             </div>
           </div>
+
+          <table id="table-escola" class="visually-hidden" aria-labelledby="titulo-escola">
+            <caption>Escola Pública ou Privada - dados</caption>
+            <thead>
+              <tr>
+                <th scope="col">Tipo</th>
+                <th scope="col">Quantidade</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
         </div>
+
         <div class="col-lg-6 col-xl-6">
           <div class="card">
             <div class="card-body">
-              <h3 class="card-title text-center">Por Estado Civil</h3>
-              <div id="chart-ecivil" style="height: 240px;"></div>
+              <h3 id="chart-ecivil-title" class="card-title text-center">Por Estado Civil</h3>
+
+              <p id="chart-ecivil-desc" class="visually-hidden">
+                Gráfico de donut mostrando a distribuição por estado civil.
+                Os valores exatos estão disponíveis na tabela a seguir.
+              </p>
+
+              <div id="chart-ecivil" role="img" aria-labelledby="chart-ecivil-title" aria-describedby="chart-ecivil-desc" tabindex="0" style="height: 240px;"></div>
             </div>
           </div>
+
+          <table id="table-ecivil" class="visually-hidden" aria-labelledby="chart-ecivil-title">
+            <caption>Distribuição por estado civil</caption>
+            <thead>
+              <tr>
+                <th scope="col">Estado Civil</th>
+                <th scope="col">Quantidade</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
         </div>
 
         <script>
@@ -578,6 +798,16 @@
             legend: { show: true, position: 'bottom', offsetY: 12, markers: { width:10, height:10, radius:100 }, itemMargin:{horizontal:8, vertical:8} }
           }).render();
 
+          const tbodyRaca = document.querySelector('#table-raca tbody');
+          atualizarTabela(
+            rawRaca.map((r, i) => ({ label: racaLabels[i], value: racaData[i] })),
+            tbodyRaca,
+            [
+              { key: 'label' },
+              { key: 'value' }
+            ]
+          );
+
           // --- GÊNERO ---
           const rawGenero = [
             <?php foreach ($generos as $g): ?>
@@ -610,6 +840,16 @@
             legend: { show: true, position: 'bottom', offsetY: 12, markers: { width:10, height:10, radius:100 }, itemMargin:{horizontal:8, vertical:8} }
           }).render();
 
+          const tbodyGenero = document.querySelector('#table-genero tbody');
+          atualizarTabela(
+            Object.keys(gruposGenero).map(key => ({ genero: traduzirLabel('genero', key), count: gruposGenero[key] })),
+            tbodyGenero,
+            [
+              { key: 'genero' },
+              { key: 'count' }
+            ]
+          );
+
           // --- FAIXA ETÁRIA ---
           const etariaLabels = [
             <?php foreach ($faixas as $f): ?>"<?= addslashes($f->age_group) ?>",<?php endforeach; ?>
@@ -633,6 +873,16 @@
             legend: { show: true, position: 'bottom', offsetY: 12, markers: { width:10, height:10, radius:100 }, itemMargin:{horizontal:8, vertical:8} }
           }).render();
 
+          const tbodyEtaria = document.querySelector('#table-etaria tbody');
+          atualizarTabela(
+            etariaLabels.map((label, index) => ({ faixa: label, count: etariaData[index] })),
+            tbodyEtaria,
+            [
+              { key: 'faixa' },
+              { key: 'count' }
+            ]
+          );
+
           // --- COMO SOUBE ---
           const rawSoube = [
             <?php foreach ($soubes as $s): ?>
@@ -643,6 +893,10 @@
             <?php foreach ($soubes as $s): ?><?= $s->qtd ?>,<?php endforeach; ?>
           ];
           const soubeLabels = rawSoube.map(l => traduzirLabel('como_soube', l));
+          const soubeJson = rawSoube.map((label, index) => ({
+            label,
+            count: soubeData[index]
+          }));
           new ApexCharts(document.getElementById('chart-soube'), {
             chart: { type: "donut", height: 240, sparkline: { enabled: true }, animations: { enabled: false } },
             series: soubeData,
@@ -659,6 +913,11 @@
             legend: { show: true, position: 'bottom', offsetY: 12, markers: { width:10, height:10, radius:100 }, itemMargin:{horizontal:8, vertical:8} }
           }).render();
 
+          atualizarTabela(soubeJson, document.querySelector('#table-soube tbody'), [
+            { key: 'label', format: v => traduzirLabel('como_soube', v) },
+            { key: 'count' }
+          ]);
+
           // --- ESCOLA ---
           const escolaLabels = [
             <?php foreach ($escolas as $e): ?>"<?= addslashes($e->EnsFundamental) ?>",<?php endforeach; ?>
@@ -666,6 +925,10 @@
           const escolaData = [
             <?php foreach ($escolas as $e): ?><?= $e->qtd ?>,<?php endforeach; ?>
           ];
+          const escolaJson = escolaLabels.map((label, index) => ({
+            label,
+            count: escolaData[index]
+          }));
           new ApexCharts(document.getElementById('chart-escola'), {
             chart: { type: "donut", height: 240, sparkline: { enabled: true }, animations: { enabled: false } },
             series: escolaData,
@@ -681,6 +944,11 @@
             ],
             legend: { show: true, position: 'bottom', offsetY: 12, markers: { width:10, height:10, radius:100 }, itemMargin:{horizontal:8, vertical:8} }
           }).render();
+
+          atualizarTabela(escolaJson, document.querySelector('#table-escola tbody'), [
+            { key: 'label' },
+            { key: 'count' }
+          ]);
 
           // --- ESTADO CIVIL ---
           const rawEcivil = [
@@ -707,6 +975,22 @@
             ],
             legend: { show: true, position: 'bottom', offsetY: 12, markers: { width:10, height:10, radius:100 }, itemMargin:{horizontal:8, vertical:8} }
           }).render();
+
+          const tbodyEcivil = document.querySelector('#table-ecivil tbody');
+          atualizarTabela(
+            rawEcivil.map((label, index) => ({
+              label,
+              count: ecivilData[index]
+            })),
+            tbodyEcivil,
+            [
+              {
+                key: 'label',
+                format: v => traduzirLabel('estado_civil', v)
+              },
+              { key: 'count' }
+            ]
+          );
         });
         </script>
 
@@ -732,10 +1016,27 @@
       <div class="col-lg-12 col-xl-6">
         <div class="card">
           <div class="card-body">
-            <h3 class="card-title text-center">Primeira Opção</h3>
-            <div id="chart-curso1" style="height: 240px;"></div>
+            <h3 id="curso1-title" class="card-title text-center">Primeira Opção</h3>
+
+            <p id="curso1-desc" class="visually-hidden">
+              Gráfico de barras horizontais mostrando a quantidade de votos por opção de curso.
+              Os valores exatos estão disponíveis na tabela a seguir.
+            </p>
+
+            <div id="chart-curso1" role="img" aria-labelledby="curso1-title" aria-describedby="curso1-desc" tabindex="0" style="height: 240px;"></div>
           </div>
         </div>
+
+        <table id="table-curso1" class="visually-hidden" aria-labelledby="curso1-title">
+          <caption>Primeira Opção - Quantidade por curso</caption>
+          <thead>
+            <tr>
+              <th scope="col">Curso</th>
+              <th scope="col">Quantidade</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
       </div>
 
       <script>
@@ -749,6 +1050,10 @@
           const curso1Data = [
             <?php foreach ($curso1s as $c1): ?><?= $c1->qtd ?>,<?php endforeach; ?>
           ];
+          const curso1Dados = curso1Labels.map((label, idx) => ({
+            curso: label,
+            qtd: curso1Data[idx]
+          }));
 
           new ApexCharts(document.getElementById('chart-curso1'), {
             chart: {
@@ -790,16 +1095,38 @@
             colors: [ tabler.getColor("primary") ],
             legend: { show: false }
           }).render();
+
+          atualizarTabela(curso1Dados, document.querySelector('#table-curso1 tbody'), [
+            { key: 'curso' },
+            { key: 'qtd' }
+          ]);
         });
       </script>
 
       <div class="col-lg-12 col-xl-6">
         <div class="card">
           <div class="card-body">
-            <h3 class="card-title text-center">Segunda Opção</h3>
-            <div id="chart-curso2" style="height: 240px;"></div>
+            <h3 id="curso2-title" class="card-title text-center">Segunda Opção</h3>
+
+            <p id="curso2-desc" class="visually-hidden">
+              Gráfico de barras horizontais mostrando a quantidade de votos por opção de curso.
+              Os valores exatos estão disponíveis na tabela a seguir.
+            </p>
+
+            <div id="chart-curso2" role="img" aria-labelledby="curso2-title" aria-describedby="curso2-desc" tabindex="0" style="height: 240px;"></div>
           </div>
         </div>
+
+        <table id="table-curso2" class="visually-hidden" aria-labelledby="curso2-title">
+          <caption>Segunda Opção - Quantidade por curso</caption>
+          <thead>
+            <tr>
+              <th scope="col">Curso</th>
+              <th scope="col">Quantidade</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
       </div>
 
       <script>
@@ -813,6 +1140,10 @@
           const curso2Data = [
             <?php foreach ($curso2s as $c2): ?><?= $c2->qtd ?>,<?php endforeach; ?>
           ];
+          const curso2Dados = curso2Labels.map((label, idx) => ({
+            curso: label,
+            qtd: curso2Data[idx]
+          }));
 
           new ApexCharts(document.getElementById('chart-curso2'), {
             chart: {
@@ -854,6 +1185,11 @@
             colors: [ tabler.getColor("secondary") ],
             legend: { show: false }
           }).render();
+
+          atualizarTabela(curso2Dados, document.querySelector('#table-curso2 tbody'), [
+            { key: 'curso' },
+            { key: 'qtd' }
+          ]);
         });
       </script>
     </div>
@@ -862,5 +1198,23 @@
 
 <!-- Libs JS -->
 <script src="{{ asset('dist/libs/apexcharts/dist/apexcharts.min.js?1738096684') }}" defer></script>
+
+<script>
+  function atualizarTabela(dados, tbody, colunas) {
+    tbody.innerHTML = '';
+
+    dados.forEach(item => {
+      const tr = document.createElement('tr');
+
+      colunas.forEach(col => {
+        const td = document.createElement('td');
+        td.textContent = col.format ? col.format(item[col.key]) : item[col.key];
+        tr.appendChild(td);
+      });
+
+      tbody.appendChild(tr);
+    });
+  }
+</script>
 
 @endsection

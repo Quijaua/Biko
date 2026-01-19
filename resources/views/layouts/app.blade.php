@@ -53,9 +53,6 @@
     <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
 
-    <!-- TablerAccessibility -->
-    <link href="{{ asset('dist/libs/TablerAccessibility/dist/tabler-a11y.min.css') }}" rel="stylesheet"/>
-
     <!-- hCaptcha -->
     <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 
@@ -115,14 +112,18 @@
                         <div class="nav-item dropdown">
                             <div class="nav-item dd-none d-md-flex me-3">
                                 <div class="btn-list">
-                                    <a href="{{ route('login') }}" class="btn btn-5" rel="noreferrer">
+                                    <a href="{{ route('login') }}" class="btn btn-5" rel="noreferrer" title="Login" aria-label="Entrar no sistema">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round"
-                                            class="icon icon-tabler icons-tabler-outline icon-tabler-login-2">
+                                            class="icon icon-tabler icons-tabler-outline icon-tabler-login-2"
+                                            aria-hidden="true">
+
+                                            <title>Ícone de login</title>
+                                            <descr>Ícone decorativo representando a ação de login</descr>
+
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path
-                                                d="M9 8v-2a2 2 0 0 1 2 -2h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-2" />
+                                            <path d="M9 8v-2a2 2 0 0 1 2 -2h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-2" />
                                             <path d="M3 12h13l-3 -3" />
                                             <path d="M13 15l3 -3" />
                                         </svg>
@@ -133,7 +134,12 @@
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                                 stroke-linecap="round" stroke-linejoin="round"
-                                                class="icon icon-tabler icons-tabler-outline icon-tabler-contract">
+                                                class="icon icon-tabler icons-tabler-outline icon-tabler-contract"
+                                                aria-hidden="true">
+
+                                                <title>Ícone de pré-inscrição</title>
+                                                <descr>Ícone decorativo representando a ação de pré-inscrição</descr>
+
                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                                 <path d="M8 21h-2a3 3 0 0 1 -3 -3v-1h5.5" />
                                                 <path d="M17 8.5v-3.5a2 2 0 1 1 2 2h-2" />
@@ -176,13 +182,12 @@
             </div>
 
             <!-- Sidebar OFFCANVAS para telas pequenas -->
-            <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="sidebar-offcanvas">
+            <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="sidebar-offcanvas" aria-label="Menu lateral">
                 <div class="offcanvas-header">
                     <h5 class="offcanvas-title">
                         @if($app_name != null){{ $app_name }}@else{{ config('app.name') }}@endif
                     </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
-                        aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Fechar menu"></button>
                 </div>
                 <div class="offcanvas-body">
                     <ul class="navbar-nav">
@@ -222,6 +227,14 @@
                             @endif
                             @if (Session::get('role') !== 'aluno')
                                 @if (Session::get('verified'))
+                                    <li class="nav-item {{ request()->is('dashboard') ? 'bg-primary text-white rounded' : '' }}">
+                                        <a class="nav-link" href="/dashboard">
+                                            <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-chart-infographic"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" /><path d="M7 3v4h4" /><path d="M9 17l0 4" /><path d="M17 14l0 7" /><path d="M13 13l0 8" /><path d="M21 12l0 9" /></svg>
+                                            </span>
+                                            {{ __('Painel') }}
+                                        </a>
+                                    </li>
                                     <li
                                         class="nav-item {{ request()->is('alunos/*') ? 'bg-primary text-white rounded' : '' }}">
                                         <a class="nav-link" href="/alunos">
@@ -412,7 +425,7 @@
                                             {{ __('Coordenadores') }}
                                         </a>
                                     </li>
-                                    <li
+                                    {{-- <li
                                         class="nav-item {{ request()->is('psicologos') ? 'bg-primary text-white rounded' : '' }}">
                                         <a class="nav-link" href="/psicologos">
                                             <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -481,26 +494,28 @@
                                             </span>
                                             {{ __('Plantão Psicológico') }}
                                         </a>
-                                    </li>
-                                    @if (Auth::user()->role === 'psicologa_supervisora' || Auth::user()->role === 'administrador')
-                                    <li
-                                        class="nav-item {{ request()->routeIs('painel.supervisora') ? 'bg-primary text-white rounded' : '' }}">
-                                        <a class="nav-link" href="{{ route('painel.supervisora') }}">
-                                            <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-layout-kanban">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                                    <path d="M4 4l6 0" />
-                                                    <path d="M14 4l6 0" />
-                                                    <path d="M4 8m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" />
-                                                    <path d="M14 8m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v2a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" />
-                                                </svg>
-                                            </span>
-                                            {{ __('Painel da Supervisora') }}
-                                        </a>
-                                    </li>
+                                    </li> --}}
+                                    @if (Auth::user()->role === 'administrador' || Auth::user()->role === 'psicologo' || Auth::user()->role === 'psicologa_supervisora' )
+                                        <li
+                                            class="nav-item {{ request()->routeIs('painel.supervisora') ? 'bg-primary text-white rounded' : '' }}">
+                                            <a class="nav-link" href="{{ route('painel.supervisora') }}">
+                                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-brain">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                        <path d="M15.5 13a3.5 3.5 0 0 0 -3.5 3.5v1a3.5 3.5 0 0 0 7 0v-1.8" />
+                                                        <path d="M8.5 13a3.5 3.5 0 0 1 3.5 3.5v1a3.5 3.5 0 0 1 -7 0v-1.8" />
+                                                        <path d="M17.5 16a3.5 3.5 0 0 0 0 -7h-.5" />
+                                                        <path d="M19 9.3v-2.8a3.5 3.5 0 0 0 -7 0" />
+                                                        <path d="M6.5 16a3.5 3.5 0 0 1 0 -7h.5" />
+                                                        <path d="M5 9.3v-2.8a3.5 3.5 0 0 1 7 0v10" />
+                                                    </svg>
+                                                </span>
+                                                {{ __('Apoio Emocional') }}
+                                            </a>
+                                        </li>
                                     @endif
                                     <li
                                         class="nav-item {{ request()->is('nucleos') ? 'bg-primary text-white rounded' : '' }}">
@@ -522,7 +537,7 @@
                                             {{ __('Núcleos') }}
                                         </a>
                                     </li>
-                                    <li
+                                    {{-- <li
                                         class="nav-item {{ request()->routeIs('nucleo/presences') ? 'bg-primary text-white rounded' : '' }}">
                                         <a class="nav-link" href="{{ route('nucleo/presences') }}">
                                             <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -540,29 +555,10 @@
                                             </span>
                                             {{ __('Lista de presença') }}
                                         </a>
-                                    </li>
+                                    </li> --}}
                                 @endif
                             @endif
 
-                            @if (($user->role === 'professor' && $status != 0) || ($user->role !== 'professor'))
-                            <li
-                                class="nav-item {{ request()->routeIs('nucleo.material') ? 'bg-primary text-white rounded' : '' }}">
-                                <a class="nav-link" href="{{ route('nucleo.material') }}">
-                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="icon icon-tabler icons-tabler-outline icon-tabler-book-2">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M19 4v16h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12z" />
-                                            <path d="M19 16h-12a2 2 0 0 0 -2 2" />
-                                            <path d="M9 8h6" />
-                                        </svg>
-                                    </span>
-                                    {{ __('Material') }}
-                                </a>
-                            </li>
-                            @endif
                             @if (($user->role === 'professor' && $status != 0) || ($user->role !== 'professor'))
                             @if ($ambiente_virtual)
                             
@@ -587,6 +583,76 @@
                                 </li>
                             @endif
                             @endif
+
+                            <li
+                                class="nav-item  {{ request()->routeIs('ead.index') ? 'bg-primary text-white rounded' : '' }}">
+                                <a class="nav-link" href="{{ route('ead.index') }}">
+                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-school"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 9l-10 -4l-10 4l10 4l10 -4v6" /><path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4" /></svg>
+                                    </span>
+                                    {{ __('EAD') }}
+                                </a>
+                            </li>
+
+                            @if (($user->role === 'professor' && $status != 0) || ($user->role !== 'professor'))
+                            <li
+                                class="nav-item {{ request()->routeIs('nucleo.material') ? 'bg-primary text-white rounded' : '' }}">
+                                <a class="nav-link" href="{{ route('nucleo.material') }}">
+                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="icon icon-tabler icons-tabler-outline icon-tabler-book-2">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M19 4v16h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12z" />
+                                            <path d="M19 16h-12a2 2 0 0 0 -2 2" />
+                                            <path d="M9 8h6" />
+                                        </svg>
+                                    </span>
+                                    {{ __('Material') }}
+                                </a>
+                            </li>
+                            @endif
+
+                            @if ($ambiente_virtual)
+                            <li 
+                                class="nav-item {{ request()->routeIs('nucleo.material') ? 'bg-primary text-white rounded' : '' }}">
+                                <a class="nav-link" href="https://ead.peregum.org.br/" target="_blank">
+                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                            class="icon icon-tabler icons-tabler-outline icon-tabler-checklist">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path
+                                                d="M9.615 20h-2.615a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8" />
+                                            <path d="M14 19l2 2l4 -4" />
+                                            <path d="M9 8h4" />
+                                            <path d="M9 12h2" />
+                                        </svg>
+                                    </span>
+                                    {{ __('Curso Preparatório') }}
+                                </a>
+                            </li>
+                            @endif
+
+                            <li
+                                class="nav-item  {{ request()->routeIs('messages.index') ? 'bg-primary text-white rounded' : '' }}">
+                                <a class="nav-link" href="{{ route('messages.index') }}">
+                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="icon icon-tabler icons-tabler-outline icon-tabler-mail">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path
+                                                d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
+                                            <path d="M3 7l9 6l9 -6" />
+                                        </svg>
+                                    </span>
+                                    {{ __('Mensagens') }}
+                                </a>
+                            </li>
 
                             @if (Session::get('role') === 'administrador')
                                 <li
@@ -627,23 +693,6 @@
                                     </a>
                                 </li>
                             @endif
-                            <li
-                                class="nav-item  {{ request()->routeIs('messages.index') ? 'bg-primary text-white rounded' : '' }}">
-                                <a class="nav-link" href="{{ route('messages.index') }}">
-                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="icon icon-tabler icons-tabler-outline icon-tabler-mail">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path
-                                                d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
-                                            <path d="M3 7l9 6l9 -6" />
-                                        </svg>
-                                    </span>
-                                    {{ __('Mensagens') }}
-                                </a>
-                            </li>
                         @endif
                         <li class="nav-item mt-3">
                             <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -683,9 +732,9 @@
             <aside class="navbar navbar-vertical navbar-expand-lg navbar-dark bg-dark d-none d-lg-flex"
                 style="width: 250px;">
                 <div class="container-fluid p-2">
-                    <h1 class="navbar-brand text-white my-3">
+                    <p class="navbar-brand text-white my-3">
                         @if($app_name != null){{ $app_name }}@else{{ config('app.name') }}@endif
-                    </h1>
+                    </p>
                     <div class="collapse navbar-collapse" id="sidebar-menu">
                         <ul class="navbar-nav">
                             @if (!\Auth()->user()->first_login)
@@ -1623,15 +1672,14 @@
                                 </div>
 
                                 <div>
-                                    <a href="#" class="nav-link d-flex lh-1 text-reset p-0"
-                                        data-bs-toggle="dropdown" aria-label="Open user menu">
+                                    <div class="nav-link d-flex lh-1 text-reset p-0" aria-label="Dados do usuário">
                                         <span class="avatar avatar-sm"
                                             style="background-image: url({{ asset('images/user.png') }})"></span>
                                         <div class="d-none d-xl-block ps-2">
                                             <div>{{ Auth::user()->name }}</div>
                                             <div class="mt-1 small text-secondary">{{ Auth::user()->formatted_role }}</div>
                                         </div>
-                                    </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1651,16 +1699,16 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="modalInfo" tabindex="-1" style="display: none;" aria-hidden="true">
+    <div class="modal fade" id="modalInfo" tabindex="-1" style="display: none;" aria-hidden="true" role="dialog" aria-labelledby="modalInfoTitle" aria-describedby="modalInfoDesc">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         
         <div class="modal-header">
-          <h5 class="modal-title">Título do Modal</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          <h5 class="modal-title" id="modalInfoTitle">Título do Modal</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar Modal"></button>
         </div>
   
-        <div class="modal-body">
+        <div class="modal-body" id="modalInfoDesc">
           <p>Conteúdo do modal aqui.</p>
         </div>
   
@@ -1675,15 +1723,6 @@
 </div>
 
     <script src="{{ asset('dist/js/tabler.min.js?1738096684') }}"></script>
-    <script src="{{ asset('dist/libs/TablerAccessibility/dist/tabler-a11y.min.js') }}" defer></script>
-
-    <script>
-    window.addEventListener('DOMContentLoaded', () => {
-        new TablerA11y({
-            position: 'bottom-right' // Opções: bottom-right, bottom-left, top-right, top-left
-        });
-    });
-    </script>
 
 <?php
  if ($close_tag_body) {

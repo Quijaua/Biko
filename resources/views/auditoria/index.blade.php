@@ -3,11 +3,11 @@
 @section('content')
 <div class="page-wrapper">
     <!-- BEGIN PAGE HEADER -->
-    <div class="page-header d-print-none" aria-label="Page header">
+    <div class="page-header d-print-none" aria-label="Cabeçalho da página">
         <div class="container-xl">
             <div class="row g-2 align-items-center">
                 <div class="col">
-                    <h2 class="page-title">Configurações</h2>
+                    <h1 class="page-title">Configurações</h1>
                 </div>
             </div>
         </div>
@@ -23,15 +23,16 @@
                         <div class="card-body">
                             <div class="row d-flex">
                                 <div class="col-8">
-                                    <h1 class="text-[34px]">Auditoria</h1>
+                                    <h2 class="text-[34px]">Auditoria</h2>
                                 </div>
                             </div>
 
                             <div class="row mt-3 mb-3">
-                                <h2>Estudantes</h2>
+                                <h3>Estudantes</h3>
                                 <div class="rounded border border-gray-300">
-                                    <div class="table-responsive">
+                                    <div class="table-responsive" tabindex="0" role="region" aria-label="Tabela de auditoria de estudantes">
                                         <table class="table table-hover table-vcenter">
+                                            <caption class="visually-hidden">Registro de auditoria de estudantes</caption>
                                             <thead>
                                                 <tr>
                                                     <th class="text-nowrap text-black py-3">Data</th>
@@ -72,10 +73,11 @@
                             </div>
 
                             <div class="row mb-3">
-                                <h2>Professores</h2>
+                                <h3>Professores</h3>
                                 <div class="rounded border border-gray-300">
-                                    <div class="table-responsive">
+                                    <div class="table-responsive" tabindex="0" role="region" aria-label="Tabela de auditoria de professores">
                                         <table class="table table-hover table-vcenter">
+                                            <caption class="visually-hidden">Registro de auditoria de professores</caption>
                                             <thead>
                                                 <tr>
                                                     <th class="text-nowrap text-black py-3">Data</th>
@@ -116,10 +118,11 @@
                             </div>
 
                             <div class="row mb-3">
-                                <h2>Coordenadores</h2>
+                                <h3>Coordenadores</h3>
                                 <div class="rounded border border-gray-300">
-                                    <div class="table-responsive">
+                                    <div class="table-responsive" tabindex="0" role="region" aria-label="Tabela de auditoria de coordenadores">
                                         <table class="table table-hover table-vcenter">
+                                            <caption class="visually-hidden">Registro de auditoria de coordenadores</caption>
                                             <thead>
                                                 <tr>
                                                     <th class="text-nowrap text-black py-3">Data</th>
@@ -160,10 +163,11 @@
                             </div>
 
                             <div class="row mb-3">
-                                <h2>Núcleos</h2>
+                                <h3>Núcleos</h3>
                                 <div class="rounded border border-gray-300">
-                                    <div class="table-responsive">
+                                    <div class="table-responsive" tabindex="0" role="region" aria-label="Tabela de auditoria de núcleos">
                                         <table class="table table-hover table-vcenter">
+                                            <caption class="visually-hidden">Registro de auditoria de núcleos</caption>
                                             <thead>
                                                 <tr>
                                                     <th class="text-nowrap text-black py-3">Data</th>
@@ -204,10 +208,11 @@
                             </div>
 
                             <div class="row mb-3">
-                                <h2>Materiais</h2>
+                                <h3>Materiais</h3>
                                 <div class="rounded border border-gray-300">
-                                    <div class="table-responsive">
+                                    <div class="table-responsive" tabindex="0" role="region" aria-label="Tabela de auditoria de materiais">
                                         <table class="table table-hover table-vcenter">
+                                            <caption class="visually-hidden">Registro de auditoria de materiais</caption>
                                             <thead>
                                                 <tr>
                                                     <th class="text-nowrap text-black py-3">Data</th>
@@ -248,10 +253,11 @@
                             </div>
 
                             <div class="row mb-3">
-                                <h2>Núcleo Virtual</h2>
+                                <h3>Núcleo Virtual</h3>
                                 <div class="rounded border border-gray-300">
-                                    <div class="table-responsive">
+                                    <div class="table-responsive" tabindex="0" role="region" aria-label="Tabela de auditoria de núcleo virtual">
                                         <table class="table table-hover table-vcenter">
+                                            <caption class="visually-hidden">Registro de auditoria de núcleo virtual</caption>
                                             <thead>
                                                 <tr>
                                                     <th class="text-nowrap text-black py-3">Data</th>

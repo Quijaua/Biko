@@ -3,11 +3,11 @@
 @section('content')
 <div class="page-wrapper">
     <!-- BEGIN PAGE HEADER -->
-    <div class="page-header d-print-none" aria-label="Page header">
+    <div class="page-header d-print-none" aria-label="Cabeçalho da página">
         <div class="container-xl">
             <div class="row g-2 align-items-center">
                 <div class="col">
-                    <h2 class="page-title">Configurações</h2>
+                    <h1 class="page-title">Configurações</h1>
                 </div>
             </div>
         </div>
@@ -24,7 +24,7 @@
 
                             <div class="row d-flex">
                                 <div class="col-8">
-                                    <h1 class="text-[34px]">Código Personalizado</h1>
+                                    <h2 class="text-[34px]">Código Personalizado</h2>
                                 </div>
                             </div>
 

@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div>
-            <p style="font-size: 35px;"><span><a href="/psicologos" class="text-primary">
+            <h1 style="font-size: 35px; line-height: normal;"><span><a href="/psicologos" class="text-primary" aria-label="Voltar para psicólogos">
                         <svg xmlns="http://www.w3.org/2000/svg" style="width: 45px; height: 45px;" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round"
@@ -14,7 +14,7 @@
                             <path d="M8 12h8" />
                             <path d="M12 8l-4 4" />
                         </svg>
-                    </a></span> Adicionar novo psicólogo(a)</p>
+                    </a></span> Adicionar novo psicólogo(a)</h1>
         </div>
         <div class="card">
             <div class="row g-0">
@@ -23,7 +23,7 @@
                     <div class="row mb-3">
                         <div class="col-9">
                             <div>
-                                <h3 class="mb-0">Meu Perfil</h3>
+                                <h2 class="mb-0">Meu Perfil</h2>
                             </div>
                         </div>
                         <div class="col-3 d-flex gap-3 justify-content-end align-items-center">
@@ -148,21 +148,21 @@
 
                         <div class="row">
                             <div class="col-md-6">
-                                <div>
-                                    <div class="form-label">É uma supervisora?</div>
+                                <fieldset>
+                                    <legend class="form-label">É uma supervisora?</legend>
+
                                     <div>
-                                        <label class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio"
-                                                name="supervisora" value="1" />
-                                            <span class="form-check-label">Sim</span>
-                                        </label>
-                                        <label class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio"
-                                                name="supervisora" value="0" checked />
-                                            <span class="form-check-label">Não</span>
-                                        </label>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="supervisora" id="supervisora_sim" value="1">
+                                            <label class="form-check-label" for="supervisora_sim">Sim</label>
+                                        </div>
+
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="supervisora" id="supervisora_nao" value="0" checked>
+                                            <label class="form-check-label" for="supervisora_nao">Não</label>
+                                        </div>
                                     </div>
-                                </div>
+                                </fieldset>
                             </div>
                         </div>
 

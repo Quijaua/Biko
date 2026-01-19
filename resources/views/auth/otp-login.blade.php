@@ -2,6 +2,8 @@
 
 @section('content')
 <div class="container" style="max-width: 550px;">
+    <h1 class="visually-hidden">Acesso ao sistema</h1>
+
     @if(session('info'))
         <div class="alert alert-info">{{ session('info') }}</div>
     @endif

@@ -1,6 +1,8 @@
     @extends('layouts.app')
 
     @section('content')
+        <h1 class="visually-hidden">Pré-Inscrição</h1>
+
         <style>
             .nav-link.disabled {
                 pointer-events: none;
@@ -35,7 +37,7 @@
                     <ul class="nav nav-tabs card-header-tabs steps-tabs justify-content-center" data-bs-toggle="tabs">
                     <li id="step-back" class="nav-item d-none">
                         <a id="step-back-link" href="javascript:void(0)" class="nav-link">
-                        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-left"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M5 12l6 6" /><path d="M5 12l6 -6" /></svg>
+                        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-left"  aria-hidden="true"><title>Ícone de voltar</title><descr>Botão para retornar à etapa anterior do pré-cadastro</descr><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M5 12l6 6" /><path d="M5 12l6 -6" /></svg>
                         <!-- <span class="step-circle"><-</span> -->
                         </a>
                     </li>
@@ -125,6 +127,12 @@
                                     </small>
 
                                     <div class="mb-3 invalid-feedback invalid-nucleo d-block">Por favor, selecione um núcleo.</div>
+
+                                    <div>
+                                        <button type="button" id="btnContinue" class="btn btn-primary" disabled>
+                                            Continuar
+                                        </button>
+                                    </div>
                                   <!--/a-->
 
                                 </div>
@@ -385,7 +393,7 @@
                                                             <label class="form-label mb-2" for="inputEscolaridade">Qual a
                                                                 sua
                                                                 escolaridade</label>
-                                                            <select name="inputEscolaridade" class="form-select" required>
+                                                            <select id="inputEscolaridade" name="inputEscolaridade" class="form-select" required>
                                                                 <option selected>Selecione</option>
                                                                 <option value="Ensino fundamental completo">Ensino
                                                                     fundamental
@@ -422,7 +430,7 @@
                                                         <div class="mb-3">
                                                             <label class="form-label mb-2" for="inputGenero">Identidade de
                                                                 Gênero</label>
-                                                            <select name="inputGenero" class="form-select">
+                                                            <select id="inputGenero" name="inputGenero" class="form-select">
                                                                 <option value="" selected>Selecione</option>
                                                                 <option value="mulher_trans_cis">Mulher (Trans ou Cis)
                                                                 </option>
@@ -438,7 +446,7 @@
                                                         <div class="mb-3">
                                                             <label class="form-label mb-2" for="temFilhos">Tem
                                                                 filhos?</label>
-                                                            <select class="form-select" name="temFilhos">
+                                                            <select id="temFilhos" name="temFilhos" class="form-select">
                                                                 <option value="1">Sim</option>
                                                                 <option value="0" selected>Não</option>
                                                             </select>
@@ -457,24 +465,27 @@
                                                 <div class="row">
                                                     <div class="col-12 col-md-6">
                                                         <div class="mb-3">
-                                                            <div class="form-label">É pessoa com deficiência?</div>
-                                                            <div>
-                                                                <label class="form-check form-check-inline">
-                                                                    <input class="form-check-input" type="radio" name="selecao-deficiencia" value="sim" />
-                                                                    <span class="form-check-label">Sim</span>
-                                                                </label>
-                                                                <label class="form-check form-check-inline">
-                                                                    <input class="form-check-input" type="radio" name="selecao-deficiencia" value="nao" checked />
-                                                                    <span class="form-check-label">Não</span>
-                                                                </label>
-                                                            </div>
+                                                            <fieldset>
+                                                                <legend class="form-label">É pessoa com deficiência?</legend>
+                                                                <div>
+                                                                    <div class="form-check form-check-inline">
+                                                                        <input class="form-check-input" type="radio" name="selecao-deficiencia" id="deficiencia_sim" value="sim">
+                                                                        <label class="form-check-label" for="deficiencia_sim">Sim</label>
+                                                                    </div>
+
+                                                                    <div class="form-check form-check-inline">
+                                                                        <input class="form-check-input" type="radio" name="selecao-deficiencia" id="deficiencia_nao" value="nao" checked>
+                                                                        <label class="form-check-label" for="deficiencia_nao">Não</label>
+                                                                    </div>
+                                                                </div>
+                                                            </fieldset>
                                                         </div>
                                                     </div>
                                                     
                                                     <div class="col-12 col-md-6">
                                                         <div class="mb-3">
                                                             <label class="form-label mb-2" for="pessoa_com_deficiencia">Qual a deficiência?</label>
-                                                            <select class="form-select" name="pessoa_com_deficiencia" disabled>
+                                                            <select id="pessoa_com_deficiencia" class="form-select" name="pessoa_com_deficiencia" disabled>
                                                                 <option value="" selected>Selecione</option>
                                                                 <option value="A">Auditiva</option>
                                                                 <option value="FM">Física / Motora</option>
@@ -524,7 +535,7 @@
                     <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="successModalLabel">👏 Cadastro efetuado com sucesso</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar modal"></button>
                     </div>
                     <div class="modal-body">
                         Parabéns, seu cadastro foi realizado com sucesso. Em breve uma pessoa da coordenação entrará em contato.
@@ -690,9 +701,18 @@
 
                     document.getElementById("nucleoSelecionadoTexto").innerText = nucleoSelecionadoTexto;
 
+                    // document.getElementById("step-3").click();
+                    // stepFrom++;
+
+                    const btnContinue = document.getElementById("btnContinue");
+                    btnContinue.disabled = false;
+                    btnContinue.focus();
+                }
+
+                document.getElementById("btnContinue").addEventListener("click", function() {
                     document.getElementById("step-3").click();
                     stepFrom++;
-                }
+                });
 
                 document.querySelectorAll('.nav-tabs a[data-bs-toggle="tab"]').forEach(tab => {
                     tab.addEventListener('show.bs.tab', (e) => {
@@ -702,14 +722,14 @@
                         if (targetTab === '#nucleo_do_cursinho' && !step1Valid) {
                             e.preventDefault();
                             $(".alert").remove();
-                            $("#form-content").prepend('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Por favor, selecione um estado primeiro!<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                            $("#form-content").prepend('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Por favor, selecione um estado primeiro!<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
                             return;
                         }
                         
                         if (targetTab === '#formulario_de_precadastro' && (!step1Valid || !step2Valid)) {
                             e.preventDefault();
                             $(".alert").remove();
-                            $("#form-content").prepend('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Por favor, complete as etapas anteriores primeiro!<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                            $("#form-content").prepend('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Por favor, complete as etapas anteriores primeiro!<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
                             return;
                         }
                     });
@@ -797,7 +817,7 @@
                     const hcaptchaVal = $('[name=h-captcha-response]').val();
                     if (!hcaptchaVal) {
                         $(".alert").remove();
-                        $(".h-captcha").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Por favor complete o desafio hCaptcha<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                        $(".h-captcha").before('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Por favor complete o desafio hCaptcha<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
 
                         btnSubmit.prop("disabled", false).removeClass("d-none");
                         btnLoader.addClass("d-none");

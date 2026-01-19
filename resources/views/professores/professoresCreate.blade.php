@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div>
-            <p style="font-size: 35px;"><span><a href="/professores" class="text-primary">
+            <h1 style="font-size: 35px; line-height: normal;"><span><a href="/professores" class="text-primary" aria-label="Voltar para professores">
                         <svg xmlns="http://www.w3.org/2000/svg" style="width: 45px; height: 45px;" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round"
@@ -14,7 +14,7 @@
                             <path d="M8 12h8" />
                             <path d="M12 8l-4 4" />
                         </svg>
-                    </a></span> Adicionar novo professor(a)</p>
+                    </a></span> Adicionar novo professor(a)</h1>
         </div>
         <div class="card">
             <div class="row g-0">
@@ -40,7 +40,7 @@
                     <div class="row mb-3">
                         <div class="col-9">
                             <div>
-                                <h3 class="mb-0">Meu Perfil</h3>
+                                <h2 class="mb-0">Meu Perfil</h2>
                                 <small class="text-muted">
                                     Pré-cadastro feito em <?php echo date('Y-m-d H:i:s'); ?> |
                                     Atualizado em <?php echo date('Y-m-d H:i:s'); ?>
@@ -126,7 +126,7 @@
                                             <div class="d-flex align-items-center">
                                                 <!-- Box do preview/ícone -->
                                                 <div class="avatar avatar-xl rounded border d-flex align-items-center justify-content-center me-3"
-                                                    style="width: 96px; height: 96px; background-color: #f8f9fa; overflow: hidden; position: relative;">
+                                                    style="width: 96px; height: 96px; background-color: #f8f9fa; color: #000; overflow: hidden; position: relative;">
 
                                                     <!-- SVG de câmera -->
                                                     <i id="iconCamera" style="font-size: 24px; color: #ccc; z-index: 1;">
@@ -243,7 +243,7 @@
                                         </div>
                                         <div class="col-md-3">
                                             <div class="mb-3">
-                                                <label class="form-label mb-2" for="inputRaca">Raça / Cor</label>
+                                                <label class="form-label mb-2" for="raca">Raça / Cor</label>
                                                 <select id="raca" name="inputRaca" class="form-select">
                                                     <option value="" selected>Selecione</option>
                                                     <option value="negra">Preta</option>
@@ -290,7 +290,7 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label class="form-label mb-2" for="inputEstadoCivil">Estado Civil</label>
-                                                <select name="inputEstadoCivil" class="form-select">
+                                                <select id="inputEstadoCivil" name="inputEstadoCivil" class="form-select">
                                                     <option value="" selected>Selecione</option>
                                                     <option value="solteiro_a">Solteiro(a)</option>
                                                     <option value="casado_a">Casado(a)</option>
@@ -304,7 +304,7 @@
                                             <div class="mb-3">
                                                 <label class="form-label mb-2" for="inputGenero">Identidade de
                                                     Gênero</label>
-                                                <select name="inputGenero" class="form-select">
+                                                <select id="inputGenero" name="inputGenero" class="form-select">
                                                     <option value="" selected>Selecione</option>
                                                     <option value="mulher">Mulher</option>
                                                     <option value="homem">Homem</option>
@@ -315,28 +315,19 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label class="form-label mb-2" for="concordaSexoDesignado">Você se
-                                                    identifica
-                                                    com o sexo designado
-                                                    ao nascer?</label>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio"
-                                                        name="concordaSexoDesignado" id="concordaSexoDesignado1"
-                                                        value="1" checked>
-                                                    <label class="form-label mb-2" class="form-check-label"
-                                                        for="concordaSexoDesignado1">
-                                                        Sim
-                                                    </label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio"
-                                                        name="concordaSexoDesignado" id="concordaSexoDesignado2"
-                                                        value="0">
-                                                    <label class="form-label mb-2" class="form-check-label"
-                                                        for="concordaSexoDesignado2">
-                                                        Não
-                                                    </label>
-                                                </div>
+                                                <fieldset>
+                                                    <legend class="form-label mb-2">Você se identifica com o gênero designado ao nascer?</legend>
+
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="concordaSexoDesignado" id="concordaSexoDesignado_sim" value="1" checked>
+                                                        <label class="form-check-label" for="concordaSexoDesignado_sim">Sim</label>
+                                                    </div>
+
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="concordaSexoDesignado" id="concordaSexoDesignado_nao" value="0">
+                                                        <label class="form-check-label" for="concordaSexoDesignado_nao">Não</label>
+                                                    </div>
+                                                </fieldset>
                                             </div>
                                         </div>
                                     </div>
@@ -345,19 +336,20 @@
                                     <div class="row">
                                         <div class="col-12 col-md-6">
                                             <div class="mb-3">
-                                                <div class="form-label">É pessoa com deficiência?</div>
-                                                <div>
-                                                    <label class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio"
-                                                            name="selecao-deficiencia" value="sim" />
-                                                        <span class="form-check-label">Sim</span>
-                                                    </label>
-                                                    <label class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio"
-                                                            name="selecao-deficiencia" value="nao" checked />
-                                                        <span class="form-check-label">Não</span>
-                                                    </label>
-                                                </div>
+                                                <fieldset>
+                                                    <legend class="form-label">É pessoa com deficiência?</legend>
+                                                    <div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="selecao-deficiencia" id="deficiencia_sim" value="sim">
+                                                            <label class="form-check-label" for="deficiencia_sim">Sim</label>
+                                                        </div>
+
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="selecao-deficiencia" id="deficiencia_nao" value="nao" checked>
+                                                            <label class="form-check-label" for="deficiencia_nao">Não</label>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
                                             </div>
                                         </div>
 
@@ -365,7 +357,7 @@
                                             <div class="mb-3">
                                                 <label class="form-label mb-2" for="pessoa_com_deficiencia">Qual a
                                                     deficiência?</label>
-                                                <select class="form-select" name="pessoa_com_deficiencia" disabled>
+                                                <select id="pessoa_com_deficiencia" class="form-select" name="pessoa_com_deficiencia" disabled>
                                                     <option value="" selected>Selecione</option>
                                                     <option value="A">Auditiva</option>
                                                     <option value="FM">Física / Motora</option>
@@ -426,27 +418,19 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label class="form-label mb-2" for="aulasForaUneafro">Fora da UNEAFRO,
-                                                    você dá
-                                                    aulas?</label>
+                                                <fieldset>
+                                                    <legend class="form-label mb-2">Fora da UNEAFRO, você dá aulas?</legend>
+
                                                     <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio"
-                                                            name="aulasForaUneafro" id="aulasForaUneafro1"
-                                                            value="sim" checked>
-                                                        <label class="form-label mb-2" class="form-check-label"
-                                                            for="aulasForaUneafro1">
-                                                            Sim
-                                                        </label>
+                                                        <input class="form-check-input" type="radio" name="aulasForaUneafro" id="aulasForaUneafroSim" value="sim" checked>
+                                                        <label class="form-check-label" for="aulasForaUneafroSim">Sim</label>
                                                     </div>
+
                                                     <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio"
-                                                            name="aulasForaUneafro" id="aulasForaUneafro2"
-                                                            value="nao">
-                                                        <label class="form-label mb-2" class="form-check-label"
-                                                            for="aulasForaUneafro2">
-                                                            Não
-                                                        </label>
+                                                        <input class="form-check-input" type="radio" name="aulasForaUneafro" id="aulasForaUneafroNao" value="nao">
+                                                        <label class="form-check-label" for="aulasForaUneafroNao">Não</label>
                                                     </div>
+                                                </fieldset>
                                             </div>
                                         </div>
                                     </div>
@@ -678,23 +662,21 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="mb-3">
-                                                <label class="form-label mb-2" for="inputProjetosRealizados">Já realizou
-                                                    trabalhos em projetos
-                                                    educacionais/Coletivos/Movimentos Sociais?</label>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio"
-                                                        name="inputProjetosRealizados" id="inputProjetosRealizados1"
-                                                        value="sim" onclick="showInput('.projeto-dados')">
-                                                    <label class="form-label mb-2" class="form-check-label"
-                                                        for="inputProjetosRealizados1">Sim</label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio"
-                                                        name="inputProjetosRealizados" id="inputProjetosRealizados2"
-                                                        value="nao" onclick="hideInput('.projeto-dados')">
-                                                    <label class="form-label mb-2" class="form-check-label"
-                                                        for="inputProjetosRealizados2">Não</label>
-                                                </div>
+                                                <fieldset>
+                                                    <legend class="form-label">Já realizou trabalhos em projetos educacionais, coletivos ou movimentos sociais?</legend>
+
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="inputProjetosRealizados" id="projetos_realizados_sim" value="sim" onclick="showInput('.projeto-dados')">
+                                                        <label class="form-check-label" for="projetos_realizados_sim">Sim</label>
+                                                    </div>
+
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="inputProjetosRealizados" id="projetos_realizados_nao" value="nao" onclick="hideInput('.projeto-dados')">
+                                                        <label class="form-check-label" for="projetos_realizados_nao">
+                                                            Não
+                                                        </label>
+                                                    </div>
+                                                </fieldset>
                                             </div>
                                         </div>
                                         <div class="col-3">
@@ -718,7 +700,7 @@
                                         </div>
                                         <div class="col-6">
                                             <div class="mb-3">
-                                                <label class="form-label mb-2" for="inputComoSoube">Como você ficou
+                                                <label class="form-label mb-2" for="comoSoube">Como você ficou
                                                     sabendo do
                                                     cursinho
                                                     pré-vestibular da UNEafro Brasil?</label>
@@ -750,7 +732,7 @@
                                                     motivo que o/a
                                                     levou a participar da Uneafro?</label>
                                                 <br>
-                                                <textarea class="form-control" name="inputMotivoPrincipal" rows="8"></textarea>
+                                                <textarea class="form-control" id="inputMotivoPrincipal" name="inputMotivoPrincipal" rows="8"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -782,7 +764,7 @@
                                             <div class="mb-3">
                                                 <label class="form-label mb-2" for="inputEnsinoSuperior"><strong>Ensino
                                                         Superior</strong></label>
-                                                <select name="inputEnsinoSuperior" class="form-select">
+                                                <select id="inputEnsinoSuperior" name="inputEnsinoSuperior" class="form-select">
                                                     <option value="" selected>Selecione</option>
                                                     <option value="em_curso">Em curso</option>
                                                     <option value="completo">Completo</option>
@@ -814,7 +796,7 @@
                                         <div class="col">
                                             <div class="mb-3">
                                                 <label class="form-label mb-2" for="inputAnoCursoSuperior1">Ano</label>
-                                                <select name="inputAnoCursoSuperior1" class="form-select">
+                                                <select id="inputAnoCursoSuperior1" name="inputAnoCursoSuperior1" class="form-select">
                                                     <option selected>Selecione</option>
                                                     <option value="1972">1972</option>
                                                     <option value="1973">1973</option>
@@ -883,7 +865,7 @@
                                         <div class="col">
                                             <div class="mb-3">
                                                 <label class="form-label mb-2" for="inputAnoCursoSuperior2">Ano</label>
-                                                <select name="inputAnoCursoSuperior2" class="form-select">
+                                                <select id="inputAnoCursoSuperior2" name="inputAnoCursoSuperior2" class="form-select">
                                                     <option selected>Selecione</option>
                                                     <option value="1972">1972</option>
                                                     <option value="1973">1973</option>
@@ -945,7 +927,7 @@
                                             <div class="mb-3">
                                                 <label class="form-label mb-2"
                                                     for="inputEspecializacao"><strong>Especialização</strong></label>
-                                                <select name="inputEspecializacao" class="form-select">
+                                                <select id="inputEspecializacao" name="inputEspecializacao" class="form-select">
                                                     <option value="" selected>Selecione</option>
                                                     <option value="em_curso">Em curso</option>
                                                     <option value="completo">Completo</option>
@@ -979,7 +961,7 @@
                                             <div class="mb-3">
                                                 <label class="form-label mb-2" for="inputAnoCursoEspecializacao">Ano de
                                                     Conclusão</label>
-                                                <select name="inputAnoCursoEspecializacao" class="form-select">
+                                                <select id="inputAnoCursoEspecializacao" name="inputAnoCursoEspecializacao" class="form-select">
                                                     <option selected>Selecione</option>
                                                     <option value="1972">1972</option>
                                                     <option value="1973">1973</option>
@@ -1041,7 +1023,7 @@
                                             <div class="mb-3">
                                                 <label class="form-label mb-2"
                                                     for="inputMestrado"><strong>Mestrado</strong></label>
-                                                <select name="inputMestrado" class="form-select">
+                                                <select id="inputMestrado" name="inputMestrado" class="form-select">
                                                     <option value="" selected>Selecione</option>
                                                     <option value="em_curso">Em curso</option>
                                                     <option value="completo">Completo</option>
@@ -1072,7 +1054,7 @@
                                             <div class="mb-3">
                                                 <label class="form-label mb-2" for="inputAnoCursoMestrado">Ano de
                                                     Conclusão</label>
-                                                <select name="inputAnoCursoMestrado" class="form-select">
+                                                <select id="inputAnoCursoMestrado" name="inputAnoCursoMestrado" class="form-select">
                                                     <option selected>Selecione</option>
                                                     <option value="1972">1972</option>
                                                     <option value="1973">1973</option>

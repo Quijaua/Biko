@@ -76,6 +76,7 @@
                         <div class="row">
                             {{-- Núcleo --}}
                             <div class="col-md-4" style="margin-top: 20px;">
+                                <label for="nucleo" class="visually-hidden">Núcleo</label>
                                 <select class="form-select" id="nucleo" name="nucleo">
                                     <option value="" @selected(request('nucleo') == '')>Núcleo</option>
                                     @foreach (\App\Nucleo::all() as $nuc)
@@ -89,26 +90,27 @@
                             {{-- Periodo --}}
                             <div class="col-4">
                                 <?php $today = \Carbon\Carbon::now()->format('Y-m-d'); ?>
-                                <small>Período de</small>
+                                <label for="date">Período de</label>
                                 <input type="date" class="form-control" id="date" name="date"
                                     aria-describedby="dateHelp" max="{{ $today }}" value="{{ request('date') }}">
                             </div>
 
                             {{-- Botões --}}
                             <div class="col-md-4" style="margin-top: 20px;">
-                                <a class="btn btn-light w-100" id="limparFiltros">
+                                <button type="button" class="btn btn-light w-100" id="limparFiltros">
                                     <span>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round"
-                                            class="icon icon-tabler icons-tabler-outline icon-tabler-refresh">
+                                            class="icon icon-tabler icons-tabler-outline icon-tabler-refresh"
+                                            aria-hidden="true" focusable="false">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                             <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
                                             <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
                                         </svg>
                                     </span>
                                     Limpar filtros
-                                </a>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -161,10 +163,10 @@
                         <table class="table table-hover table-vcenter">
                             <thead>
                                 <tr>
-                                    <th class="text-nowrap text-black py-3"></th>
-                                    <th scope="text-nowrap text-black py-3">Data</th>
-                                    <th scope="text-nowrap text-black py-3">Núcleo</th>
-                                    <th scope="text-nowrap text-black py-3">Ações</th>
+                                    <th scope="col" class="text-nowrap text-black py-3"><span class="visually-hidden">Selecionar</span></th>
+                                    <th scope="col" scope="text-nowrap text-black py-3">Data</th>
+                                    <th scope="col" scope="text-nowrap text-black py-3">Núcleo</th>
+                                    <th scope="col" scope="text-nowrap text-black py-3">Ações</th>
 
                                 </tr>
 
@@ -172,7 +174,7 @@
                             <tbody class="bg-white rounded">
                                 @foreach ($nucleo->listas_presenca as $lista)
                                     <tr>
-                                        <td><input type="checkbox" class="custom-checkbox" /></td>
+                                        <td><input type="checkbox" class="custom-checkbox" aria-label="Selecionar lista de presença do dia {{ $lista->date->format('d/m/Y') }}" /></td>
                                         <td class="text-secondary">{{ $lista->date->format('d/m/Y') }}</td>
                                         <td class="text-secondary">{{ $nucleo->NomeNucleo }}</td>
                                         <td class="text-secondary">
@@ -202,7 +204,7 @@
                                                             <div class="modal-header">
                                                                 <h5 class="modal-title text-danger">Excluir Núcleo</h5>
                                                                 <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Fechar"></button>
+                                                                    data-bs-dismiss="modal" aria-label="Fechar modal"></button>
                                                             </div>
                                                             <div class="modal-body text-center">
                                                                 <p class="mb-0">Deseja excluir este núcleo?

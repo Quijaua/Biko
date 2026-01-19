@@ -4,7 +4,7 @@
 <div class="page">
 	<div class="container container-tight py-4">
         <div class="card card-md">
-
+            <h1 class="visually-hidden">Acesso ao sistema</h1>
 
 	        <div class="card-body">
 		        <h2 class="h2 text-center mb-4">{{ __('Login') }}</h2>
@@ -118,7 +118,7 @@
             <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="otpModalLabel">Qual é o seu e-mail?</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar modal"></button>
             </div>
             <div class="modal-body">
                 <form id="otp-form" action="{{ route('otp-login') }}" method="POST">
@@ -181,7 +181,7 @@
                 $(".h-captcha").before(
                     '<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">' +
                         'Por favor complete o desafio hCaptcha' +
-                        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button>' +
                     '</div>'
                 );
 

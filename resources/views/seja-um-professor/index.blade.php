@@ -3,7 +3,7 @@
 @section('content')
 <div class="page-wrapper">
     <!-- BEGIN PAGE HEADER -->
-    <!--div class="page-header d-print-none" aria-label="Page header">
+    <!--div class="page-header d-print-none" aria-label="Cabeçalho da página">
         <div class="container-xl">
             <div class="row g-2 align-items-center">
                 <div class="col">
@@ -275,7 +275,7 @@
                 $(".h-captcha").before(
                     '<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">' +
                         'Por favor complete o desafio hCaptcha' +
-                        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button>' +
                     '</div>'
                 );
 

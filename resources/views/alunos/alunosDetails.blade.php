@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div>
-            <p style="font-size: 35px;"><span><a href="/alunos" class="text-primary">
+            <h1 style="font-size: 35px; line-height: normal;"><span><a href="/alunos" class="text-primary" aria-label="Voltar para estudantes">
                         <svg xmlns="http://www.w3.org/2000/svg" style="width: 45px; height: 45px;" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round"
@@ -14,7 +14,7 @@
                             <path d="M8 12h8" />
                             <path d="M12 8l-4 4" />
                         </svg>
-                    </a></span> Detalhes do(a) estudante</p>
+                    </a></span> Detalhes do(a) estudante</h1>
         </div>
         <div class="card">
             <div class="row g-0">
@@ -46,7 +46,7 @@
                     <div class="row mb-3">
                         <div class="col-7">
                             <div>
-                                <h3 class="mb-0">Meu Perfil</h3>
+                                <h2 class="mb-0">Meu Perfil</h2>
                                 <small class="text-muted">
                                     Pré-cadastro feito em {{ $dados->created_at }} |
                                     Atualizado em {{ $dados->updated_at }}
@@ -130,7 +130,7 @@
                                     <div class="d-flex align-items-center">
                                         <!-- Box do preview/ícone -->
                                         <div class="avatar avatar-xl rounded border d-flex align-items-center justify-content-center me-3"
-                                            style="width: 96px; height: 96px; background-color: #f8f9fa; overflow: hidden; position: relative;">
+                                            style="width: 96px; height: 96px; background-color: #f8f9fa; color: #000; overflow: hidden; position: relative;">
 
                                             <!-- Preview da imagem -->
                                             @if ($dados->Foto)
@@ -219,8 +219,8 @@
 
                                 <div class="col-md-3">
                                     <div>
-                                        <label class="form-label mb-2" for="inputRaca">Raça / Cor</label>
-                                        <select name="inputRaca" class="form-select" disabled>
+                                        <label class="form-label mb-2" for="raca">Raça / Cor</label>
+                                        <select id="raca" name="inputRaca" class="form-select" disabled>
                                             <option selected>Selecione</option>
                                             <option <?php if ($dados->Raca == 'negra') {
                                                 echo 'selected=selected';
@@ -305,7 +305,7 @@
                                     <div>
                                         <label class="form-label mb-2" for="inputGenero">Identidade de
                                             Gênero</label>
-                                        <select name="inputGenero" class="form-select" disabled>
+                                        <select id="inputGenero" name="inputGenero" class="form-select" disabled>
                                             <option selected>Selecione</option>
                                             <option <?php if ($dados->Genero == 'mulher' || $dados->Genero == 'mulher_trans_cis') {
                                                 echo 'selected=selected';
@@ -322,7 +322,7 @@
                                 <div class="col-md-3">
                                     <div>
                                         <label class="form-label mb-2" for="inputEstadoCivil">Estado Civil</label>
-                                        <select name="inputEstadoCivil" class="form-select" disabled>
+                                        <select id="inputEstadoCivil" name="inputEstadoCivil" class="form-select" disabled>
                                             <option selected>Selecione</option>
                                             <option <?php if ($dados->EstadoCivil == 'solteiro_a') {
                                                 echo 'selected=selected';
@@ -343,50 +343,43 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div>
-                                        <label class="form-label mb-2" for="concordaSexoDesignado">Você se identifica
-                                            com o gênero designado ao nascer?</label>
+                                    <fieldset>
+                                        <legend class="form-label mb-2">Você se identifica com o gênero designado ao nascer?</legend>
+
                                         <div class="form-check form-check-inline">
-                                            <input disabled class="form-check-input" type="radio"
-                                                name="concordaSexoDesignado" id="concordaSexoDesignado1"
-                                                value="1" checked>
-                                            <label class="form-label mb-2" class="form-check-label"
-                                                for="concordaSexoDesignado1">
-                                                Sim
-                                            </label>
+                                            <input class="form-check-input" type="radio" name="concordaSexoDesignado" id="concordaSexoDesignado_sim" value="1" checked>
+                                            <label class="form-check-label" for="concordaSexoDesignado_sim">Sim</label>
                                         </div>
+
                                         <div class="form-check form-check-inline">
-                                            <input disabled class="form-check-input" type="radio"
-                                                name="concordaSexoDesignado" id="concordaSexoDesignado2"
-                                                value="0">
-                                            <label class="form-label mb-2" class="form-check-label"
-                                                for="concordaSexoDesignado2">
-                                                Não
-                                            </label>
+                                            <input class="form-check-input" type="radio" name="concordaSexoDesignado" id="concordaSexoDesignado_nao" value="0">
+                                            <label class="form-check-label" for="concordaSexoDesignado_nao">Não</label>
                                         </div>
-                                    </div>
+                                    </fieldset>
                                 </div>
                             </div>
 
                             <div class="row mb-3">
                                 <div class="col-md-3">
-                                    <label class="form-label mb-2" for="temFilhos">Tem filhos?</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="temFilhos"
-                                            id="temFilhos1" value="1"
-                                            @if ($dados->temFilhos === 1) {{ 'checked' }} @endif disabled>
-                                        <label class="form-label mb-2" class="form-check-label" for="temFilhos1">
-                                            Sim
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="temFilhos"
-                                            id="temFilhos2" value="0"
-                                            @if ($dados->temFilhos === 0) {{ 'checked' }} @endif disabled>
-                                        <label class="form-label mb-2" class="form-check-label" for="temFilhos2">
-                                            Não
-                                        </label>
-                                    </div>
+                                    <fieldset class="mb-2">
+                                        <legend class="form-label mb-2">
+                                            Tem filhos?
+                                        </legend>
+
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="temFilhos" id="temFilhos1" value="1">
+                                            <label class="form-check-label" for="temFilhos1">
+                                                Sim
+                                            </label>
+                                        </div>
+
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="temFilhos" id="temFilhos2" value="0" checked>
+                                            <label class="form-check-label" for="temFilhos2">
+                                                Não
+                                            </label>
+                                        </div>
+                                    </fieldset>
                                 </div>
                                 <div class="col-md-3">
                                     <div>
@@ -396,61 +389,45 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div>
-                                        <label class="form-label mb-2" for="inputAuxGoverno">A família recebe algum
-                                            tipo de auxílio do Governo?</label>
-                                        <div id="AuxGoverno" class="form-check form-check-inline">
-                                            <input <?php if ($dados->AuxGoverno == 'sim') {
-                                                echo 'checked=checked';
-                                            } ?> class="form-check-input" type="radio"
-                                                name="inputAuxGoverno" id="inputAuxGoverno1" value="sim"
-                                                onclick="showInput('#AuxTipo')" disabled>
-                                            <label class="form-label mb-2" class="form-check-label"
-                                                for="inputTaxaInscricao1">Sim</label>
-                                        </div>
+                                    <fieldset>
+                                        <legend class="form-label mb-2">A família recebe algum tipo de auxílio do Governo?</legend>
+
                                         <div class="form-check form-check-inline">
-                                            <input <?php if ($dados->AuxGoverno == 'nao') {
-                                                echo 'checked=checked';
-                                            } ?> class="form-check-input" type="radio"
-                                                name="inputAuxGoverno" id="inputAuxGoverno2" value="nao"
-                                                onclick="hideAuxInput('#AuxTipo')" disabled>
-                                            <label class="form-label mb-2" class="form-check-label"
-                                                for="inputTaxaInscricao2">Não</label>
+                                            <input class="form-check-input" type="radio" name="inputAuxGoverno" id="aux_governo_sim" value="sim" onclick="showInput('#AuxTipo')" <?php if ($dados->AuxGoverno == 'sim') {echo 'checked=checked';} ?>>
+                                            <label class="form-check-label" for="aux_governo_sim">Sim</label>
                                         </div>
-                                    </div>
+
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inputAuxGoverno" id="aux_governo_nao" value="nao" onclick="showInput('#AuxTipo')" <?php if ($dados->AuxGoverno == 'nao') {echo 'checked=checked';} ?>>
+                                            <label class="form-check-label" for="aux_governo_nao">Não</label>
+                                        </div>
+                                    </fieldset>
                                 </div>
                             </div>
 
                             <div class="row mb-3">
                                 <div class="col-12 col-md-6">
-                                    <div>
-                                        <div class="form-label">É pessoa com deficiência?</div>
+                                    <fieldset>
+                                        <legend class="form-label">É pessoa com deficiência?</legend>
                                         <div>
-                                            <label class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio"
-                                                    name="selecao-deficiencia" value="sim" <?php if ($dados->pessoa_com_deficiencia) {
-                                                        echo 'checked';
-                                                    } ?>
-                                                    disabled />
-                                                <span class="form-check-label">Sim</span>
-                                            </label>
-                                            <label class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio"
-                                                    name="selecao-deficiencia" value="nao" <?php if (!$dados->pessoa_com_deficiencia) {
-                                                        echo 'checked';
-                                                    } ?>
-                                                    disabled />
-                                                <span class="form-check-label">Não</span>
-                                            </label>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="selecao-deficiencia" id="deficiencia_sim" value="sim" <?php if ($dados->pessoa_com_deficiencia) {echo 'checked';} ?>>
+                                                <label class="form-check-label" for="deficiencia_sim">Sim</label>
+                                            </div>
+
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="selecao-deficiencia" id="deficiencia_nao" value="nao" <?php if (!$dados->pessoa_com_deficiencia) {echo 'checked';} ?>>
+                                                <label class="form-check-label" for="deficiencia_nao">Não</label>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </fieldset>
                                 </div>
 
                                 <div class="col-12 col-md-6">
                                     <div>
                                         <label class="form-label mb-2" for="pessoa_com_deficiencia">Qual a
                                             deficiência?</label>
-                                        <select class="form-select" name="pessoa_com_deficiencia" disabled>
+                                        <select id="pessoa_com_deficiencia" class="form-select" name="pessoa_com_deficiencia" disabled>
                                             <option value="" selected>Selecione</option>
                                             <option value="A" <?php if ($dados->pessoa_com_deficiencia == 'A') {
                                                 echo 'selected';
@@ -482,29 +459,19 @@
                             <div class="row mb-3">
 
                                 <div class="col-md-6">
-                                    <div>
-                                        <label class="form-label mb-2" for="responsavelCuidadoOutraPessoa">É
-                                            responsável
-                                            pelo cuidado de outra pessoa?</label>
+                                    <fieldset>
+                                        <legend class="form-label mb-2">É responsável pelo cuidado de outra pessoa?</legend>
+
                                         <div class="form-check form-check-inline">
-                                            <input disabled class="form-check-input" type="radio"
-                                                name="responsavelCuidadoOutraPessoa"
-                                                id="responsavelCuidadoOutraPessoa1" value="1">
-                                            <label class="form-label mb-2" class="form-check-label"
-                                                for="responsavelCuidadoOutraPessoa1">
-                                                Sim
-                                            </label>
+                                            <input class="form-check-input" type="radio" name="responsavelCuidadoOutraPessoa" id="responsavel_cuidado_sim" value="1" <?php if ($dados->responsavelCuidadoOutraPessoa) {echo 'checked';} ?>>
+                                            <label class="form-check-label" for="responsavel_cuidado_sim">Sim</label>
                                         </div>
+
                                         <div class="form-check form-check-inline">
-                                            <input disabled class="form-check-input" type="radio"
-                                                name="responsavelCuidadoOutraPessoa"
-                                                id="responsavelCuidadoOutraPessoa2" value="0" checked>
-                                            <label class="form-label mb-2" class="form-check-label"
-                                                for="responsavelCuidadoOutraPessoa2">
-                                                Não
-                                            </label>
+                                            <input class="form-check-input" type="radio" name="responsavelCuidadoOutraPessoa" id="responsavel_cuidado_nao" value="0" <?php if (!$dados->responsavelCuidadoOutraPessoa) {echo 'checked';} ?>>
+                                            <label class="form-check-label" for="responsavel_cuidado_nao">Não</label>
                                         </div>
-                                    </div>
+                                    </fieldset>
                                 </div>
                             </div>
                             {{-- NUCLEO --}}
@@ -529,7 +496,7 @@
                                 <div class="col-md-6 mb-3">
                                     <div>
                                         <label class="form-label mb-2" for="inputNucleo">Núcleo</label>
-                                        <select name="inputNucleo" class="form-select" disabled>
+                                        <select id="inputNucleo" name="inputNucleo" class="form-select" disabled>
                                             <option selected>Selecione</option>
                                             @foreach ($nucleos as $nucleo)
                                                 <option <?php if ($nucleo->id == $dados->id_nucleo) {
@@ -543,24 +510,21 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <div>
-                                        <label class="form-label mb-2 d-block">Lista de Espera</label>
+                                    <fieldset>
+                                        <legend class="form-label mb-2">
+                                            Lista de Espera
+                                        </legend>
 
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="inputListaEspera"
-                                                id="listaEsperaSim" value="Sim"
-                                                @if ($dados->ListaEspera === 'Sim') checked @endif disabled>
+                                            <input class="form-check-input" type="radio" name="inputListaEspera" id="listaEsperaSim" value="Sim" @if ($dados->ListaEspera === 'Sim') checked @endif>
                                             <label class="form-check-label" for="listaEsperaSim">Sim</label>
                                         </div>
 
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="inputListaEspera"
-                                                id="listaEsperaNao" value="Não"
-                                                @if ($dados->ListaEspera === 'Não') checked @endif disabled>
+                                            <input class="form-check-input" type="radio" name="inputListaEspera" id="listaEsperaNao" value="Não" @if ($dados->ListaEspera === 'Não') checked @endif>
                                             <label class="form-check-label" for="listaEsperaNao">Não</label>
                                         </div>
-
-                                    </div>
+                                    </fieldset>
                                 </div>
                                 <div class="col-md-6" id="campoBolsista" style="display: none;">
                                     <div>
@@ -653,7 +617,7 @@
                                 <div class="col-md-3">
                                     <div class="mb-3">
                                         <span for="inputEstado">Estado</span>
-                                        <select name="inputEstado" class="form-select" disabled>
+                                        <select id="inputEstado" name="inputEstado" class="form-select" disabled>
                                             <option selected>Selecione</option>
                                             <option <?php if ($dados->Estado == 'AC') {
                                                 echo 'selected=selected';
@@ -891,7 +855,7 @@
                                     <div>
                                         <label class="form-label mb-2" for="inputEscolaridade">Qual a sua
                                             escolaridade</label>
-                                        <select name="inputEscolaridade" class="form-select" disabled>
+                                        <select id="inputEscolaridade" name="inputEscolaridade" class="form-select" disabled>
                                             <option selected>Selecione</option>
                                             <option value="Ensino fundamental completo"
                                                 @if ($dados->Escolaridade === 'Ensino fundamental completo') {{ 'selected' }} @endif>Ensino
@@ -925,56 +889,41 @@
                                 </div>
 
                                 <div class="col-md-3">
-                                    <div>
-                                        <label class="form-label" for="inputVestibular">Já prestou algum
-                                            vestibular?</label>
-                                            <div id="Vestibular" class="form-check form-check-inline">
-                                                <input <?php if ($dados->Vestibular == 'Sim') {
-                                                    echo 'checked=checked';
-                                                } ?> class="form-check-input" type="radio"
-                                                    name="inputVestibular" id="inputVestibular1" value="Sim"
-                                                    onclick="showInput('.dados-faculdade')" disabled>
-                                                <label class="form-label mb-2" class="form-check-label"
-                                                    for="inputVestibular1">Sim</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input <?php if ($dados->Vestibular == 'Não') {
-                                                    echo 'checked=checked';
-                                                } ?> class="form-check-input" type="radio"
-                                                    name="inputVestibular" id="inputVestibular2" value="Não"
-                                                    onclick="hideInput('.dados-faculdade')" disabled>
-                                                <label class="form-label mb-2" class="form-check-label"
-                                                    for="inputVestibular2">Não</label>
-                                            </div>
-                                    </div>
+                                    <fieldset>
+                                        <legend class="form-label">Já prestou algum vestibular?</legend>
+
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inputVestibular" id="vestibular_sim" value="Sim" aria-controls="dados-faculdade" aria-expanded="false" onclick="showInput('.dados-faculdade')" <?php if ($dados->Vestibular == 'Sim') {echo 'checked=checked';} ?>>
+                                            <label class="form-check-label" for="vestibular_sim">Sim</label>
+                                        </div>
+
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inputVestibular" id="vestibular_nao" value="Não" aria-controls="dados-faculdade" aria-expanded="true" onclick="hideInput('.dados-faculdade')" <?php if ($dados->Vestibular == 'Não') {echo 'checked=checked';} ?>>
+                                            <label class="form-check-label" for="vestibular_nao">Não</label>
+                                        </div>
+                                    </fieldset>
                                 </div>
 
                                 <div class="col-md-3">
-                                    <div>
-                                        <label class="form-label" for="inputEnem">Já prestou Enem?</label>
-                                        <div id="enem" class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="inputEnem"
-                                                id="inputEnem1" value="1"
-                                                @if ($dados->Enem === 1) {{ 'checked' }} @endif
-                                                disabled>
-                                            <label class="form-label mb-2" class="form-check-label"
-                                                for="inputEnem1">Sim</label>
-                                        </div>
+                                    <fieldset>
+                                        <legend class="form-label">Já prestou ENEM?</legend>
+
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="inputEnem"
-                                                id="inputEnem2" value="0"
-                                                @if ($dados->Enem === 0) {{ 'checked' }} @endif
-                                                disabled>
-                                            <label class="form-label mb-2" class="form-check-label"
-                                                for="inputEnem2">Não</label>
+                                            <input class="form-check-input" type="radio" name="inputEnem" id="inputEnemSim" value="1" @if ($dados->Enem === 1) checked @endif>
+                                            <label class="form-check-label" for="inputEnemSim">Sim</label>
                                         </div>
-                                    </div>
+
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inputEnem" id="inputEnemNao" value="0" @if ($dados->Enem === 0) checked @endif>
+                                            <label class="form-check-label" for="inputEnemNao">Não</label>
+                                        </div>
+                                    </fieldset>
                                 </div>
 
                                 <div class="col-md-2">
                                     <div>
                                         <label class="form-label" for="inputAnoEnem">Ano</label>
-                                        <select disabled name="inputAnoEnem" class="form-select">
+                                        <select disabled id="inputAnoEnem" name="inputAnoEnem" class="form-select">
                                             <option value="" selected>Selecione</option>
                                             <option value="1969">1969</option>
                                             <option value="1970">1970</option>
@@ -1036,22 +985,19 @@
 
                             <div class="row mb-3">
                                 <div class="col-md-3">
-                                    <div>
-                                        <label class="form-label" for="inputEnsFundamental">Ensino
-                                            Fundamental</label>
+                                    <fieldset>
+                                        <legend class="form-label">Ensino Fundamental</legend>
+
                                         <div class="form-check form-check-inline">
-                                            <input @if ($dados->EnsFundamental === "publica") {{ 'checked' }} @endif disabled class="form-check-input" name="inputEnsFundamental[]"
-                                                type="radio" id="publica" value="rede publica">
-                                            <label class="form-label" class="form-check-label"
-                                                for="inputEnsFundamental1">Pública</label>
+                                            <input class="form-check-input" type="radio" name="inputEnsFundamental[]" id="ens_fund_publica" value="rede publica" @if ($dados->EnsFundamental === "rede publica") {{ 'checked' }} @endif disabled>
+                                            <label class="form-check-label" for="ens_fund_publica">Pública</label>
                                         </div>
+
                                         <div class="form-check form-check-inline">
-                                            <input @if ($dados->EnsFundamental === "particular") {{ 'checked' }} @endif disabled class="form-check-input" name="inputEnsFundamental[]"
-                                                type="radio" id="particular" value="particular">
-                                            <label class="form-label" class="form-check-label"
-                                                for="inputEnsFundamental2">Particular</label>
+                                            <input class="form-check-input" type="radio" name="inputEnsFundamental[]" id="ens_fund_particular" value="particular" @if ($dados->EnsFundamental === "particular") {{ 'checked' }} @endif disabled>
+                                            <label class="form-check-label" for="ens_fund_particular">Particular</label>
                                         </div>
-                                    </div>
+                                    </fieldset>
                                 </div>
                                 <div class="col-md-3">
                                     <div>
@@ -1065,23 +1011,19 @@
                                 </div>
 
                                 <div class="col-md-3">
-                                    <div>
-                                        <label class="form-label" for="inputEnsMedio">Ensino
-                                            Médio</label>
+                                    <fieldset>
+                                        <legend class="form-label">Ensino Médio</legend>
+
                                         <div class="form-check form-check-inline">
-                                            <input @if ($dados->EnsMedio === "publica") {{ 'checked' }} @endif disabled class="form-check-input" name="inputEnsMedio[]" type="radio"
-                                                id="rede_publica" value="rede publica">
-                                            <label class="form-label mb-2" class="form-check-label"
-                                                for="inputEnsMedio1">Pública</label>
+                                            <input class="form-check-input" type="radio" name="inputEnsMedio[]" id="ens_medio_publica" value="rede publica" @if ($dados->EnsMedio === "rede publica") {{ 'checked' }} @endif disabled>
+                                            <label class="form-check-label" for="ens_medio_publica">Pública</label>
                                         </div>
+
                                         <div class="form-check form-check-inline">
-                                            <input @if ($dados->EnsMedio === "particular") {{ 'checked' }} @endif disabled class="form-check-input" name="inputinputEnsMedio[]"
-                                                type="radio" id="particular_sem_bolsa"
-                                                value="particular sem bolsa">
-                                            <label class="form-label mb-2" class="form-check-label"
-                                                for="inputEnsMedio2">Particular</label>
+                                            <input class="form-check-input" type="radio" name="inputEnsMedio[]" id="ens_medio_particular" value="particular" @if ($dados->EnsMedio === "particular") {{ 'checked' }} @endif disabled>
+                                            <label class="form-check-label" for="ens_medio_particular">Particular</label>
                                         </div>
-                                    </div>
+                                    </fieldset>
                                 </div>
                                 <div class="col-md-3">
                                     <div>
@@ -1363,34 +1305,26 @@
 
                             <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <div>
-                                        <label class="form-label mb-2 d-block">Quanto à Universidade, tem
-                                            disponibilidade/interesse de estudar em outras cidades?</label>
+                                    <fieldset>
+                                        <legend class="form-label">Quanto à Universidade, tem disponibilidade/interesse de estudar em outras cidades?</legend>
 
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" disabled <?php if ($dados->VestibularOutraCidade == 'sim') {
-                                                echo 'checked=checked';
-                                            } ?> type="radio"
-                                                name="inputVestibularOutraCidade" id="vestibularSim" value="sim">
+                                            <input class="form-check-input" type="radio" name="inputVestibularOutraCidade" id="vestibularSim" value="sim" <?php if ($dados->VestibularOutraCidade == 'sim') {echo 'checked';} ?> disabled>
                                             <label class="form-check-label" for="vestibularSim">Sim</label>
                                         </div>
 
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" disabled <?php if ($dados->VestibularOutraCidade == 'nao') {
-                                                echo 'checked=checked';
-                                            } ?> type="radio"
-                                                name="inputVestibularOutraCidade" id="vestibularNao" value="nao">
+                                            <input class="form-check-input" type="radio" name="inputVestibularOutraCidade" id="vestibularNao" value="nao" <?php if ($dados->VestibularOutraCidade == 'nao') {echo 'checked';} ?> disabled>
                                             <label class="form-check-label" for="vestibularNao">Não</label>
                                         </div>
-                                    </div>
-
+                                    </fieldset>
                                 </div>
                                 <div class="col-md-6">
                                     <div>
-                                        <label class="form-label mb-2" for="inputComoSoube">Como você ficou
+                                        <label class="form-label mb-2" for="comoSoube">Como você ficou
                                             sabendo do
                                             cursinho pré-vestibular da UNEafro Brasil?</label>
-                                            <select name="inputComoSoube" class="form-select" disabled>
+                                            <select id="comoSoube" name="inputComoSoube" class="form-select" disabled>
                                                 <option selected>Selecione</option>
                                                 <option <?php if ($dados->ComoSoube == 'internet') {
                                                     echo 'selected=selected';

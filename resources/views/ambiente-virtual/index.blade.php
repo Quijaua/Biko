@@ -90,7 +90,7 @@
                     <div class="col-6">
                         {{-- Botões --}}
                         <div class="col-md-12 d-flex gap-2">
-                            <a class="btn btn-light w-100" id="limparFiltros">
+                            <button type="button" class="btn btn-light w-100" id="limparFiltros">
                                 <span>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -102,13 +102,15 @@
                                     </svg>
                                 </span>
                                 Limpar filtros
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="row row-cards">
+                <h2 class="visually-hidden">Lista de aulas</h2>
+
                 @if($aulas->isEmpty())
                 <p>Nenhum registro encontrado.</p>
                 @else
@@ -127,8 +129,26 @@
                         </div>
 
                         <div class="card-body p-0">
-                            <a href="{{route('ambiente-virtual.show', $aula)}}">
-                                <img class="simg-responsive" src="{{ asset('aulas-virtuais/imagens/' . $aula->id . '/' . $aula->imagem_capa) }}" alt="{{ $aula->titulo }}">
+                            <a href="{{route('ambiente-virtual.show', $aula)}}" class="img-wcag">
+                                @php
+                                    $alt = $aula->alt_text;
+
+                                    if (!$alt) {
+                                        $alt = 'Banner da aula "' . $aula->titulo . '"';
+
+                                        if ($aula->professor && $aula->professor->NomeProfessor) {
+                                            $alt .= ', com o professor (a) ' . $aula->professor->NomeProfessor;
+                                        }
+
+                                        if ($aula->disciplina && $aula->disciplina->nome) {
+                                            $alt .= ($aula->professor && $aula->professor->NomeProfessor) ? ' e ' : ', ';
+                                            $alt .= 'disciplina ' . $aula->disciplina->nome;
+                                        }
+
+                                        $alt .= '.';
+                                    }
+                                @endphp
+                                <img class="simg-responsive" src="{{ asset('aulas-virtuais/imagens/' . $aula->id . '/' . $aula->imagem_capa) }}" alt="{{ $alt }}">
                             </a>
                         </div>
 

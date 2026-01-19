@@ -34,69 +34,78 @@
             </div>
             <div class="card mb-4 col-md-5">
                 <div class="card-body">
-                    <form class="row g-2 align-items-end">
+                    <form class="row g-2 align-items-end" role="search">
 
-                        <div class="col-md-12">
-                            <h3 class="card-title mb-3 d-flex align-items-center">
-                                <span class="mx-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round"
-                                        class="icon icon-tabler icons-tabler-outline icon-tabler-adjustments-horizontal">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path d="M14 6m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                        <path d="M4 6l8 0" />
-                                        <path d="M16 6l4 0" />
-                                        <path d="M8 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                        <path d="M4 12l2 0" />
-                                        <path d="M10 12l10 0" />
-                                        <path d="M17 18m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                        <path d="M4 18l11 0" />
-                                        <path d="M19 18l1 0" />
-                                    </svg>
-                                </span>
-                                Filtros avançados
-                            </h3>
-                        </div>
+                        <fieldset class="w-100 g-2 row">
+                            <legend class="visually-hidden">Filtros avançados</legend>
 
-                        {{-- Núcleo --}}
-                        <div class="col-md-3">
-                            <select class="form-select" id="nucleo" name="nucleo">
-                                <option value="" @selected(request('nucleo') == '')>Núcleo</option>
-                                @foreach (\App\Nucleo::all() as $nuc)
+                            <div class="col-md-12">
+                                <h3 class="card-title mb-3 d-flex align-items-center">
+                                    <span class="mx-2">
+                                        <!-- ícone (ok) -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="icon icon-tabler icons-tabler-outline icon-tabler-adjustments-horizontal"
+                                            aria-hidden="true" focusable="false">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M14 6m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                            <path d="M4 6l8 0" />
+                                            <path d="M16 6l4 0" />
+                                            <path d="M8 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                            <path d="M4 12l2 0" />
+                                            <path d="M10 12l10 0" />
+                                            <path d="M17 18m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                            <path d="M4 18l11 0" />
+                                            <path d="M19 18l1 0" />
+                                        </svg>
+                                    </span>
+                                    Filtros avançados
+                                </h3>
+                            </div>
+
+                            {{-- Núcleo --}}
+                            <div class="col-md-3">
+                                <label for="nucleo" class="visually-hidden">Núcleo</label>
+                                <select class="form-select" id="nucleo" name="nucleo">
+                                    <option value="" @selected(request('nucleo') == '')>Núcleo</option>
+                                    @foreach (\App\Nucleo::all() as $nuc)
                                     <option value="{{ $nuc->id }}" @selected(request('nucleo') == $nuc->id)>
                                         {{ $nuc->NomeNucleo }}
                                     </option>
-                                @endforeach
-                            </select>
-                        </div>
+                                    @endforeach
+                                </select>
+                            </div>
 
-                        {{-- Enviado por --}}
-                        <div class="col-md-4">
-                            <select class="form-select" id="status" name="status">
-                                <option value="" @selected(request('status') == '')>Situação</option>
-                                <option value="ativo" @selected(request('status') == 'ativo')>Ativos</option>
-                                <option value="inativo" @selected(request('status') == 'inativo')>Inativo</option>
-                            </select>
-                        </div>
+                            {{-- Situação --}}
+                            <div class="col-md-4">
+                                <label for="status" class="visually-hidden">Situação</label>
+                                <select class="form-select" id="status" name="status">
+                                    <option value="" @selected(request('status') == '')>Situação</option>
+                                    <option value="ativo" @selected(request('status') == 'ativo')>Ativos</option>
+                                    <option value="inativo" @selected(request('status') == 'inativo')>Inativo</option>
+                                </select>
+                            </div>
 
-                        {{-- Botões --}}
-                        <div class="col-md-5 d-flex gap-2">
-                            <a class="btn btn-light w-100" id="limparFiltros">
-                                <span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round"
-                                        class="icon icon-tabler icons-tabler-outline icon-tabler-refresh">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
-                                        <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
-                                    </svg>
-                                </span>
-                                Limpar filtros
-                            </a>
-                        </div>
+                            {{-- Botões --}}
+                            <div class="col-md-5 d-flex gap-2">
+                                <button type="button" class="btn btn-light w-100" id="limparFiltros">
+                                    <span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="icon icon-tabler icons-tabler-outline icon-tabler-refresh"
+                                            aria-hidden="true" focusable="false">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+                                            <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+                                        </svg>
+                                    </span>
+                                    Limpar filtros
+                                </button>
+                            </div>
 
+                        </fieldset>
                     </form>
                 </div>
             </div>
@@ -125,19 +134,35 @@
         <div class="container">
             <div class="rounded border border-gray-300">
                 <form action="/files/search" method="POST" class="p-4 bg-white" role="search">
-                    <div class="col-10 d-flex align-items-center gap-2">
-                        @csrf
-                        <input type="text" name="inputQuery" class="form-control" placeholder="Digite uma palavra-chave"
-                            required />
+                    @csrf
 
-                        <button type="submit" class="btn btn-outline-primary d-flex align-items-center gap-1">
+                    <fieldset class="border rounded p-3">
+                        <legend class="visually-hidden">Filtros de materiais</legend>
+
+                        <div class="row g-2 align-items-center">
+                        <div class="col-10">
+                            <label for="inputQuery" class="visually-hidden">Buscar materiais</label>
+                            <input
+                            id="inputQuery"
+                            type="text"
+                            name="inputQuery"
+                            class="form-control"
+                            placeholder="Digite uma palavra-chave"
+                            required
+                            />
+                        </div>
+
+                        <div class="col-auto d-flex gap-2">
+                            <button type="submit" class="btn btn-outline-primary d-flex align-items-center gap-1">
                             <i class="fas fa-search"></i> Buscar
-                        </button>
+                            </button>
 
-                        <a href="/files" class="btn btn-light text-secondary">
+                            <a href="/files" class="btn btn-light text-secondary">
                             Limpar
-                        </a>
-                    </div>
+                            </a>
+                        </div>
+                        </div>
+                    </fieldset>
                 </form>
 
                 <div>
@@ -228,7 +253,7 @@
                                                                         </h5>
                                                                         <button type="button" class="btn-close"
                                                                             data-bs-dismiss="modal"
-                                                                            aria-label="Fechar"></button>
+                                                                            aria-label="Fechar modal"></button>
                                                                     </div>
                                                                     <div class="modal-body text-center">
                                                                         <p class="mb-0">Deseja inativar este material?</p>
@@ -267,7 +292,7 @@
                                                                     </h5>
                                                                     <button type="button" class="btn-close"
                                                                         data-bs-dismiss="modal"
-                                                                        aria-label="Fechar"></button>
+                                                                        aria-label="Fechar modal"></button>
                                                                 </div>
                                                                 <div class="modal-body text-center">
                                                                     <p class="mb-0">Deseja excluir este material?
@@ -375,7 +400,7 @@
                         <div class="modal-header">
                             <h5 class="modal-title text-primary">Adicionar novo material</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Fechar"></button>
+                                aria-label="Fechar modal"></button>
                         </div>
                         <div class="modal-body">
                             <form action="{{ route('nucleo.material.create') }}" method="post"
@@ -435,7 +460,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title text-primary">Editar material</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar modal"></button>
             </div>
             <form action="" method="POST">
                 @csrf

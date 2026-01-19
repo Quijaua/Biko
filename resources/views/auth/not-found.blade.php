@@ -4,6 +4,8 @@
 
 @section('content')
 <div class="container-fluid">
+    <h1 class="visually-hidden">Acesso ao sistema</h1>
+
     <!-- PAGE HEADER -->
     <div class="row justify-content-center">
         <div class="col-8">

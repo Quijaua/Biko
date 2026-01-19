@@ -50,6 +50,14 @@
 
                     <div class="col-12 col-md-4">
                         <div class="mb-3">
+                            <label class="form-label mb-2" for="alt_text">Texto alternativo (alt) da imagem</label>
+                            <input type="text" class="form-control" id="alt_text" name="alt_text" aria-describedby="alt_textHelp" placeholder="Descreva a imagem para acessibilidade" value="{{ $aula->alt_text ?? '' }}">
+                            <small class="form-text text-muted">Ex: Banner da aula "Nome da aula", com o professor X e tema Y.</small>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <div class="mb-3">
                             <label class="form-label mb-2" for="class_duration">Duração</label>
                             <input type="text" class="form-control" id="class_duration" name="class_duration" aria-describedby="class_durationHelp" value="{{ $aula->class_duration }}" required>
                         </div>

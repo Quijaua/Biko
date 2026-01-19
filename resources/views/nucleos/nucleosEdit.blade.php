@@ -4,7 +4,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <div class="container">
         <div>
-            <p style="font-size: 35px;"><span><a href="/nucleos" class="text-primary">
+            <h1 style="font-size: 35px; line-height: normal;"><span><a href="/nucleos" class="text-primary" aria-label="Voltar para núcleos">
                         <svg xmlns="http://www.w3.org/2000/svg" style="width: 45px; height: 45px;" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round"
@@ -15,7 +15,7 @@
                             <path d="M8 12h8" />
                             <path d="M12 8l-4 4" />
                         </svg>
-                    </a></span> Detalhes do núcleo</p>
+                    </a></span> Detalhes do núcleo</h1>
         </div>
         <div class="card">
             <div class="row g-0">
@@ -84,14 +84,14 @@
                             <!-- Ativar/Inativar Núcleo -->
                             @if ($dados->Status === 1)
                                 <a href="/nucleos/disable/{{ $dados->id }}">
-                                    <span class="btn btn-danger status-inativo">
+                                    <span class="btn btn-outline-danger status-inativo">
                                         <span class="status-circle"></span>
                                         Inativar
                                     </span>
                                 </a>
                             @else
                                 <a href="/nucleos/enable/{{ $dados->id }}">
-                                    <span class="btn btn-success status-ativo">
+                                    <span class="btn btn-outline-success status-ativo">
                                         Ativar
                                         <span class="status-circle"></span>
                                     </span>
@@ -170,43 +170,29 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label mb-3" for="inputAreaAtuacao">Área de atuação</label>
-                                            <div class="form-check form-check-inline">
-                                                <input <?php if ($dados->AreaAtuacao == 'educacao') {
-                                                    echo 'checked=checked';
-                                                } ?> class="form-check-input" type="radio"
-                                                    name="inputAreaAtuacao" id="inputAreaAtuacao1" value="educacao"
-                                                    >
-                                                <label class="form-label mb-2 form-check-label"
-                                                    for="inputAreaAtuacao1">Educação</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input <?php if ($dados->AreaAtuacao == 'esporte') {
-                                                    echo 'checked=checked';
-                                                } ?> class="form-check-input" type="radio"
-                                                    name="inputAreaAtuacao" id="inputAreaAtuacao2" value="esporte"
-                                                    >
-                                                <label class="form-label mb-2 form-check-label"
-                                                    for="inputAreaAtuacao2">Esporte</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input <?php if ($dados->AreaAtuacao == 'cultura') {
-                                                    echo 'checked=checked';
-                                                } ?> class="form-check-input" type="radio"
-                                                    name="inputAreaAtuacao" id="inputAreaAtuacao3" value="cultura"
-                                                    >
-                                                <label class="form-label mb-2 form-check-label"
-                                                    for="inputAreaAtuacao3">Cultura</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input <?php if ($dados->AreaAtuacao == 'outro') {
-                                                    echo 'checked=checked';
-                                                } ?> class="form-check-input" type="radio"
-                                                    name="inputAreaAtuacao" id="inputAreaAtuacao4" value="outro"
-                                                    >
-                                                <label class="form-label mb-2 form-check-label"
-                                                    for="inputAreaAtuacao4">Outro</label>
-                                            </div>
+                                            <fieldset>
+                                                <legend class="form-label mb-3">Área de atuação</legend>
+
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inputAreaAtuacao" id="area_educacao" value="educacao" <?php if ($dados->AreaAtuacao == 'educacao') {echo 'checked';} ?>>
+                                                    <label class="form-check-label" for="area_educacao">Educação</label>
+                                                </div>
+
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inputAreaAtuacao" id="area_esporte" value="esporte" <?php if ($dados->AreaAtuacao == 'esporte') {echo 'checked';} ?>>
+                                                    <label class="form-check-label" for="area_esporte">Esporte</label>
+                                                </div>
+
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inputAreaAtuacao" id="area_cultura" value="cultura" <?php if ($dados->AreaAtuacao == 'cultura') {echo 'checked';} ?>>
+                                                    <label class="form-check-label" for="area_cultura">Cultura</label>
+                                                </div>
+
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inputAreaAtuacao" id="area_outro" value="outro" <?php if ($dados->AreaAtuacao == 'outro') {echo 'checked';} ?>>
+                                                    <label class="form-check-label" for="area_outro">Outro</label>
+                                                </div>
+                                            </fieldset>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -550,26 +536,19 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="mb-3">
-                                            <label class="form-label mb-2" for="inputTaxaInscricao">Tem taxa de
-                                                inscrição</label>
-                                            <div class="form-check form-check-inline">
-                                                <input <?php if ($dados->TaxaInscricao == 'sim') {
-                                                    echo 'checked=checked';
-                                                } ?> class="form-check-input" type="radio"
-                                                    name="inputTaxaInscricao" id="inputTaxaInscricao1" value="sim"
-                                                    >
-                                                <label class="form-label mb-2 form-check-label"
-                                                    for="inputTaxaInscricao1">Sim</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input <?php if ($dados->TaxaInscricao == 'nao') {
-                                                    echo 'checked=checked';
-                                                } ?> class="form-check-input" type="radio"
-                                                    name="inputTaxaInscricao" id="inputTaxaInscricao2" value="nao"
-                                                    >
-                                                <label class="form-label mb-2 form-check-label"
-                                                    for="inputTaxaInscricao2">Não</label>
-                                            </div>
+                                            <fieldset>
+                                                <legend class="form-label mb-2">Tem taxa de inscrição?</legend>
+
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inputTaxaInscricao" id="taxa_inscricao_sim" value="sim" aria-controls="TaxaInscricaoValor" aria-expanded="false" <?php if ($dados->TaxaInscricao == 'sim') {echo 'checked';} ?>>
+                                                    <label class="form-check-label" for="taxa_inscricao_sim">Sim</label>
+                                                </div>
+
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inputTaxaInscricao" id="taxa_inscricao_nao" value="nao" aria-controls="TaxaInscricaoValor" aria-expanded="true" <?php if ($dados->TaxaInscricao == 'nao') {echo 'checked';} ?>>
+                                                    <label class="form-check-label" for="taxa_inscricao_nao">Não</label>
+                                                </div>
+                                            </fieldset>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -662,7 +641,7 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputHorarios">Horário Inicial</label>
+                                        <label class="form-label mb-2" for="inputHorarioInicial">Horário Inicial</label>
                                         <input type="time" class="form-control" id="inputHorarioInicial"
                                             name="inputHorarioInicial" aria-describedby="inputHorarioInicialHelp"
                                             value="{{ $dados->HorarioInicial }}" form="professoresDisciplinasForm">
@@ -670,7 +649,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputHorarios">Horário Final</label>
+                                        <label class="form-label mb-2" for="inputHorarioFinal">Horário Final</label>
                                         <input type="time" class="form-control" id="inputHorarioFinal"
                                             name="inputHorarioFinal" aria-describedby="inputHorarioFinalHelp"
                                             value="{{ $dados->HorarioFinal }}" form="professoresDisciplinasForm">
@@ -678,7 +657,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="mb-3">
-                                        <label class="form-label mb-2" for="inputHorarios">Dia da semana</label>
+                                        <label class="form-label mb-2" for="inputDiaSemana">Dia da semana</label>
                                         <select name="inputDiaSemana" id="inputDiaSemana" class="form-select" form="professoresDisciplinasForm">
                                             <option value="Segunda-feira" {{ $dados->DiaSemana == 'Segunda-feira' ? 'selected' : '' }}>Segunda-feira</option>
                                             <option value="Terça-feira" {{ $dados->DiaSemana == 'Terça-feira' ? 'selected' : '' }}>Terça-feira</option>

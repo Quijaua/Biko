@@ -33,7 +33,7 @@
             <form action="{{ route('ambiente-virtual.store') }}" method="POST" role="search" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-8">
                         <div class="mb-3">
                             <label class="form-label mb-2" for="titulo">Título</label>
                             <input type="text" class="form-control" id="titulo" name="titulo" aria-describedby="tituloHelp" placeholder="Título da aula virtual" required>
@@ -42,15 +42,23 @@
 
                     <div class="col-12 col-md-4">
                         <div class="mb-3">
+                            <label class="form-label mb-2" for="class_duration">Duração</label>
+                            <input type="text" class="form-control" id="class_duration" name="class_duration" aria-describedby="class_durationHelp" required>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-7">
+                        <div class="mb-3">
                             <label class="form-label mb-2" for="imagem_capa">Imagem da capa</label>
                             <input type="file" class="form-control" id="imagem_capa" name="imagem_capa" aria-describedby="imagem_capaHelp" placeholder="Imagem da capa da aula virtual" required>
                         </div>
                     </div>
 
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-5">
                         <div class="mb-3">
-                            <label class="form-label mb-2" for="class_duration">Duração</label>
-                            <input type="text" class="form-control" id="class_duration" name="class_duration" aria-describedby="class_durationHelp" required>
+                            <label class="form-label mb-2" for="alt_text">Texto alternativo (alt) da imagem</label>
+                            <input type="text" class="form-control" id="alt_text" name="alt_text" aria-describedby="alt_textHelp" placeholder="Descreva a imagem para acessibilidade">
+                            <small class="form-text text-muted">Ex: Banner da aula "Nome da aula", com o professor X e tema Y.</small>
                         </div>
                     </div>
                 </div>
