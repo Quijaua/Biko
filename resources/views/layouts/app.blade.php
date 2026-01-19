@@ -53,9 +53,6 @@
     <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
 
-    <!-- TablerAccessibility -->
-    <link href="{{ asset('dist/libs/TablerAccessibility/dist/tabler-a11y.min.css') }}" rel="stylesheet"/>
-
     <!-- hCaptcha -->
     <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 
@@ -1726,15 +1723,6 @@
 </div>
 
     <script src="{{ asset('dist/js/tabler.min.js?1738096684') }}"></script>
-    <script src="{{ asset('dist/libs/TablerAccessibility/dist/tabler-a11y.min.js') }}" defer></script>
-
-    <script>
-    window.addEventListener('DOMContentLoaded', () => {
-        new TablerA11y({
-            position: 'bottom-right' // Opções: bottom-right, bottom-left, top-right, top-left
-        });
-    });
-    </script>
 
 <?php
  if ($close_tag_body) {
