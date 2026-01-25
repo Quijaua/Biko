@@ -9,6 +9,30 @@
                 cursor: not-allowed;
                 opacity: 0.6;
             }
+
+            .nav-link-button {
+                position: relative;
+                min-width: 2rem;
+                min-height: 2rem;
+                justify-content: center;
+                border-radius: var(--tblr-border-radius);
+                background-color: transparent;
+            }
+            .nav-link-button {
+                margin-bottom: calc(-1 * var(--tblr-nav-tabs-border-width));
+                border: var(--tblr-nav-tabs-border-width) solid transparent;
+                border-top-left-radius: var(--tblr-nav-tabs-border-radius);
+                border-top-right-radius: var(--tblr-nav-tabs-border-radius);
+            }
+            .nav-link-button {
+                display: flex;
+                transition: color .3s;
+                align-items: center;
+            }
+            .nav-link-button:focus-visible {
+                outline: 0;
+                box-shadow: 0 0 0 .25rem rgba(var(--tblr-primary-rgb), .25);
+            }
         </style>
 
         @php
@@ -36,10 +60,10 @@
                 <div class="card-header">
                     <ul class="nav nav-tabs card-header-tabs steps-tabs justify-content-center" data-bs-toggle="tabs">
                     <li id="step-back" class="nav-item d-none">
-                        <a id="step-back-link" href="javascript:void(0)" class="nav-link">
+                        <button type="button" id="step-back-link" class="nav-link-button">
                         <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-left"  aria-hidden="true"><title>Ícone de voltar</title><descr>Botão para retornar à etapa anterior do pré-cadastro</descr><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M5 12l6 6" /><path d="M5 12l6 -6" /></svg>
                         <!-- <span class="step-circle"><-</span> -->
-                        </a>
+                        </button>
                     </li>
                     <li class="nav-item">
                         <a id="step-1" href="#cidade_do_cursinho" class="nav-link active" data-bs-toggle="tab">
@@ -47,12 +71,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a id="step-2" href="#nucleo_do_cursinho" class="nav-link disabled" data-bs-toggle="tab">
+                        <a id="step-2" href="#nucleo_do_cursinho" class="nav-link disabled" data-bs-toggle="tab" aria-disabled="true" tabindex="-1">
                         <span class="step-circle">2</span> Núcleo
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a id="step-3" href="#formulario_de_precadastro" class="nav-link disabled" data-bs-toggle="tab">
+                        <a id="step-3" href="#formulario_de_precadastro" class="nav-link disabled" data-bs-toggle="tab" aria-disabled="true" tabindex="-1">
                         <span class="step-circle">3</span> Seus dados
                         </a>
                     </li>
@@ -584,6 +608,18 @@
                 });
             </script>
             <script>
+                function disableStep(stepId) {
+                    const step = document.getElementById(stepId);
+                    step.setAttribute('aria-disabled', 'true');
+                    step.setAttribute('tabindex', '-1');
+                }
+
+                function enableStep(stepId) {
+                    const step = document.getElementById(stepId);
+                    step.removeAttribute('aria-disabled');
+                    step.removeAttribute('tabindex');
+                }
+
                 const estados = [
                     {"nome": "Acre", "sigla": "AC"},
                     {"nome": "Alagoas", "sigla": "AL"},
@@ -649,6 +685,11 @@
                     if (valor === "Núcleo Virtual - Aulas online para todo Brasil") {
                         step1Valid = true;
                         step2Valid = true;
+
+                        disableStep('step-2');
+                        document.getElementById('step-2').classList.add('disabled');
+
+                        enableStep('step-3');
                         document.getElementById('step-3').classList.remove('disabled');
 
                         document.getElementById("step-3").click();
@@ -657,6 +698,7 @@
                         inputNucleo.required = false;
                     } else {
                         step1Valid = true;
+                        enableStep('step-2');
                         document.getElementById('step-2').classList.remove('disabled');
                         step2Valid = false;
                         document.getElementById('step-3').classList.add('disabled');
@@ -670,9 +712,11 @@
 
                 document.getElementById("step-back-link").addEventListener("click", function() {
                     if (stepFrom === 3) {
+                        disableStep('step-3');
                         document.getElementById('step-3').classList.add('disabled');
                         step2Valid = false;
                     } else if (stepFrom === 2) {
+                        disableStep('step-2');
                         document.getElementById('step-2').classList.add('disabled');
                         step1Valid = false;
                     }
@@ -697,6 +741,7 @@
                     nucleoSelecionadoTexto = selectedOption.text;
                     resultadoNucleo.classList.remove("d-none");
                     step2Valid = true;
+                    enableStep('step-3');
                     document.getElementById('step-3').classList.remove('disabled');
 
                     document.getElementById("nucleoSelecionadoTexto").innerText = nucleoSelecionadoTexto;
@@ -720,14 +765,12 @@
                         
                         // Verificar se pode acessar a tab
                         if (targetTab === '#nucleo_do_cursinho' && !step1Valid) {
-                            e.preventDefault();
                             $(".alert").remove();
                             $("#form-content").prepend('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Por favor, selecione um estado primeiro!<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
                             return;
                         }
                         
                         if (targetTab === '#formulario_de_precadastro' && (!step1Valid || !step2Valid)) {
-                            e.preventDefault();
                             $(".alert").remove();
                             $("#form-content").prepend('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Por favor, complete as etapas anteriores primeiro!<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
                             return;
