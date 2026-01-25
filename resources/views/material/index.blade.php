@@ -34,8 +34,9 @@
             </div>
             <div class="card mb-4 col-md-5">
                 <div class="card-body">
-                    <form class="row g-2 align-items-end" role="search">
+                    <h2 class="visually-hidden">Filtros</h2>
 
+                    <form class="row g-2 align-items-end" role="search">
                         <fieldset class="w-100 g-2 row">
                             <legend class="visually-hidden">Filtros avançados</legend>
 
@@ -104,7 +105,6 @@
                                     Limpar filtros
                                 </button>
                             </div>
-
                         </fieldset>
                     </form>
                 </div>
@@ -130,9 +130,10 @@
             @endif
         </div>
 
-
         <div class="container">
             <div class="rounded border border-gray-300">
+                <h2 class="visually-hidden">Buscar materiais</h2>
+
                 <form action="/files/search" method="POST" class="p-4 bg-white" role="search">
                     @csrf
 
@@ -173,6 +174,8 @@
                     @endif
 
                     <div class="card">
+                        <h2 class="visually-hidden">Lista de materiais</h2>
+
                         <div class="table-responsive">
                             <table class="table table-hover table-vcenter">
                                 <thead>
@@ -398,7 +401,7 @@
                 <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title text-primary">Adicionar novo material</h5>
+                            <h2 class="modal-title text-primary">Adicionar novo material</h2>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Fechar modal"></button>
                         </div>
