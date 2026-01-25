@@ -36,34 +36,31 @@
                 <div class="card-body">
                     <h2 class="visually-hidden">Filtros</h2>
 
-                    <form class="row g-2 align-items-end" role="search">
-                        <fieldset class="w-100 g-2 row">
-                            <legend class="visually-hidden">Filtros avançados</legend>
-
-                            <div class="col-md-12">
-                                <h3 class="card-title mb-3 d-flex align-items-center">
-                                    <span class="mx-2">
-                                        <!-- ícone (ok) -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="icon icon-tabler icons-tabler-outline icon-tabler-adjustments-horizontal"
-                                            aria-hidden="true" focusable="false">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M14 6m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                            <path d="M4 6l8 0" />
-                                            <path d="M16 6l4 0" />
-                                            <path d="M8 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                            <path d="M4 12l2 0" />
-                                            <path d="M10 12l10 0" />
-                                            <path d="M17 18m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                            <path d="M4 18l11 0" />
-                                            <path d="M19 18l1 0" />
-                                        </svg>
-                                    </span>
-                                    Filtros avançados
-                                </h3>
-                            </div>
+                    <form class="row g-2 align-items-end">
+                        <fieldset class="w-100 g-2 row" aria-describedby="desc-filtros">
+                            <legend class="card-title mb-3 d-flex align-items-center">
+                                <span class="mx-2">
+                                    <!-- ícone (ok) -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round"
+                                        class="icon icon-tabler icons-tabler-outline icon-tabler-adjustments-horizontal"
+                                        aria-hidden="true" focusable="false">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M14 6m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                        <path d="M4 6l8 0" />
+                                        <path d="M16 6l4 0" />
+                                        <path d="M8 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                        <path d="M4 12l2 0" />
+                                        <path d="M10 12l10 0" />
+                                        <path d="M17 18m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                        <path d="M4 18l11 0" />
+                                        <path d="M19 18l1 0" />
+                                    </svg>
+                                </span>
+                                Filtros avançados
+                            </legend>
+                            <p id="desc-filtros" class="visually-hidden">Utilize os filtros para refinar os resultados da lista.</p>
 
                             {{-- Núcleo --}}
                             <div class="col-md-3">
