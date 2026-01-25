@@ -559,7 +559,7 @@
                     <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="successModalLabel">👏 Cadastro efetuado com sucesso</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar modal"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar modal de cadastro efetuado com sucesso"></button>
                     </div>
                     <div class="modal-body">
                         Parabéns, seu cadastro foi realizado com sucesso. Em breve uma pessoa da coordenação entrará em contato.
