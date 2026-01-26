@@ -50,6 +50,8 @@
                 </div>
                 <div class="card col-md-5">
                     <div class="card-body">
+                        <h2 class="visually-hidden">Filtros</h2>    
+
                         <div class="col-md-12">
                             <h3 class="card-title mb-3 d-flex align-items-center">
                                 <span class="mx-2">
@@ -145,6 +147,8 @@
                 <form action="/nucleo/presences/search" method="POST" class="p-4 bg-white" role="search">
                     <div class="col-10 d-flex align-items-center gap-2">
                         @csrf
+                        <label for="inputQuery" class="visually-hidden">Nome do núcleo</label>
+
                         <input type="text" name="inputQuery" class="form-control"
                             placeholder="Digite o nome do núcleo" required />
 
@@ -159,6 +163,8 @@
                 </form>
 
                 <div>
+                    <h2 class="visually-hidden">Listas de presença cadastradas</h2>    
+
                     <div class="table-responsive" id="presences_wrapper">
                         <table class="table table-hover table-vcenter">
                             <thead>
@@ -202,7 +208,7 @@
                                                         role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title text-danger">Excluir Núcleo</h5>
+                                                                <h2 class="modal-title text-danger">Excluir Núcleo</h2>
                                                                 <button type="button" class="btn-close"
                                                                     data-bs-dismiss="modal" aria-label="Fechar modal"></button>
                                                             </div>
@@ -252,7 +258,7 @@
         </div>
         <div class="row mt-5">
             <div class="col-12 text-center">
-                <h1>ESTUDANTES COM AUSÊNCIA</h1>
+                <h2>Estudantes com ausência</h2>
             </div>
         </div>
 
@@ -260,7 +266,7 @@
             <div class="col">
                 @foreach ($alunos as $aluno)
                     @if (count($aluno->ausencias) > 0)
-                        <p><b>Estudante: </b>{{ $aluno->NomeAluno }}</p>
+                        <h3>{{ $aluno->NomeAluno }}</h3>
                         <p><b>Faltas: </b>{{ count($aluno->ausencias) }}</p>
                         <hr>
                     @endif

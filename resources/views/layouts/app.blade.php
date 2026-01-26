@@ -176,17 +176,17 @@
                         </button>
                     </div>
                     <div class="col">
-                        <h1>@if($app_name != null){{ $app_name }}@else{{ config('app.name') }}@endif</h1>
+                        <p class="h1 mb-0 fw-bold">@if($app_name != null){{ $app_name }}@else{{ config('app.name') }}@endif</p>
                     </div>
                 </div>
             </div>
 
             <!-- Sidebar OFFCANVAS para telas pequenas -->
-            <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="sidebar-offcanvas" aria-label="Menu lateral">
+            <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="sidebar-offcanvas" aria-labelledby="sidebar-title">
                 <div class="offcanvas-header">
-                    <h5 class="offcanvas-title">
+                    <div class="offcanvas-title mb-0 fw-bold" id="sidebar-title">
                         @if($app_name != null){{ $app_name }}@else{{ config('app.name') }}@endif
-                    </h5>
+                    </div>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Fechar menu"></button>
                 </div>
                 <div class="offcanvas-body">
