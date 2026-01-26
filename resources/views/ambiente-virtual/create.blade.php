@@ -137,7 +137,7 @@
 
                 <div class="row">
                     <div class="col-12 col-md-4">
-                        <a class="btn btn-outline-primary" href="{{ route('ambiente-virtual.index') }}">Voltar</a>
+                        <a class="btn btn-outline-primary" href="{{ route('ambiente-virtual.index') }}">Cancelar</a>
                         <button type="submit" class="btn btn-primary ms-6">Salvar</button>
                     </div>
                 </div>
