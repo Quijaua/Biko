@@ -133,8 +133,6 @@
       <form action="/alunos/search" method="POST" class="p-4 bg-white" role="search">
         <div class="col-10 d-flex align-items-center gap-2">
           @csrf
-          <label for="inputQuery" class="visually-hidden">Busca por estudante</label>
-
           <input type="text" name="inputQuery" class="form-control"
             placeholder="Digite nome, sobrenome ou e-mail para encontrar um(a) estudante" required />
 
