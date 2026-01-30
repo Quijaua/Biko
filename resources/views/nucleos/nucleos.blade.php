@@ -243,9 +243,7 @@
                                                       <path d="M16 5l3 3" />
                                                   </svg></span> Editar
                                           </a>
-                                          @endif
 
-  @if($user->role === 'administrador')
                                           <a href="#" id="modal-importar-alunos" class="btn btn-outline-primary open-modal-btn" data-url="{{route('alunos.importar', ['id' => $nucleo->id])}}">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
                                               <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
@@ -254,7 +252,7 @@
                                           </a>
 
                                           <a href="/alunos/export/?nucleo={{ $nucleo->id }}" class="btn btn-outline-primary">
-              <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-download"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" /><path d="M7 11l5 5l5 -5" /><path d="M12 4l0 12" /></svg>
+				              <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-download"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" /><path d="M7 11l5 5l5 -5" /><path d="M12 4l0 12" /></svg>
                                             Exportar estudantes
                                           </a>
 
@@ -274,8 +272,7 @@
                                               </a>
                                           @endif
 
-  @else
-  @endif
+				  @endif
                                       </div>
                                   </td>
                               </tr>
