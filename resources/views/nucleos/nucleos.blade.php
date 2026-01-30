@@ -43,7 +43,7 @@
         <form class="row g-2 align-items-end">
 
           <div class="col-md-12">
-            <h2 class="card-title mb-3 d-flex align-items-center">
+            <h3 class="card-title mb-3 d-flex align-items-center">
               <span class="mx-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-adjustments-horizontal">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -59,12 +59,11 @@
                 </svg>
               </span>
               Filtros avançados
-            </h2>
+            </h3>
           </div>
 
           {{-- Núcleo --}}
           <div class="col-md-3">
-            <label for="cidade" class="visually-hidden">Cidade</label>
             <select class="form-select" id="cidade" name="cidade">
               <option value="" @selected(request('cidade')=='')>Cidade</option>
               @foreach(\App\Nucleo::whereNotNull('Cidade')->select('Cidade')->groupBy('Cidade')->get() as $nuc)
@@ -77,7 +76,6 @@
 
           {{-- Situação --}}
           <div class="col-md-4">
-            <label for="status" class="visually-hidden">Situação</label>
             <select class="form-select" id="status" name="status">
               <option value="" @selected(request('status')=='' )>Situação</option>
               <option value="ativo" @selected(request('status')=='ativo' )>Ativo</option>
@@ -87,16 +85,16 @@
 
           {{-- Botões --}}
           <div class="col-md-5 d-flex gap-2">
-            <button type="button" class="btn btn-light w-100" id="limparFiltros">
+            <a class="btn btn-light w-100" id="limparFiltros">
               <span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-refresh" aria-hidden="true" focusable="false">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-refresh">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                   <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
                   <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
                 </svg>
               </span>
               Limpar filtros
-            </button>
+            </a>
           </div>
 
         </form>
@@ -137,8 +135,6 @@
         <form action="/nucleos/search" method="POST" class="p-4 bg-white" role="search">
             <div class="col-10 d-flex align-items-center gap-2">
                 @csrf
-                <label for="inputQuery" class="visually-hidden">Busca por núcleo</label>
-
                 <input type="text" name="inputQuery" class="form-control"
                     placeholder="Digite o nome para encontrar um núcleo" required />
 
@@ -160,25 +156,23 @@
             @endif
 
             <div class="card">
-              <h2 class="visually-hidden">Lista de núcleos</h2>
-
               <div class="table-responsive">
                   <table class="table table-hover table-vcenter">
                       <thead>
                           <tr>
-                              <th scope="col" class="text-nowrap text-black py-3"><span class="visually-hidden">Selecionar</span></th>
-                              <th scope="col" class="text-nowrap text-black py-3">Nome</th>
-                              <!-- <th scope="col" class="text-nowrap text-black py-3">Cidade</th>
-                              <th scope="col" class="text-nowrap text-black py-3">Telefone</th> -->
-                              <th scope="col" class="text-nowrap text-black py-3">Situação</th>
-                              <th scope="col" class="text-nowrap text-black py-3">Ações</th>
+                              <th class="text-nowrap text-black py-3"></th>
+                              <th class="text-nowrap text-black py-3">Nome</th>
+                              <!-- <th class="text-nowrap text-black py-3">Cidade</th>
+                              <th class="text-nowrap text-black py-3">Telefone</th> -->
+                              <th class="text-nowrap text-black py-3">Situação</th>
+                              <th class="text-nowrap text-black py-3">Ações</th>
                           </tr>
 
                       </thead>
                       <tbody class="bg-white rounded">
                           @foreach ($nucleos as $nucleo)
                               <tr>
-                                  <td><input type="checkbox" class="custom-checkbox" aria-label="Selecionar núcleo {{ $nucleo->NomeNucleo }}" /></td>
+                                  <td><input type="checkbox" class="custom-checkbox" /></td>
                                   {{-- Nome --}}
                                   <td>{{ $nucleo->NomeNucleo }}</td>
 
@@ -245,7 +239,8 @@
                                           </a>
                                           @endif
 
-  @if($user->role === 'administrador')
+					  @if($user->role === 'administrador' || ($user->role === 'coordenador' && in_array($nucleo->id, $myNucleo)))
+
                                           <a href="#" id="modal-importar-alunos" class="btn btn-outline-primary open-modal-btn" data-url="{{route('alunos.importar', ['id' => $nucleo->id])}}">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
                                               <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
@@ -253,8 +248,8 @@
                                             Importar estudantes
                                           </a>
 
-                                          <a href="/alunos/export/?nucleo={{ $nucleo->id }}" class="btn btn-outline-primary">
-              <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-download"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" /><path d="M7 11l5 5l5 -5" /><path d="M12 4l0 12" /></svg>
+                                          <a href="/alunos/export/?nucleo={{ $nucleo->id }}" class="btn btn-outline-primary"">
+				              <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-download"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" /><path d="M7 11l5 5l5 -5" /><path d="M12 4l0 12" /></svg>
                                             Exportar estudantes
                                           </a>
 
