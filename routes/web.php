@@ -184,7 +184,7 @@ Route::put('nucleo/professores-disciplinas/update', 'NucleoProfessoresDisciplina
 Route::post('nucleo/professores-disciplinas/delete', 'NucleoProfessoresDisciplinasController@delete')->name('professores-disciplinas.delete');
 
 // ROUTES FOR ALUNOS MANAGEMENT
-Route::get('alunos', 'AlunosController@index')->middleware('permissions');
+Route::get('alunos', 'AlunosController@index')->name('alunos')->middleware('permissions');
 Route::get('alunos/details/{id}', 'AlunosController@details')->middleware('permissions');
 Route::get('alunos/add', 'AlunosController@showForm')->middleware('permissions');
 Route::post('alunos/create', 'AlunosController@create')->middleware('permissions');

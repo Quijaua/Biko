@@ -463,6 +463,11 @@ class AlunosController extends Controller
         $user = Auth::user();
         $params = self::getParams($request);
 
+        if ($user->role !== 'administrador') {
+            return redirect()->route('alunos')
+                ->with('warning', 'Você não tem permissão para usar os filtros avançados.');
+        }
+
         $alunos = DB::table('alunos')
             ->when($params['inputQuery'], function ($query) use ($params) {
                 return $query->where(function ($q) use ($params) {

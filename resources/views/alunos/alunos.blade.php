@@ -30,7 +30,7 @@
         @endif
       </div>
     </div>
-    @if($user->role != 'aluno')
+    @if($user->role === 'administrador')
     <div class="card mb-4 col-md-7">
       <div class="card-body">
         <form class="row g-2 align-items-end">
@@ -124,6 +124,15 @@
     <div class="col-6 m-auto">
       <div class="alert alert-danger text-center" role="alert">
         {!! \Session::get('error') !!}
+      </div>
+    </div>
+  </div>
+  @endif
+  @if(\Session::has('warning'))
+  <div class="row mt-2">
+    <div class="col-6 m-auto">
+      <div class="alert alert-warning text-center" role="alert">
+        {!! \Session::get('warning') !!}
       </div>
     </div>
   </div>
