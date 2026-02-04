@@ -20,6 +20,21 @@
                     @endif
                 </div>
             </div>
+
+            <div class="col">
+                @if(session('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <div class="d-flex">
+                        <div>
+                            <h4 class="alert-title">Erro</h4>
+                            <div class="text-secondary">{{ session('error') }}</div>
+                        </div>
+                    </div>
+                    <a class="btn-close" data-bs-dismiss="alert"></a>
+                </div>
+                @endif
+            </div>
+
             <div class="card mb-3">
                 <div class="card-header">Dashboard</div>
 

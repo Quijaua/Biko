@@ -284,7 +284,19 @@ class NucleoController extends Controller
           $nucleos = Nucleo::where('Status', 1)->whereIn('id', $coordenadorNucleos)->pluck('NomeNucleo', 'id')->all();
           $nucleo = Nucleo::find(request('nid', head(array_keys($nucleos))));
       } else {
+          if (!$professor || !$professor->id_nucleo) {
+              return redirect()->route('home')->with('error',
+                  'Seu usuário não está vinculado a nenhum núcleo. Entre em contato com o administrador.'
+              );
+          }
+
           $nucleo = Nucleo::find($professor->id_nucleo);
+      }
+
+      if (!$nucleo) {
+          return redirect()->route('home')->with('error',
+              'Núcleo não encontrado ou inativo.'
+          );
       }
 
       return view('nucleos.lista-presenca')->with([

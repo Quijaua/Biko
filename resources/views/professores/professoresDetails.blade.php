@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div>
-            <h1 style="font-size: 35px; line-height: normal;">><span><a href="/professores" class="text-primary" aria-label="Voltar para professores">
+            <h1 style="font-size: 35px; line-height: normal;"><span><a href="/professores" class="text-primary" aria-label="Voltar para professores">
                         <svg xmlns="http://www.w3.org/2000/svg" style="width: 45px; height: 45px;" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round"
