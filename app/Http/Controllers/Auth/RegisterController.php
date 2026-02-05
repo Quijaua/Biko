@@ -211,7 +211,9 @@ class RegisterController extends Controller
         }
 
         Mail::to($data['email'])->send(new EmailFormularioEstudante([
-          'message' => 'Olá, estudante! Seja bem-vindo.'
+            'message' => "<p>Olá, estudante! Seja bem-vindo.</p>
+            <p>Você receberá outra mensagem para verificar seu email.</p>
+            <span>Para alterar a senha acesse <a href='https://inscricoes.uneafrobrasil.org/password/reset'>https://inscricoes.uneafrobrasil.org/password/reset</a></span>"
         ]));
 
         return User::find($user->id);
