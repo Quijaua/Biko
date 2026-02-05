@@ -35,14 +35,35 @@ class MaterialController extends Controller
 //      $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
       $coordenadorNucleos = $user->coordenador?->nucleos()->pluck('nucleos.id')->toArray() ?? [1];
       $nucleos = Nucleo::where('Status', 1)->whereIn('id', $coordenadorNucleos)->get();
-      $files = Material::where('status', 1)->whereIn('nucleo_id', $coordenadorNucleos)->paginate(25);
+      $files = Material::where('status', 1)
+        ->where(function ($q) use ($coordenadorNucleos) {
+            $q->whereIn('nucleo_id', $coordenadorNucleos)
+              ->orWhere('is_global', 1);
+        })
+        ->paginate(25);
     } elseif ( $user->role === 'professor' ) {
       $nucleos = Nucleo::where('Status', 1)->where('id', $user->professor->id_nucleo)->first();
-      $files = Material::where('status', 1)->where('nucleo_id', $user->professor->id_nucleo)->paginate(25);
+      $files = Material::where('status', 1)
+        ->where(function ($q) use ($user) {
+            $q->where('nucleo_id', $user->professor->id_nucleo)
+              ->orWhere('is_global', 1);
+        })
+        ->paginate(25);
     } else {
       $user = Auth::user();
       $nucleos = NULL;
-      $files = Material::where('status', 1)->where('nucleo_id', $user->aluno->id_nucleo)->paginate(25);
+      $files = Material::where('status', 1)
+        ->where(function ($q) use ($user) {
+            $q->where('nucleo_id', $user->aluno->id_nucleo)
+              ->orWhere('is_global', 1);
+        })
+        ->paginate(25);
+    }
+
+    if (!$nucleos && $user->role !== 'aluno') {
+        return redirect()->route('home')->with('error',
+            'Núcleo não encontrado ou inativo.'
+        );
     }
 
     return view('material.index')->with([
@@ -63,13 +84,15 @@ class MaterialController extends Controller
       $file = $request->file('file');
       $fileName = time() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
       $file->move(public_path('uploads'), $fileName);
+      $nucleo_id = isset($request->nucleo_id) && !empty($request->nucleo_id) ? $request->nucleo_id : env('NUCLEO_AMBIENTE_VIRTUAL');
 
       $stored_file = Material::create([
         'user_id' => $user->id,
-        'nucleo_id' => $request->nucleo_id,
+        'nucleo_id' => $nucleo_id,
         'name' => $request->title,
         'file' => $fileName,
-        'status' => 1
+        'status' => 1,
+        'is_global' => $request->is_global ?? 0,
       ]);
 
       return back()->with([
