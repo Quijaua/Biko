@@ -36,7 +36,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-Route::middleware(['auth', 'restrict.professor'])->group(function () {
+Route::middleware(['auth', 'restrict.aluno', 'restrict.professor'])->group(function () {
 
   Route::get('/dashboard', function () {
       return view('dashboard');
@@ -64,6 +64,9 @@ Route::middleware(['auth', 'restrict.professor'])->group(function () {
     return response()->json($dados);
   });
 
+});
+
+Route::middleware(['auth', 'restrict.professor'])->group(function () {
   Route::post('change_default_password', 'Auth\FirstLoginController@changePassword')->name('change_default_password');
   Route::get('default_username', 'Auth\FirstLoginController@username')->name('default_username');
   Route::post('change_default_username', 'Auth\FirstLoginController@changeUsername')->name('change_default_username');
@@ -271,7 +274,7 @@ Route::group(['prefix' => 'ambiente-virtual'], function () {
 Route::resource('/ambiente-virtual', 'AmbienteVirtualController')->middleware('auth')->except(['index']);
 
 // ROUTES FOR EAD
-Route::group(['prefix' => 'ead', 'middleware' => ['auth', 'restrict.professor']], function () {
+Route::group(['prefix' => 'ead', 'middleware' => ['auth', 'restrict.aluno', 'restrict.professor']], function () {
     Route::get('/', 'EadController@index')->name('ead.index');
     Route::get('/details/{id}', 'EadController@details')->name('ead.details');
     Route::get('/create', 'EadController@create')->name('ead.create');

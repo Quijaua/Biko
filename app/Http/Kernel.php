@@ -63,6 +63,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'permissions' => \App\Http\Middleware\UserPermissions::class,
         'restrict.professor' => \App\Http\Middleware\RestrictProfessor::class,
+        'restrict.aluno' => \App\Http\Middleware\RestrictAluno::class,
     ];
 
     /**
