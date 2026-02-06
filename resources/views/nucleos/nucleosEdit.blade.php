@@ -693,7 +693,7 @@
                                     </div>
                                 </div>
 
-                                <?php $professores = DB::table('professores')->where('Status', 1)->get(); ?>
+                                <?php $professores = DB::table('professores')->where('Status', 1)->where('id_nucleo', $dados->id)->get(); ?>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label mb-2" for="inputProfessor">Professor</label>

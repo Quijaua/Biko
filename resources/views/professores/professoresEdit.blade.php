@@ -205,6 +205,7 @@
                                                 <label for="inputCPF">Núcleo <span
                                                     class="text-danger">*</span></label>
                                                 <select name="inputNucleo" id="inputNucleo" class="form-select" required>
+                                                    <option value="" selected>Selecione</option>
                                                     @foreach ($nucleos as $nucleo)
                                                         <option value="{{ $nucleo->id }}"
                                                         @if ($nucleo->id == $dados->id_nucleo) selected @endif>{{ $nucleo->NomeNucleo }}</option>
