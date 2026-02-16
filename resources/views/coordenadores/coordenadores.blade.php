@@ -243,7 +243,7 @@
                                                                 </svg></span> Editar
                                                         </a>
                                                         @endif
-                                                        @if (Session::get('role') !== 'professor' && $coordenador->id_user == Auth::user()->id)
+                                                        @if ((Session::get('role') !== 'professor' && $coordenador->id_user == Auth::user()->id) || Auth::user()->role === 'administrador')
                                                             @if ($coordenador->Status === 1)
                                                             <a onclick="modalShow('Inativar coordenador', 'Tem certeza que deseja inativar esse coordenador?', 'danger', e => window.location.href = '/coordenadores/disable/{{ $coordenador->id }}');">
                                                                     <span class="status-btn status-inativo ms-8">
