@@ -411,11 +411,10 @@ class CoordenadoresController extends Controller
           }
       }
 
-      $currentEmail = Coordenadores::where('id_user', $dados->id_user)->pluck('Email');
       $inputEmail = $request->input('inputEmail');
       $user = User::find($dados->id_user);
 
-      if ($user->email !== $inputEmail) {
+      if ($user && $user->email !== $inputEmail) {
           // 1) Se existir usuário com esse e-mail
           $userByEmail = Coordenadores::where('email', $inputEmail)->first();
 
@@ -425,10 +424,12 @@ class CoordenadoresController extends Controller
           if ($userByEmail && $userByCpf && $userByEmail->id_user === $userByCpf->id_user) {
               $correctUser = User::where('email', $inputEmail)->first();
 
-              // Já existe usuário com este e-mail → troca o id_user do coordenador
-              $dados->id_user = $correctUser->id;
-
-              $correctUserId = $correctUser->id;
+              if ($correctUser) {
+                $dados->id_user = $correctUser->id;
+                $correctUserId = $correctUser->id;
+              } else {
+                $correctUserId = $user->id;
+              }
           } else {
             $correctUserId = $user->id;
           }
