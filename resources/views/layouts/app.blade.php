@@ -21,7 +21,6 @@
     <script src="{{ asset('js/jquery.maskMoney.min.js') }}"></script>
     <script src="{{ asset('js/jquery.cpf-validate.1.0.min.js') }}"></script>
     <script src="{{ asset('js/select2.min.js') }}" defer></script>
-    <script src="{{ asset('js/quill.min.js') }}" defer></script>
     <script src="{{ asset('js/functions.js') }}" defer></script>
 
     <script src="{{ asset('dist/libs/litepicker/dist/litepicker.js?1738096684') }}" defer></script>
@@ -46,7 +45,6 @@
     <!-- FontsAwesome -->
     <link href="{{ asset('css/fontawesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/quill.snow.css') }}" rel="stylesheet">
 
 
     <!-- Styles -->

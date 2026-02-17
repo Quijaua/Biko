@@ -1,5 +1,9 @@
 @extends('mensagens._mensagens')
 
+@section('styles')
+    <link href="{{ asset('css/quill.snow.css') }}" rel="stylesheet">
+@endsection
+
 @section('content_message')
     <div class="card">
         <div class="card-header">Nova mensagem</div>
@@ -57,4 +61,8 @@
             </form>
         </div>
     </div>
+@endsection
+
+@section('js')
+    <script src="{{ asset('js/quill.min.js') }}" defer></script>
 @endsection
