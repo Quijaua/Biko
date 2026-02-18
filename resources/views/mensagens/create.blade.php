@@ -60,7 +60,7 @@
 @endsection
 
 @section('js')
-    <link href="{{ asset('dist/libs/hugerte/skins/ui/oxide/skin.min.css?1759774804') }}" rel="stylesheet">
+    <link href="{{ asset('dist/libs/tinymce/skins/ui/oxide/skin.min.css?1759774804') }}" rel="stylesheet">
     <script src="{{ asset('dist/libs/tinymce/tinymce.min.js?1759774804') }}" defer></script>
     <script src="{{ asset('js/mensagens.js') }}" defer></script>
 @endsection

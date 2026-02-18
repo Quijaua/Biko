@@ -71,18 +71,15 @@
             selector: '#editor',
             height: 300,
             menubar: false,
-            plugins: [
-                'link', 'lists', 'code', 'blockquote',
-                'table', 'paste', 'wordcount'
-            ],
+            license_key: 'gpl',
+            base_url: '/dist/libs/tinymce',
+            suffix: '.min',
+            plugins: 'link lists code',
             toolbar: `
                 bold italic underline strikethrough |
-                link blockquote code |
-                h1 h2 h3 h4 h5 h6 |
+                link code |
                 bullist numlist |
                 outdent indent |
-                subscript superscript |
-                forecolor backcolor |
                 alignleft aligncenter alignright alignjustify |
                 removeformat
             `,
