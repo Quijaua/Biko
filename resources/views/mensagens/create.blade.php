@@ -1,9 +1,5 @@
 @extends('mensagens._mensagens')
 
-@section('styles')
-    <link href="{{ asset('css/quill.snow.css') }}" rel="stylesheet">
-@endsection
-
 @section('content_message')
     <div class="card">
         <div class="card-header">Nova mensagem</div>
@@ -64,5 +60,7 @@
 @endsection
 
 @section('js')
-    <script src="{{ asset('js/quill.min.js') }}" defer></script>
+    <link href="{{ asset('dist/libs/hugerte/skins/ui/oxide/skin.min.css?1759774804') }}" rel="stylesheet">
+    <script src="{{ asset('dist/libs/tinymce/tinymce.min.js?1759774804') }}" defer></script>
+    <script src="{{ asset('js/mensagens.js') }}" defer></script>
 @endsection

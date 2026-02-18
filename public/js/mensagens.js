@@ -65,31 +65,34 @@
 
     const editorElement = document.querySelector('#editor');
 
-    if (editorElement && typeof Quill !== 'undefined') {
+    if (editorElement && typeof tinymce !== 'undefined') {
 
-        const editor = new Quill('#editor', {
-            modules: {
-                toolbar: [
-                    ['bold', 'link', 'italic', 'underline', 'strike'],
-                    ['blockquote', 'code-block'],
-                    [{'header': 1}, {'header': 2}],
-                    [{'list': 'ordered'}, {'list': 'bullet'}],
-                    [{'script': 'sub'}, {'script': 'super'}],
-                    [{'indent': '-1'}, {'indent': '+1'}],
-                    [{'direction': 'rtl'}],
-                    [{'size': ['small', false, 'large', 'huge']}],
-                    [{'header': [1, 2, 3, 4, 5, 6, false]}],
-                    [{'color': []}, {'background': []}],
-                    [{'font': []}],
-                    [{'align': []}],
-                    ['clean']
-                ],
-            },
-            theme: 'snow'
+        tinymce.init({
+            selector: '#editor',
+            height: 300,
+            menubar: false,
+            plugins: [
+                'link', 'lists', 'code', 'blockquote',
+                'table', 'paste', 'wordcount'
+            ],
+            toolbar: `
+                bold italic underline strikethrough |
+                link blockquote code |
+                h1 h2 h3 h4 h5 h6 |
+                bullist numlist |
+                outdent indent |
+                subscript superscript |
+                forecolor backcolor |
+                alignleft aligncenter alignright alignjustify |
+                removeformat
+            `,
+            branding: false,
+            browser_spellcheck: true
         });
 
         $('#mensagem-form').on('submit', function () {
-            $('input[name=mensagem]').val(editor.root.innerHTML);
+            const conteudo = tinymce.get('editor').getContent();
+            $('input[name=mensagem]').val(conteudo);
         });
 
     }
