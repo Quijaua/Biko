@@ -123,6 +123,8 @@
                                 <input type="button" class="btn btn-primary w-100" style="max-width: 600px"
                                     value="Brasília" onclick="selecionar('Distrito Federal')" form="registration-form">
                                 <input type="button" class="btn btn-primary w-100" style="max-width: 600px"
+                                    value="Pernambuco" onclick="selecionar('Pernambuco')" form="registration-form">
+                                <input type="button" class="btn btn-primary w-100" style="max-width: 600px"
                                     value="Núcleo Virtual - Aulas online para todo Brasil"
                                     onclick="selecionar('Núcleo Virtual - Aulas online para todo Brasil')" form="registration-form">
                             </div>
