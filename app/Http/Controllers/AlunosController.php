@@ -463,19 +463,16 @@ class AlunosController extends Controller
         $user = Auth::user();
         $params = self::getParams($request);
 
-        if ($user->role !== 'administrador') {
-            return redirect()->route('alunos')
-                ->with('warning', 'Você não tem permissão para usar os filtros avançados.');
-        }
-
         $alunos = DB::table('alunos')
             ->when($params['inputQuery'], function ($query) use ($params) {
                 return $query->where(function ($q) use ($params) {
                     $q->where('alunos.NomeAluno', 'LIKE', '%' . $params['inputQuery'] . '%')
                     ->orWhere('alunos.Email', 'LIKE', '%' . $params['inputQuery'] . '%');
                 });
-            })
-            ->when($params['nucleo'], function ($query) use ($params) {
+            });
+
+        if ($user->role === 'administrador') {
+            $alunos->when($params['nucleo'], function ($query) use ($params) {
                 return $query->where('alunos.id_nucleo', '=', $params['nucleo']);
             })
             ->when($params['status'], function ($query) use ($params) {
@@ -483,8 +480,10 @@ class AlunosController extends Controller
             })
             ->when($params['listaEspera'], function ($query) use ($params) {
                 return $query->where('alunos.listaEspera', '=', $params['listaEspera']);
-            })
-            ->paginate(25);
+            });
+        }
+
+        $alunos = $alunos->paginate(25);
 
         return view('alunos.alunos')->with([
             'user' => $user,
