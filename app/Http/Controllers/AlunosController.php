@@ -471,6 +471,18 @@ class AlunosController extends Controller
                 });
             });
 
+        if ($user->role === 'professor') {
+            $nucleo = Professores::where('id_user', $user->id)->value('id_nucleo');
+            $alunos->where('alunos.id_nucleo', $nucleo);
+        }
+
+        if ($user->role === 'coordenador') {
+            $coordenadorNucleos = $user->coordenador?->nucleos()
+                ->pluck('nucleos.id')
+                ->toArray() ?? [];
+            $alunos->whereIn('alunos.id_nucleo', $coordenadorNucleos);
+        }
+
         if ($user->role === 'administrador') {
             $alunos->when($params['nucleo'], function ($query) use ($params) {
                 return $query->where('alunos.id_nucleo', '=', $params['nucleo']);
