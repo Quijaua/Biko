@@ -142,4 +142,17 @@ class Aluno extends Model implements Auditable
     // {
     //     return $this->hasMany('App\Models\QuizAttempt', 'aluno_id');
     // }
+
+    public function onlyBasicData()
+    {
+        return $this->only([
+            'id',
+            'NomeAluno',
+            'NomeSocial',
+            'Foto',
+            'created_at',
+            'updated_at',
+        ]);
+    }
+
 }

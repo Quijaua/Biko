@@ -564,6 +564,12 @@ class AlunosController extends Controller
             }
         }
 
+        $dadosSensiveis = $user->can('viewSensitiveData', $dados);
+
+        if (!$user->can('viewSensitiveData', $dados)) {
+            $dados = (object) $dados->onlyBasicData();
+        }
+
         return view('alunos.alunosDetails')->with([
             'user' => $user,
             'dados' => $dados,
@@ -572,6 +578,7 @@ class AlunosController extends Controller
             'povo_indigenas' => $povosIndigenas,
             'terra_indigenas' => TerraIndigena::all(),
             'acompanhamentos' => $acompanhamentos,
+            'dadosSensiveis' => $dadosSensiveis,
         ]);
     }
 

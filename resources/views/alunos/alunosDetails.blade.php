@@ -18,6 +18,8 @@
         </div>
         <div class="card">
             <div class="row g-0">
+                @if($dadosSensiveis)    
+
                 <!-- Sidebar Tabs -->
                 <div class="col-md-2 border-end">
                     <div class="nav flex-column nav-pills p-4" id="form-tabs" role="tablist" aria-orientation="vertical">
@@ -40,9 +42,10 @@
                     </div>
                 </div>
 
+                @endif
 
                 <!-- Form content -->
-                <div class="col-md-10 p-4">
+                <div class="{{ $dadosSensiveis ? 'col-md-10' : 'col-md-12' }} p-4">
                     <div class="row mb-3">
                         <div class="col-7">
                             <div>
@@ -144,6 +147,9 @@
                                             @endif
                                         </div>
                                         <!-- Botão e texto -->
+
+                                        @if($dadosSensiveis)
+
                                         <div>
                                             <div class="text-muted mb-3" style="font-size: 12px;">
                                                 Os arquivos devem estar nos formatos <strong>PDF, JPG ou PNG</strong>,
@@ -155,6 +161,9 @@
                                                 foto</label>
 
                                         </div>
+
+                                        @endif
+
                                     </div>
                                 </div>
                             </div>
@@ -195,6 +204,8 @@
                                     </div>
                                 </div>
                             </div>
+
+                            @if($dadosSensiveis)
 
                             <div class="row mb-3">
                                 <div class="col-md-4">
@@ -555,8 +566,12 @@
                                     </div>
                                 </div>
                             </div>
+
+                            @endif
+
                         </div>
 
+                        @if($dadosSensiveis)
 
                         {{-- Endereço --}}
                         <div class="tab-pane fade" id="endereco" role="tabpanel" aria-labelledby="tab-endereco">
@@ -1423,6 +1438,9 @@
 
                             </div>
                         </div> --}}
+
+                        @endif
+
                     </div>
 
 
