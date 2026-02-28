@@ -168,13 +168,23 @@
                                 </div>
 
                                 <div class="row mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div>
                                             <label class="form-label mb-2" for="inputEmail">Email <span
                                                     class="text-danger">*</span></label>
                                             <input type="email" class="form-control" id="inputEmail" name="inputEmail"
                                                 aria-describedby="inputEmailHelp" placeholder="Endereço de Email"
                                                 required>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div>
+                                            <label class="form-label mb-2" for="inputFoneCelular">Telefone
+                                                Celular</label>
+                                            <input type="text" class="form-control" id="inputFoneCelular"
+                                                name="inputFoneCelular" aria-describedby="inputFoneCelularHelp"
+                                                data-mask="(00) 0 0000-0000" placeholder="(xx)xxxx-xxxx">
                                         </div>
                                     </div>
 
@@ -188,7 +198,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <div>
                                             <label class="form-label mb-2" for="raca">Raça / Cor</label>
                                             <select id="raca" name="inputRaca" class="form-select">
@@ -616,15 +626,6 @@
                                             <input type="text" class="form-control" id="inputFoneResidencial"
                                                 name="inputFoneResidencial" aria-describedby="inputFoneResidencialHelp"
                                                 data-mask="(00) 0000-0000" placeholder="(xx)xxxx-xxxx">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div>
-                                            <label class="form-label mb-2" for="inputFoneCelular">Telefone
-                                                Celular</label>
-                                            <input type="text" class="form-control" id="inputFoneCelular"
-                                                name="inputFoneCelular" aria-describedby="inputFoneCelularHelp"
-                                                data-mask="(00) 0 0000-0000" placeholder="(xx)xxxx-xxxx">
                                         </div>
                                     </div>
                                 </div>
