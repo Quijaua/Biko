@@ -279,56 +279,7 @@
               </tbody>
             </table>
           </div>
-          <div class="card-footer d-flex align-items-center">
-              <p class="m-0 text-secondary">
-                  Exibindo
-                  <span id="start-entry">{{ $alunos->firstItem() ?? 0 }}</span>
-                  até
-                  <span id="end-entry">{{ $alunos->lastItem() ?? 0 }}</span>
-                  de
-                  <span id="total-entry">{{ $alunos->total() }}</span>
-                  registros
-              </p>
-              <ul class="pagination m-0 ms-auto" id="pagination-custom">
-                  {{-- Botão Anterior --}}
-                  <li class="page-item {{ $alunos->onFirstPage() ? 'disabled' : '' }}" id="prev-page">
-                      <a class="page-link"
-                          href="{{ $alunos->onFirstPage() ? 'javascript:void(0);' : $alunos->appends(request()->input())->previousPageUrl() }}"
-                          tabindex="-1"
-                          aria-disabled="{{ $alunos->onFirstPage() ? 'true' : 'false' }}">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="icon">
-                              <path d="M15 6l-6 6l6 6"></path>
-                          </svg>
-                          anterior
-                      </a>
-                  </li>
-
-                  {{-- Página Atual (somente número) --}}
-                  <li class="page-item active" id="current-page">
-                      <a class="page-link" href="javascript:void(0);">
-                          {{ $alunos->appends(request()->input())->currentPage() }}
-                      </a>
-                  </li>
-
-                  {{-- Botão Próximo --}}
-                  <li class="page-item {{ $alunos->hasMorePages() ? '' : 'disabled' }}" id="next-page">
-                      <a class="page-link"
-                          href="{{ $alunos->hasMorePages() ? $alunos->appends(request()->input())->nextPageUrl() : 'javascript:void(0);' }}">
-                          próximo
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="icon">
-                              <path d="M9 6l6 6l-6 6"></path>
-                          </svg>
-                      </a>
-                  </li>
-              </ul>
-          </div>
-        </div>
+          <x-pagination :paginator="$alunos" />
         @endif
       </div>
     </div>
