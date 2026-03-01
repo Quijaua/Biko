@@ -16,8 +16,10 @@ class AlunoPolicy
         }
 
         // Coordenador só pode se for do mesmo núcleo
-        if ($user->role === 'coordenador' && $user->id_nucleo == $aluno->id_nucleo) {
-            return true;
+        if ($user->role === 'coordenador') {
+            return $user->coordenador?->nucleos()
+                ->where('nucleos.id', $aluno->id_nucleo)
+                ->exists();
         }
 
         // Professor NÃO pode ver dados sensíveis
