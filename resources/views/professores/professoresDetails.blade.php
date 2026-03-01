@@ -907,6 +907,43 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    @if(in_array($user->role, ['administrador','coordenador']))
+
+                                    <hr>
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="mb-2">
+                                                <fieldset>
+                                                    <legend class="form-label">Foi entrevistado?</legend>
+
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="inputEntrevistado" id="entrevistado_sim" value="1" onclick="showInput('.comentarios-entrevista')" @if ($dados->Entrevistado == 1) checked @endif disabled>
+                                                        <label class="form-check-label" for="entrevistado_sim">Sim</label>
+                                                    </div>
+
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="inputEntrevistado" id="entrevistado_nao" value="0" onclick="hideInput('.comentarios-entrevista')" @if ($dados->Entrevistado == 0) checked @endif disabled>
+                                                        <label class="form-check-label" for="entrevistado_nao">
+                                                            Não
+                                                        </label>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row comentarios-entrevista" @if ($dados->Entrevistado == 0) style="display:none;" @endif>
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                <label class="form-label mb-2" for="inputComentariosEntrevista">Comentários sobre Entrevista</label>
+                                                <textarea class="form-control" id="inputComentariosEntrevista" name="inputComentariosEntrevista" rows="8" disabled>{{ $dados->ComentariosEntrevista }}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    @endif
+
                                 </div>
 
                                 {{-- Academicos --}}

@@ -59,6 +59,8 @@ class Professores extends Model implements Auditable
       'ComoSoube',
       'ComoSoubeOutros',
       'MotivoPrincipal',
+      'Entrevistado',
+      'ComentariosEntrevista',
       'EnsinoSuperior',
       'InstituicaoSuperior',
       'CursoSuperior1',
