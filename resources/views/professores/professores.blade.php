@@ -239,7 +239,21 @@
                                                     {{-- CPF --}}
                                                     {{-- <td>{{ $professor->CPF }}</td> --}}
 
-                                                    <td>{{ $professor->nucleo->NomeNucleo ?? '' }}</td>
+                                                    <td>
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <span>{{ $professor->nucleo->NomeNucleo ?? '' }}</span>
+
+                                                            @if ($professor->Entrevistado == 1)
+                                                                <span class="badge bg-success-lt text-success">
+                                                                    Entrevistado
+                                                                </span>
+                                                            @else
+                                                                <span class="badge bg-danger-lt text-danger">
+                                                                    Não Entrevistado
+                                                                </span>
+                                                            @endif
+                                                        </div>
+                                                    </td>
 
 
                                                     {{-- Situação --}}
