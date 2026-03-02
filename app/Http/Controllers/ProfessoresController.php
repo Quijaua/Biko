@@ -845,12 +845,19 @@ $coordenadorNucleos = DB::table('nucleos')
       $dados->load('horarios', 'nucleosProfessoresDisciplinas');
       $nucleos = Nucleo::where('Status', 1)->get();
 
+      $dadosSensiveis = $user->can('viewSensitiveData', $dados);
+
+      if (!$user->can('viewSensitiveData', $dados)) {
+        $dados = (object) $dados->hideSensitive();
+      }
+
       return view('professores.professoresDetails')->with([
         'user' => $user,
         'dados' => $dados,
         'nucleos' => $nucleos,
         'povo_indigenas' => PovoIndigena::all(),
         'terra_indigenas' => TerraIndigena::all(),
+        'dadosSensiveis' => $dadosSensiveis,
       ]);
     }
 

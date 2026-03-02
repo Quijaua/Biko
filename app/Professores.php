@@ -119,4 +119,12 @@ class Professores extends Model implements Auditable
   {
     return $this->hasMany('App\NucleosProfessoresDisciplinas', 'professor_id');
   }
+
+  public function hideSensitive()
+  {
+    return $this->makeHidden([
+      'Entrevistado',
+      'ComentariosEntrevista',
+    ]);
+  }
 }

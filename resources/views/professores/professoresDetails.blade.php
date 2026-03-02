@@ -908,7 +908,7 @@
                                         </div>
                                     </div>
 
-                                    @if(in_array($user->role, ['administrador','coordenador']))
+                                    @if($dadosSensiveis)
 
                                     <hr>
 
