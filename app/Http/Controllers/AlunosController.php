@@ -542,20 +542,27 @@ class AlunosController extends Controller
     public function export(Request $request)
     {
         $user = Auth::user();
-        if ($user->role === 'coordenador' || $user->role === 'administrador') {
-            $nucleo = $request->input('nucleo');
-            $nucleo_ativo = Nucleo::find($request->input('nucleo'));
-            $today = Carbon::now()->format('d-m-Y');
-            $nome_arquivo = $nucleo_ativo ? 'nucleo-' . $nucleo_ativo->NomeNucleo . '-' . $today : 'nucleo-todos-' . $today;
+        $today = Carbon::now()->format('d-m-Y');
+        $nome_arquivo = 'alunos-' . $today;
 
-            if ($nucleo === null) {
-                return (new AlunosExport())->download($nome_arquivo . '.xlsx');
+        if ($user->role === 'administrador') {
+            return (new AlunosExport())->download($nome_arquivo . '.xlsx');
+        }
+
+        if ($user->role === 'coordenador') {
+            // pega os núcleos do coordenador
+            $nucleosIds = $user->coordenador?->nucleos()
+                ->pluck('nucleos.id')
+                ->toArray() ?? [];
+
+            if (empty($nucleosIds)) {
+                abort(403, 'Coordenador sem núcleo vinculado.');
             }
 
-            return (new AlunosExport($nucleo))->download($nome_arquivo . '.xlsx');
-        } else {
-            abort(403, 'Acesso não autorizado.');
+            return (new AlunosExport($nucleosIds))->download($nome_arquivo . '.xlsx');
         }
+
+        abort(403, 'Acesso não autorizado.');
     }
 
     public function logActionView($id)

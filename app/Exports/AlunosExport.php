@@ -13,10 +13,11 @@ use Maatwebsite\Excel\Concerns\Exportable;
 class AlunosExport implements FromQuery, WithHeadings
 {
   use Exportable;
+  private $nucleo;
   /**
   * @return \Illuminate\Support\Collection
   */
-  public function __construct(int $nucleo)
+  public function __construct(int|array|null $nucleo = null)
   {
       $this->nucleo = $nucleo;
   }
@@ -89,8 +90,15 @@ class AlunosExport implements FromQuery, WithHeadings
 
   public function query()
   {
-    if($this->nucleo === 0){
-      return Aluno::query()->select([
+      $query = Aluno::query();
+
+      if (is_array($this->nucleo)) {
+          $query->whereIn('id_nucleo', $this->nucleo);
+      } elseif (!is_null($this->nucleo)) {
+          $query->where('id_nucleo', $this->nucleo);
+      }
+
+      return $query->select([
         'NomeAluno',
         'Status',
         'ListaEspera',
@@ -152,69 +160,5 @@ class AlunosExport implements FromQuery, WithHeadings
         'created_at',
         'updated_at'
       ]);
-    };
-
-    return Aluno::query()->where('id_nucleo', $this->nucleo)->select([
-      'NomeAluno',
-      'Status',
-      'ListaEspera',
-      'NomeNucleo',
-      'CPF',
-      'RG',
-      'Raca',
-      'Genero',
-      'EstadoCivil',
-      'Nascimento',
-      'CEP',
-      'Endereco',
-      'Numero',
-      'Bairro',
-      'Cidade',
-      'Estado',
-      'Complemento',
-      'FoneComercial',
-      'FoneResidencial',
-      'FoneCelular',
-      'Empresa',
-      'CEPEmpresa',
-      'EnderecoEmpresa',
-      'NumeroEmpresa',
-      'BairroEmpresa',
-      'CidadeEmpresa',
-      'EstadoEmpresa',
-      'ComplementoEmpresa',
-      'Cargo',
-      'HorarioFrom',
-      'HorarioTo',
-      'NomeMae',
-      'NomePai',
-      'CEPFamilia',
-      'EnderecoFamilia',
-      'NumeroFamilia',
-      'ComplementoFamilia',
-      'BairroFamilia',
-      'CidadeFamilia',
-      'EstadoFamilia',
-      'TelefoneFamilia',
-      'AuxGoverno',
-      'EnsFundamental',
-      'PorcentagemBolsa',
-      'EnsMedio',
-      'PorcentagemBolsaMedio',
-      'Vestibular',
-      'OpcoesVestibular1',
-      'OpcoesVestibular2',
-      'VestibularOutraCidade',
-      'ComoSoube',
-      'AuxTipo',
-      'FaculdadeTipo',
-      'NomeFaculdade',
-      'CursoFaculdade',
-      'AnoFaculdade',
-      'ComoSoubeOutros',
-      'Email',
-      'created_at',
-      'updated_at'
-    ]);
   }
 }
