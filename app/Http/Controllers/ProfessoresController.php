@@ -388,6 +388,10 @@ $coordenadorNucleos = DB::table('nucleos')
         $dados = Professores::find($id);
         $nucleos = Nucleo::where('Status', 1)->get();
 
+        if($user->id === $dados->id){
+          abort(403, 'Acesso não autorizado.');
+        }
+
         return view('professores.professoresEdit')->with([
           'user' => $user,
           'dados' => $dados,

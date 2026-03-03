@@ -58,10 +58,12 @@
                                         class="me-2 fas fa-print"></i> Imprimir</a>
                             </div>
 
+                            @if (in_array(Auth::user()->role, ['administrador', 'coordenador']))
                             <div>
                                 <a class="btn btn-primary" href="/nucleos/edit/{{ $dados->id }}"><i
                                         class="me-2 fas fa-user-edit"></i> Editar Dados</a>
                             </div>
+                            @endif
                         </div>
                     </div>
 

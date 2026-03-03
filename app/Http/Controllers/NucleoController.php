@@ -93,6 +93,10 @@ class NucleoController extends Controller
         }
       }
 
+      if($user->role === 'professor'){
+        abort(403, 'Acesso não autorizado.');
+      }
+
       $representantes = $dados->coordenadores()
         ->wherePivot('nucleo_id', $id)
         ->where('RepresentanteCGU', 'sim')
