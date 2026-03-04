@@ -16,7 +16,7 @@
 					Visão geral
 				</div>
 				<h1 class="page-title">
-					Dashboard
+					Painel
 				</h1>
 			</div>
     </div>
@@ -53,7 +53,7 @@
 
       <div class="row row-cards">
         <!-- Estudantes -->
-        <div class="col">
+        <div class="col-12 col-md-2">
           <div class="card card-sm">
             <div class="card-body">
               <div class="row align-items-center">
@@ -72,7 +72,7 @@
         </div>
 
         <!-- Lista de espera -->
-        <div class="col">
+        <div class="col-12 col-md-2">
           <div class="card card-sm">
             <div class="card-body">
               <div class="row align-items-center">
@@ -90,7 +90,7 @@
         </div>
 
         <!-- Professores -->
-        <div class="col">
+        <div class="col-12 col-md-2">
           <div class="card card-sm">
             <div class="card-body">
               <div class="row align-items-center">
@@ -108,7 +108,7 @@
         </div>
 
         <!-- Coordenadores -->
-        <div class="col">
+        <div class="col-12 col-md-2">
           <div class="card card-sm">
             <div class="card-body">
               <div class="row align-items-center">
@@ -126,7 +126,7 @@
         </div>
 
         <!-- Núcleos -->
-        <div class="col">
+        <div class="col-12 col-md-2">
           <div class="card card-sm">
             <div class="card-body">
               <div class="row align-items-center">
