@@ -49,7 +49,17 @@ class AlunosController extends Controller
         $query = Aluno::query();
 
         if ($user->role === 'aluno') {
-            $query = $user->aluno();
+            $alunos = $user->aluno()->paginate(25);
+            if ($alunos[0]['CPF'] === null) {
+                return redirect('alunos/edit/' . $alunos[0]['id'])->with([
+                    'user' => $user,
+                ]);
+            } else {
+                return view('alunos.alunos')->with([
+                    'alunos' => $alunos,
+                    'user' => $user,
+                ]);
+            }
         }
 
         if ($user->role === 'professor') {
