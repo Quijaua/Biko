@@ -314,28 +314,30 @@ class NucleoController extends Controller
     {
       $user = Auth::user();
 
-      if ( $user->role === 'professor' ) {
-        $professor = Professores::where('id_user', Auth::user()->id)->first();
-      } else if ( $user->role === 'coordenador' ) {
-        $professor = Coordenadores::where('id_user', Auth::user()->id)->first();
-      };
+      if ($user->role === 'professor') {
+        $professor = Professores::where('id_user', $user->id)->first();
+      } else if ($user->role === 'coordenador') {
+        $professor = Coordenadores::where('id_user', $user->id)->first();
+      } else {
+        return redirect()->route('home')->with('error', 'Usuário não autorizado.');
+      }
 
       $alunos = Nucleo::find($professor->id_nucleo)->alunos;
 
-      if ( $request->date ) {
-        $date = $request->date;
-      } else {
-        $date = Carbon::now()->format('Y-m-d');
-      }
+      $date = $request->date ?? Carbon::now()->format('Y-m-d');
 
-      $lista = ListaPresenca::updateOrCreate(
-        ['nucleo_id' => $professor->id_nucleo, 'date' => $date],
-        [
+      $lista = ListaPresenca::where('nucleo_id', $professor->id_nucleo)
+                            ->where('professor_id', $professor->id)
+                            ->where('date', $date)
+                            ->first();
+
+      if (!$lista) {
+        $lista = ListaPresenca::create([
           'nucleo_id' => $professor->id_nucleo,
           'professor_id' => $professor->id,
           'date' => $date
-        ]
-      );
+        ]);
+      }
 
       return view('nucleos.lista-presenca-create')->with([
         'lista' => $lista,

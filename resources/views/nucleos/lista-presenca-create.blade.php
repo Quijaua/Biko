@@ -31,7 +31,7 @@
     <div class="col-12 col-md-4">
       <div class="mb-3">
         <label for="presenceDate" class="form-label">Data</label>
-        <input type="date" class="form-control" name="presenceDate" id="presenceDate" value="{{ $date }}" disabled>
+        <input type="date" class="form-control" name="presenceDate" id="presenceDate" value="{{ $date }}">
       </div>
     </div>
   </div>
@@ -80,6 +80,13 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
   let listaId = '<?php echo $lista->id ?>';
+
+  $('#presenceDate').change(function() {
+      let selectedDate = $(this).val();
+      let url = new URL(window.location.href);
+      url.searchParams.set('date', selectedDate); // adiciona ou atualiza o parâmetro ?date=
+      window.location.href = url.toString();
+  });
 
   $('.btn-present').click(function() {
     let alunoId = $(this).attr('aria-label');
