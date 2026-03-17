@@ -317,7 +317,13 @@ class NucleoController extends Controller
       if ($user->role === 'professor') {
         $professor = Professores::where('id_user', $user->id)->first();
       } else if ($user->role === 'coordenador') {
-        $professor = Coordenadores::where('id_user', $user->id)->first();
+          $previous = url()->previous();
+
+          if ($previous === url()->current()) {
+            return redirect()->route('home')->with('error', 'Acesso Negado! Somente professores podem aplicar a lista de presença.');
+          }
+
+          return redirect()->to($previous)->with('error', 'Acesso Negado! Somente professores podem aplicar a lista de presença.');
       } else {
         return redirect()->route('home')->with('error', 'Usuário não autorizado.');
       }
