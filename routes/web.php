@@ -147,7 +147,7 @@ Route::get('/switch-role/{role}', function ($role) {
     $coordenador = \App\Coordenadores::where('id_user', $user->id)->first();
 
     if ($user->getRealRole() === 'coordenador') {
-        if ($role === 'professor' && (!$coordenador || !$coordenador->is_professor)) {
+        if ($role === 'professor' && (!$coordenador || !$coordenador->isProfessor)) {
             return redirect()->back()->with('error', 'Este coordenador não possui perfil de professor.');
         }
 
