@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -139,6 +140,25 @@ Route::get('otp-verify', function () {
 
     return redirect()->route('home');
 })->name('otp-verify');
+
+Route::get('/switch-role/{role}', function ($role) {
+    $user = Auth::user();
+
+    $coordenador = \App\Coordenadores::where('id_user', $user->id)->first();
+
+    if ($user->getRealRole() === 'coordenador') {
+        if ($role === 'professor' && (!$coordenador || !$coordenador->is_professor)) {
+            return redirect()->back()->with('error', 'Este coordenador não possui perfil de professor.');
+        }
+
+        if (in_array($role, ['coordenador', 'professor'])) {
+            session(['active_role' => $role]);
+            Session::put('role', $role);
+        }
+    }
+
+    return redirect()->back();
+})->name('switch.role');
 
 //GOOGLE
 Route::get('/google/redirect', 'GoogleLoginController@redirectToGoogle')->name('google.redirect');
