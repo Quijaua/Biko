@@ -21,6 +21,7 @@ class Material extends Model implements Auditable
     'name',
     'file',
     'status',
+    'is_global',
   ];
 
   public function nucleo()

@@ -96,4 +96,18 @@ class User extends Authenticatable implements MustVerifyEmail
             default => str_replace('_', ' ', $this->role),
         };
     }
+
+    public function getRealRole()
+    {
+        return $this->attributes['role'] ?? null;
+    }
+
+    public function getRoleAttribute($value)
+    {
+        if (session()->has('active_role')) {
+            return session('active_role');
+        }
+
+        return $value;
+    }
 }

@@ -12,6 +12,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\DB;
 
 use App\Coordenadores;
+use App\Professores;
 use App\Nucleo;
 use App\User;
 use App\PovoIndigena;
@@ -238,6 +239,36 @@ class CoordenadoresController extends Controller
 
       $coordenador->nucleos()->sync($request->input('inputNucleo'));
 
+      $isProfessor = $request->has('isProfessor');
+
+      $coordenador->isProfessor = $isProfessor;
+      $coordenador->save();
+
+      if ($isProfessor) {
+          Professores::updateOrCreate(
+              ['id_user' => $user->id],
+              [
+                  'NomeProfessor' => $coordenador->NomeCoordenador,
+                  'NomeSocial' => $coordenador->NomeSocial,
+                  'CPF' => $coordenador->CPF,
+                  'RG' => $coordenador->RG,
+                  'Genero' => $coordenador->Genero,
+                  'Nascimento' => $coordenador->Nascimento,
+                  'Email' => $coordenador->Email,
+                  'FoneCelular' => $coordenador->FoneCelular,
+                  'Endereco' => $coordenador->Endereco,
+                  'Numero' => $coordenador->Numero,
+                  'Bairro' => $coordenador->Bairro,
+                  'CEP' => $coordenador->CEP,
+                  'Cidade' => $coordenador->Cidade,
+                  'Estado' => $coordenador->Estado,
+                  'Foto' => $coordenador->Foto,
+                  'Status' => 1,
+                  'id_nucleo' => $request->input('inputNucleo')[0] ?? null,
+              ]
+          );
+      }
+
       if($Foto){
         $filename = $Foto->getFilename().'.'.$Foto->getClientOriginalExtension();
         $path = public_path('storage/'.$filename);
@@ -411,11 +442,10 @@ class CoordenadoresController extends Controller
           }
       }
 
-      $currentEmail = Coordenadores::where('id_user', $dados->id_user)->pluck('Email');
       $inputEmail = $request->input('inputEmail');
       $user = User::find($dados->id_user);
 
-      if ($user->email !== $inputEmail) {
+      if ($user && $user->email !== $inputEmail) {
           // 1) Se existir usuário com esse e-mail
           $userByEmail = Coordenadores::where('email', $inputEmail)->first();
 
@@ -425,10 +455,12 @@ class CoordenadoresController extends Controller
           if ($userByEmail && $userByCpf && $userByEmail->id_user === $userByCpf->id_user) {
               $correctUser = User::where('email', $inputEmail)->first();
 
-              // Já existe usuário com este e-mail → troca o id_user do coordenador
-              $dados->id_user = $correctUser->id;
-
-              $correctUserId = $correctUser->id;
+              if ($correctUser) {
+                $dados->id_user = $correctUser->id;
+                $correctUserId = $correctUser->id;
+              } else {
+                $correctUserId = $user->id;
+              }
           } else {
             $correctUserId = $user->id;
           }
@@ -444,7 +476,36 @@ class CoordenadoresController extends Controller
           }
       }
 
+      $isProfessor = $request->has('isProfessor');
+      $dados->isProfessor = $isProfessor;
       $dados->save();
+
+      if ($isProfessor) {
+          Professores::updateOrCreate(
+              ['id_user' => $dados->id_user],
+              [
+                  'NomeProfessor' => $dados->NomeCoordenador,
+                  'NomeSocial' => $dados->NomeSocial,
+                  'CPF' => $dados->CPF,
+                  'RG' => $dados->RG,
+                  'Genero' => $dados->Genero,
+                  'Nascimento' => $dados->Nascimento,
+                  'Email' => $dados->Email,
+                  'FoneCelular' => $dados->FoneCelular,
+                  'Endereco' => $dados->Endereco,
+                  'Numero' => $dados->Numero,
+                  'Bairro' => $dados->Bairro,
+                  'CEP' => $dados->CEP,
+                  'Cidade' => $dados->Cidade,
+                  'Estado' => $dados->Estado,
+                  'Foto' => $dados->Foto,
+                  'Status' => 1,
+                  'id_nucleo' => $request->input('inputNucleo')[0] ?? null,
+              ]
+          );
+      } else {
+          Professores::where('id_user', $dados->id_user)->update(['Status' => 0]);
+      }
 
       $dados->nucleos()->sync($request->input('inputNucleo'));
 

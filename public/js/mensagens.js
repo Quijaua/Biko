@@ -63,29 +63,35 @@
         }
     }).on('select2:select', clearInputNull);
 
-    const editor = new Quill('#editor', {
-        modules: {
-            toolbar: [
-                ['bold', 'link', 'italic', 'underline', 'strike'],
-                ['blockquote', 'code-block'],
-                [{'header': 1}, {'header': 2}],
-                [{'list': 'ordered'}, {'list': 'bullet'}],
-                [{'script': 'sub'}, {'script': 'super'}],
-                [{'indent': '-1'}, {'indent': '+1'}],
-                [{'direction': 'rtl'}],
-                [{'size': ['small', false, 'large', 'huge']}],
-                [{'header': [1, 2, 3, 4, 5, 6, false]}],
-                [{'color': []}, {'background': []}],
-                [{'font': []}],
-                [{'align': []}],
-                ['clean']
-            ],
-        },
-        theme: 'snow'
-    });
+    const editorElement = document.querySelector('#editor');
 
-    $('#mensagem-form').on('submit', function () {
-        $('input[name=mensagem]').val(editor.root.innerHTML);
-    });
+    if (editorElement && typeof tinymce !== 'undefined') {
+
+        tinymce.init({
+            selector: '#editor',
+            height: 300,
+            menubar: false,
+            license_key: 'gpl',
+            base_url: '/dist/libs/tinymce',
+            suffix: '.min',
+            plugins: 'link lists code',
+            toolbar: `
+                bold italic underline strikethrough |
+                link code |
+                bullist numlist |
+                outdent indent |
+                alignleft aligncenter alignright alignjustify |
+                removeformat
+            `,
+            branding: false,
+            browser_spellcheck: true
+        });
+
+        $('#mensagem-form').on('submit', function () {
+            const conteudo = tinymce.get('editor').getContent();
+            $('input[name=mensagem]').val(conteudo);
+        });
+
+    }
 
 })();

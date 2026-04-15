@@ -191,7 +191,7 @@
                                             <td class="text-secondary">{{ \Carbon\Carbon::parse($file->created_at)->format('d/m/Y') }}</td>
                                             <td class="text-secondary">{{ $file->name }}</td>
                                             <td class="text-secondary">{{ $file->user->name ?? 'Desconhecido' }}</td>
-                                            <td class="text-secondary">{{ $file->nucleo->NomeNucleo ?? 'Desconhecido' }}</td>
+                                            <td class="text-secondary">{{ $file->is_global ? 'Todos os núcleos' : optional($file->nucleo)->NomeNucleo ?? 'Núcleo não informado' }}</td>
                                             <td class="text-secondary">
                                                 @if ($file->status)
                                                     <span class="d-flex align-center gap-2"> <svg
@@ -413,15 +413,23 @@
                                             required>
                                     </div>
 
-                                    <div class="col-12 col-md-6 mb-3">
+                                    <div class="col-12 mb-3">
                                         <label class="form-label">Título do material</label>
                                         <input type="text" name="title" class="form-control">
                                     </div>
 
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label class="form-label" for="is_global">Visibilidade</label>
+                                        <select name="is_global" id="is_global" class="form-select">
+                                            <option value="0">Apenas este núcleo</option>
+                                            <option value="1">Disponível para todos os núcleos</option>
+                                        </select>
+                                    </div>
+
                                     @if ($user->role === 'administrador' || $user->role === 'coordenador')
-                                        <div class="col-12 col-md-6 mb-3">
-                                            <label class="form-label">Núcleo</label>
-                                            <select class="form-select" name="nucleo_id" required>
+                                        <div class="col-12 col-md-6 mb-3" id="box-nucleo">
+                                            <label class="form-label" for="nucleo_id">Núcleo</label>
+                                            <select class="form-select" name="nucleo_id" id="nucleo_id" required>
                                                 @foreach ($nucleos as $nucleo)
                                                     <option value="{{ $nucleo->id }}">{{ $nucleo->NomeNucleo }}
                                                     </option>
@@ -431,6 +439,7 @@
                                     @else
                                         <input type="hidden" name="nucleo_id" value="{{ $nucleos->id }}">
                                     @endif
+
                                     <div class="col-12  text-end">
                                         <button class="btn btn-primary" type="submit">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -483,18 +492,37 @@
         </div>
       </div>
 
-      <script>
-        const btnsEditar = document.querySelectorAll('.open-modal-editar')
-        btnsEditar.forEach(btnEditar => {
-            btnEditar.addEventListener('click', e => {
-                const modal = new bootstrap.Modal(modaleditar);
-                modal.show();
-                const urlModal = btnEditar.dataset.url
-                const formModal = modaleditar.querySelector('form')
-                formModal.action = urlModal
+        <script>
+            const btnsEditar = document.querySelectorAll('.open-modal-editar')
+            btnsEditar.forEach(btnEditar => {
+                btnEditar.addEventListener('click', e => {
+                    const modal = new bootstrap.Modal(modaleditar);
+                    modal.show();
+                    const urlModal = btnEditar.dataset.url
+                    const formModal = modaleditar.querySelector('form')
+                    formModal.action = urlModal
+                })
             })
-        })
-      </script>
-      
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                function toggleNucleo() {
+                    let isGlobal = $("#is_global").val();
+
+                    if (isGlobal == "1") {
+                        $("#box-nucleo").hide();
+                        $("#nucleo").val("");
+                    } else {
+                        $("#box-nucleo").show();
+                    }
+                }
+
+                $("#is_global").on("change", function () {
+                    toggleNucleo();
+                });
+            });
+        </script>
+        
     </div>
 @endsection

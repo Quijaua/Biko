@@ -3,34 +3,46 @@
 @section('content')
 <div class="container">
   <!-- PAGE HEADER -->
-  <div class="container">
-    <div class="row">
-      <div class="col-8">
-        <h1 class="text-[34px]">Estudantes</h1>
-      </div>
-      @php //dd($user->role) @endphp
-      <div class="col-4  text-center">
-        @if (Session::get('role') !== 'professor')
-        <a class="btn btn-primary" href="/alunos/add"><span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-user-plus">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
-              <path d="M16 19h6" />
-              <path d="M19 16v6" />
-              <path d="M6 21v-2a4 4 0 0 1 4 -4h4" />
-            </svg></span>Adicionar novo estudante</a>
-        @endif
-        @if($user->role === 'administrador' || $user->role === 'coordenador')
-        <a class="btn btn-outline" href="{{ route('alunos/export/') }}/?nucleo=0"><span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-arrow-right">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-              <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
-              <path d="M9 15h6" />
-              <path d="M12.5 17.5l2.5 -2.5l-2.5 -2.5" />
-            </svg></span> Exportar</a>
-        @endif
-      </div>
-    </div>
-    @if($user->role != 'aluno')
+
+
+  <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between gap-3 mb-4">
+  
+  <h1 class="fw-bold mb-0">Estudantes</h1>
+
+  @php //dd($user->role) @endphp
+
+  <div class="d-flex gap-2 flex-shrink-0">
+
+    @if (Session::get('role') !== 'professor')
+      <a class="btn btn-primary d-flex align-items-center gap-2" href="/alunos/add">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+          <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"/>
+          <path d="M16 19h6"/>
+          <path d="M19 16v6"/>
+          <path d="M6 21v-2a4 4 0 0 1 4 -4h4"/>
+        </svg>
+        Adicionar novo estudante
+      </a>
+    @endif
+
+    @if($user->role === 'administrador' || $user->role === 'coordenador')
+      <a class="btn btn-outline-secondary d-flex align-items-center gap-2" href="{{ route('alunos/export/') }}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+          <path d="M14 3v4a1 1 0 0 0 1 1h4"/>
+          <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"/>
+          <path d="M9 15h6"/>
+          <path d="M12.5 17.5l2.5 -2.5l-2.5 -2.5"/>
+        </svg>
+        Exportar
+      </a>
+    @endif
+
+  </div>
+</div>
+
+    @if($user->role === 'administrador')
     <div class="card mb-4 col-md-7">
       <div class="card-body">
         <form class="row g-2 align-items-end">
@@ -128,13 +140,20 @@
     </div>
   </div>
   @endif
+  @if(\Session::has('warning'))
+  <div class="row mt-2">
+    <div class="col-6 m-auto">
+      <div class="alert alert-warning text-center" role="alert">
+        {!! \Session::get('warning') !!}
+      </div>
+    </div>
+  </div>
+  @endif
   <div class="container">
     <div class="rounded border border-gray-300">
       <form action="/alunos/search" method="POST" class="p-4 bg-white" role="search">
         <div class="col-10 d-flex align-items-center gap-2">
           @csrf
-          <label for="inputQuery" class="visually-hidden">Busca por estudante</label>
-
           <input type="text" name="inputQuery" class="form-control"
             placeholder="Digite nome, sobrenome ou e-mail para encontrar um(a) estudante" required />
 
@@ -272,56 +291,7 @@
               </tbody>
             </table>
           </div>
-          <div class="card-footer d-flex align-items-center">
-              <p class="m-0 text-secondary">
-                  Exibindo
-                  <span id="start-entry">{{ $alunos->firstItem() ?? 0 }}</span>
-                  até
-                  <span id="end-entry">{{ $alunos->lastItem() ?? 0 }}</span>
-                  de
-                  <span id="total-entry">{{ $alunos->total() }}</span>
-                  registros
-              </p>
-              <ul class="pagination m-0 ms-auto" id="pagination-custom">
-                  {{-- Botão Anterior --}}
-                  <li class="page-item {{ $alunos->onFirstPage() ? 'disabled' : '' }}" id="prev-page">
-                      <a class="page-link"
-                          href="{{ $alunos->onFirstPage() ? 'javascript:void(0);' : $alunos->appends(request()->input())->previousPageUrl() }}"
-                          tabindex="-1"
-                          aria-disabled="{{ $alunos->onFirstPage() ? 'true' : 'false' }}">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="icon">
-                              <path d="M15 6l-6 6l6 6"></path>
-                          </svg>
-                          anterior
-                      </a>
-                  </li>
-
-                  {{-- Página Atual (somente número) --}}
-                  <li class="page-item active" id="current-page">
-                      <a class="page-link" href="javascript:void(0);">
-                          {{ $alunos->appends(request()->input())->currentPage() }}
-                      </a>
-                  </li>
-
-                  {{-- Botão Próximo --}}
-                  <li class="page-item {{ $alunos->hasMorePages() ? '' : 'disabled' }}" id="next-page">
-                      <a class="page-link"
-                          href="{{ $alunos->hasMorePages() ? $alunos->appends(request()->input())->nextPageUrl() : 'javascript:void(0);' }}">
-                          próximo
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="icon">
-                              <path d="M9 6l6 6l-6 6"></path>
-                          </svg>
-                      </a>
-                  </li>
-              </ul>
-          </div>
-        </div>
+          <x-pagination :paginator="$alunos" />
         @endif
       </div>
     </div>

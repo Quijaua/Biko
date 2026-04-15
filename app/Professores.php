@@ -59,6 +59,8 @@ class Professores extends Model implements Auditable
       'ComoSoube',
       'ComoSoubeOutros',
       'MotivoPrincipal',
+      'Entrevistado',
+      'ComentariosEntrevista',
       'EnsinoSuperior',
       'InstituicaoSuperior',
       'CursoSuperior1',
@@ -116,5 +118,13 @@ class Professores extends Model implements Auditable
   public function nucleosProfessoresDisciplinas()
   {
     return $this->hasMany('App\NucleosProfessoresDisciplinas', 'professor_id');
+  }
+
+  public function hideSensitive()
+  {
+    return $this->makeHidden([
+      'Entrevistado',
+      'ComentariosEntrevista',
+    ]);
   }
 }

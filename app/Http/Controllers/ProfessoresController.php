@@ -106,6 +106,7 @@ $coordenadorNucleos = DB::table('nucleos')
         $nucleos = Nucleo::where('Status', 1)->get();
 
         return view('professores.professoresCreate')->with([
+          'user' => $user,
           'nucleos' => $nucleos,
           'povo_indigenas' => $povosIndigenas,
           'terra_indigenas' => TerraIndigena::all(),
@@ -256,6 +257,13 @@ $coordenadorNucleos = DB::table('nucleos')
         'pessoa_com_deficiencia' => $request->input('pessoa_com_deficiencia'),
       ]);
 
+      if (in_array($user->role, ['administrador', 'coordenador'])) {
+        $professor->update([
+          'Entrevistado' => $request->boolean('inputEntrevistado'),
+          'ComentariosEntrevista' => $request->input('inputComentariosEntrevista'),
+        ]);
+      }
+
       if($Foto){
         $filename = $Foto->getFilename().'.'.$Foto->getClientOriginalExtension();
         $path = public_path('storage/'.$filename);
@@ -380,7 +388,12 @@ $coordenadorNucleos = DB::table('nucleos')
         $dados = Professores::find($id);
         $nucleos = Nucleo::where('Status', 1)->get();
 
+        if($user->id === $dados->id){
+          abort(403, 'Acesso não autorizado.');
+        }
+
         return view('professores.professoresEdit')->with([
+          'user' => $user,
           'dados' => $dados,
           'nucleos' => $nucleos,
           'povo_indigenas' => $povosIndigenas,
@@ -408,6 +421,7 @@ $coordenadorNucleos = DB::table('nucleos')
                   : collect();
 
           return view('professores.professoresEdit')->with([
+            'user' => $user,
             'dados' => $dados,
             'nucleos' => $nucleos,
             'povo_indigenas' => $povosIndigenas,
@@ -424,8 +438,9 @@ $coordenadorNucleos = DB::table('nucleos')
         $nucleos = Nucleo::where('Status', 1)->get();
 
         return view('professores.professoresEdit')->with([
-          'dados'     => $dados,
-          'nucleos'   => $nucleos,
+          'user' => $user,
+          'dados' => $dados,
+          'nucleos' => $nucleos,
           'povo_indigenas' => $povosIndigenas,
           'terra_indigenas' => TerraIndigena::all(),
         ]);
@@ -556,6 +571,13 @@ $coordenadorNucleos = DB::table('nucleos')
       $dados->AnoCursoMestrado = $request->input('inputAnoCursoMestrado');
       $dados->FormacaoAcademicaRecente = $request->input('inputFormacaoAcademicaRecente');
       $dados->pessoa_com_deficiencia = $request->input('pessoa_com_deficiencia');
+
+      $user = auth()->user();
+
+      if (in_array($user->role, ['administrador', 'coordenador'])) {
+        $dados->Entrevistado = $request->has('inputEntrevistado');
+        $dados->ComentariosEntrevista = $request->input('inputComentariosEntrevista');
+      }
 
       if($Foto){
         $filename = $Foto->getFilename().'.'.$Foto->getClientOriginalExtension();
@@ -822,15 +844,24 @@ $coordenadorNucleos = DB::table('nucleos')
 
     public function details($id)
     {
+      $user = Auth::user();
       $dados = Professores::find($id);
       $dados->load('horarios', 'nucleosProfessoresDisciplinas');
       $nucleos = Nucleo::where('Status', 1)->get();
 
+      $dadosSensiveis = $user->can('viewSensitiveData', $dados);
+
+      if (!$user->can('viewSensitiveData', $dados)) {
+        $dados = (object) $dados->hideSensitive();
+      }
+
       return view('professores.professoresDetails')->with([
+        'user' => $user,
         'dados' => $dados,
         'nucleos' => $nucleos,
         'povo_indigenas' => PovoIndigena::all(),
         'terra_indigenas' => TerraIndigena::all(),
+        'dadosSensiveis' => $dadosSensiveis,
       ]);
     }
 

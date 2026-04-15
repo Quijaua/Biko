@@ -58,10 +58,12 @@
                                         class="me-2 fas fa-print"></i> Imprimir</a>
                             </div>
 
+                            @if (in_array(Auth::user()->role, ['administrador', 'coordenador']))
                             <div>
                                 <a class="btn btn-primary" href="/nucleos/edit/{{ $dados->id }}"><i
                                         class="me-2 fas fa-user-edit"></i> Editar Dados</a>
                             </div>
+                            @endif
                         </div>
                     </div>
 
@@ -277,12 +279,20 @@
 
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="mb-3">
                                             <label class="form-label mb-2" for="inputComplemento">Complemento</label>
                                             <input type="text" class="form-control" id="inputComplemento"
                                                 name="inputComplemento" aria-describedby="inputComplementoHelp"
                                                 value="{{ $dados->Complemento }}" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="mb-3">
+                                            <label class="form-label mb-2" for="inputBairro">Bairro</label>
+                                            <input type="text" class="form-control" id="inputBairro"
+                                                name="inputBairro" aria-describedby="inputBairroHelp"
+                                                value="{{ $dados->Bairro }}" disabled>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -293,7 +303,7 @@
                                                 value="{{ $dados->Cidade }}" disabled>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <div class="mb-3">
                                             <label class="form-label mb-2" for="inputEstado">Estado</label>
                                             <select id="inputEstado" name="inputEstado" class="form-select" disabled>

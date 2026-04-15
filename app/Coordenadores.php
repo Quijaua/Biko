@@ -11,6 +11,7 @@ class Coordenadores extends Model implements Auditable
 
   protected $fillable = [
     'id_user',
+    'isProfessor',
     'Status',
     'NomeCoordenador',
     'NomeSocial',

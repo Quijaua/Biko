@@ -123,6 +123,8 @@
                                 <input type="button" class="btn btn-primary w-100" style="max-width: 600px"
                                     value="Brasília" onclick="selecionar('Distrito Federal')" form="registration-form">
                                 <input type="button" class="btn btn-primary w-100" style="max-width: 600px"
+                                    value="Pernambuco" onclick="selecionar('Pernambuco')" form="registration-form">
+                                <input type="button" class="btn btn-primary w-100" style="max-width: 600px"
                                     value="Núcleo Virtual - Aulas online para todo Brasil"
                                     onclick="selecionar('Núcleo Virtual - Aulas online para todo Brasil')" form="registration-form">
                             </div>
@@ -281,7 +283,16 @@
                                                 </div>
 
                                                 <div class="row">
-                                                    <div class="col-12 col-md-6">
+                                                    <div class="col-12 col-md-4">
+                                                        <div class="mb-3">
+                                                            <label class="form-label mb-2"
+                                                                for="inputBairro">Bairro</label>
+                                                            <input type="text"
+                                                                class="form-control" id="inputBairro" name="inputBairro"
+                                                                aria-describedby="inputBairroHelp">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-4">
                                                         <div class="mb-3">
                                                             <label class="form-label mb-2" for="inputCidade">Cidade</label>
                                                             <input type="text" class="form-control" id="inputCidade"
@@ -289,7 +300,7 @@
                                                                 >
                                                         </div>
                                                     </div>
-                                                    <div class="col-12 col-md-6">
+                                                    <div class="col-12 col-md-4">
                                                         <div class="mb-3">
                                                             <label class="form-label mb-2" for="inputEstado">Estado</label>
                                                             <select id="inputEstado" name="inputEstado" class="form-select"

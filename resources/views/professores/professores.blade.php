@@ -181,8 +181,6 @@
                         <form action="/professores/search" method="POST" class="p-4 bg-white" role="search">
                             <div class="col-10 d-flex align-items-center gap-2">
                                 @csrf
-                                <label for="inputQuery" class="visually-hidden">Busca por professor</label>
-
                                 <input type="text" name="inputQuery" class="form-control"
                                     placeholder="Digite o nome ou sobrenome para encontrar um professor(a)" required />
 
@@ -241,7 +239,21 @@
                                                     {{-- CPF --}}
                                                     {{-- <td>{{ $professor->CPF }}</td> --}}
 
-                                                    <td>{{ $professor->nucleo->NomeNucleo ?? '' }}</td>
+                                                    <td>
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <span>{{ $professor->nucleo->NomeNucleo ?? '' }}</span>
+
+                                                            @if ($professor->Entrevistado == 1)
+                                                                <span class="badge bg-success-lt text-success">
+                                                                    Entrevistado
+                                                                </span>
+                                                            @else
+                                                                <span class="badge bg-danger-lt text-danger">
+                                                                    Não Entrevistado
+                                                                </span>
+                                                            @endif
+                                                        </div>
+                                                    </td>
 
 
                                                     {{-- Situação --}}

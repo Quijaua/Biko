@@ -45,7 +45,8 @@ class AlunosController extends Controller
     public function index()
     {
         $user = Auth::user();
-        Session::put('verified', $user->email_verified_at);
+
+        $query = Aluno::query();
 
         if ($user->role === 'aluno') {
             $alunos = $user->aluno()->paginate(25);
@@ -59,58 +60,24 @@ class AlunosController extends Controller
                     'user' => $user,
                 ]);
             }
-        } else {
-            //$alunos = Aluno::get();
-            $alunos = Aluno::paginate(25);
         }
 
         if ($user->role === 'professor') {
-            $nucleo = Professores::where('id_user', $user->id)->get('id_nucleo');
-            //$alunos = Aluno::where('id_nucleo', $nucleo[0]['id_nucleo'])->get();
-            $alunos = Aluno::where('id_nucleo', $nucleo[0]['id_nucleo'])->paginate(25);
-
-            return view('alunos.alunos')->with([
-                'alunos' => $alunos,
-                'user' => $user,
-            ]);
+            $nucleo = Professores::where('id_user', $user->id)->value('id_nucleo');
+            $query->where('id_nucleo', $nucleo);
         }
 
         if ($user->role === 'coordenador') {
-            $me = Coordenadores::where('id_user', $user->id)->first();
-            //$coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray() ?? [1];
-	    $coordenadorNucleos = $user->coordenador?->nucleos()->pluck('nucleos.id')->toArray() ?? [1];
+            $coordenadorNucleos = $user->coordenador?->nucleos()
+                ->pluck('nucleos.id')
+                ->toArray() ?? [];
 
-            // $nucleo = Nucleo::find($me->id_nucleo);
-            $nucleos = Nucleo::whereIn('id', $coordenadorNucleos)->get();
-            //$alunos = Aluno::where('id_nucleo', $nucleo->id)->get();
-            // $alunos = Aluno::where('id_nucleo', $nucleo->id)->paginate(25);
-            $alunos = Aluno::whereIn('id_nucleo', $coordenadorNucleos)->paginate(25);
-
-            return view('alunos.alunos')->with([
-                'nucleos' => $nucleos,
-                'alunos' => $alunos,
-                'user' => $user,
-            ]);
+            $query->whereIn('id_nucleo', $coordenadorNucleos);
         }
 
-        if ($user->role === 'administrador') {
-            $alunos = Aluno::paginate(25);
+        $alunos = $query->paginate(25)->withQueryString();
 
-            return view('alunos.alunos')->with([
-                'alunos' => $alunos,
-                'user' => $user,
-            ]);
-        }
-
-        if ($alunos->isEmpty()) {
-            //$alunos = Aluno::where('Status', 0)->get();
-            $alunos = Aluno::where('Status', 0)->paginate(25);
-            if ($alunos->isEmpty()) {
-                return redirect('alunos/add');
-            }
-        }
-
-        return view('alunos.alunos')->with('alunos', $alunos);
+        return view('alunos.alunos', compact('alunos', 'user'));
     }
 
     public function showForm()
@@ -469,8 +436,22 @@ class AlunosController extends Controller
                     $q->where('alunos.NomeAluno', 'LIKE', '%' . $params['inputQuery'] . '%')
                     ->orWhere('alunos.Email', 'LIKE', '%' . $params['inputQuery'] . '%');
                 });
-            })
-            ->when($params['nucleo'], function ($query) use ($params) {
+            });
+
+        if ($user->role === 'professor') {
+            $nucleo = Professores::where('id_user', $user->id)->value('id_nucleo');
+            $alunos->where('alunos.id_nucleo', $nucleo);
+        }
+
+        if ($user->role === 'coordenador') {
+            $coordenadorNucleos = $user->coordenador?->nucleos()
+                ->pluck('nucleos.id')
+                ->toArray() ?? [];
+            $alunos->whereIn('alunos.id_nucleo', $coordenadorNucleos);
+        }
+
+        if ($user->role === 'administrador') {
+            $alunos->when($params['nucleo'], function ($query) use ($params) {
                 return $query->where('alunos.id_nucleo', '=', $params['nucleo']);
             })
             ->when($params['status'], function ($query) use ($params) {
@@ -478,8 +459,10 @@ class AlunosController extends Controller
             })
             ->when($params['listaEspera'], function ($query) use ($params) {
                 return $query->where('alunos.listaEspera', '=', $params['listaEspera']);
-            })
-            ->paginate(25);
+            });
+        }
+
+        $alunos = $alunos->paginate(25)->withQueryString();
 
         return view('alunos.alunos')->with([
             'user' => $user,
@@ -548,6 +531,12 @@ class AlunosController extends Controller
             }
         }
 
+        $dadosSensiveis = $user->can('viewSensitiveData', $dados);
+
+        if (!$user->can('viewSensitiveData', $dados)) {
+            $dados = (object) $dados->onlyBasicData();
+        }
+
         return view('alunos.alunosDetails')->with([
             'user' => $user,
             'dados' => $dados,
@@ -556,26 +545,34 @@ class AlunosController extends Controller
             'povo_indigenas' => $povosIndigenas,
             'terra_indigenas' => TerraIndigena::all(),
             'acompanhamentos' => $acompanhamentos,
+            'dadosSensiveis' => $dadosSensiveis,
         ]);
     }
 
     public function export(Request $request)
     {
         $user = Auth::user();
-        if ($user->role === 'coordenador' || $user->role === 'administrador') {
-            $nucleo = $request->input('nucleo');
-            $nucleo_ativo = Nucleo::find($request->input('nucleo'));
-            $today = Carbon::now()->format('d-m-Y');
-            $nome_arquivo = $nucleo_ativo ? 'nucleo-' . $nucleo_ativo->NomeNucleo . '-' . $today : 'nucleo-todos-' . $today;
+        $today = Carbon::now()->format('d-m-Y');
+        $nome_arquivo = 'alunos-' . $today;
 
-            if ($nucleo === null) {
-                return (new AlunosExport())->download($nome_arquivo . '.xlsx');
+        if ($user->role === 'administrador') {
+            return (new AlunosExport())->download($nome_arquivo . '.xlsx');
+        }
+
+        if ($user->role === 'coordenador') {
+            // pega os núcleos do coordenador
+            $nucleosIds = $user->coordenador?->nucleos()
+                ->pluck('nucleos.id')
+                ->toArray() ?? [];
+
+            if (empty($nucleosIds)) {
+                abort(403, 'Coordenador sem núcleo vinculado.');
             }
 
-            return (new AlunosExport($nucleo))->download($nome_arquivo . '.xlsx');
-        } else {
-            abort(403, 'Acesso não autorizado.');
+            return (new AlunosExport($nucleosIds))->download($nome_arquivo . '.xlsx');
         }
+
+        abort(403, 'Acesso não autorizado.');
     }
 
     public function logActionView($id)

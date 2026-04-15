@@ -254,11 +254,19 @@
 
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="mb-3">
                                             <label class="form-label mb-2" for="inputComplemento">Complemento</label>
                                             <input type="text" class="form-control" id="inputComplemento"
                                                 name="inputComplemento" aria-describedby="inputComplementoHelp">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="mb-3">
+                                            <label class="form-label mb-2" for="inputBairro">Bairro</label>
+                                            <input type="text" class="form-control" id="inputBairro"
+                                                name="inputBairro" aria-describedby="inputBairroHelp"
+                                                placeholder="Bairro">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -271,7 +279,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <div class="mb-3">
                                             <label class="form-label mb-2" for="inputEstado">Estado</label>
                                             <select id="inputEstado" name="inputEstado" class="form-select">
@@ -555,7 +563,7 @@
                             <div class="row p-2">
                                 <div class="col-12 col-md-3">
                                     <a class="btn btn-outline-primary" href="/nucleos">Cancelar</a>
-                                    <button type="submit" class="btn btn-primary ms-3" form="createdForm" id="submitBtn"><span><svg
+                                    <button type="submit" class="btn btn-primary ms-3" id="submitBtn"><span><svg
                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round"

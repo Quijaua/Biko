@@ -471,6 +471,24 @@
                                         </div>
                                     </div>
 
+                                    <div class="row">
+                                        <div class="col">
+                                            <fieldset>
+                                                <legend class="form-label mb-2">Este coordenador também é professor?</legend>
+
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="isProfessor" id="isProfessor_sim" value="1" @if ($dados->isProfessor === 1) checked @endif>
+                                                    <label class="form-check-label" for="isProfessor_sim">Sim</label>
+                                                </div>
+
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="isProfessor" id="isProfessor_nao" value="0" @if ($dados->isProfessor === 0) checked @endif>
+                                                    <label class="form-check-label" for="isProfessor_nao">Não</label>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
 

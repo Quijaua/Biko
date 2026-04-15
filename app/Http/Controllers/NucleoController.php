@@ -93,6 +93,10 @@ class NucleoController extends Controller
         }
       }
 
+      if($user->role === 'professor'){
+        abort(403, 'Acesso não autorizado.');
+      }
+
       $representantes = $dados->coordenadores()
         ->wherePivot('nucleo_id', $id)
         ->where('RepresentanteCGU', 'sim')
@@ -284,7 +288,19 @@ class NucleoController extends Controller
           $nucleos = Nucleo::where('Status', 1)->whereIn('id', $coordenadorNucleos)->pluck('NomeNucleo', 'id')->all();
           $nucleo = Nucleo::find(request('nid', head(array_keys($nucleos))));
       } else {
+          if (!$professor || !$professor->id_nucleo) {
+              return redirect()->route('home')->with('error',
+                  'Seu usuário não está vinculado a nenhum núcleo. Entre em contato com o administrador.'
+              );
+          }
+
           $nucleo = Nucleo::find($professor->id_nucleo);
+      }
+
+      if (!$nucleo) {
+          return redirect()->route('home')->with('error',
+              'Núcleo não encontrado ou inativo.'
+          );
       }
 
       return view('nucleos.lista-presenca')->with([
@@ -298,28 +314,36 @@ class NucleoController extends Controller
     {
       $user = Auth::user();
 
-      if ( $user->role === 'professor' ) {
-        $professor = Professores::where('id_user', Auth::user()->id)->first();
-      } else if ( $user->role === 'coordenador' ) {
-        $professor = Coordenadores::where('id_user', Auth::user()->id)->first();
-      };
+      if ($user->role === 'professor') {
+        $professor = Professores::where('id_user', $user->id)->first();
+      } else if ($user->role === 'coordenador') {
+          $previous = url()->previous();
+
+          if ($previous === url()->current()) {
+            return redirect()->route('home')->with('error', 'Acesso Negado! Somente professores podem aplicar a lista de presença.');
+          }
+
+          return redirect()->to($previous)->with('error', 'Acesso Negado! Somente professores podem aplicar a lista de presença.');
+      } else {
+        return redirect()->route('home')->with('error', 'Usuário não autorizado.');
+      }
 
       $alunos = Nucleo::find($professor->id_nucleo)->alunos;
 
-      if ( $request->date ) {
-        $date = $request->date;
-      } else {
-        $date = Carbon::now()->format('Y-m-d');
-      }
+      $date = $request->date ?? Carbon::now()->format('Y-m-d');
 
-      $lista = ListaPresenca::updateOrCreate(
-        ['nucleo_id' => $professor->id_nucleo, 'date' => $date],
-        [
+      $lista = ListaPresenca::where('nucleo_id', $professor->id_nucleo)
+                            ->where('professor_id', $professor->id)
+                            ->where('date', $date)
+                            ->first();
+
+      if (!$lista) {
+        $lista = ListaPresenca::create([
           'nucleo_id' => $professor->id_nucleo,
           'professor_id' => $professor->id,
           'date' => $date
-        ]
-      );
+        ]);
+      }
 
       return view('nucleos.lista-presenca-create')->with([
         'lista' => $lista,

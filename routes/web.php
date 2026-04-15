@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +37,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-Route::middleware(['auth', 'restrict.professor'])->group(function () {
+Route::middleware(['auth', 'restrict.aluno', 'restrict.professor'])->group(function () {
 
   Route::get('/dashboard', function () {
       return view('dashboard');
@@ -64,6 +65,9 @@ Route::middleware(['auth', 'restrict.professor'])->group(function () {
     return response()->json($dados);
   });
 
+});
+
+Route::middleware(['auth', 'restrict.professor'])->group(function () {
   Route::post('change_default_password', 'Auth\FirstLoginController@changePassword')->name('change_default_password');
   Route::get('default_username', 'Auth\FirstLoginController@username')->name('default_username');
   Route::post('change_default_username', 'Auth\FirstLoginController@changeUsername')->name('change_default_username');
@@ -137,6 +141,25 @@ Route::get('otp-verify', function () {
     return redirect()->route('home');
 })->name('otp-verify');
 
+Route::get('/switch-role/{role}', function ($role) {
+    $user = Auth::user();
+
+    $coordenador = \App\Coordenadores::where('id_user', $user->id)->first();
+
+    if ($user->getRealRole() === 'coordenador') {
+        if ($role === 'professor' && (!$coordenador || !$coordenador->isProfessor)) {
+            return redirect()->back()->with('error', 'Este coordenador não possui perfil de professor.');
+        }
+
+        if (in_array($role, ['coordenador', 'professor'])) {
+            session(['active_role' => $role]);
+            Session::put('role', $role);
+        }
+    }
+
+    return redirect()->back();
+})->name('switch.role');
+
 //GOOGLE
 Route::get('/google/redirect', 'GoogleLoginController@redirectToGoogle')->name('google.redirect');
 Route::get('/oauth/google/callback', 'GoogleLoginController@handleGoogleCallback')->name('google.callback');
@@ -184,7 +207,7 @@ Route::put('nucleo/professores-disciplinas/update', 'NucleoProfessoresDisciplina
 Route::post('nucleo/professores-disciplinas/delete', 'NucleoProfessoresDisciplinasController@delete')->name('professores-disciplinas.delete');
 
 // ROUTES FOR ALUNOS MANAGEMENT
-Route::get('alunos', 'AlunosController@index')->middleware('permissions');
+Route::get('alunos', 'AlunosController@index')->name('alunos')->middleware('permissions');
 Route::get('alunos/details/{id}', 'AlunosController@details')->middleware('permissions');
 Route::get('alunos/add', 'AlunosController@showForm')->middleware('permissions');
 Route::post('alunos/create', 'AlunosController@create')->middleware('permissions');
@@ -271,7 +294,7 @@ Route::group(['prefix' => 'ambiente-virtual'], function () {
 Route::resource('/ambiente-virtual', 'AmbienteVirtualController')->middleware('auth')->except(['index']);
 
 // ROUTES FOR EAD
-Route::group(['prefix' => 'ead', 'middleware' => ['auth', 'restrict.professor']], function () {
+Route::group(['prefix' => 'ead', 'middleware' => ['auth', 'restrict.aluno', 'restrict.professor']], function () {
     Route::get('/', 'EadController@index')->name('ead.index');
     Route::get('/details/{id}', 'EadController@details')->name('ead.details');
     Route::get('/create', 'EadController@create')->name('ead.create');

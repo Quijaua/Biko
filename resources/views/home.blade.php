@@ -5,11 +5,11 @@
 
     <!-- PAGE HEADER -->
     <div class="row justify-content-center">
-        <div class="col-8">
+        <div class="col-12 p-3">
             <div class="row">
                 <div class="col">
                     <h1 class="page-title">
-                        Dashboard
+                        Painel
                     </h1>
                 </div>
                 <div class="col">
@@ -20,8 +20,23 @@
                     @endif
                 </div>
             </div>
+
+            <div class="col">
+                @if(session('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <div class="d-flex">
+                        <div>
+                            <h4 class="alert-title">Erro</h4>
+                            <div class="text-secondary">{{ session('error') }}</div>
+                        </div>
+                    </div>
+                    <a class="btn-close" data-bs-dismiss="alert"></a>
+                </div>
+                @endif
+            </div>
+
             <div class="card mb-3">
-                <div class="card-header">Dashboard</div>
+                <div class="card-header">Painel</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -39,7 +54,7 @@
                     <p><?php echo '<a href="'.$url.'/password/reset/'.$my_token.'?email='.$user->email.'" class="text-link">Clique aqui</a> para cadastrar ou alterar a sua senha no sistema.'; ?></p>
                     <p>Aqui você poderá acompanhar a sua jornada e seu desempenho durante a permanência no projeto.</p>
                     <p>Boa sorte e bons estudos!</p>
-                    <p><a href="http://uneafrobrasil.org" class="text-link" target="_blank"><strong>UNEAfro Brasil</strong></a></p>
+                    <p><a href="http://uneafrobrasil.org" class="text-link" target="_blank"><strong>UNEafro Brasil</strong></a></p>
                 </div>
             </div>
             @if ($user->role === 'coordenador' && $nucleos->isNotEmpty())
