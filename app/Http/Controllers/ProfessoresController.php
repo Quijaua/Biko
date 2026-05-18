@@ -888,10 +888,14 @@ $coordenadorNucleos = DB::table('nucleos')
         $nucleo = $request->input('nucleo');
 
         if ($user->role === 'coordenador') {
-            $nucleo = optional($user->coordenador)->id_nucleo ?? $nucleo;
+            $nucleo = $user->coordenador?->nucleos()
+                ->pluck('nucleos.id')
+                ->toArray() ?? [];
         }
 
-        $nucleo = intval($nucleo ?: 0);
+        if (is_array($nucleo) && empty($nucleo)) {
+            $nucleo = 0;
+        }
 
         return (new ProfessoresExport($nucleo))->download('professores_' . date('Y-m-d_H-i-s') . '.xlsx');
     }

@@ -14,7 +14,7 @@ class ProfessoresExport implements FromQuery, WithHeadings
   /**
   * @return \Illuminate\Support\Collection
   */
-  public function __construct(int $nucleo = 0)
+  public function __construct($nucleo = 0)
   {
       $this->nucleo = $nucleo;
   }
@@ -93,7 +93,7 @@ class ProfessoresExport implements FromQuery, WithHeadings
 
   public function query()
   {
-    if($this->nucleo === 0){
+    if ($this->nucleo === 0 || $this->nucleo === '0' || (is_array($this->nucleo) && empty($this->nucleo))) {
       return Professores::query()->select([
         /*'id_user',*/
         'Status',
@@ -164,7 +164,78 @@ class ProfessoresExport implements FromQuery, WithHeadings
       ]);
     }
 
-    return Professores::query()->where('id_nucleo', $this->nucleo)->select([
+    if (is_array($this->nucleo)) {
+      return Professores::query()->whereIn('id_nucleo', $this->nucleo)->select([
+        /*'id_user',*/
+        'Status',
+        'NomeProfessor',
+        'NomeSocial',
+        /*'id_nucleo',*/
+        /*'Foto',*/
+        'CPF',
+        'RG',
+        'Raca',
+        'Genero',
+        'concordaSexoDesignado',
+        'EstadoCivil',
+        'Nascimento',
+        'Disciplinas',
+        'OutrosNucleos',
+        'Escolaridade',
+        'FormacaoSuperior',
+        'AnoInicioUneafro',
+        'aulasForaUneafro',
+        'DiasHorarios',
+        'GastoTransporte',
+        'TempoChegada',
+        'Endereco',
+        'Numero',
+        'Bairro',
+        'CEP',
+        'Cidade',
+        'Estado',
+        'Complemento',
+        'FoneComercial',
+        'FoneResidencial',
+        'FoneCelular',
+        'Email',
+        'RamoAtuacao',
+        'RamoAtuacaoOutros',
+        'Empresa',
+        'EnderecoEmpresa',
+        'NumeroEmpresa',
+        'ComplementoEmpresa',
+        'BairroEmpresa',
+        'CidadeEmpresa',
+        'EstadoEmpresa',
+        'CEPEmpresa',
+        'ProjetosRealizados',
+        'ProjetosNome',
+        'ProjetosFuncao',
+        'ComoSoube',
+        'ComoSoubeOutros',
+        'MotivoPrincipal',
+        'EnsinoSuperior',
+        'InstituicaoSuperior',
+        'CursoSuperior1',
+        'AnoCursoSuperior1',
+        'CursoSuperior2',
+        'AnoCursoSuperior2',
+        'Especializacao',
+        'InstEspecializacao',
+        'CursoEspecializacao',
+        'AnoCursoEspecializacao',
+        'Mestrado',
+        'InstMestrado',
+        'CursoMestrado',
+        'AnoCursoMestrado',
+        'FormacaoAcademicaRecente',
+        'created_at',
+        'updated_at'
+      ]);
+    }
+
+    return Professores::query()->where('id_nucleo', intval($this->nucleo))->select([
       /*'id_user',*/
       'Status',
       'NomeProfessor',
