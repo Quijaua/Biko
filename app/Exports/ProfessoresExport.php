@@ -14,7 +14,7 @@ class ProfessoresExport implements FromQuery, WithHeadings
   /**
   * @return \Illuminate\Support\Collection
   */
-  public function __construct(int $nucleo)
+  public function __construct(int $nucleo = 0)
   {
       $this->nucleo = $nucleo;
   }
@@ -162,7 +162,7 @@ class ProfessoresExport implements FromQuery, WithHeadings
         'created_at',
         'updated_at'
       ]);
-    };
+    }
 
     return Professores::query()->where('id_nucleo', $this->nucleo)->select([
       /*'id_user',*/

@@ -867,13 +867,21 @@ $coordenadorNucleos = DB::table('nucleos')
 
     public function export(Request $request)
     {
-        $nucleo = $request->input('nucleo');
+        $user = Auth::user();
 
-        if ($nucleo === null) {
-            return (new ProfessoresExport())->download('professores.xlsx');
+        if (!in_array($user->role, ['administrador', 'coordenador'])) {
+            return back()->with('error', 'Ação não permitida.');
         }
 
-        return (new ProfessoresExport($nucleo))->download('professores.xlsx');
+        $nucleo = $request->input('nucleo');
+
+        if ($user->role === 'coordenador') {
+            $nucleo = optional($user->coordenador)->id_nucleo ?? $nucleo;
+        }
+
+        $nucleo = intval($nucleo ?: 0);
+
+        return (new ProfessoresExport($nucleo))->download('professores_' . date('Y-m-d_H-i-s') . '.xlsx');
     }
 
     public function import(Request $request)
