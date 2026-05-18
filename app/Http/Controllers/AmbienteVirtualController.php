@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\User;
 use App\Services\AmbienteVirtualService;
+use App\Exports\AulaAssistidosExport;
 
 use Auth;
 
@@ -114,5 +115,16 @@ class AmbienteVirtualController extends Controller
     public function search(Request $request)
     {
         return AmbienteVirtualService::search($request);
+    }
+
+    public function exportWatched($id)
+    {
+        $user = Auth::user();
+
+        if ($user->role === 'aluno') {
+            return back()->with('error', 'Ação não permitida.');
+        }
+
+        return (new AulaAssistidosExport(intval($id)))->download('aula_' . intval($id) . '_assistidos_' . date('Y-m-d') . '.xlsx');
     }
 }
