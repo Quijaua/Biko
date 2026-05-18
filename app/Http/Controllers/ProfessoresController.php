@@ -851,9 +851,11 @@ $coordenadorNucleos = DB::table('nucleos')
       $dados = Professores::findOrFail($id);
 
       if ($user->role === 'coordenador') {
-        $me = Coordenadores::where('id_user', $user->id)->first();
+        $coordenadorNucleos = $user->coordenador?->nucleos()
+            ->pluck('nucleos.id')
+            ->toArray() ?? [];
 
-        if (!$me || $dados->id_nucleo != $me->id_nucleo) {
+        if (!$coordenadorNucleos || !in_array($dados->id_nucleo, $coordenadorNucleos)) {
           abort(403, 'Você não possui permissão para visualizar este professor.');
         }
       }
