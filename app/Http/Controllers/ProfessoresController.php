@@ -52,6 +52,9 @@ class ProfessoresController extends Controller
 
       if($user->role === 'coordenador'){
         $me = Coordenadores::where('id_user', $user->id)->first();
+        if (!$me) {
+          abort(403, 'Coordenador sem núcleo associado.');
+        }
         // $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
 //        $coordenadorNucleos = DB::table('nucleos')->where('nucleos.id', $me->id_nucleo)->pluck('nucleos.id')->toArray();
 $coordenadorNucleos = DB::table('nucleos')
@@ -845,13 +848,22 @@ $coordenadorNucleos = DB::table('nucleos')
     public function details($id)
     {
       $user = Auth::user();
-      $dados = Professores::find($id);
+      $dados = Professores::findOrFail($id);
+
+      if ($user->role === 'coordenador') {
+        $me = Coordenadores::where('id_user', $user->id)->first();
+
+        if (!$me || $dados->id_nucleo != $me->id_nucleo) {
+          abort(403, 'Você não possui permissão para visualizar este professor.');
+        }
+      }
+
       $dados->load('horarios', 'nucleosProfessoresDisciplinas');
       $nucleos = Nucleo::where('Status', 1)->get();
 
       $dadosSensiveis = $user->can('viewSensitiveData', $dados);
 
-      if (!$user->can('viewSensitiveData', $dados)) {
+      if (!$dadosSensiveis) {
         $dados = (object) $dados->hideSensitive();
       }
 
