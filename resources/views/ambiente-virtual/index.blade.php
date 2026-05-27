@@ -80,7 +80,7 @@
                     <div class="col-12 mb-3">
                         <div class="form-selectgroup">
                             @foreach (\App\Services\AmbienteVirtualService::getDisciplinas() as $disciplina)
-                            <label class="form-selectgroup-item">
+                            <label class="form-selectgroup-item disciplina-wrapper" data-area="{{ $disciplina->areas_conhecimento }}">
                                 <input type="checkbox" name="disciplina" value="{{ $disciplina->id }}" class="form-selectgroup-input disciplina" @if(request()->disciplina == $disciplina->id) checked @endif/>
                                 <span class="form-selectgroup-label">{{ $disciplina->nome }}</span>
                             </label>

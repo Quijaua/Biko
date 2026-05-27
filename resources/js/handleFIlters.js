@@ -121,13 +121,18 @@ const handleAreasConhecimentoChange = (areas_conhecimento) => {
     };
 
     const url = handleUrlFormated();
-
-    url.searchParams.set('areas_conhecimento', areas_conhecimento);
+    if (areas_conhecimento) {
+        url.searchParams.set('areas_conhecimento', areas_conhecimento);
+        url.searchParams.delete('disciplina');
+    } else {
+        url.searchParams.delete('areas_conhecimento');
+        url.searchParams.delete('disciplina');
+    }
 
     window.location.href = url.toString();
 }
 
-const disciplinaChange = (disciplina) => {
+const disciplinaChange = (disciplina, areas_conhecimento = null) => {
     const handleUrlFormated = () => {
         const urlToFormate = new URL(window.location.href);
         const shouldFormate = urlToFormate.pathname.includes('/search');
@@ -140,10 +145,63 @@ const disciplinaChange = (disciplina) => {
 
     const url = handleUrlFormated();
 
-    url.searchParams.set('disciplina', disciplina);
+    if (areas_conhecimento) {
+        url.searchParams.set('areas_conhecimento', areas_conhecimento);
+    }
+    if (disciplina) {
+        url.searchParams.set('disciplina', disciplina);
+    } else {
+        url.searchParams.delete('disciplina');
+    }
 
     window.location.href = url.toString();
 }
+
+const getDisciplinaWrapper = (element) => {
+    return element.closest('.disciplina-wrapper');
+};
+
+const getSelectedArea = () => {
+    const selected = Array.from(areas_conhecimento_filter).find((area) => area.checked);
+    return selected ? selected.value : null;
+};
+
+const clearDisciplines = () => {
+    Array.from(disciplina_filter).forEach((disc) => {
+        disc.checked = false;
+    });
+};
+
+const filterDisciplinesByArea = (area) => {
+    const wrappers = document.querySelectorAll('.disciplina-wrapper');
+    wrappers.forEach((wrapper) => {
+        if (!area || wrapper.dataset.area === area) {
+            wrapper.style.display = '';
+        } else {
+            wrapper.style.display = 'none';
+        }
+    });
+};
+
+const setAreaForDiscipline = (disciplinaElement) => {
+    const wrapper = getDisciplinaWrapper(disciplinaElement);
+    if (!wrapper) {
+        return null;
+    }
+    const area = wrapper.dataset.area;
+    Array.from(areas_conhecimento_filter).forEach((check) => {
+        check.checked = check.value === area;
+    });
+    filterDisciplinesByArea(area);
+    return area;
+};
+
+const initializeFilterState = () => {
+    const selectedArea = getSelectedArea();
+    if (selectedArea) {
+        filterDisciplinesByArea(selectedArea);
+    }
+};
 
 status_filter ? status_filter.addEventListener('change', () => {
     handleStatusChange(status_filter.value);
@@ -176,12 +234,39 @@ limparFiltrosButton ? limparFiltrosButton.addEventListener('click', () => {
 
 areas_conhecimento_filter ? Array.from(areas_conhecimento_filter).forEach((area) => {
     area.addEventListener('click', () => {
-        handleAreasConhecimentoChange(area.value);
+        if (area.checked) {
+            Array.from(areas_conhecimento_filter).forEach((other) => {
+                if (other !== area) {
+                    other.checked = false;
+                }
+            });
+            clearDisciplines();
+            filterDisciplinesByArea(area.value);
+            handleAreasConhecimentoChange(area.value);
+        } else {
+            clearDisciplines();
+            filterDisciplinesByArea(null);
+            handleAreasConhecimentoChange(null);
+        }
     })
 }) : null;
 
 disciplina_filter ? Array.from(disciplina_filter).forEach((disciplina) => {
     disciplina.addEventListener('click', () => {
-        disciplinaChange(disciplina.value);
+        if (disciplina.checked) {
+            Array.from(disciplina_filter).forEach((other) => {
+                if (other !== disciplina) {
+                    other.checked = false;
+                }
+            });
+            const area = setAreaForDiscipline(disciplina);
+            disciplinaChange(disciplina.value, area);
+        } else {
+            clearDisciplines();
+            filterDisciplinesByArea(getSelectedArea());
+            disciplinaChange(null);
+        }
     })
 }) : null;
+
+initializeFilterState();

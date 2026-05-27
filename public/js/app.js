@@ -179,10 +179,16 @@ var handleAreasConhecimentoChange = function handleAreasConhecimentoChange(areas
     return urlToFormate;
   };
   var url = handleUrlFormated();
-  url.searchParams.set('areas_conhecimento', areas_conhecimento);
+  if (areas_conhecimento) {
+    url.searchParams.set('areas_conhecimento', areas_conhecimento);
+    url.searchParams.delete('disciplina');
+  } else {
+    url.searchParams.delete('areas_conhecimento');
+    url.searchParams.delete('disciplina');
+  }
   window.location.href = url.toString();
 };
-var disciplinaChange = function disciplinaChange(disciplina) {
+var disciplinaChange = function disciplinaChange(disciplina, areas_conhecimento) {
   var handleUrlFormated = function handleUrlFormated() {
     var urlToFormate = new URL(window.location.href);
     var shouldFormate = urlToFormate.pathname.includes('/search');
@@ -192,7 +198,14 @@ var disciplinaChange = function disciplinaChange(disciplina) {
     return urlToFormate;
   };
   var url = handleUrlFormated();
-  url.searchParams.set('disciplina', disciplina);
+  if (areas_conhecimento) {
+    url.searchParams.set('areas_conhecimento', areas_conhecimento);
+  }
+  if (disciplina) {
+    url.searchParams.set('disciplina', disciplina);
+  } else {
+    url.searchParams.delete('disciplina');
+  }
   window.location.href = url.toString();
 };
 status_filter ? status_filter.addEventListener('change', function () {
@@ -218,14 +231,92 @@ limparFiltrosButton ? limparFiltrosButton.addEventListener('click', function () 
 }) : null;
 areas_conhecimento_filter ? Array.from(areas_conhecimento_filter).forEach(function (area) {
   area.addEventListener('click', function () {
-    handleAreasConhecimentoChange(area.value);
+    if (area.checked) {
+      Array.from(areas_conhecimento_filter).forEach(function (other) {
+        if (other !== area) {
+          other.checked = false;
+        }
+      });
+      Array.from(disciplina_filter).forEach(function (disc) {
+        disc.checked = false;
+      });
+      document.querySelectorAll('.disciplina-wrapper').forEach(function (wrapper) {
+        if (wrapper.dataset.area === area.value) {
+          wrapper.style.display = '';
+        } else {
+          wrapper.style.display = 'none';
+        }
+      });
+      handleAreasConhecimentoChange(area.value);
+    } else {
+      Array.from(disciplina_filter).forEach(function (disc) {
+        disc.checked = false;
+      });
+      document.querySelectorAll('.disciplina-wrapper').forEach(function (wrapper) {
+        wrapper.style.display = '';
+      });
+      handleAreasConhecimentoChange(null);
+    }
   });
 }) : null;
 disciplina_filter ? Array.from(disciplina_filter).forEach(function (disciplina) {
   disciplina.addEventListener('click', function () {
-    disciplinaChange(disciplina.value);
+    if (disciplina.checked) {
+      Array.from(disciplina_filter).forEach(function (other) {
+        if (other !== disciplina) {
+          other.checked = false;
+        }
+      });
+      var wrapper = disciplina.closest('.disciplina-wrapper');
+      if (wrapper) {
+        var area = wrapper.dataset.area;
+        Array.from(areas_conhecimento_filter).forEach(function (check) {
+          check.checked = check.value === area;
+        });
+        document.querySelectorAll('.disciplina-wrapper').forEach(function (wrapperItem) {
+          if (wrapperItem.dataset.area === area) {
+            wrapperItem.style.display = '';
+          } else {
+            wrapperItem.style.display = 'none';
+          }
+        });
+            disciplinaChange(disciplina.value, area);
+      }
+    } else {
+      Array.from(disciplina_filter).forEach(function (disc) {
+        disc.checked = false;
+      });
+      var selectedArea = Array.from(areas_conhecimento_filter).find(function (area) {
+        return area.checked;
+      });
+      document.querySelectorAll('.disciplina-wrapper').forEach(function (wrapper) {
+        if (!selectedArea || wrapper.dataset.area === selectedArea.value) {
+          wrapper.style.display = '';
+        } else {
+          wrapper.style.display = 'none';
+        }
+      });
+      disciplinaChange(null);
+    }
   });
 }) : null;
+
+var initFilterState = function initFilterState() {
+  var selectedArea = Array.from(areas_conhecimento_filter).find(function (area) {
+    return area.checked;
+  });
+  if (selectedArea) {
+    document.querySelectorAll('.disciplina-wrapper').forEach(function (wrapper) {
+      if (wrapper.dataset.area === selectedArea.value) {
+        wrapper.style.display = '';
+      } else {
+        wrapper.style.display = 'none';
+      }
+    });
+  }
+};
+
+initFilterState();
 
 /***/ }),
 
