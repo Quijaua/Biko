@@ -210,4 +210,33 @@ class AmbienteVirtualService
             'peso' => request('peso'),
         ];
     }
+
+    public static function canManageContent()
+    {
+        $user = Auth::user();
+
+        // Admin pode tudo
+        if ($user->role === 'admin') {
+            return true;
+        }
+
+        // Somente professor
+        if ($user->role !== 'professor') {
+            return false;
+        }
+
+        $nucleo_ambiente_virtual = config('global.nucleo_ambiente_virtual');
+
+        return DB::table('nucleos_professores_disciplinas')
+            ->join(
+                'professores',
+                'nucleos_professores_disciplinas.professor_id',
+                '=',
+                'professores.id'
+            )
+            ->where('professores.id_user', $user->id)
+            ->where('professores.status', true)
+            ->where('nucleos_professores_disciplinas.nucleo_id', $nucleo_ambiente_virtual)
+            ->exists();
+    }
 }

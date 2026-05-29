@@ -34,6 +34,12 @@ class AmbienteVirtualController extends Controller
 
     public function create()
     {
+        abort_unless(
+            AmbienteVirtualService::canManageContent(),
+            403,
+            'Você não possui permissão para gerenciar o Ambiente Virtual.'
+        );
+
         return view('ambiente-virtual.create')->with([
             'user' => Auth::user(),
             'professores' => AmbienteVirtualService::getProfessores(),
@@ -43,6 +49,11 @@ class AmbienteVirtualController extends Controller
 
     public function store(Request $request)
     {
+        abort_unless(
+            AmbienteVirtualService::canManageContent(),
+            403
+        );
+
         AmbienteVirtualService::store($request);
         return redirect()->route('ambiente-virtual.index')->with([
             'success' => 'Aula virtual criada com sucesso!'
@@ -60,6 +71,12 @@ class AmbienteVirtualController extends Controller
 
     public function edit($id)
     {
+        abort_unless(
+            AmbienteVirtualService::canManageContent(),
+            403,
+            'Você não possui permissão para gerenciar o Ambiente Virtual.'
+        );
+
         return view('ambiente-virtual.edit')->with([
             'user' => Auth::user(),
             'aula' => AmbienteVirtualService::find($id),
@@ -70,6 +87,11 @@ class AmbienteVirtualController extends Controller
 
     public function update(Request $request, $id)
     {
+        abort_unless(
+            AmbienteVirtualService::canManageContent(),
+            403
+        );
+
         AmbienteVirtualService::update($id);
         return redirect()->route('ambiente-virtual.index')->with([
             'success' => 'Aula virtual atualizada com sucesso!'
@@ -78,6 +100,12 @@ class AmbienteVirtualController extends Controller
 
     public function destroy($id)
     {
+        abort_unless(
+            AmbienteVirtualService::canManageContent(),
+            403,
+            'Você não possui permissão para gerenciar o Ambiente Virtual.'
+        );
+
         AmbienteVirtualService::destroy($id);
         return redirect()->route('ambiente-virtual.index')->with([
             'success' => 'Aula virtual excluida com sucesso!'
