@@ -1,4 +1,4 @@
-import './handleFIlters.js';
+import './handleFilters.js';
 
 $(document).ready(function () {
   $('.open-modal-btn').click(function () {

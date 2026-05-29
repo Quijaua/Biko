@@ -9,8 +9,8 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _handleFIlters_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./handleFIlters.js */ "./resources/js/handleFIlters.js");
-/* harmony import */ var _handleFIlters_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_handleFIlters_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _handleFilters_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./handleFilters.js */ "./resources/js/handleFilters.js");
+/* harmony import */ var _handleFilters_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_handleFilters_js__WEBPACK_IMPORTED_MODULE_0__);
 
 $(document).ready(function () {
   $('.open-modal-btn').click(function () {
@@ -84,9 +84,9 @@ window.modalShow = function modalShow(title, description, type) {
 
 /***/ }),
 
-/***/ "./resources/js/handleFIlters.js":
+/***/ "./resources/js/handleFilters.js":
 /*!***************************************!*\
-  !*** ./resources/js/handleFIlters.js ***!
+  !*** ./resources/js/handleFilters.js ***!
   \***************************************/
 /***/ (() => {
 

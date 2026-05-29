@@ -198,4 +198,6 @@
         </div>
     </div>
 </div>
+
+<script src="{{ asset('resources/js/app.js') }}"></script>
 @endsection
