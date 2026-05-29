@@ -77,16 +77,18 @@
                             @endforeach
                         </div>
                     </div>
+                    @if($disciplinas->count())
                     <div class="col-12 mb-3">
                         <div class="form-selectgroup">
-                            @foreach (\App\Services\AmbienteVirtualService::getDisciplinas() as $disciplina)
+                            @foreach ($disciplinas as $disciplina)
                             <label class="form-selectgroup-item disciplina-wrapper" data-area="{{ $disciplina->areas_conhecimento }}">
-                                <input type="checkbox" name="disciplina" value="{{ $disciplina->id }}" class="form-selectgroup-input disciplina" @if(request()->disciplina == $disciplina->id) checked @endif/>
+                                <input type="checkbox" name="disciplina" value="{{ $disciplina->id }}" class="form-selectgroup-input disciplina" @checked(request()->disciplina == $disciplina->id)/>
                                 <span class="form-selectgroup-label">{{ $disciplina->nome }}</span>
                             </label>
                             @endforeach
                         </div>
                     </div>
+                    @endif
                     <div class="col-6">
                         {{-- Botões --}}
                         <div class="col-md-12 d-flex gap-2">
@@ -198,6 +200,4 @@
         </div>
     </div>
 </div>
-
-<script src="{{ asset('resources/js/app.js') }}"></script>
 @endsection

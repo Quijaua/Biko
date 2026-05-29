@@ -23,9 +23,12 @@ class AmbienteVirtualController extends Controller
             }
         }
 
+        $area = request('areas_conhecimento');
+
         return view('ambiente-virtual.index')->with([
             'user' => Auth::user(),
             'aulas' => AmbienteVirtualService::index(),
+            'disciplinas' => AmbienteVirtualService::getDisciplinas($area),
         ]);
     }
 

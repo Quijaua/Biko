@@ -130,13 +130,18 @@ class AmbienteVirtualService
         return Disciplina::all();
     }
 
-    public static function getDisciplinas()
+    public static function getDisciplinas($area = null)
     {
-        return Disciplina::whereIn('id', function($query) {
-            $query->select('disciplina_id')
-                ->from('ambiente_virtuals')
-                ->whereNotNull('disciplina_id');
-        })->get();
+        return Disciplina::whereIn('id', function ($query) {
+                $query->select('disciplina_id')
+                    ->from('ambiente_virtuals')
+                    ->whereNotNull('disciplina_id');
+            })
+            ->when($area, function ($query) use ($area) {
+                return $query->where('areas_conhecimento', $area);
+            })
+            ->orderBy('nome')
+            ->get();
     }
 
     public static function isAssistido($id)
@@ -180,7 +185,8 @@ class AmbienteVirtualService
 
         return view('ambiente-virtual.index')->with([
             'user' => Auth::user(),
-            'aulas' => $aulas
+            'aulas' => $aulas,
+            'disciplinas' => self::getDisciplinas($params['areas_conhecimento']),
         ]);
     }
 
