@@ -215,7 +215,7 @@
                                     {{ __('Home') }}
                                 </a>
                             </li>
-                            @if (Session::get('role') === 'aluno')
+                            @if ($user->role === 'aluno')
                                 <li class="nav-item {{ request()->is('alunos/*') ? 'bg-primary text-white rounded' : '' }}">
                                     <a class="nav-link" href="/alunos">
                                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -253,8 +253,8 @@
                                 </li>
 
                             @endif
-                            @if (Session::get('role') !== 'aluno')
-                                @if (Session::get('verified'))
+                            @if ($user->role !== 'aluno')
+                                @if ($user->hasVerifiedEmail())
                                     <li class="nav-item {{ request()->is('dashboard') ? 'bg-primary text-white rounded' : '' }}">
                                         <a class="nav-link" href="/dashboard">
                                             <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -624,6 +624,7 @@
 --}}
 
                             @if (($user->role === 'professor' && $status != 0) || ($user->role !== 'professor'))
+                            @if ($user->hasVerifiedEmail())
                             <li
                                 class="nav-item {{ request()->routeIs('nucleo.material') ? 'bg-primary text-white rounded' : '' }}">
                                 <a class="nav-link" href="{{ route('nucleo.material') }}">
@@ -641,6 +642,7 @@
                                     {{ __('Material') }}
                                 </a>
                             </li>
+                            @endif
                             @endif
 
                             @if ($ambiente_virtual)
@@ -665,6 +667,7 @@
                             </li>
                             @endif
 
+                            @if ($user->hasVerifiedEmail())
                             <li
                                 class="nav-item  {{ request()->routeIs('messages.index') ? 'bg-primary text-white rounded' : '' }}">
                                 <a class="nav-link" href="{{ route('messages.index') }}">
@@ -682,8 +685,9 @@
                                     {{ __('Mensagens') }}
                                 </a>
                             </li>
+                            @endif
 
-                            @if (Session::get('role') === 'administrador')
+                            @if ($user->role === 'administrador')
                                 <li
                                     class="nav-item {{ request()->routeIs('geral.index') ? 'bg-primary text-white rounded' : '' }} ">
                                     <a class="nav-link" href="{{ route('geral.index') }}">
@@ -703,7 +707,7 @@
                                 </li>
                             @endif
 
-                            @if (Session::get('role') === 'coordenador')
+                            @if ($user->role === 'coordenador')
                                 <li
                                     class="nav-item {{ request()->routeIs('geral.index') ? 'bg-primary text-white rounded' : '' }} ">
                                     <a class="nav-link" href="{{ route('geral.index') }}">
@@ -836,7 +840,7 @@
                                     {{ __('Home') }}
                                 </a>
                             </li>
-                            @if (Session::get('role') === 'aluno')
+                            @if ($user->role === 'aluno')
                                 <li class="nav-item {{ request()->is('alunos/*') ? 'bg-primary text-white rounded' : '' }}">
                                     <a class="nav-link" href="/alunos">
                                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -853,6 +857,7 @@
                                     </a>
                                 </li>
 				@if ($ambiente_virtual)
+                    @if ($user->hasVerifiedEmail())
 				<li class="nav-item {{ request()->is('plantao-psicologico') ? 'bg-primary text-white rounded' : '' }}">
                                             <a class="nav-link" href="/plantao-psicologico">
                                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -872,11 +877,11 @@
                                                 {{ __('Apoio Emocional') }}
                                             </a>
                                         </li>
-				@else
+                    @endif
 				@endif
 
                                 @endif
-                                @if (Session::get('role') !== 'aluno')
+                                @if ($user->role !== 'aluno')
                                     <li class="nav-item {{ request()->is('dashboard') ? 'bg-primary text-white rounded' : '' }}">
                                 <a class="nav-link" href="/dashboard">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -1249,6 +1254,7 @@
                                 @endif
                                 @endif
 
+                                @if ($user->hasVerifiedEmail())
                                 <li
                                     class="nav-item  {{ request()->routeIs('ead.index') ? 'bg-primary text-white rounded' : '' }}">
                                     <a class="nav-link" href="{{ route('ead.index') }}">
@@ -1258,8 +1264,9 @@
                                         {{ __('EAD') }}
                                     </a>
                                 </li>
+                                @endif
 
-                                @if (Session::get('role') === 'administrador')
+                                @if ($user->role === 'administrador')
                                     <li
                                         class="nav-item {{ request()->routeIs('geral.index') ? 'bg-primary text-white rounded' : '' }} ">
                                         <a class="nav-link" href="{{ route('geral.index') }}">
@@ -1418,7 +1425,7 @@
                                                     {{ __('Home') }}
                                                 </a>
                                             </li>
-                                            @if (Session::get('role') === 'aluno')
+                                            @if ($user->role === 'aluno')
                                                 <li class="nav-item">
                                                     <a class="nav-link" href="/alunos">
                                                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -1437,8 +1444,8 @@
                                                 </li>
                                             @endif
 
-                                                @if (Session::get('role') !== 'aluno')
-                                                    @if (Session::get('verified'))
+                                                @if ($user->role !== 'aluno')
+                                                    @if ($user->hasVerifiedEmail())
                                                         {{-- <li class="nav-item">
                                                             <a class="nav-link" href="/alunos">
                                                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -1719,6 +1726,7 @@
                                                 @endif
 
                                                 @if (($user->role === 'professor' && $status != 0) || ($user->role !== 'professor'))
+                                                @if ($user->hasVerifiedEmail())
                                                 <li class="nav-item">
                                                     <a class="nav-link" href="{{ route('nucleo.material') }}">
                                                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -1737,6 +1745,7 @@
                                                         {{ __('Material') }}
                                                     </a>
                                                 </li>
+                                                @endif
 
                                 @if ($ambiente_virtual)
                                 <li
@@ -1759,6 +1768,7 @@
                                         </a>
                                     </li>
                                 @else
+                                @if ($user->hasVerifiedEmail())
                                 <li
                                     class="nav-item">
                                     <a class="nav-link" href="{{ route('ambiente-virtual.index') }}">
@@ -1779,9 +1789,11 @@
                                     </a>
                                 </li>
                                 @endif
+                                @endif
 
                                                 @endif
 
+                                            @if ($user->hasVerifiedEmail())
                                                 @if (($user->role === 'professor' && $status != 0) || ($user->role !== 'professor'))
                                                 <li class="nav-item ">
                                                     <a class="nav-link" href="{{ route('messages.index') }}">
@@ -1801,6 +1813,7 @@
                                                     </a>
                                                 </li>
                                                 @endif
+                                            @endif
                                             @endif
                                         </ul>
                                     </div>
