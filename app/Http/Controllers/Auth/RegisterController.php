@@ -16,6 +16,7 @@ use App\Http\Repository\HcaptchaRepository;
 use App\Mail\EmailFormularioCoordenador;
 use App\Mail\EmailFormularioEstudante;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -210,7 +211,11 @@ class RegisterController extends Controller
             }
         }
 
-        $url_password_reset = url('/password/reset/' . $my_token . '?email=' . $user->email);
+        // generate a verification code and save on user so we can validate when reset is used from email
+        $user->email_verification_code = $my_token;
+        $user->save();
+
+        $url_password_reset = url('/password/reset/' . $my_token . '?email=' . urlencode($user->email));
 
         Mail::to($data['email'])->send(new EmailFormularioEstudante([
             'message' => "<p>Olá, estudante! Seja bem-vindo.</p>
