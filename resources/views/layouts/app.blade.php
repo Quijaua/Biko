@@ -232,6 +232,7 @@
                                     </a>
                                 </li>
 
+                                @if ($user->hasVerifiedEmail())
                                 <li
                                     class="nav-item {{ request()->routeIs('ambiente-virtual.index') ? 'bg-primary text-white rounded' : '' }}">
                                     <a class="nav-link" href="{{ route('ambiente-virtual.index') }}">
@@ -251,6 +252,7 @@
                                         {{ __('Núcleo Virtual') }}
                                     </a>
                                 </li>
+                                @endif
 
                             @endif
                             @if ($user->role !== 'aluno')
@@ -588,7 +590,7 @@
                             @endif
 
                             @if (($user->role === 'professor' && $status != 0) || ($user->role !== 'professor'))
-                            @if ($ambiente_virtual)
+                            @if ($ambiente_virtual && $user->hasVerifiedEmail())
                             
                                 <li
                                     class="nav-item {{ request()->routeIs('ambiente-virtual.index') ? 'bg-primary text-white rounded' : '' }}">
@@ -612,17 +614,6 @@
                             @endif
                             @endif
 
-{{--                            <li
-                                class="nav-item  {{ request()->routeIs('ead.index') ? 'bg-primary text-white rounded' : '' }}">
-                                <a class="nav-link" href="{{ route('ead.index') }}">
-                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-school"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 9l-10 -4l-10 4l10 4l10 -4v6" /><path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4" /></svg>
-                                    </span>
-                                    {{ __('EAD') }}
-                                </a>
-                            </li>
---}}
-
                             @if (($user->role === 'professor' && $status != 0) || ($user->role !== 'professor'))
                             @if ($user->hasVerifiedEmail())
                             <li
@@ -645,7 +636,7 @@
                             @endif
                             @endif
 
-                            @if ($ambiente_virtual)
+                            @if ($ambiente_virtual && $user->hasVerifiedEmail())
                             <li 
                                 class="nav-item {{ request()->routeIs('nucleo.material') ? 'bg-primary text-white rounded' : '' }}">
                                 <a class="nav-link" href="https://ead.peregum.org.br/" target="_blank">
