@@ -282,6 +282,33 @@ class AlunosController extends Controller
         $Medio = json_encode($Med);
         $nome_nucleo = Nucleo::find($request->input('inputNucleo'));
 
+        // Atualiza o email do usuário vinculado, se necessário
+        $emailChanged = false;
+        $novoEmail = $request->input('inputEmail');
+        $dados->Email = $novoEmail;
+        $user = User::find($dados->id_user);
+        if ($user && $user->email !== $novoEmail) {
+            $emailJaExiste = User::where('email', $novoEmail)
+                ->where('id', '!=', $user->id)
+                ->exists();
+
+            if ($emailJaExiste) {
+                return back()->with([
+                    'error' => 'ESTE EMAIL JÁ ESTÁ EM USO'
+                ]);
+            }
+
+            $user->email = $novoEmail;
+            $user->email_verified_at = null;
+            $user->save();
+
+            $emailChanged = $user->wasChanged('email');
+
+            if ($emailChanged) {
+                $user->sendEmailVerificationNotification();
+            }
+        }
+
         $Foto = $request->file('inputFoto');
         if ($Foto) {
             $Extension = $Foto->getClientOriginalExtension();
@@ -304,7 +331,6 @@ class AlunosController extends Controller
         $dados->RG = $request->input('inputRG');
         $dados->temFilhos = $request->input('temFilhos');
         $dados->filhosQt = $request->input('filhosQt');
-        $dados->Email = $request->input('inputEmail');
         $dados->Raca = $request->input('inputRaca');
         $dados->Genero = $request->input('inputGenero');
         $dados->concordaSexoDesignado = $request->input('concordaSexoDesignado');
@@ -392,6 +418,11 @@ class AlunosController extends Controller
         //dd($dados);
         $dados->save();
 
+        $mensagem = 'DADOS SALVOS COM SUCESSO.';
+        if ($emailChanged) {
+            $mensagem .= ' Seu e-mail foi alterado. Acesse sua caixa de entrada para confirmar o novo endereço.';
+        }
+
         $url = $request->path();
         $user = Auth::user();
         $userId = $user->id;
@@ -401,7 +432,7 @@ class AlunosController extends Controller
         $this->logAction($url, $userId, $userName, $alunoId, $alunoNome);
 
         return back()->with([
-            'success' => 'DADOS SALVOS COM SUCESSO.',
+            'success' => $mensagem,
         ]);
     }
 
