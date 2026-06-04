@@ -82,7 +82,7 @@
                     </li>
                     </ul>
                 </div>
-                
+
                 <div class="card-body" id="form-content">
                     {{-- Resultados --}}
                     <div class="d-flex flex-column justify-content-center align-items-center mb-4">
@@ -516,7 +516,7 @@
                                                             </fieldset>
                                                         </div>
                                                     </div>
-                                                    
+
                                                     <div class="col-12 col-md-6">
                                                         <div class="mb-3">
                                                             <label class="form-label mb-2" for="pessoa_com_deficiencia">Qual a deficiência?</label>
@@ -573,7 +573,12 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar modal de cadastro efetuado com sucesso"></button>
                     </div>
                     <div class="modal-body">
-                        Parabéns, seu cadastro foi realizado com sucesso. Em breve uma pessoa da coordenação entrará em contato.
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-check">
+	<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+	<path d="M5 12l5 5l10 -10" />
+</svg>
+
+			Parabéns! Seu pré-cadastro foi concluído com sucesso. Em breve nossa equipe de coordenação entrará em contato. Enquanto aguarda, enviamos um e-mail com todas as orientações para você criar sua senha e completar o cadastro. Por favor, verifique sua caixa de entrada.
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
@@ -773,14 +778,14 @@
                 document.querySelectorAll('.nav-tabs a[data-bs-toggle="tab"]').forEach(tab => {
                     tab.addEventListener('show.bs.tab', (e) => {
                         const targetTab = e.target.getAttribute('href');
-                        
+
                         // Verificar se pode acessar a tab
                         if (targetTab === '#nucleo_do_cursinho' && !step1Valid) {
                             $(".alert").remove();
                             $("#form-content").prepend('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Por favor, selecione um estado primeiro!<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
                             return;
                         }
-                        
+
                         if (targetTab === '#formulario_de_precadastro' && (!step1Valid || !step2Valid)) {
                             $(".alert").remove();
                             $("#form-content").prepend('<div class="alert alert-danger alert-dismissible fade show w-100" role="alert">Por favor, complete as etapas anteriores primeiro!<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar alerta"></button></div>');
