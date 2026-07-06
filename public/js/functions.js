@@ -8,13 +8,13 @@
 
 
 function getAge() {
-    var ageLimit = '16';
+    var ageLimit = '14';
     var currentYear = new Date().getFullYear();
     var birth = $('#inputNascimento').val();
     var yearBirth = new Date(birth).getFullYear();
     var age = currentYear - yearBirth;
     if (age < ageLimit) {
-        alert('Cadastro não permitido para menores de 16 anos!');
+        alert('Cadastro não permitido para menores de 14 anos!');
         location.reload();
     }
 }

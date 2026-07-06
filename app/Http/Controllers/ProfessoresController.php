@@ -52,6 +52,9 @@ class ProfessoresController extends Controller
 
       if($user->role === 'coordenador'){
         $me = Coordenadores::where('id_user', $user->id)->first();
+        if (!$me) {
+          abort(403, 'Coordenador sem núcleo associado.');
+        }
         // $coordenadorNucleos = $user->coordenador->nucleos()->pluck('nucleos.id')->toArray();
 //        $coordenadorNucleos = DB::table('nucleos')->where('nucleos.id', $me->id_nucleo)->pluck('nucleos.id')->toArray();
 $coordenadorNucleos = DB::table('nucleos')
@@ -845,13 +848,24 @@ $coordenadorNucleos = DB::table('nucleos')
     public function details($id)
     {
       $user = Auth::user();
-      $dados = Professores::find($id);
+      $dados = Professores::findOrFail($id);
+
+      if ($user->role === 'coordenador') {
+        $coordenadorNucleos = $user->coordenador?->nucleos()
+            ->pluck('nucleos.id')
+            ->toArray() ?? [];
+
+        if (!$coordenadorNucleos || !in_array($dados->id_nucleo, $coordenadorNucleos)) {
+          abort(403, 'Você não possui permissão para visualizar este professor.');
+        }
+      }
+
       $dados->load('horarios', 'nucleosProfessoresDisciplinas');
       $nucleos = Nucleo::where('Status', 1)->get();
 
       $dadosSensiveis = $user->can('viewSensitiveData', $dados);
 
-      if (!$user->can('viewSensitiveData', $dados)) {
+      if (!$dadosSensiveis) {
         $dados = (object) $dados->hideSensitive();
       }
 
@@ -867,13 +881,25 @@ $coordenadorNucleos = DB::table('nucleos')
 
     public function export(Request $request)
     {
-        $nucleo = $request->input('nucleo');
+        $user = Auth::user();
 
-        if ($nucleo === null) {
-            return (new ProfessoresExport())->download('professores.xlsx');
+        if (!in_array($user->role, ['administrador', 'coordenador'])) {
+            return back()->with('error', 'Ação não permitida.');
         }
 
-        return (new ProfessoresExport($nucleo))->download('professores.xlsx');
+        $nucleo = $request->input('nucleo');
+
+        if ($user->role === 'coordenador') {
+            $nucleo = $user->coordenador?->nucleos()
+                ->pluck('nucleos.id')
+                ->toArray() ?? [];
+        }
+
+        if (is_array($nucleo) && empty($nucleo)) {
+            $nucleo = 0;
+        }
+
+        return (new ProfessoresExport($nucleo))->download('professores_' . date('Y-m-d_H-i-s') . '.xlsx');
     }
 
     public function import(Request $request)

@@ -16,6 +16,7 @@ use App\Http\Repository\HcaptchaRepository;
 use App\Mail\EmailFormularioCoordenador;
 use App\Mail\EmailFormularioEstudante;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -210,10 +211,16 @@ class RegisterController extends Controller
             }
         }
 
+        // generate a verification code and save on user so we can validate when reset is used from email
+        $user->email_verification_code = $my_token;
+        $user->save();
+
+        $url_password_reset = url('/password/reset/' . $my_token . '?email=' . urlencode($user->email));
+
         Mail::to($data['email'])->send(new EmailFormularioEstudante([
             'message' => "<p>Olá, estudante! Seja bem-vindo.</p>
             <p>Você receberá outra mensagem para verificar seu email.</p>
-            <span>Para alterar a senha acesse <a href='https://inscricoes.uneafrobrasil.org/password/reset'>https://inscricoes.uneafrobrasil.org/password/reset</a></span>"
+            <span>Para alterar a senha acesse <a href='".$url_password_reset."'>".$url_password_reset."</a></span>"
         ]));
 
         return User::find($user->id);

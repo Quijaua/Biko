@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\User;
 use App\Services\AmbienteVirtualService;
+use App\Exports\AulaAssistidosExport;
 
 use Auth;
 
@@ -22,14 +23,23 @@ class AmbienteVirtualController extends Controller
             }
         }
 
+        $area = request('areas_conhecimento');
+
         return view('ambiente-virtual.index')->with([
             'user' => Auth::user(),
             'aulas' => AmbienteVirtualService::index(),
+            'disciplinas' => AmbienteVirtualService::getDisciplinas($area),
         ]);
     }
 
     public function create()
     {
+        abort_unless(
+            AmbienteVirtualService::canManageContent(),
+            403,
+            'Você não possui permissão para gerenciar o Ambiente Virtual.'
+        );
+
         return view('ambiente-virtual.create')->with([
             'user' => Auth::user(),
             'professores' => AmbienteVirtualService::getProfessores(),
@@ -39,6 +49,11 @@ class AmbienteVirtualController extends Controller
 
     public function store(Request $request)
     {
+        abort_unless(
+            AmbienteVirtualService::canManageContent(),
+            403
+        );
+
         AmbienteVirtualService::store($request);
         return redirect()->route('ambiente-virtual.index')->with([
             'success' => 'Aula virtual criada com sucesso!'
@@ -56,6 +71,12 @@ class AmbienteVirtualController extends Controller
 
     public function edit($id)
     {
+        abort_unless(
+            AmbienteVirtualService::canManageContent(),
+            403,
+            'Você não possui permissão para gerenciar o Ambiente Virtual.'
+        );
+
         return view('ambiente-virtual.edit')->with([
             'user' => Auth::user(),
             'aula' => AmbienteVirtualService::find($id),
@@ -66,6 +87,11 @@ class AmbienteVirtualController extends Controller
 
     public function update(Request $request, $id)
     {
+        abort_unless(
+            AmbienteVirtualService::canManageContent(),
+            403
+        );
+
         AmbienteVirtualService::update($id);
         return redirect()->route('ambiente-virtual.index')->with([
             'success' => 'Aula virtual atualizada com sucesso!'
@@ -74,6 +100,12 @@ class AmbienteVirtualController extends Controller
 
     public function destroy($id)
     {
+        abort_unless(
+            AmbienteVirtualService::canManageContent(),
+            403,
+            'Você não possui permissão para gerenciar o Ambiente Virtual.'
+        );
+
         AmbienteVirtualService::destroy($id);
         return redirect()->route('ambiente-virtual.index')->with([
             'success' => 'Aula virtual excluida com sucesso!'
@@ -114,5 +146,16 @@ class AmbienteVirtualController extends Controller
     public function search(Request $request)
     {
         return AmbienteVirtualService::search($request);
+    }
+
+    public function exportWatched($id)
+    {
+        $user = Auth::user();
+
+        if ($user->role === 'aluno') {
+            return back()->with('error', 'Ação não permitida.');
+        }
+
+        return (new AulaAssistidosExport(intval($id)))->download('aula_' . intval($id) . '_assistidos_' . date('Y-m-d') . '.xlsx');
     }
 }

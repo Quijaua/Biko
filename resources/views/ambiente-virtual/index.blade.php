@@ -12,6 +12,7 @@
             <div class="col-6">
                 <h1 class="text-[34px]">Núcleo Virtual</h1>
             </div>
+            @if(\App\Services\AmbienteVirtualService::canManageContent())
             <div class="col-6" style="text-align: right;">
                 @if($aulas->isEmpty() || $user->role !== 'aluno')
                 <a class="btn btn-primary" href="{{route('ambiente-virtual.create')}}">
@@ -22,6 +23,7 @@
                 </a>
                 @endif
             </div>
+            @endif
         </div>
         @if(session::has('success'))
         <div class="row mt-2">
@@ -77,16 +79,18 @@
                             @endforeach
                         </div>
                     </div>
+                    @if($disciplinas->count())
                     <div class="col-12 mb-3">
                         <div class="form-selectgroup">
-                            @foreach (\App\Services\AmbienteVirtualService::getDisciplinas() as $disciplina)
-                            <label class="form-selectgroup-item">
-                                <input type="checkbox" name="disciplina" value="{{ $disciplina->id }}" class="form-selectgroup-input disciplina" @if(request()->disciplina == $disciplina->id) checked @endif/>
+                            @foreach ($disciplinas as $disciplina)
+                            <label class="form-selectgroup-item disciplina-wrapper" data-area="{{ $disciplina->areas_conhecimento }}">
+                                <input type="checkbox" name="disciplina" value="{{ $disciplina->id }}" class="form-selectgroup-input disciplina" @checked(request()->disciplina == $disciplina->id)/>
                                 <span class="form-selectgroup-label">{{ $disciplina->nome }}</span>
                             </label>
                             @endforeach
                         </div>
                     </div>
+                    @endif
                     <div class="col-6">
                         {{-- Botões --}}
                         <div class="col-md-12 d-flex gap-2">
@@ -153,23 +157,39 @@
                         </div>
 
                         @if($user->role != 'aluno')
-                        <div class="card-header">
-                            <div class="card-actions">
-                                <a class="btn btn2 me-6" href="{{route('ambiente-virtual.edit', $aula)}}">
-                                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-edit"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
-                                    Editar
-                                </a>
-                                <a class="btn btn-secondary me-6" href="{{route('ambiente-virtual.questionario', ['aula' => $aula->id])}}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-pencil-check"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /><path d="M15 19l2 2l4 -4" /></svg>
-                                    Questionário
-                                </a>
-                                <form action="{{route('ambiente-virtual.destroy', $aula->id)}}" method="POST" class="d-inline">
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between">
+                                <div class="d-flex">
+                                    @if(\App\Services\AmbienteVirtualService::canManageContent())
+                                    <a class="btn btn2 me-2" href="{{route('ambiente-virtual.edit', $aula)}}">
+                                        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-edit"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
+                                        Editar
+                                    </a>
+                                    @endif
+                                    <a class="btn btn-outline-secondary me-2" href="{{ route('ambiente-virtual.export-watched', ['id' => $aula->id]) }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-download">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                            <path d="M12 3v12" />
+                                            <path d="M8 11l4 4l4 -4" />
+                                            <path d="M4 21h16" />
+                                        </svg>
+                                        Exportar assistidos
+                                    </a>
+                                    <a class="btn btn-secondary me-2" href="{{route('ambiente-virtual.questionario', ['aula' => $aula->id])}}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-pencil-check"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /><path d="M15 19l2 2l4 -4" /></svg>
+                                        Questionário
+                                    </a>
+                                </div>
+                                @if(\App\Services\AmbienteVirtualService::canManageContent())
+                                <form action="{{route('ambiente-virtual.destroy', $aula->id)}}" method="POST" class="d-inline"
+                                    onsubmit="return confirm('Tem certeza que deseja excluir esta aula? Esta ação não pode ser desfeita.')">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger">
                                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
                                     Excluir</button>
                                 </form>
+                                @endif
                             </div>
                         </div>
                         @endif

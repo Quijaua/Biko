@@ -282,6 +282,7 @@ Route::group(['prefix' => 'ambiente-virtual'], function () {
     Route::post('notas/adicionar/{id}', 'AmbienteVirtualController@anotar')->middleware('auth')->name('ambiente-virtual.anotar');
     Route::post('assistido/marcar', 'AmbienteVirtualController@marcarAssistido')->middleware('auth')->name('ambiente-virtual.marcar-assistido');
     Route::post('assistido/desmarcar', 'AmbienteVirtualController@desmarcarAssistido')->middleware('auth')->name('ambiente-virtual.desmarcar-assistido');
+    Route::get('export-watched/{id}', 'AmbienteVirtualController@exportWatched')->middleware('auth')->name('ambiente-virtual.export-watched');
     Route::any('search', 'AmbienteVirtualController@search')->name('ambiente-virtual/search');
     Route::get('questionario', 'QuestionarioController@questionario')->middleware('auth')->name('ambiente-virtual.questionario');
     Route::get('questionario/create/{id}', 'QuestionarioController@create')->middleware('auth')->name('ambiente-virtual.questionario.create');

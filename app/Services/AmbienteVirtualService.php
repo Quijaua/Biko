@@ -130,13 +130,18 @@ class AmbienteVirtualService
         return Disciplina::all();
     }
 
-    public static function getDisciplinas()
+    public static function getDisciplinas($area = null)
     {
-        return Disciplina::whereIn('id', function($query) {
-            $query->select('disciplina_id')
-                ->from('ambiente_virtuals')
-                ->whereNotNull('disciplina_id');
-        })->get();
+        return Disciplina::whereIn('id', function ($query) {
+                $query->select('disciplina_id')
+                    ->from('ambiente_virtuals')
+                    ->whereNotNull('disciplina_id');
+            })
+            ->when($area, function ($query) use ($area) {
+                return $query->where('areas_conhecimento', $area);
+            })
+            ->orderBy('nome')
+            ->get();
     }
 
     public static function isAssistido($id)
@@ -180,7 +185,8 @@ class AmbienteVirtualService
 
         return view('ambiente-virtual.index')->with([
             'user' => Auth::user(),
-            'aulas' => $aulas
+            'aulas' => $aulas,
+            'disciplinas' => self::getDisciplinas($params['areas_conhecimento']),
         ]);
     }
 
@@ -203,5 +209,34 @@ class AmbienteVirtualService
             'disciplina' => request('disciplina'),
             'peso' => request('peso'),
         ];
+    }
+
+    public static function canManageContent()
+    {
+        $user = Auth::user();
+
+        // Admin pode tudo
+        if ($user->role === 'admin') {
+            return true;
+        }
+
+        // Somente professor
+        if ($user->role !== 'professor') {
+            return false;
+        }
+
+        $nucleo_ambiente_virtual = config('global.nucleo_ambiente_virtual');
+
+        return DB::table('nucleos_professores_disciplinas')
+            ->join(
+                'professores',
+                'nucleos_professores_disciplinas.professor_id',
+                '=',
+                'professores.id'
+            )
+            ->where('professores.id_user', $user->id)
+            ->where('professores.status', true)
+            ->where('nucleos_professores_disciplinas.nucleo_id', $nucleo_ambiente_virtual)
+            ->exists();
     }
 }
