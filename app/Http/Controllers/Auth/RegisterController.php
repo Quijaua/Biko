@@ -116,10 +116,15 @@ class RegisterController extends Controller
             'phone' => $data['phone']
         ]);*/
 
+        // A senha inicial é uma string aleatória descartável: o usuário nunca
+        // fica sabendo dela e nunca deve logar com ela. O acesso real só
+        // acontece pelo link de definição de senha enviado por e-mail logo
+        // abaixo (ver $my_token / EmailFormularioEstudante), o que evita ter
+        // uma senha previsível (ex.: derivada do próprio e-mail) até a troca.
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => Hash::make(md5($data['email'])),
+            'password' => Hash::make(Str::random(40)),
             'role' => $data['role'],
             'phone' => $phone
         ]);
