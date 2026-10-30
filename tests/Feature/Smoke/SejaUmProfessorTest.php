@@ -4,6 +4,8 @@ namespace Tests\Feature\Smoke;
 
 use App\Mail\EmailFormularioCoordenador;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Tests\Concerns\CreatesBikoData;
 use Tests\TestCase;
@@ -52,6 +54,11 @@ class SejaUmProfessorTest extends TestCase
             'Status' => 0,
             'id_nucleo' => $nucleo->id,
         ]);
+
+        // A senha inicial (o e-mail) precisa ser gravada com hash.
+        $user = User::where('email', 'voluntaria@biko.test')->firstOrFail();
+        $this->assertNotSame('voluntaria@biko.test', $user->password);
+        $this->assertTrue(Hash::check('voluntaria@biko.test', $user->password));
 
         Mail::assertSent(EmailFormularioCoordenador::class, fn ($mail) => $mail->hasTo($coordenador->email));
     }

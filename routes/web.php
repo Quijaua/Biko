@@ -7,6 +7,7 @@ use App\Mail\EmailFormularioCoordenador;
 use App\Mail\EmailFormularioSejaUmProfessor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Session;
@@ -27,13 +28,6 @@ Route::get('/', function () {
         return redirect('/home');
     }
     return redirect('/login');
-});
-
-// Rota protegida (depois de logado)
-Route::middleware(['auth'])->group(function () {
-    Route::get('/home', function () {
-        return view('home'); // ou seu controller
-    })->name('home');
 });
 
 
@@ -182,7 +176,6 @@ Route::post('nucleos/update/{id}', 'NucleoController@update')->middleware('permi
 Route::get('nucleos/disable/{id}', 'NucleoController@disable')->middleware('permissions');
 Route::get('nucleos/enable/{id}', 'NucleoController@enable')->middleware('permissions');
 Route::delete('nucleos/delete/{id}', 'NucleoController@destroy')->middleware('permissions');
-Route::any('nucleos/search', 'NucleoController@search');
 Route::any('nucleos/search', 'NucleoController@search');
 
 Route::group(['prefix' => 'nucleo/presences', 'middleware' => ['auth', 'restrict.professor']], function () {
@@ -371,7 +364,8 @@ Route::post('/seja-um-professor', function (Request $request) {
     $user_data = [
         'name' => $request->nome_social,
         'email' => $request->email,
-        'password' => $request->email,
+        // Senha inicial = e-mail (mesmo padrão da API de cadastro), agora com hash.
+        'password' => Hash::make($request->email),
         'role' => 'professor',
     ];
 

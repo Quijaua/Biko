@@ -15,7 +15,7 @@ use App\AlunoInfoFamiliares;
 use App\PovoIndigena;
 use App\TerraIndigena;
 use App\Acompanhamento;
-use Image;
+use App\Services\FotoPerfilService;
 use Session;
 use Carbon\Carbon;
 use App\Exports\AlunosExport;
@@ -229,13 +229,7 @@ class AlunosController extends Controller
             $path = public_path('storage/' . $filename);
             $image = $request->file('inputFoto');
 
-            Image::make($image->getRealPath())
-                ->resize(150, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                })
-                ->crop(110, 110, null, null)
-                ->encode('jpg', 80)
-                ->save($path);
+            FotoPerfilService::salvar($image->getRealPath(), $path);
         }
 
         return back()->with('success', 'DADOS SALVOS COM SUCESSO.');
@@ -405,13 +399,7 @@ class AlunosController extends Controller
             $path = public_path('storage/' . $filename);
             $image = $request->file('inputFoto');
 
-            Image::make($image->getRealPath())
-                ->resize(150, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                })
-                ->crop(110, 110, null, null)
-                ->encode('jpg', 80)
-                ->save($path);
+            FotoPerfilService::salvar($image->getRealPath(), $path);
         }
 
         Session::put('cpf', 'OK');

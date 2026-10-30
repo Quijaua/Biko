@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Image;
+use App\Services\FotoPerfilService;
 use Session;
 use App\Exports\CoordenadoresExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -274,13 +274,7 @@ class CoordenadoresController extends Controller
         $path = public_path('storage/'.$filename);
         $image = $request->file('inputFoto');
 
-        Image::make($image->getRealPath())
-          ->resize(150, null, function ($constraint) {
-              $constraint->aspectRatio();
-          })
-          ->crop(110,110,null,null)
-          ->encode('jpg',80)
-          ->save($path);
+        FotoPerfilService::salvar($image->getRealPath(), $path);
       }
 
       return back()->with('success', 'DADOS SALVOS COM SUCESSO.');
@@ -423,13 +417,7 @@ class CoordenadoresController extends Controller
         $path = public_path('storage/'.$filename);
         $image = $request->file('inputFoto');
 
-        Image::make($image->getRealPath())
-          ->resize(150, null, function ($constraint) {
-              $constraint->aspectRatio();
-          })
-          ->crop(110,110,null,null)
-          ->encode('jpg',80)
-          ->save($path);
+        FotoPerfilService::salvar($image->getRealPath(), $path);
       }
 
       $cpfInput = $request->input('inputCPF');
@@ -585,12 +573,24 @@ class CoordenadoresController extends Controller
 
     public function export(Request $request)
     {
-        $nucleo = $request->input('nucleo');
+        $user = Auth::user();
 
-        if ($nucleo === null) {
-            return (new CoordenadoresExport())->download('coordenadores.xlsx');
+        if ($user->role === 'coordenador') {
+            $nucleosIds = $user->coordenador?->nucleos()
+                ->pluck('nucleos.id')
+                ->toArray() ?? [];
+
+            if (empty($nucleosIds)) {
+                abort(403, 'Coordenador sem núcleo vinculado.');
+            }
+
+            return (new CoordenadoresExport($nucleosIds))->download('coordenadores.xlsx');
         }
 
-        return (new CoordenadoresExport($nucleo))->download('coordenadores.xlsx');
+        if ($user->role !== 'administrador') {
+            abort(403, 'Acesso não autorizado.');
+        }
+
+        return (new CoordenadoresExport((int) $request->input('nucleo', 0)))->download('coordenadores.xlsx');
     }
 }

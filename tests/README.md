@@ -52,7 +52,9 @@ vendor/bin/phpunit --filter OtpLogin    # um arquivo/teste
 | `ApiCadastroAlunoTest` | `POST /api/cadastro-aluno` com `api_token` |
 | `SejaUmProfessorTest` | inscrição de voluntário e e-mail ao coordenador |
 | `QuestionarioTest` | criação de questionário (pacote laravel-quiz) |
-| `Unit/PhotoProcessingTest` | redimensionamento de foto (Intervention Image) |
+| `Unit/PhotoProcessingTest` | `FotoPerfilService` (Intervention Image 3) |
+| `Fase1/BugFixesTest` | correções da Fase 1: visitante em rotas `permissions`, `api_token` do seeder, hash de senhas em texto puro |
+| `Fase1/FrameworkCleanupTest` | factory em classe, config de e-mail `mailers`, providers padrão |
 
 Os dados de teste são criados por `tests/Concerns/CreatesBikoData.php`,
-direto pelos models, sem factories.
+direto pelos models. Para novos testes também dá para usar `User::factory()`.

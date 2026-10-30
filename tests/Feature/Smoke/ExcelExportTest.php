@@ -65,13 +65,29 @@ class ExcelExportTest extends TestCase
     public function test_admin_exports_coordenadores(): void
     {
         $this->seedPeople();
+        $admin = $this->createAdmin();
 
-        // Mesmo parâmetro que o botão da tela envia para o administrador.
-        // Sem ?nucleo o controller quebra (CoordenadoresExport exige argumento);
-        // isso será corrigido na Fase 1.
-        $response = $this->actingAs($this->createAdmin())->get('/coordenadores/export?nucleo=0');
+        // Com o parâmetro que o botão do administrador envia...
+        $this->assertXlsxDownload($this->actingAs($admin)->get('/coordenadores/export?nucleo=0'), 'coordenadores');
 
-        $this->assertXlsxDownload($response, 'coordenadores');
+        // ...e sem parâmetro nenhum (antes da Fase 1 dava erro 500).
+        $this->assertXlsxDownload($this->actingAs($admin)->get('/coordenadores/export'), 'coordenadores');
+    }
+
+    public function test_coordenador_exports_coordenadores_of_own_nucleos(): void
+    {
+        $this->seedPeople();
+
+        // O botão do coordenador envia ?nucleo= vazio (antes da Fase 1 dava erro 500).
+        $this->assertXlsxDownload(
+            $this->actingAs($this->createCoordenador())->get('/coordenadores/export?nucleo='),
+            'coordenadores'
+        );
+    }
+
+    public function test_aluno_cannot_export_coordenadores(): void
+    {
+        $this->actingAs($this->createAluno())->get('/coordenadores/export?nucleo=0')->assertForbidden();
     }
 
     public function test_coordenador_exports_only_with_linked_nucleo(): void
