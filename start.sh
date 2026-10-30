@@ -1,6 +1,6 @@
     #!/bin/sh
     echo "Starting services..."
-    service php8.2-fpm start
+    service php8.3-fpm start
     service mysql start
     if test -f /var/www/html/fresh_install; then
         mysql -u root < /var/www/html/database/scripts/create_user_and_database.sql

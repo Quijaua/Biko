@@ -214,7 +214,7 @@
         ]
     },
     {
-        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS",
+        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS|QUERY",
         "uri": "alunos/nucleo/search",
         "name": "alunos/nucleo/search",
         "action": "App\\Http\\Controllers\\AlunosController@searchByNucleo",
@@ -224,7 +224,7 @@
         ]
     },
     {
-        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS",
+        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS|QUERY",
         "uri": "alunos/search",
         "name": "alunos/search",
         "action": "App\\Http\\Controllers\\AlunosController@search",
@@ -405,7 +405,7 @@
         ]
     },
     {
-        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS",
+        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS|QUERY",
         "uri": "ambiente-virtual/search",
         "name": "ambiente-virtual/search",
         "action": "App\\Http\\Controllers\\AmbienteVirtualController@search",
@@ -454,7 +454,7 @@
         ]
     },
     {
-        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS",
+        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS|QUERY",
         "uri": "api/alunos/nucleo/search",
         "name": "alunos/nucleo/search.api",
         "action": "App\\Http\\Controllers\\AlunosController@searchByNucleoAPI",
@@ -564,7 +564,7 @@
         ]
     },
     {
-        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS",
+        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS|QUERY",
         "uri": "atendimento-psicologico/estudante/{id}",
         "name": "atendimento-psicologico.estudante",
         "action": "App\\Http\\Controllers\\AtendimentoPsicologicoController@showByEstudante",
@@ -574,7 +574,7 @@
         ]
     },
     {
-        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS",
+        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS|QUERY",
         "uri": "atendimento-psicologico/search",
         "name": "atendimento-psicologico/search",
         "action": "App\\Http\\Controllers\\AtendimentoPsicologicoController@search",
@@ -750,7 +750,7 @@
         ]
     },
     {
-        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS",
+        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS|QUERY",
         "uri": "coordenadores/search",
         "name": "coordenadores/search",
         "action": "App\\Http\\Controllers\\CoordenadoresController@search",
@@ -1008,7 +1008,7 @@
         ]
     },
     {
-        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS",
+        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS|QUERY",
         "uri": "ead/upload",
         "name": "ead.upload",
         "action": "App\\Http\\Controllers\\EadController@upload",
@@ -1338,7 +1338,7 @@
         ]
     },
     {
-        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS",
+        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS|QUERY",
         "uri": "nucleo/presences/search",
         "name": null,
         "action": "App\\Http\\Controllers\\NucleoController@search_presences",
@@ -1475,7 +1475,7 @@
         ]
     },
     {
-        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS",
+        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS|QUERY",
         "uri": "nucleos/search",
         "name": null,
         "action": "App\\Http\\Controllers\\NucleoController@search",
@@ -1745,7 +1745,7 @@
         ]
     },
     {
-        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS",
+        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS|QUERY",
         "uri": "professores/search",
         "name": "professores/search",
         "action": "App\\Http\\Controllers\\ProfessoresController@search",
@@ -1816,7 +1816,7 @@
         ]
     },
     {
-        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS",
+        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS|QUERY",
         "uri": "psicologos/search",
         "name": "psicologos/search",
         "action": "App\\Http\\Controllers\\PsicologosController@search",
