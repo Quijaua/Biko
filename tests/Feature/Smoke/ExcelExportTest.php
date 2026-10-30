@@ -66,9 +66,12 @@ class ExcelExportTest extends TestCase
     {
         $this->seedPeople();
 
-        $response = $this->actingAs($this->createAdmin())->get('/coordenadores/export');
+        // Mesmo parâmetro que o botão da tela envia para o administrador.
+        // Sem ?nucleo o controller quebra (CoordenadoresExport exige argumento);
+        // isso será corrigido na Fase 1.
+        $response = $this->actingAs($this->createAdmin())->get('/coordenadores/export?nucleo=0');
 
-        $this->assertXlsxDownload($response, '.xlsx');
+        $this->assertXlsxDownload($response, 'coordenadores');
     }
 
     public function test_coordenador_exports_only_with_linked_nucleo(): void

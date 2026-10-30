@@ -24,7 +24,7 @@ class ApiCadastroAlunoTest extends TestCase
             'id_nucleo' => $nucleoId,
             'Raca' => 'preta',
             'Genero' => 'mulher',
-            'IdentificaGenero' => 'sim',
+            'IdentificaGenero' => 1, // coluna integer
             'Nascimento' => '2005-03-10',
             'Cidade' => 'São Paulo',
             'Estado' => 'SP',
@@ -38,7 +38,7 @@ class ApiCadastroAlunoTest extends TestCase
             'PorcentagemBolsa' => '',
             'EnsMedio' => 'publica',
             'PorcentagemBolsaMedio' => '',
-            'Enem' => 'sim',
+            'Enem' => 1, // coluna integer
             'Vestibular' => 'sim',
             'OpcoesVestibular1' => 'Medicina',
             'OpcoesVestibular2' => 'Direito',
