@@ -1,15 +1,16 @@
 <?php
 
+use App\Http\Controllers\API\AlunoController as ApiAlunoController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
+| Carregadas por bootstrap/app.php (withRouting) com prefixo /api e
+| grupo de middleware "api".
 |
 */
 
@@ -19,6 +20,6 @@ Route::middleware('auth:api')->group(function () {
       return $request->user();
     });
 
-    Route::post('/cadastro-aluno', 'API\AlunoController@cadastraAluno');
+    Route::post('/cadastro-aluno', [ApiAlunoController::class, 'cadastraAluno']);
 
 });

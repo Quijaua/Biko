@@ -146,7 +146,7 @@ class AlunosController extends Controller
             ]);
         }
 
-        $bolsista = $request->input('inputNucleo') == env('NUCLEO_AMBIENTE_VIRTUAL') ? $request->input('inputBolsista') : null;
+        $bolsista = $request->input('inputNucleo') == config('global.nucleo_ambiente_virtual') ? $request->input('inputBolsista') : null;
 
         Aluno::create([
             'id_user' => $user->id,
@@ -321,7 +321,7 @@ class AlunosController extends Controller
             $dados->CPF = $dados->CPF;
         }
         $dados->ListaEspera = $request->input('inputListaEspera');
-        $dados->Bolsista = $request->input('inputNucleo') == env('NUCLEO_AMBIENTE_VIRTUAL') ? $request->input('inputBolsista') : null;
+        $dados->Bolsista = $request->input('inputNucleo') == config('global.nucleo_ambiente_virtual') ? $request->input('inputBolsista') : null;
         $dados->RG = $request->input('inputRG');
         $dados->temFilhos = $request->input('temFilhos');
         $dados->filhosQt = $request->input('filhosQt');
@@ -542,7 +542,7 @@ class AlunosController extends Controller
 
         $acompanhamentos = [];
         if (in_array($user->role, ['administrador', 'coordenador', 'professor'])) {
-            if ($dados->id_nucleo == env('NUCLEO_AMBIENTE_VIRTUAL')) {
+            if ($dados->id_nucleo == config('global.nucleo_ambiente_virtual')) {
                 $acompanhamentos = Acompanhamento::with('aluno', 'autor')
                     ->where('aluno_id', $dados->id)
                     ->orderBy('created_at', 'desc')
@@ -628,7 +628,7 @@ class AlunosController extends Controller
         $user = Auth::user();
         $aluno = Aluno::findOrFail($aluno_id);
 
-        if (!in_array($user->role, ['administrador', 'coordenador', 'professor']) && $aluno->id_nucleo == env('NUCLEO_AMBIENTE_VIRTUAL')) {
+        if (!in_array($user->role, ['administrador', 'coordenador', 'professor']) && $aluno->id_nucleo == config('global.nucleo_ambiente_virtual')) {
             abort(403, 'Acesso não autorizado.');
         }
 

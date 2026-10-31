@@ -540,7 +540,7 @@
                                     const campoBolsista = document.getElementById("campoBolsista");
 
                                     // id do núcleo virtual definido no .env
-                                    const nucleoVirtual = {{ env('NUCLEO_AMBIENTE_VIRTUAL') }};
+                                    const nucleoVirtual = {{ config('global.nucleo_ambiente_virtual') }};
 
                                     function verificarNucleo() {
                                         if (selectNucleo.value == nucleoVirtual) {

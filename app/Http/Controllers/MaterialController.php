@@ -84,7 +84,7 @@ class MaterialController extends Controller
       $file = $request->file('file');
       $fileName = time() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
       $file->move(public_path('uploads'), $fileName);
-      $nucleo_id = isset($request->nucleo_id) && !empty($request->nucleo_id) ? $request->nucleo_id : env('NUCLEO_AMBIENTE_VIRTUAL');
+      $nucleo_id = isset($request->nucleo_id) && !empty($request->nucleo_id) ? $request->nucleo_id : config('global.nucleo_ambiente_virtual');
 
       $stored_file = Material::create([
         'user_id' => $user->id,

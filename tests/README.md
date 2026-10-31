@@ -55,6 +55,8 @@ vendor/bin/phpunit --filter OtpLogin    # um arquivo/teste
 | `Unit/PhotoProcessingTest` | `FotoPerfilService` (Intervention Image 3) |
 | `Fase1/BugFixesTest` | correções da Fase 1: visitante em rotas `permissions`, `api_token` do seeder, hash de senhas em texto puro |
 | `Fase1/FrameworkCleanupTest` | factory em classe, config de e-mail `mailers`, providers padrão |
+| `Fase3/Laravel13Test` | versão 13, CSRF `PreventRequestForgery`, tradução do e-mail de senha, cache e sessão |
+| `Fase4/ApplicationStructureTest` | estrutura nova (`bootstrap/app.php`): middlewares, redirecionamentos, policies, listeners e comandos |
 
 Os dados de teste são criados por `tests/Concerns/CreatesBikoData.php`,
 direto pelos models. Para novos testes também dá para usar `User::factory()`.

@@ -55,8 +55,7 @@ class FrameworkCleanupTest extends TestCase
             \Illuminate\Auth\AuthServiceProvider::class,
             \Illuminate\Mail\MailServiceProvider::class,
             \Illuminate\Queue\QueueServiceProvider::class,
-            \App\Providers\AuthServiceProvider::class,
-            \App\Providers\RouteServiceProvider::class,
+            \App\Providers\AppServiceProvider::class,
             \OwenIt\Auditing\AuditingServiceProvider::class,
             \Harishdurga\LaravelQuiz\LaravelQuizServiceProvider::class,
         ] as $provider) {

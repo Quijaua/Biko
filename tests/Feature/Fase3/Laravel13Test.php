@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Fase3;
 
-use App\Http\Middleware\PreventRequestForgery;
+use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Foundation\Application;

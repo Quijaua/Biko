@@ -33,7 +33,7 @@
                             role="tab"> Dados Profissionais</a>
                         <a class="nav-link" id="tab-academicos" data-bs-toggle="pill" href="#academicos" role="tab">
                             Dados Acadêmicos</a>
-                        @if (in_array($user->role, ['administrador', 'coordenador', 'professor']) && $dados->id_nucleo == env('NUCLEO_AMBIENTE_VIRTUAL'))
+                        @if (in_array($user->role, ['administrador', 'coordenador', 'professor']) && $dados->id_nucleo == config('global.nucleo_ambiente_virtual'))
                         <a class="nav-link" id="tab-acompanhamento" data-bs-toggle="pill" href="#acompanhamento" role="tab">
                             Acompanhamento</a>
                         @endif
@@ -1372,7 +1372,7 @@
                         </div>
 
 
-                        @if (in_array($user->role, ['administrador', 'coordenador', 'professor']) && $dados->id_nucleo == env('NUCLEO_AMBIENTE_VIRTUAL'))
+                        @if (in_array($user->role, ['administrador', 'coordenador', 'professor']) && $dados->id_nucleo == config('global.nucleo_ambiente_virtual'))
 
                         {{-- Acompanhamento --}}
                         <div class="tab-pane fade" id="acompanhamento" role="tabpanel" aria-labelledby="tab-acompanhamento">
