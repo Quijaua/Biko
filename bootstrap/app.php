@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureUserHasRole;
 use App\Http\Middleware\RestrictAluno;
 use App\Http\Middleware\RestrictProfessor;
 use App\Http\Middleware\UserPermissions;
@@ -23,6 +24,7 @@ return Application::configure(basePath: $_ENV['APP_BASE_PATH'] ?? dirname(__DIR_
             'permissions' => UserPermissions::class,
             'restrict.professor' => RestrictProfessor::class,
             'restrict.aluno' => RestrictAluno::class,
+            'role' => EnsureUserHasRole::class,
         ]);
 
         // Mesmo grupo "api" de antes: 60 requisições/minuto + route model binding.

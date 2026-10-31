@@ -57,6 +57,12 @@ vendor/bin/phpunit --filter OtpLogin    # um arquivo/teste
 | `Fase1/FrameworkCleanupTest` | factory em classe, config de e-mail `mailers`, providers padrão |
 | `Fase3/Laravel13Test` | versão 13, CSRF `PreventRequestForgery`, tradução do e-mail de senha, cache e sessão |
 | `Fase4/ApplicationStructureTest` | estrutura nova (`bootstrap/app.php`): middlewares, redirecionamentos, policies, listeners e comandos |
+| `Fase5/FrontendAssetsTest` | layout com `@vite` e `public/build` versionado |
+| `Fase6/ProductionReadinessTest` | sem `env()` fora de `config/`, `route:cache` e `view:cache` |
+| `Security/AccessControlHardeningTest` | perfis e rotas protegidas (revisão OWASP A01) |
+| `Security/UploadHardeningTest` | uploads só com extensões permitidas e nome gerado (A08) |
+| `Security/AuthenticationHardeningTest` | limite de tentativas, troca obrigatória de senha padrão (A07) |
+| `Unit/HtmlSanitizerTest` | limpeza do HTML de mensagens e pré-cadastro (A05) |
 
 Os dados de teste são criados por `tests/Concerns/CreatesBikoData.php`,
 direto pelos models. Para novos testes também dá para usar `User::factory()`.

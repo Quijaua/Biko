@@ -18,14 +18,19 @@ class GeralService
 
         $data = request()->except('banner', '_token');
 
+        request()->validate([
+            'banner' => 'nullable|image|mimes:jpg,jpeg,png,webp,gif|max:5120',
+        ]);
+
         if (request()->hasFile('banner')) {
             $file = request()->file('banner');
-            $name = time() . '.' . $file->getClientOriginalExtension();
+            // Extensão deduzida do conteúdo, não do nome enviado.
+            $name = time() . '.' . ($file->guessExtension() ?: 'jpg');
             $file->move(public_path('images/geral/banner/'), $name);
             $data['banner'] = $name;
 
             if ($geral && $geral->banner) {
-                File::delete(public_path('images/geral/banner/' . $geral->banner));
+                File::delete(public_path('images/geral/banner/' . basename($geral->banner)));
             }
         }
 

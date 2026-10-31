@@ -450,6 +450,10 @@ class AlunosController extends Controller
         $params = self::getParams($request);
 
         $alunos = DB::table('alunos')
+            ->when($user->role === 'aluno', function ($query) use ($user) {
+                // Aluno só enxerga o próprio cadastro (igual à listagem).
+                return $query->where('alunos.id_user', $user->id);
+            })
             ->when($params['inputQuery'], function ($query) use ($params) {
                 return $query->where(function ($q) use ($params) {
                     $q->where('alunos.NomeAluno', 'LIKE', '%' . $params['inputQuery'] . '%')
@@ -518,14 +522,22 @@ class AlunosController extends Controller
 
     public function searchByNucleoAPI(Request $request)
     {
-        $nucleos = $request->input('nucleos');
-        $aluno = $request->input('aluno');
+        $nucleos = collect((array) $request->input('nucleos'))->filter()->map(fn ($id) => (int) $id);
+        $aluno = (string) $request->input('aluno');
+
+        // Quem não é administrador só pesquisa nos núcleos em que atua.
+        if (Auth::user()->role !== 'administrador') {
+            $permitidos = Nucleo::whereUserAtuacao()->pluck('id');
+            $nucleos = $nucleos->intersect($permitidos);
+        }
 
         $alunos = Aluno::whereStatus()
-            ->whereIn('id_nucleo', $nucleos)
-            ->where('NomeAluno', 'LIKE', "%$aluno%")
-            ->orWhere('NomeSocial', 'LIKE', "%$aluno%")
-            ->get();
+            ->whereIn('id_nucleo', $nucleos->values())
+            ->where(function ($query) use ($aluno) {
+                $query->where('NomeAluno', 'LIKE', "%{$aluno}%")
+                    ->orWhere('NomeSocial', 'LIKE', "%{$aluno}%");
+            })
+            ->get(['id', 'NomeAluno', 'NomeSocial', 'id_nucleo']);
 
         return response()->json($alunos);
     }

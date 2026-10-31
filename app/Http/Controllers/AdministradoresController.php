@@ -27,6 +27,8 @@ class AdministradoresController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->email),
             'role' => 'administrador',
+            'first_login' => true, // senha inicial = e-mail: troca obrigatória
+            'email_verified_at' => now(),
         ]);
 
         return redirect()->route('administradores.index')->with('success', 'Administrador criado com sucesso!');
@@ -34,13 +36,13 @@ class AdministradoresController extends Controller
 
     public function edit($id)
     {
-        $administrador = User::find($id);
+        $administrador = User::where('role', 'administrador')->findOrFail($id);
         return view('administradores.edit')->with('administrador', $administrador);
     }
 
     public function update(StoreAdministradorRequest $request, $id)
     {
-        $administrador = User::find($id);
+        $administrador = User::where('role', 'administrador')->findOrFail($id);
         $administrador->name = request('name');
         $administrador->email = request('email');
         $administrador->save();
@@ -50,7 +52,9 @@ class AdministradoresController extends Controller
 
     public function destroy($id)
     {
-        User::destroy($id);
+        abort_if((int) $id === (int) auth()->id(), 422, 'Você não pode excluir a própria conta.');
+
+        User::where('role', 'administrador')->whereKey($id)->delete();
         return redirect()->route('administradores.index')->with('success', 'Administrador excluido com sucesso!');
     }
 }

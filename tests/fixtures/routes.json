@@ -15,6 +15,7 @@
         "action": "App\\Http\\Controllers\\AdministradoresController@index",
         "middleware": [
             "auth",
+            "role:administrador",
             "web"
         ]
     },
@@ -25,6 +26,7 @@
         "action": "App\\Http\\Controllers\\AdministradoresController@create",
         "middleware": [
             "auth",
+            "role:administrador",
             "web"
         ]
     },
@@ -35,6 +37,7 @@
         "action": "App\\Http\\Controllers\\AdministradoresController@destroy",
         "middleware": [
             "auth",
+            "role:administrador",
             "web"
         ]
     },
@@ -45,6 +48,7 @@
         "action": "App\\Http\\Controllers\\AdministradoresController@edit",
         "middleware": [
             "auth",
+            "role:administrador",
             "web"
         ]
     },
@@ -55,6 +59,7 @@
         "action": "App\\Http\\Controllers\\AdministradoresController@store",
         "middleware": [
             "auth",
+            "role:administrador",
             "web"
         ]
     },
@@ -65,6 +70,7 @@
         "action": "App\\Http\\Controllers\\AdministradoresController@update",
         "middleware": [
             "auth",
+            "role:administrador",
             "web"
         ]
     },
@@ -182,6 +188,7 @@
         "name": "alunos/familiares/add",
         "action": "App\\Http\\Controllers\\AlunoInfoFamiliaresController@add",
         "middleware": [
+            "auth",
             "web"
         ]
     },
@@ -191,6 +198,7 @@
         "name": "alunos/familiares/delete",
         "action": "App\\Http\\Controllers\\AlunoInfoFamiliaresController@delete",
         "middleware": [
+            "auth",
             "web"
         ]
     },
@@ -200,6 +208,7 @@
         "name": "alunos/familiares/update",
         "action": "App\\Http\\Controllers\\AlunoInfoFamiliaresController@update",
         "middleware": [
+            "auth",
             "web"
         ]
     },
@@ -210,6 +219,7 @@
         "action": "App\\Http\\Controllers\\AlunosController@logActionView",
         "middleware": [
             "auth",
+            "role:administrador,coordenador,professor",
             "web"
         ]
     },
@@ -220,6 +230,7 @@
         "action": "App\\Http\\Controllers\\AlunosController@searchByNucleo",
         "middleware": [
             "auth",
+            "role:administrador,coordenador,professor",
             "web"
         ]
     },
@@ -410,6 +421,7 @@
         "name": "ambiente-virtual/search",
         "action": "App\\Http\\Controllers\\AmbienteVirtualController@search",
         "middleware": [
+            "auth",
             "web"
         ]
     },
@@ -460,6 +472,7 @@
         "action": "App\\Http\\Controllers\\AlunosController@searchByNucleoAPI",
         "middleware": [
             "auth",
+            "role:administrador,coordenador,professor",
             "web"
         ]
     },
@@ -579,6 +592,8 @@
         "name": "atendimento-psicologico/search",
         "action": "App\\Http\\Controllers\\AtendimentoPsicologicoController@search",
         "middleware": [
+            "auth",
+            "permissions",
             "web"
         ]
     },
@@ -610,6 +625,7 @@
         "middleware": [
             "auth",
             "restrict.professor",
+            "role:administrador,coordenador",
             "web"
         ]
     },
@@ -651,6 +667,7 @@
         "action": "App\\Http\\Controllers\\CodigoPersonalizadoController@index",
         "middleware": [
             "auth",
+            "role:administrador",
             "web"
         ]
     },
@@ -661,6 +678,7 @@
         "action": "App\\Http\\Controllers\\CodigoPersonalizadoController@update",
         "middleware": [
             "auth",
+            "role:administrador",
             "web"
         ]
     },
@@ -682,6 +700,7 @@
         "action": "App\\Http\\Controllers\\CoordenadoresController@showForm",
         "middleware": [
             "auth",
+            "permissions",
             "web"
         ]
     },
@@ -736,6 +755,7 @@
         "action": "App\\Http\\Controllers\\CoordenadoresController@enable",
         "middleware": [
             "auth",
+            "permissions",
             "web"
         ]
     },
@@ -812,6 +832,7 @@
         "action": "App\\Http\\Controllers\\DisciplinaController@index",
         "middleware": [
             "auth",
+            "role:administrador,coordenador",
             "web"
         ]
     },
@@ -822,6 +843,7 @@
         "action": "App\\Http\\Controllers\\DisciplinaController@store",
         "middleware": [
             "auth",
+            "role:administrador,coordenador",
             "web"
         ]
     },
@@ -832,6 +854,7 @@
         "action": "App\\Http\\Controllers\\DisciplinaController@create",
         "middleware": [
             "auth",
+            "role:administrador,coordenador",
             "web"
         ]
     },
@@ -842,6 +865,7 @@
         "action": "App\\Http\\Controllers\\DisciplinaController@destroy",
         "middleware": [
             "auth",
+            "role:administrador,coordenador",
             "web"
         ]
     },
@@ -852,6 +876,7 @@
         "action": "App\\Http\\Controllers\\DisciplinaController@show",
         "middleware": [
             "auth",
+            "role:administrador,coordenador",
             "web"
         ]
     },
@@ -862,6 +887,7 @@
         "action": "App\\Http\\Controllers\\DisciplinaController@update",
         "middleware": [
             "auth",
+            "role:administrador,coordenador",
             "web"
         ]
     },
@@ -872,6 +898,7 @@
         "action": "App\\Http\\Controllers\\DisciplinaController@edit",
         "middleware": [
             "auth",
+            "role:administrador,coordenador",
             "web"
         ]
     },
@@ -1059,6 +1086,7 @@
         "action": "App\\Http\\Controllers\\GeralController@index",
         "middleware": [
             "auth",
+            "role:administrador,coordenador",
             "web"
         ]
     },
@@ -1069,6 +1097,7 @@
         "action": "App\\Http\\Controllers\\GeralController@update",
         "middleware": [
             "auth",
+            "role:administrador,coordenador",
             "web"
         ]
     },
@@ -1118,6 +1147,7 @@
         "action": "App\\Http\\Controllers\\Auth\\LoginController@login",
         "middleware": [
             "guest",
+            "throttle:10,1",
             "web"
         ]
     },
@@ -1230,6 +1260,7 @@
         "action": "App\\Http\\Controllers\\MaterialController@create",
         "middleware": [
             "auth",
+            "role:administrador,coordenador,professor",
             "web"
         ]
     },
@@ -1240,6 +1271,7 @@
         "action": "App\\Http\\Controllers\\MaterialController@delete",
         "middleware": [
             "auth",
+            "role:administrador,coordenador,professor",
             "web"
         ]
     },
@@ -1261,6 +1293,7 @@
         "action": "App\\Http\\Controllers\\MaterialController@edit",
         "middleware": [
             "auth",
+            "role:administrador,coordenador,professor",
             "web"
         ]
     },
@@ -1271,6 +1304,7 @@
         "action": "App\\Http\\Controllers\\MaterialController@inactive",
         "middleware": [
             "auth",
+            "role:administrador,coordenador,professor",
             "web"
         ]
     },
@@ -1281,6 +1315,7 @@
         "action": "App\\Http\\Controllers\\MaterialController@restore",
         "middleware": [
             "auth",
+            "role:administrador,coordenador,professor",
             "web"
         ]
     },
@@ -1290,6 +1325,7 @@
         "name": null,
         "action": "App\\Http\\Controllers\\MaterialController@search",
         "middleware": [
+            "auth",
             "web"
         ]
     },
@@ -1354,6 +1390,8 @@
         "name": "professores-disciplinas.create",
         "action": "App\\Http\\Controllers\\NucleoProfessoresDisciplinasController@create",
         "middleware": [
+            "auth",
+            "role:administrador,coordenador",
             "web"
         ]
     },
@@ -1363,6 +1401,8 @@
         "name": "professores-disciplinas.delete",
         "action": "App\\Http\\Controllers\\NucleoProfessoresDisciplinasController@delete",
         "middleware": [
+            "auth",
+            "role:administrador,coordenador",
             "web"
         ]
     },
@@ -1372,6 +1412,8 @@
         "name": "professores-disciplinas.update",
         "action": "App\\Http\\Controllers\\NucleoProfessoresDisciplinasController@update",
         "middleware": [
+            "auth",
+            "role:administrador,coordenador",
             "web"
         ]
     },
@@ -1510,6 +1552,7 @@
         "name": "otp-login",
         "action": "Closure",
         "middleware": [
+            "throttle:5,1",
             "web"
         ]
     },
@@ -1519,6 +1562,7 @@
         "name": "otp-verify",
         "action": "Closure",
         "middleware": [
+            "throttle:10,1",
             "web"
         ]
     },
@@ -1548,6 +1592,7 @@
         "name": "password.email",
         "action": "App\\Http\\Controllers\\Auth\\ForgotPasswordController@sendResetLinkEmail",
         "middleware": [
+            "throttle:5,1",
             "web"
         ]
     },
@@ -1741,6 +1786,7 @@
         "action": "App\\Http\\Controllers\\ProfessoresController@import",
         "middleware": [
             "auth",
+            "role:administrador,coordenador",
             "web"
         ]
     },
@@ -1821,6 +1867,8 @@
         "name": "psicologos/search",
         "action": "App\\Http\\Controllers\\PsicologosController@search",
         "middleware": [
+            "auth",
+            "permissions",
             "web"
         ]
     },
@@ -1869,6 +1917,7 @@
         "name": "seja-um-professor.create",
         "action": "Closure",
         "middleware": [
+            "throttle:5,1",
             "web"
         ]
     },
@@ -1878,6 +1927,7 @@
         "name": "switch.role",
         "action": "Closure",
         "middleware": [
+            "auth",
             "web"
         ]
     },
@@ -1887,6 +1937,7 @@
         "name": null,
         "action": "Closure",
         "middleware": [
+            "throttle:20,1",
             "web"
         ]
     }

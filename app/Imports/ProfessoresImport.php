@@ -78,6 +78,7 @@ class ProfessoresImport implements ToModel, WithHeadingRow, WithValidation, Skip
                 'name'  => $row['nome'],
                 'email' => $email,
                 'password' => Hash::make('uneafro@2019'), // senha padrão
+                'first_login' => true, // troca obrigatória no primeiro acesso
                 'role'  => 'professor',
                 'email_verified_at' => now(),
             ]);

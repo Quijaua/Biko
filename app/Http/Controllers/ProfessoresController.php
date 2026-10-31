@@ -942,7 +942,8 @@ $coordenadorNucleos = DB::table('nucleos')
             return back()->with('success', "Importação concluída com sucesso: {$qtdImportados} registro(s) importado(s).");
 
         } catch (\Exception $e) {
-            return back()->with('error', 'Ocorreu um erro ao importar: ' . $e->getMessage());
+            \Log::error('Erro na importação de professores', ['exception' => $e]);
+            return back()->with('error', 'Ocorreu um erro ao importar a planilha. Verifique o formato e tente novamente.');
         }
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\AlunoInfoFamiliares;
+use Illuminate\Support\Facades\Auth;
 
 class AlunoInfoFamiliaresController extends Controller
 {
@@ -12,8 +13,28 @@ class AlunoInfoFamiliaresController extends Controller
       return 'INFORMAÇÕES FAMILIARES';
     }
 
+    /**
+     * Aluno só mexe nos próprios familiares; demais perfis passam pelo
+     * mesmo critério de antes (tela de edição do aluno).
+     */
+    private function autorizar(?AlunoInfoFamiliares $infos = null, $idUser = null): void
+    {
+      $user = Auth::user();
+
+      if (! in_array($user->role, ['aluno', 'administrador', 'coordenador', 'professor'], true)) {
+        abort(403, 'Acesso não autorizado.');
+      }
+
+      if ($user->role === 'aluno') {
+        $dono = $infos ? $infos->id_user : $idUser;
+        abort_unless((int) $dono === (int) $user->id, 403, 'Acesso não autorizado.');
+      }
+    }
+
     public function add(Request $request)
     {
+      $this->autorizar(null, $request->input('inputIdUser'));
+
       $infos = AlunoInfoFamiliares::create([
         'id_user' => $request->input('inputIdUser'),
         'GrauParentesco' => $request->input('inputGrauParentesco'),
@@ -32,7 +53,8 @@ class AlunoInfoFamiliaresController extends Controller
 
     public function update(Request $request, $id)
     {
-      $infos = AlunoInfoFamiliares::find($id);
+      $infos = AlunoInfoFamiliares::findOrFail($id);
+      $this->autorizar($infos);
 
       $infos->GrauParentesco = $request->input('inputGrauParentesco');
       $infos->Idade = $request->input('inputIdade');
@@ -46,6 +68,9 @@ class AlunoInfoFamiliaresController extends Controller
 
     public function delete($id)
     {
-      AlunoInfoFamiliares::destroy($id);
+      $infos = AlunoInfoFamiliares::findOrFail($id);
+      $this->autorizar($infos);
+
+      $infos->delete();
     }
 }
