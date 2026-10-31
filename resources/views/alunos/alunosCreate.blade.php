@@ -50,7 +50,7 @@
                         <div class="row mt-2">
                             <div class="col">
                                 <div class="alert alert-success text-center" role="alert">
-                                    {!! \Session::get('success') !!}
+                                    {{ \Session::get('success') }}
                                 </div>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                         <div class="row mt-2">
                             <div class="col">
                                 <div class="alert alert-danger text-center" role="alert">
-                                    {!! \Session::get('error') !!}
+                                    {{ \Session::get('error') }}
                                 </div>
                             </div>
                         </div>
@@ -487,7 +487,7 @@
                                     const campoBolsista = document.getElementById("campoBolsista");
 
                                     // id do núcleo virtual definido no .env
-                                    const nucleoVirtual = {{ env('NUCLEO_AMBIENTE_VIRTUAL') }};
+                                    const nucleoVirtual = {{ config('global.nucleo_ambiente_virtual') }};
 
                                     function verificarNucleo() {
                                         if (selectNucleo.value == nucleoVirtual) {

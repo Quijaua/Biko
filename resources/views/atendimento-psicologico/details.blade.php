@@ -53,7 +53,7 @@
     <div class="row mt-2">
         <div class="col-6 m-auto">
             <div class="alert alert-success text-center">
-                {!! session::get('success') !!}
+                {{ session::get('success') }}
             </div>
         </div>
     </div>
@@ -63,7 +63,7 @@
     <div class="row mt-2">
         <div class="col-6 m-auto">
             <div class="alert alert-danger text-center">
-                {!! session::get('error') !!}
+                {{ session::get('error') }}
             </div>
         </div>
     </div>

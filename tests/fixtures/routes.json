@@ -1,0 +1,1944 @@
+[
+    {
+        "methods": "GET",
+        "uri": "/",
+        "name": null,
+        "action": "Closure",
+        "middleware": [
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "administradores",
+        "name": "administradores.index",
+        "action": "App\\Http\\Controllers\\AdministradoresController@index",
+        "middleware": [
+            "auth",
+            "role:administrador",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "administradores/create",
+        "name": "administradores.create",
+        "action": "App\\Http\\Controllers\\AdministradoresController@create",
+        "middleware": [
+            "auth",
+            "role:administrador",
+            "web"
+        ]
+    },
+    {
+        "methods": "DELETE",
+        "uri": "administradores/destroy/{id}",
+        "name": "administradores.destroy",
+        "action": "App\\Http\\Controllers\\AdministradoresController@destroy",
+        "middleware": [
+            "auth",
+            "role:administrador",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "administradores/edit/{id}",
+        "name": "administradores.edit",
+        "action": "App\\Http\\Controllers\\AdministradoresController@edit",
+        "middleware": [
+            "auth",
+            "role:administrador",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "administradores/store",
+        "name": "administradores.store",
+        "action": "App\\Http\\Controllers\\AdministradoresController@store",
+        "middleware": [
+            "auth",
+            "role:administrador",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "administradores/update/{id}",
+        "name": "administradores.update",
+        "action": "App\\Http\\Controllers\\AdministradoresController@update",
+        "middleware": [
+            "auth",
+            "role:administrador",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "alunos",
+        "name": "alunos",
+        "action": "App\\Http\\Controllers\\AlunosController@index",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "alunos/acompanhamento/{id}",
+        "name": null,
+        "action": "App\\Http\\Controllers\\AlunosController@store",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "alunos/add",
+        "name": null,
+        "action": "App\\Http\\Controllers\\AlunosController@showForm",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "alunos/create",
+        "name": null,
+        "action": "App\\Http\\Controllers\\AlunosController@create",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "DELETE",
+        "uri": "alunos/delete/{id}",
+        "name": "alunos/delete",
+        "action": "App\\Http\\Controllers\\AlunosController@delete",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "alunos/details/{id}",
+        "name": null,
+        "action": "App\\Http\\Controllers\\AlunosController@details",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "alunos/disable/{id}",
+        "name": null,
+        "action": "App\\Http\\Controllers\\AlunosController@disable",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "alunos/edit/{id}",
+        "name": null,
+        "action": "App\\Http\\Controllers\\AlunosController@edit",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "alunos/enable/{id}",
+        "name": null,
+        "action": "App\\Http\\Controllers\\AlunosController@enable",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "alunos/export",
+        "name": "alunos/export/",
+        "action": "App\\Http\\Controllers\\AlunosController@export",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "alunos/familiares/add",
+        "name": "alunos/familiares/add",
+        "action": "App\\Http\\Controllers\\AlunoInfoFamiliaresController@add",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "alunos/familiares/delete/{id}",
+        "name": "alunos/familiares/delete",
+        "action": "App\\Http\\Controllers\\AlunoInfoFamiliaresController@delete",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "alunos/familiares/update/{id}",
+        "name": "alunos/familiares/update",
+        "action": "App\\Http\\Controllers\\AlunoInfoFamiliaresController@update",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "alunos/log/{id}",
+        "name": "alunos/log",
+        "action": "App\\Http\\Controllers\\AlunosController@logActionView",
+        "middleware": [
+            "auth",
+            "role:administrador,coordenador,professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS|QUERY",
+        "uri": "alunos/nucleo/search",
+        "name": "alunos/nucleo/search",
+        "action": "App\\Http\\Controllers\\AlunosController@searchByNucleo",
+        "middleware": [
+            "auth",
+            "role:administrador,coordenador,professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS|QUERY",
+        "uri": "alunos/search",
+        "name": "alunos/search",
+        "action": "App\\Http\\Controllers\\AlunosController@search",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "alunos/update/{id}",
+        "name": null,
+        "action": "App\\Http\\Controllers\\AlunosController@update",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "ambiente-virtual",
+        "name": "ambiente-virtual.index",
+        "action": "App\\Http\\Controllers\\AmbienteVirtualController@index",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "ambiente-virtual",
+        "name": "ambiente-virtual.store",
+        "action": "App\\Http\\Controllers\\AmbienteVirtualController@store",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "ambiente-virtual/assistido/desmarcar",
+        "name": "ambiente-virtual.desmarcar-assistido",
+        "action": "App\\Http\\Controllers\\AmbienteVirtualController@desmarcarAssistido",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "ambiente-virtual/assistido/marcar",
+        "name": "ambiente-virtual.marcar-assistido",
+        "action": "App\\Http\\Controllers\\AmbienteVirtualController@marcarAssistido",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "ambiente-virtual/comentarios/adicionar/{id}",
+        "name": "ambiente-virtual.comentar",
+        "action": "App\\Http\\Controllers\\AmbienteVirtualController@comentar",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "ambiente-virtual/comentarios/responder",
+        "name": "ambiente-virtual.responder-comentario",
+        "action": "App\\Http\\Controllers\\AmbienteVirtualController@responder",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "ambiente-virtual/create",
+        "name": "ambiente-virtual.create",
+        "action": "App\\Http\\Controllers\\AmbienteVirtualController@create",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "ambiente-virtual/export-watched/{id}",
+        "name": "ambiente-virtual.export-watched",
+        "action": "App\\Http\\Controllers\\AmbienteVirtualController@exportWatched",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "ambiente-virtual/notas/adicionar/{id}",
+        "name": "ambiente-virtual.anotar",
+        "action": "App\\Http\\Controllers\\AmbienteVirtualController@anotar",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "ambiente-virtual/questionario",
+        "name": "ambiente-virtual.questionario",
+        "action": "App\\Http\\Controllers\\QuestionarioController@questionario",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "ambiente-virtual/questionario/create/{id}",
+        "name": "ambiente-virtual.questionario.create",
+        "action": "App\\Http\\Controllers\\QuestionarioController@create",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "ambiente-virtual/questionario/responder",
+        "name": "ambiente-virtual.questionario.responder",
+        "action": "App\\Http\\Controllers\\QuestionarioController@responder",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "ambiente-virtual/questionario/store",
+        "name": "ambiente-virtual.questionario.store",
+        "action": "App\\Http\\Controllers\\QuestionarioController@store",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "DELETE",
+        "uri": "ambiente-virtual/questionario/{id}/destroy",
+        "name": "ambiente-virtual.questionario.destroy",
+        "action": "App\\Http\\Controllers\\QuestionarioController@destroy",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "ambiente-virtual/questionario/{id}/edit",
+        "name": "ambiente-virtual.questionario.edit",
+        "action": "App\\Http\\Controllers\\QuestionarioController@edit",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "PUT",
+        "uri": "ambiente-virtual/questionario/{id}/update",
+        "name": "ambiente-virtual.questionario.update",
+        "action": "App\\Http\\Controllers\\QuestionarioController@update",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS|QUERY",
+        "uri": "ambiente-virtual/search",
+        "name": "ambiente-virtual/search",
+        "action": "App\\Http\\Controllers\\AmbienteVirtualController@search",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "DELETE",
+        "uri": "ambiente-virtual/{ambiente_virtual}",
+        "name": "ambiente-virtual.destroy",
+        "action": "App\\Http\\Controllers\\AmbienteVirtualController@destroy",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "ambiente-virtual/{ambiente_virtual}",
+        "name": "ambiente-virtual.show",
+        "action": "App\\Http\\Controllers\\AmbienteVirtualController@show",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "PUT|PATCH",
+        "uri": "ambiente-virtual/{ambiente_virtual}",
+        "name": "ambiente-virtual.update",
+        "action": "App\\Http\\Controllers\\AmbienteVirtualController@update",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "ambiente-virtual/{ambiente_virtual}/edit",
+        "name": "ambiente-virtual.edit",
+        "action": "App\\Http\\Controllers\\AmbienteVirtualController@edit",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS|QUERY",
+        "uri": "api/alunos/nucleo/search",
+        "name": "alunos/nucleo/search.api",
+        "action": "App\\Http\\Controllers\\AlunosController@searchByNucleoAPI",
+        "middleware": [
+            "auth",
+            "role:administrador,coordenador,professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "api/cadastro-aluno",
+        "name": null,
+        "action": "App\\Http\\Controllers\\API\\AlunoController@cadastraAluno",
+        "middleware": [
+            "api",
+            "auth:api"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "api/psicologos/{id}/datas",
+        "name": null,
+        "action": "App\\Http\\Controllers\\PlantaoPsicologicoController@datasDisponiveis",
+        "middleware": [
+            "restrict.professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "api/psicologos/{id}/horarios",
+        "name": null,
+        "action": "App\\Http\\Controllers\\PlantaoPsicologicoController@horariosDisponiveis",
+        "middleware": [
+            "restrict.professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "api/user",
+        "name": null,
+        "action": "Closure",
+        "middleware": [
+            "api",
+            "auth:api"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "apoio-emocional",
+        "name": "painel.supervisora",
+        "action": "App\\Http\\Controllers\\SupervisoraController@index",
+        "middleware": [
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "atendimento-psicologico",
+        "name": "atendimento-psicologico.index",
+        "action": "App\\Http\\Controllers\\AtendimentoPsicologicoController@index",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "atendimento-psicologico/create",
+        "name": "atendimento-psicologico.create",
+        "action": "App\\Http\\Controllers\\AtendimentoPsicologicoController@create",
+        "middleware": [
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "atendimento-psicologico/details/{id}",
+        "name": "atendimento-psicologico.details",
+        "action": "App\\Http\\Controllers\\AtendimentoPsicologicoController@details",
+        "middleware": [
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "atendimento-psicologico/download/{id}",
+        "name": "atendimento-psicologico.download",
+        "action": "App\\Http\\Controllers\\AtendimentoPsicologicoController@download",
+        "middleware": [
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "atendimento-psicologico/edit/{id}",
+        "name": "atendimento-psicologico.edit",
+        "action": "App\\Http\\Controllers\\AtendimentoPsicologicoController@edit",
+        "middleware": [
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS|QUERY",
+        "uri": "atendimento-psicologico/estudante/{id}",
+        "name": "atendimento-psicologico.estudante",
+        "action": "App\\Http\\Controllers\\AtendimentoPsicologicoController@showByEstudante",
+        "middleware": [
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS|QUERY",
+        "uri": "atendimento-psicologico/search",
+        "name": "atendimento-psicologico/search",
+        "action": "App\\Http\\Controllers\\AtendimentoPsicologicoController@search",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "atendimento-psicologico/store",
+        "name": "atendimento-psicologico.store",
+        "action": "App\\Http\\Controllers\\AtendimentoPsicologicoController@store",
+        "middleware": [
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "atendimento-psicologico/update/{id}",
+        "name": "atendimento-psicologico.update",
+        "action": "App\\Http\\Controllers\\AtendimentoPsicologicoController@update",
+        "middleware": [
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "auditoria",
+        "name": "auditoria.index",
+        "action": "App\\Http\\Controllers\\AuditoriaController@index",
+        "middleware": [
+            "auth",
+            "restrict.professor",
+            "role:administrador,coordenador",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "aula-programa-esperanca-garcia",
+        "name": "ead.register",
+        "action": "App\\Http\\Controllers\\EadController@register",
+        "middleware": [
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "change_default_password",
+        "name": "change_default_password",
+        "action": "App\\Http\\Controllers\\Auth\\FirstLoginController@changePassword",
+        "middleware": [
+            "auth",
+            "restrict.professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "change_default_username",
+        "name": "change_default_username",
+        "action": "App\\Http\\Controllers\\Auth\\FirstLoginController@changeUsername",
+        "middleware": [
+            "auth",
+            "restrict.professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "codigo-personalizado",
+        "name": "codigo-personalizado.index",
+        "action": "App\\Http\\Controllers\\CodigoPersonalizadoController@index",
+        "middleware": [
+            "auth",
+            "role:administrador",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "codigo-personalizado/update",
+        "name": "codigo-personalizado.update",
+        "action": "App\\Http\\Controllers\\CodigoPersonalizadoController@update",
+        "middleware": [
+            "auth",
+            "role:administrador",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "coordenadores",
+        "name": null,
+        "action": "App\\Http\\Controllers\\CoordenadoresController@index",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "coordenadores/add",
+        "name": null,
+        "action": "App\\Http\\Controllers\\CoordenadoresController@showForm",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "coordenadores/create",
+        "name": null,
+        "action": "App\\Http\\Controllers\\CoordenadoresController@create",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "coordenadores/details/{id}",
+        "name": null,
+        "action": "App\\Http\\Controllers\\CoordenadoresController@details",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "coordenadores/disable/{id}",
+        "name": null,
+        "action": "App\\Http\\Controllers\\CoordenadoresController@disable",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "coordenadores/edit/{id}",
+        "name": null,
+        "action": "App\\Http\\Controllers\\CoordenadoresController@edit",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "coordenadores/enable/{id}",
+        "name": null,
+        "action": "App\\Http\\Controllers\\CoordenadoresController@enable",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "coordenadores/export",
+        "name": "coordenadores/export/",
+        "action": "App\\Http\\Controllers\\CoordenadoresController@export",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS|QUERY",
+        "uri": "coordenadores/search",
+        "name": "coordenadores/search",
+        "action": "App\\Http\\Controllers\\CoordenadoresController@search",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "coordenadores/update/{id}",
+        "name": null,
+        "action": "App\\Http\\Controllers\\CoordenadoresController@update",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "dashboard",
+        "name": "dashboard",
+        "action": "Closure",
+        "middleware": [
+            "auth",
+            "restrict.aluno",
+            "restrict.professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "dashboard/cadastros-json/{dias}",
+        "name": null,
+        "action": "Closure",
+        "middleware": [
+            "auth",
+            "restrict.aluno",
+            "restrict.professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "default_username",
+        "name": "default_username",
+        "action": "App\\Http\\Controllers\\Auth\\FirstLoginController@username",
+        "middleware": [
+            "auth",
+            "restrict.professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "disciplinas",
+        "name": "disciplinas.index",
+        "action": "App\\Http\\Controllers\\DisciplinaController@index",
+        "middleware": [
+            "auth",
+            "role:administrador,coordenador",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "disciplinas",
+        "name": "disciplinas.store",
+        "action": "App\\Http\\Controllers\\DisciplinaController@store",
+        "middleware": [
+            "auth",
+            "role:administrador,coordenador",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "disciplinas/create",
+        "name": "disciplinas.create",
+        "action": "App\\Http\\Controllers\\DisciplinaController@create",
+        "middleware": [
+            "auth",
+            "role:administrador,coordenador",
+            "web"
+        ]
+    },
+    {
+        "methods": "DELETE",
+        "uri": "disciplinas/{disciplina}",
+        "name": "disciplinas.destroy",
+        "action": "App\\Http\\Controllers\\DisciplinaController@destroy",
+        "middleware": [
+            "auth",
+            "role:administrador,coordenador",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "disciplinas/{disciplina}",
+        "name": "disciplinas.show",
+        "action": "App\\Http\\Controllers\\DisciplinaController@show",
+        "middleware": [
+            "auth",
+            "role:administrador,coordenador",
+            "web"
+        ]
+    },
+    {
+        "methods": "PUT|PATCH",
+        "uri": "disciplinas/{disciplina}",
+        "name": "disciplinas.update",
+        "action": "App\\Http\\Controllers\\DisciplinaController@update",
+        "middleware": [
+            "auth",
+            "role:administrador,coordenador",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "disciplinas/{disciplina}/edit",
+        "name": "disciplinas.edit",
+        "action": "App\\Http\\Controllers\\DisciplinaController@edit",
+        "middleware": [
+            "auth",
+            "role:administrador,coordenador",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "ead",
+        "name": "ead.index",
+        "action": "App\\Http\\Controllers\\EadController@index",
+        "middleware": [
+            "auth",
+            "restrict.aluno",
+            "restrict.professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "ead/create",
+        "name": "ead.create",
+        "action": "App\\Http\\Controllers\\EadController@create",
+        "middleware": [
+            "auth",
+            "restrict.aluno",
+            "restrict.professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "DELETE",
+        "uri": "ead/destroy/{id}",
+        "name": "ead.destroy",
+        "action": "App\\Http\\Controllers\\EadController@destroy",
+        "middleware": [
+            "auth",
+            "restrict.aluno",
+            "restrict.professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "ead/details/{id}",
+        "name": "ead.details",
+        "action": "App\\Http\\Controllers\\EadController@details",
+        "middleware": [
+            "auth",
+            "restrict.aluno",
+            "restrict.professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "ead/edit/{id}",
+        "name": "ead.edit",
+        "action": "App\\Http\\Controllers\\EadController@edit",
+        "middleware": [
+            "auth",
+            "restrict.aluno",
+            "restrict.professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "ead/participacao",
+        "name": "ead.participacao",
+        "action": "App\\Http\\Controllers\\EadController@participacao",
+        "middleware": [
+            "auth",
+            "restrict.aluno",
+            "restrict.professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "ead/participantes/{id}",
+        "name": "ead.participantes",
+        "action": "App\\Http\\Controllers\\EadController@participantes",
+        "middleware": [
+            "auth",
+            "restrict.aluno",
+            "restrict.professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "ead/register/store",
+        "name": "ead.register-store",
+        "action": "App\\Http\\Controllers\\EadController@registerStore",
+        "middleware": [
+            "auth",
+            "restrict.aluno",
+            "restrict.professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "ead/remove_material",
+        "name": "ead.remove_material",
+        "action": "App\\Http\\Controllers\\EadController@remove_material",
+        "middleware": [
+            "auth",
+            "restrict.aluno",
+            "restrict.professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "ead/store",
+        "name": "ead.store",
+        "action": "App\\Http\\Controllers\\EadController@store",
+        "middleware": [
+            "auth",
+            "restrict.aluno",
+            "restrict.professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "ead/update/{id}",
+        "name": "ead.update",
+        "action": "App\\Http\\Controllers\\EadController@update",
+        "middleware": [
+            "auth",
+            "restrict.aluno",
+            "restrict.professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS|QUERY",
+        "uri": "ead/upload",
+        "name": "ead.upload",
+        "action": "App\\Http\\Controllers\\EadController@upload",
+        "middleware": [
+            "auth",
+            "restrict.aluno",
+            "restrict.professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "email/resend",
+        "name": "verification.resend",
+        "action": "App\\Http\\Controllers\\Auth\\VerificationController@resend",
+        "middleware": [
+            "auth",
+            "throttle:6,1",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "email/verify",
+        "name": "verification.notice",
+        "action": "App\\Http\\Controllers\\Auth\\VerificationController@show",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "email/verify/{id}/{hash}",
+        "name": "verification.verify",
+        "action": "App\\Http\\Controllers\\Auth\\VerificationController@verify",
+        "middleware": [
+            "auth",
+            "signed",
+            "throttle:6,1",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "geral",
+        "name": "geral.index",
+        "action": "App\\Http\\Controllers\\GeralController@index",
+        "middleware": [
+            "auth",
+            "role:administrador,coordenador",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "geral/update",
+        "name": "geral.update",
+        "action": "App\\Http\\Controllers\\GeralController@update",
+        "middleware": [
+            "auth",
+            "role:administrador,coordenador",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "google/redirect",
+        "name": "google.redirect",
+        "action": "App\\Http\\Controllers\\GoogleLoginController@redirectToGoogle",
+        "middleware": [
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "home",
+        "name": "home",
+        "action": "App\\Http\\Controllers\\HomeController@index",
+        "middleware": [
+            "auth",
+            "verified",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "inscricoes-para-cursinho-pre-vestibular-nucleo-yabas",
+        "name": "register-slug",
+        "action": "Closure",
+        "middleware": [
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "login",
+        "name": "login",
+        "action": "App\\Http\\Controllers\\Auth\\LoginController@showLoginForm",
+        "middleware": [
+            "guest",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "login",
+        "name": null,
+        "action": "App\\Http\\Controllers\\Auth\\LoginController@login",
+        "middleware": [
+            "guest",
+            "throttle:10,1",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "logout",
+        "name": "logout",
+        "action": "App\\Http\\Controllers\\Auth\\LoginController@logout",
+        "middleware": [
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "mensagens",
+        "name": "messages.index",
+        "action": "App\\Http\\Controllers\\MensagensController@index",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "mensagens/create",
+        "name": "messages.create",
+        "action": "App\\Http\\Controllers\\MensagensController@create",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "mensagens/removed",
+        "name": "messages.removed",
+        "action": "App\\Http\\Controllers\\MensagensController@removed",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "mensagens/store",
+        "name": "messages.store",
+        "action": "App\\Http\\Controllers\\MensagensController@store",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "DELETE",
+        "uri": "mensagens/{mensagem}/destroy",
+        "name": "messages.destroy",
+        "action": "App\\Http\\Controllers\\MensagensController@destroy",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "mensagens/{mensagem}/show",
+        "name": "messages.show",
+        "action": "App\\Http\\Controllers\\MensagensController@show",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "novos-voluntarios",
+        "name": "novos-voluntarios",
+        "action": "App\\Http\\Controllers\\VoluntarioController@index",
+        "middleware": [
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "nucleo/estados/{estado}",
+        "name": null,
+        "action": "Closure",
+        "middleware": [
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "nucleo/material",
+        "name": "nucleo.material",
+        "action": "App\\Http\\Controllers\\MaterialController@index",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "nucleo/material/create",
+        "name": "nucleo.material.create",
+        "action": "App\\Http\\Controllers\\MaterialController@create",
+        "middleware": [
+            "auth",
+            "role:administrador,coordenador,professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "DELETE",
+        "uri": "nucleo/material/delete/{id}",
+        "name": "nucleo.material.delete",
+        "action": "App\\Http\\Controllers\\MaterialController@delete",
+        "middleware": [
+            "auth",
+            "role:administrador,coordenador,professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "nucleo/material/download/{id}",
+        "name": "material.download",
+        "action": "App\\Http\\Controllers\\MaterialController@download",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "PUT",
+        "uri": "nucleo/material/edit/{id}",
+        "name": "material.edit",
+        "action": "App\\Http\\Controllers\\MaterialController@edit",
+        "middleware": [
+            "auth",
+            "role:administrador,coordenador,professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "nucleo/material/inactive/{id}",
+        "name": "nucleo.material.inactive",
+        "action": "App\\Http\\Controllers\\MaterialController@inactive",
+        "middleware": [
+            "auth",
+            "role:administrador,coordenador,professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "nucleo/material/restore/{id}",
+        "name": "nucleo.material.restore",
+        "action": "App\\Http\\Controllers\\MaterialController@restore",
+        "middleware": [
+            "auth",
+            "role:administrador,coordenador,professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "nucleo/material/search",
+        "name": null,
+        "action": "App\\Http\\Controllers\\MaterialController@search",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "nucleo/presences",
+        "name": "nucleo/presences",
+        "action": "App\\Http\\Controllers\\NucleoController@presences_index",
+        "middleware": [
+            "auth",
+            "restrict.professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "nucleo/presences/create",
+        "name": "nucleo/presences/create",
+        "action": "App\\Http\\Controllers\\NucleoController@presences_create",
+        "middleware": [
+            "auth",
+            "restrict.professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "nucleo/presences/destroy",
+        "name": "nucleo/presences/destroy",
+        "action": "App\\Http\\Controllers\\NucleoController@presences_destroy",
+        "middleware": [
+            "auth",
+            "restrict.professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "nucleo/presences/new",
+        "name": "nucleo/presences/new",
+        "action": "App\\Http\\Controllers\\NucleoController@presences_new",
+        "middleware": [
+            "auth",
+            "restrict.professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS|QUERY",
+        "uri": "nucleo/presences/search",
+        "name": null,
+        "action": "App\\Http\\Controllers\\NucleoController@search_presences",
+        "middleware": [
+            "auth",
+            "restrict.professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "nucleo/professores-disciplinas/create",
+        "name": "professores-disciplinas.create",
+        "action": "App\\Http\\Controllers\\NucleoProfessoresDisciplinasController@create",
+        "middleware": [
+            "auth",
+            "role:administrador,coordenador",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "nucleo/professores-disciplinas/delete",
+        "name": "professores-disciplinas.delete",
+        "action": "App\\Http\\Controllers\\NucleoProfessoresDisciplinasController@delete",
+        "middleware": [
+            "auth",
+            "role:administrador,coordenador",
+            "web"
+        ]
+    },
+    {
+        "methods": "PUT",
+        "uri": "nucleo/professores-disciplinas/update",
+        "name": "professores-disciplinas.update",
+        "action": "App\\Http\\Controllers\\NucleoProfessoresDisciplinasController@update",
+        "middleware": [
+            "auth",
+            "role:administrador,coordenador",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "nucleos",
+        "name": null,
+        "action": "App\\Http\\Controllers\\NucleoController@index",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "nucleos/add",
+        "name": null,
+        "action": "App\\Http\\Controllers\\NucleoController@showForm",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "nucleos/create",
+        "name": null,
+        "action": "App\\Http\\Controllers\\NucleoController@create",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "DELETE",
+        "uri": "nucleos/delete/{id}",
+        "name": null,
+        "action": "App\\Http\\Controllers\\NucleoController@destroy",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "nucleos/details/{id}",
+        "name": null,
+        "action": "App\\Http\\Controllers\\NucleoController@details",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "nucleos/disable/{id}",
+        "name": null,
+        "action": "App\\Http\\Controllers\\NucleoController@disable",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "nucleos/edit/{id}",
+        "name": null,
+        "action": "App\\Http\\Controllers\\NucleoController@edit",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "nucleos/enable/{id}",
+        "name": null,
+        "action": "App\\Http\\Controllers\\NucleoController@enable",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "nucleos/importar_alunos/{id}",
+        "name": "alunos.importar",
+        "action": "App\\Http\\Controllers\\AlunosController@importar",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS|QUERY",
+        "uri": "nucleos/search",
+        "name": null,
+        "action": "App\\Http\\Controllers\\NucleoController@search",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "nucleos/update/{id}",
+        "name": null,
+        "action": "App\\Http\\Controllers\\NucleoController@update",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "oauth/google/callback",
+        "name": "google.callback",
+        "action": "App\\Http\\Controllers\\GoogleLoginController@handleGoogleCallback",
+        "middleware": [
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "otp-login",
+        "name": "otp-login",
+        "action": "Closure",
+        "middleware": [
+            "throttle:5,1",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "otp-verify",
+        "name": "otp-verify",
+        "action": "Closure",
+        "middleware": [
+            "throttle:10,1",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "password/confirm",
+        "name": "password.confirm",
+        "action": "App\\Http\\Controllers\\Auth\\ConfirmPasswordController@showConfirmForm",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "password/confirm",
+        "name": null,
+        "action": "App\\Http\\Controllers\\Auth\\ConfirmPasswordController@confirm",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "password/email",
+        "name": "password.email",
+        "action": "App\\Http\\Controllers\\Auth\\ForgotPasswordController@sendResetLinkEmail",
+        "middleware": [
+            "throttle:5,1",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "password/reset",
+        "name": "password.request",
+        "action": "App\\Http\\Controllers\\Auth\\ForgotPasswordController@showLinkRequestForm",
+        "middleware": [
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "password/reset",
+        "name": "password.update",
+        "action": "App\\Http\\Controllers\\Auth\\ResetPasswordController@reset",
+        "middleware": [
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "password/reset/{token}",
+        "name": "password.reset",
+        "action": "App\\Http\\Controllers\\Auth\\ResetPasswordController@showResetForm",
+        "middleware": [
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "plantao-psicologico",
+        "name": "plantao-psicologico.index",
+        "action": "App\\Http\\Controllers\\PlantaoPsicologicoController@index",
+        "middleware": [
+            "restrict.professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "plantao-psicologico/add",
+        "name": "plantao-psicologico.show",
+        "action": "App\\Http\\Controllers\\PlantaoPsicologicoController@show",
+        "middleware": [
+            "restrict.professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "plantao-psicologico/agendar",
+        "name": "plantao-psicologico.agendar",
+        "action": "App\\Http\\Controllers\\PlantaoPsicologicoController@agendar",
+        "middleware": [
+            "restrict.professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "plantao-psicologico/edit/{id}",
+        "name": "plantao-psicologico.edit",
+        "action": "App\\Http\\Controllers\\PlantaoPsicologicoController@edit",
+        "middleware": [
+            "restrict.professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "plantao-psicologico/store",
+        "name": "plantao-psicologico.store",
+        "action": "App\\Http\\Controllers\\PlantaoPsicologicoController@store",
+        "middleware": [
+            "restrict.professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "plantao-psicologico/update/{id}",
+        "name": "plantao-psicologico.update",
+        "action": "App\\Http\\Controllers\\PlantaoPsicologicoController@update",
+        "middleware": [
+            "restrict.professor",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "pre-cadastro",
+        "name": "pre-cadastro",
+        "action": "Closure",
+        "middleware": [
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "professores",
+        "name": "professores.index",
+        "action": "App\\Http\\Controllers\\ProfessoresController@index",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "professores/add",
+        "name": null,
+        "action": "App\\Http\\Controllers\\ProfessoresController@showForm",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "professores/create",
+        "name": null,
+        "action": "App\\Http\\Controllers\\ProfessoresController@create",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "professores/details/{id}",
+        "name": null,
+        "action": "App\\Http\\Controllers\\ProfessoresController@details",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "professores/disable/{id}",
+        "name": null,
+        "action": "App\\Http\\Controllers\\ProfessoresController@disable",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "professores/edit/{id}",
+        "name": null,
+        "action": "App\\Http\\Controllers\\ProfessoresController@edit",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "professores/enable/{id}",
+        "name": null,
+        "action": "App\\Http\\Controllers\\ProfessoresController@enable",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "professores/export",
+        "name": "professores/export/",
+        "action": "App\\Http\\Controllers\\ProfessoresController@export",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "professores/import",
+        "name": "professores.import",
+        "action": "App\\Http\\Controllers\\ProfessoresController@import",
+        "middleware": [
+            "auth",
+            "role:administrador,coordenador",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS|QUERY",
+        "uri": "professores/search",
+        "name": "professores/search",
+        "action": "App\\Http\\Controllers\\ProfessoresController@search",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "professores/update/{id}",
+        "name": null,
+        "action": "App\\Http\\Controllers\\ProfessoresController@update",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "psicologos",
+        "name": "psicologos.psicologos",
+        "action": "App\\Http\\Controllers\\PsicologosController@index",
+        "middleware": [
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "psicologos/add",
+        "name": null,
+        "action": "App\\Http\\Controllers\\PsicologosController@show",
+        "middleware": [
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "psicologos/create",
+        "name": null,
+        "action": "App\\Http\\Controllers\\PsicologosController@create",
+        "middleware": [
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "psicologos/details/{id}",
+        "name": null,
+        "action": "App\\Http\\Controllers\\PsicologosController@details",
+        "middleware": [
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "psicologos/edit/{id}",
+        "name": null,
+        "action": "App\\Http\\Controllers\\PsicologosController@edit",
+        "middleware": [
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET|POST|PUT|PATCH|DELETE|OPTIONS|QUERY",
+        "uri": "psicologos/search",
+        "name": "psicologos/search",
+        "action": "App\\Http\\Controllers\\PsicologosController@search",
+        "middleware": [
+            "auth",
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "psicologos/update/{id}",
+        "name": null,
+        "action": "App\\Http\\Controllers\\PsicologosController@update",
+        "middleware": [
+            "permissions",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "register",
+        "name": "register",
+        "action": "App\\Http\\Controllers\\Auth\\RegisterController@showRegistrationForm",
+        "middleware": [
+            "guest",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "register",
+        "name": null,
+        "action": "App\\Http\\Controllers\\Auth\\RegisterController@register",
+        "middleware": [
+            "guest",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "seja-um-professor",
+        "name": null,
+        "action": "Closure",
+        "middleware": [
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "seja-um-professor",
+        "name": "seja-um-professor.create",
+        "action": "Closure",
+        "middleware": [
+            "throttle:5,1",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "switch-role/{role}",
+        "name": "switch.role",
+        "action": "Closure",
+        "middleware": [
+            "auth",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "verifica-email-professor",
+        "name": null,
+        "action": "Closure",
+        "middleware": [
+            "throttle:20,1",
+            "web"
+        ]
+    }
+]

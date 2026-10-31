@@ -81,7 +81,7 @@ class AtendimentoPsicologicoController extends Controller
         ]);
 
         if ($request->hasFile('anexo')) {
-            $data['anexo'] = $request->file('anexo')->store('anexos/atendimentos');
+            $data['anexo'] = $request->file('anexo')->store('anexos/atendimentos', 'local');
         }
 
         if (!empty($data['data']) && !empty($data['horario'])) {
@@ -138,12 +138,13 @@ class AtendimentoPsicologicoController extends Controller
 
         if ($request->hasFile('anexo')) {
             // Deleta o anexo anterior se existir
-            if ($atendimento->anexo && \Storage::exists($atendimento->anexo)) {
-                \Storage::delete($atendimento->anexo);
+            if ($atendimento->anexo) {
+                \Storage::disk('local')->delete($atendimento->anexo);
+                \Storage::disk('public')->delete($atendimento->anexo);
             }
 
             // Armazena o novo anexo
-            $data['anexo'] = $request->file('anexo')->store('anexos/atendimentos');
+            $data['anexo'] = $request->file('anexo')->store('anexos/atendimentos', 'local');
         }
 
         $data['updated_by'] = Auth::id();
@@ -246,11 +247,13 @@ class AtendimentoPsicologicoController extends Controller
             abort(404, 'Arquivo não encontrado.');
         }
 
-        // usando o disco 'public'
-        if (!Storage::disk('public')->exists($atendimento->anexo)) {
-            abort(404, 'Arquivo não encontrado no servidor.');
+        // Novos anexos ficam no disco privado (local); os antigos podem estar no public.
+        foreach (['local', 'public'] as $disco) {
+            if (Storage::disk($disco)->exists($atendimento->anexo)) {
+                return Storage::disk($disco)->download($atendimento->anexo);
+            }
         }
 
-        return Storage::disk('public')->download($atendimento->anexo);
+        abort(404, 'Arquivo não encontrado no servidor.');
     }
 }

@@ -17,7 +17,7 @@
                 <div class="row mt-2">
                     <div class="col">
                         <div class="alert alert-danger text-center" role="alert">
-                            {!! session::get('error') !!}
+                            {{ session::get('error') }}
                         </div>
                     </div>
                 </div>

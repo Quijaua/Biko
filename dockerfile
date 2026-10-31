@@ -1,43 +1,27 @@
-FROM ubuntu:latest AS base
+FROM ubuntu:24.04
 
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
+ENV NODE_MAJOR=24
 
-# Install dependencies
-RUN apt update
-RUN apt install -y software-properties-common
-RUN add-apt-repository -y ppa:ondrej/php
-RUN apt update
-RUN apt install -y php8.3\
-    php8.3-cli\
-    php8.3-common\
-    php8.3-fpm\
-    php8.3-mysql\
-    php8.3-zip\
-    php8.3-gd\
-    php8.3-mbstring\
-    php8.3-curl\
-    php8.3-xml\
-    php8.3-bcmath\
-    php8.3-pdo
+# PHP 8.3 (versão padrão do Ubuntu 24.04), nginx, MySQL e utilitários
+RUN apt-get update && apt-get install -y \
+        ca-certificates curl gnupg unzip git \
+        php8.3-cli php8.3-fpm php8.3-common php8.3-mysql php8.3-zip \
+        php8.3-gd php8.3-mbstring php8.3-curl php8.3-xml php8.3-bcmath php8.3-intl \
+        nginx mysql-server \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install php-fpm
-RUN apt install -y php8.3-fpm php8.3-cli
-
-# Install composer
-RUN apt install -y curl
+# Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Install nodejs
-RUN apt install -y ca-certificates gnupg
-RUN mkdir -p /etc/apt/keyrings
-RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
-ENV NODE_MAJOR 20
-RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
-RUN apt update
-RUN apt install -y nodejs
+# Node.js (LTS)
+RUN mkdir -p /etc/apt/keyrings \
+    && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
+    && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_${NODE_MAJOR}.x nodistro main" > /etc/apt/sources.list.d/nodesource.list \
+    && apt-get update && apt-get install -y nodejs \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install nginx
-RUN apt install -y nginx
+# nginx
 RUN echo "\
     server {\n\
         listen 80;\n\
@@ -63,20 +47,17 @@ RUN echo "\
         }\n\
     }\n" > /etc/nginx/sites-available/default
 
-# Install MySQL
-RUN apt install -y mysql-server
-
-RUN service mysql start
-
 COPY . /var/www/html
 WORKDIR /var/www/html
 
-RUN chown -R www-data:www-data /var/www/html
-RUN mv .env_docker .env
-RUN mv /var/www/html/start.sh /.
-RUN chmod +x /start.sh
+RUN mv .env_docker .env \
+    && mv start.sh /start.sh \
+    && chmod +x /start.sh
 
-RUN composer install
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+RUN npm ci && npm run build
+
+RUN chown -R www-data:www-data /var/www/html
 
 EXPOSE 80
 

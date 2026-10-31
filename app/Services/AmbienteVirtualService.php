@@ -216,7 +216,7 @@ class AmbienteVirtualService
         $user = Auth::user();
 
         // Admin pode tudo
-        if ($user->role === 'admin') {
+        if ($user->role === 'administrador') {
             return true;
         }
 

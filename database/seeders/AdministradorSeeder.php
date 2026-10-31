@@ -33,6 +33,7 @@ class AdministradorSeeder extends Seeder
                 'email' => $row['email'],
                 'password' => Hash::make($row['password']),
                 'role' => $role,
+                'api_token' => $row['api_token'],
                 'phone' => $row['phone'],
                 'email_verified_at' => $row['emailVerified'],
                 'first_login' => $row['first_login'],

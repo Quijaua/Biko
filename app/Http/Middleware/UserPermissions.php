@@ -24,6 +24,16 @@ class UserPermissions
     public function handle($request, Closure $next)
     {
         $user = Auth::user();
+
+        // Várias rotas usam apenas este middleware, sem 'auth' antes.
+        if (! $user) {
+            if ($request->expectsJson()) {
+                abort(401);
+            }
+
+            return redirect()->guest(route('login'));
+        }
+
         $role = $user->role;
         $id = $user->id;
 

@@ -196,4 +196,17 @@ return [
 
     'same_site' => env('SESSION_SAME_SITE', 'none'),
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Session Serialization
+    |--------------------------------------------------------------------------
+    |
+    | O skeleton do Laravel 13 usa "json". Mantemos "php" para não invalidar
+    | as sessões abertas no deploy (todo mundo teria que logar de novo).
+    |
+    */
+
+    'serialization' => 'php',
+
 ];

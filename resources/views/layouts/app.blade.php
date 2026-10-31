@@ -15,7 +15,7 @@
     <title>@if($app_name != null){{ $app_name }}@else{{ config('app.name') }}@endif</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    @vite('resources/js/app.js')
     <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ asset('js/jquery.mask.min.js') }}"></script>
     <script src="{{ asset('js/jquery.maskMoney.min.js') }}"></script>
@@ -88,7 +88,7 @@
 
             if ($user->role === 'aluno') {
                 $aluno_nucleo_id = $user->aluno->id_nucleo ?? null;
-                $nucleoAmbienteVirtual = env('NUCLEO_AMBIENTE_VIRTUAL');
+                $nucleoAmbienteVirtual = config('global.nucleo_ambiente_virtual');
 
                 $ambiente_virtual = ($aluno_nucleo_id && $aluno_nucleo_id == $nucleoAmbienteVirtual);
             } elseif ($user->role !== 'aluno') {

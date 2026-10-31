@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>{{ env('APP_NAME') }}</title>
+        <title>{{ config('app.name') }}</title>
 
     <link href="{{ asset('dist/css/tabler.min.css?1738096682') }}" rel="stylesheet">
 
@@ -37,7 +37,7 @@
             </div>
             </header>
         <div class="container container-tight py-4 d-flex justify-content-center align-center" style="margin-top:200px">
-           <h1 class="welcome-title">{{ env('APP_NAME') }}</h1>
+           <h1 class="welcome-title">{{ config('app.name') }}</h1>
         </div>
     </div>
 </div>

@@ -16,7 +16,7 @@
             <hr/>
 
             <div class="clearfix">
-                {!! $mensagem->mensagem !!}
+                {!! \App\Support\HtmlSanitizer::clean($mensagem->mensagem) !!}
             </div>
 
             <a class="btn btn-primary float-right" href="{{ url()->previous() }}">Voltar</a>
