@@ -1933,6 +1933,50 @@
     },
     {
         "methods": "POST",
+        "uri": "transferencia-nucleo",
+        "name": "transferencia-nucleo.solicitar",
+        "action": "App\\Http\\Controllers\\TransferenciaNucleoController@solicitar",
+        "middleware": [
+            "auth",
+            "throttle:5,1",
+            "web"
+        ]
+    },
+    {
+        "methods": "GET",
+        "uri": "transferencias",
+        "name": "transferencias.index",
+        "action": "App\\Http\\Controllers\\TransferenciaNucleoController@index",
+        "middleware": [
+            "auth",
+            "role:administrador,coordenador",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "transferencias/{solicitacao}/aprovar",
+        "name": "transferencias.aprovar",
+        "action": "App\\Http\\Controllers\\TransferenciaNucleoController@aprovar",
+        "middleware": [
+            "auth",
+            "role:administrador,coordenador",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
+        "uri": "transferencias/{solicitacao}/recusar",
+        "name": "transferencias.recusar",
+        "action": "App\\Http\\Controllers\\TransferenciaNucleoController@recusar",
+        "middleware": [
+            "auth",
+            "role:administrador,coordenador",
+            "web"
+        ]
+    },
+    {
+        "methods": "POST",
         "uri": "verifica-email-professor",
         "name": null,
         "action": "Closure",

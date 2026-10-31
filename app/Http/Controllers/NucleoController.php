@@ -15,6 +15,7 @@ use App\Nucleo;
 use App\ListaPresenca;
 use App\Frequencia;
 use App\Disciplina;
+use App\Services\DesativacaoNucleoService;
 
 class NucleoController extends Controller
 {
@@ -188,24 +189,26 @@ class NucleoController extends Controller
         ->with('success', 'DADOS SALVOS COM SUCESSO.');
     }
 
-    public function disable(Request $request, $id)
+    public function disable(Request $request, $id, DesativacaoNucleoService $service)
     {
-      $nucleo = Nucleo::find($id);
-      $nucleo->Status = 0;
+      $nucleo = Nucleo::findOrFail($id);
+      $total = $service->desativar($nucleo);
 
-      $nucleo->save();
-
-      return back()->with('success', 'Núcleo inativado com sucesso.');
+      return back()->with('success', sprintf(
+        'Núcleo inativado com sucesso. Também foram inativados: %d estudante(s), %d professor(es) e %d coordenador(es).',
+        $total['alunos'], $total['professores'], $total['coordenadores']
+      ));
     }
 
-    public function enable(Request $request, $id)
+    public function enable(Request $request, $id, DesativacaoNucleoService $service)
     {
-      $nucleo = Nucleo::find($id);
-      $nucleo->Status = 1;
+      $nucleo = Nucleo::findOrFail($id);
+      $total = $service->reativar($nucleo);
 
-      $nucleo->save();
-
-      return back()->with('success', 'Núcleo ativado com sucesso.');
+      return back()->with('success', sprintf(
+        'Núcleo ativado com sucesso. Foram reativados: %d estudante(s), %d professor(es) e %d coordenador(es) que tinham sido inativados junto com ele.',
+        $total['alunos'], $total['professores'], $total['coordenadores']
+      ));
     }
 
     public function search(Request $request)

@@ -23,6 +23,7 @@ use App\Http\Controllers\ProfessoresController;
 use App\Http\Controllers\PsicologosController;
 use App\Http\Controllers\QuestionarioController;
 use App\Http\Controllers\SupervisoraController;
+use App\Http\Controllers\TransferenciaNucleoController;
 use App\Http\Controllers\VoluntarioController;
 use App\User;
 use App\Nucleo;
@@ -209,6 +210,14 @@ Route::get('nucleos/disable/{id}', [NucleoController::class, 'disable'])->middle
 Route::get('nucleos/enable/{id}', [NucleoController::class, 'enable'])->middleware('permissions');
 Route::delete('nucleos/delete/{id}', [NucleoController::class, 'destroy'])->middleware('permissions');
 Route::any('nucleos/search', [NucleoController::class, 'search'])->middleware('auth');
+
+// TRANSFERÊNCIA DE NÚCLEO (quando o Núcleo da pessoa é desativado)
+Route::post('transferencia-nucleo', [TransferenciaNucleoController::class, 'solicitar'])->middleware(['auth', 'throttle:5,1'])->name('transferencia-nucleo.solicitar');
+Route::group(['prefix' => 'transferencias', 'middleware' => ['auth', 'role:administrador,coordenador']], function () {
+    Route::get('/', [TransferenciaNucleoController::class, 'index'])->name('transferencias.index');
+    Route::post('/{solicitacao}/aprovar', [TransferenciaNucleoController::class, 'aprovar'])->name('transferencias.aprovar');
+    Route::post('/{solicitacao}/recusar', [TransferenciaNucleoController::class, 'recusar'])->name('transferencias.recusar');
+});
 
 Route::group(['prefix' => 'nucleo/presences', 'middleware' => ['auth', 'restrict.professor']], function () {
     Route::get('/', [NucleoController::class, 'presences_index'])->name('nucleo/presences');
