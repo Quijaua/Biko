@@ -93,6 +93,19 @@ class Aluno extends Model implements Auditable
         'participante_quilombola_qual',
     ];
 
+    /**
+     * Quem volta a ficar ativo (por transferência, reativação do Núcleo ou
+     * edição manual) deixa de ter o aviso de "Núcleo desativado".
+     */
+    protected static function booted(): void
+    {
+        static::saving(function (self $registro) {
+            if ((int) $registro->Status === 1) {
+                $registro->inativado_por_nucleo_id = null;
+            }
+        });
+    }
+
     public function nucleo()
     {
         return $this->belongsTo('App\Nucleo', 'id_nucleo');

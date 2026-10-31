@@ -257,7 +257,7 @@
                                           </a>
 
                                           @if ($nucleo->Status === 1)
-                                              <a href="/nucleos/disable/{{ $nucleo->id }}">
+                                              <a href="/nucleos/disable/{{ $nucleo->id }}" onclick="return confirm('Inativar este Núcleo também inativa os estudantes, professores e coordenadores ligados a ele (coordenadores que tenham outro Núcleo ativo continuam ativos). Eles verão um aviso para pedir transferência. Continuar?')">
                                                   <span class="status-btn status-inativo ms-8">
                                                       <span class="status-circle"></span>
                                                       Inativar

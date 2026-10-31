@@ -58,6 +58,7 @@ vendor/bin/phpunit --filter OtpLogin    # um arquivo/teste
 | `Fase3/Laravel13Test` | versão 13, CSRF `PreventRequestForgery`, tradução do e-mail de senha, cache e sessão |
 | `Fase4/ApplicationStructureTest` | estrutura nova (`bootstrap/app.php`): middlewares, redirecionamentos, policies, listeners e comandos |
 | `Fase5/FrontendAssetsTest` | layout com `@vite` e `public/build` versionado |
+| `Nucleo/DesativacaoNucleoTest` | desativar Núcleo inativa estudantes, professores e coordenadores; aviso no topo; pedido de transferência; aprovação/recusa pela coordenação |
 | `Fase6/ProductionReadinessTest` | sem `env()` fora de `config/`, `route:cache` e `view:cache` |
 | `Security/AccessControlHardeningTest` | perfis e rotas protegidas (revisão OWASP A01) |
 | `Security/UploadHardeningTest` | uploads só com extensões permitidas e nome gerado (A08) |

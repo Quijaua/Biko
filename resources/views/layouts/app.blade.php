@@ -186,6 +186,11 @@
                         <p class="h1 mb-0 fw-bold">@if($app_name != null){{ $app_name }}@else{{ config('app.name') }}@endif</p>
                     </div>
                 </div>
+                @if (($transfPendencias ?? collect())->isNotEmpty() || ! empty($transfPedidosPendentes))
+                    <div class="d-flex flex-wrap gap-2 mt-2">
+                        @include('transferencias._botao', ['compacto' => true])
+                    </div>
+                @endif
             </div>
 
             <!-- Sidebar OFFCANVAS para telas pequenas -->
@@ -1810,6 +1815,10 @@
                                     </div>
                                 </div>
 
+                                <div class="d-flex align-items-center">
+                                    @include('transferencias._botao')
+                                </div>
+
                                 <div>
                                     <div class="nav-link d-flex lh-1 text-reset p-0" aria-label="Dados do usuário">
                                         <span class="avatar avatar-sm"
@@ -1860,6 +1869,10 @@
   </div>
 
 </div>
+
+    @auth
+        @include('transferencias._modal')
+    @endauth
 
     <script src="{{ asset('dist/js/tabler.min.js?1738096684') }}"></script>
 
