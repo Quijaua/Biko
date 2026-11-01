@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use Image;
+use App\Services\FotoPerfilService;
 use Session;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Exports\ProfessoresExport;
@@ -272,13 +272,7 @@ $coordenadorNucleos = DB::table('nucleos')
         $path = public_path('storage/'.$filename);
         $image = $request->file('inputFoto');
 
-        Image::make($image->getRealPath())
-          ->resize(150, null, function ($constraint) {
-              $constraint->aspectRatio();
-          })
-          ->crop(110,110,null,null)
-          ->encode('jpg',80)
-          ->save($path);
+        FotoPerfilService::salvar($image->getRealPath(), $path);
       }
 
       //ROTINA DE PERSISTÊNCIA DOS HORÁRIOS DE AULA
@@ -587,13 +581,7 @@ $coordenadorNucleos = DB::table('nucleos')
         $path = public_path('storage/'.$filename);
         $image = $request->file('inputFoto');
 
-        Image::make($image->getRealPath())
-          ->resize(150, null, function ($constraint) {
-              $constraint->aspectRatio();
-          })
-          ->crop(110,110,null,null)
-          ->encode('jpg',80)
-          ->save($path);
+        FotoPerfilService::salvar($image->getRealPath(), $path);
       }
 
       $currentEmail = Professores::where('id_user', $dados->id_user)->pluck('Email');
@@ -954,7 +942,8 @@ $coordenadorNucleos = DB::table('nucleos')
             return back()->with('success', "Importação concluída com sucesso: {$qtdImportados} registro(s) importado(s).");
 
         } catch (\Exception $e) {
-            return back()->with('error', 'Ocorreu um erro ao importar: ' . $e->getMessage());
+            \Log::error('Erro na importação de professores', ['exception' => $e]);
+            return back()->with('error', 'Ocorreu um erro ao importar a planilha. Verifique o formato e tente novamente.');
         }
     }
 }

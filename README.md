@@ -29,7 +29,7 @@ biko/
 ├── composer.json         # Dependências PHP e autoload (Composer)
 ├── composer.lock         # Versões travadas das dependências
 ├── package.json          # Dependências frontend (npm)
-├── package-lock.json     # Lockfile npm/yarn.lock também presente
+├── package-lock.json     # Lockfile do npm
 ├── Dockerfile            # Imagem para container
 ├── README.md             # Este documento
 ├── app/                  # Código da aplicação (Models, Controllers, Services)
@@ -88,10 +88,10 @@ biko/
 
 ### Requisitos
 
-- PHP >= 8.0
+- PHP >= 8.3
 - Composer
 - Banco de dados (MySQL, PostgreSQL, etc.)
-- Node.js e npm
+- Node.js 22 ou 24 e npm
 
 ### Passos para Instalação
 
@@ -108,11 +108,17 @@ biko/
    composer install
    ```
 
-3. **Instale as dependências do Node.js**:
+3. **Instale as dependências do Node.js e gere o JavaScript**:
 
    ```bash
-   npm install
+   npm ci
+   npm run build
    ```
+
+   O `npm run build` gera `public/build`, que é versionado no repositório.
+   Sempre que alterar arquivos em `resources/js`, rode o build de novo e
+   faça commit de `public/build`. Durante o desenvolvimento, `npm run dev`
+   recarrega o JavaScript automaticamente.
 
 4. **Configure o arquivo `.env`**:
 

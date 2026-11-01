@@ -10,6 +10,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\ead;
 use App\Aluno;
+use App\Http\Controllers\MaterialController;
+use Illuminate\Support\Str;
 
 class EadController extends Controller
 {
@@ -38,6 +40,7 @@ class EadController extends Controller
     public function store(Request $request)
     {
         $ead = ead::create($request->except(['_token', 'material_apoio']));
+        $request->merge(['material_apoio' => $request->material_apoio ? basename($request->material_apoio) : null]);
 
         // Verifica se existe upload de arquivos e salva
         // if ($request->hasFile('material_apoio')) {
@@ -65,12 +68,13 @@ class EadController extends Controller
 
     public function update(Request $request, $id)
     {
-        $ead = ead::find($id);
+        $ead = ead::findOrFail($id);
+        $request->merge(['material_apoio' => $request->material_apoio ? basename($request->material_apoio) : null]);
         // Verifica se existe upload de arquivos e salva
         if ($request->material_apoio) {
             // Verifica se existe material de apoio e deleta
             if ($ead->material_apoio) {
-                unlink(public_path('eads' . '/' . $ead->id . '/' . $ead->material_apoio));
+                Storage::disk('public')->delete('eads/' . $ead->id . '/' . basename($ead->material_apoio));
             }
             $tmpFile = Storage::disk('public')->get('eads/tmp/' . $request->material_apoio);
             $file = Storage::disk('public')->get('eads/tmp/' . $request->material_apoio);
@@ -95,7 +99,7 @@ class EadController extends Controller
     public function remove_material(Request $request)
     {
         $ead = ead::find($request->ead_id);
-        $file = $ead->material_apoio;
+        $file = basename((string) $ead->material_apoio);
         Storage::disk('public')->delete('eads/' . $ead->id . '/' . $file);
         $ead->material_apoio = null;
         $ead->save();
@@ -124,7 +128,7 @@ class EadController extends Controller
     {
         DB::table('eads_participantes')->insert([
             'ead_id' => $request->ead_id,
-            'user_id' => $request->user_id,
+            'user_id' => Auth::id(), // nunca do formulário
             'questao_1' => $request->questao_1,
             'questao_2' => $request->questao_2,
             'questao_3' => $request->questao_3,
@@ -192,9 +196,14 @@ class EadController extends Controller
 
     public function upload(Request $request)
     {
+        $request->validate([
+            'material_apoio' => 'required|file|max:51200|mimes:' . MaterialController::EXTENSOES_PERMITIDAS,
+        ]);
+
         $tmpFile = $request->file('material_apoio');
         $path = Storage::disk('public')->path('eads/tmp');
-        $fileName = time() . '_' . preg_replace('/\s+/', '_', $tmpFile->getClientOriginalName());
+        $base = Str::slug(pathinfo($tmpFile->getClientOriginalName(), PATHINFO_FILENAME)) ?: 'arquivo';
+        $fileName = time() . '_' . Str::limit($base, 80, '') . '.' . strtolower($tmpFile->getClientOriginalExtension());
         $tmpFile->move($path, $fileName);
         return $fileName;
     }

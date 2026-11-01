@@ -1,22 +1,23 @@
 <?php
 
-use Illuminate\Foundation\Inspiring;
 use App\User;
+use Illuminate\Foundation\Inspiring;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
 | Console Routes
 |--------------------------------------------------------------------------
 |
-| This file is where you may define all of your Closure based console
-| commands. Each Closure is bound to a command instance allowing a
-| simple approach to interacting with each command's IO methods.
+| Comandos de console em closure. Os comandos em classe ficam em
+| app/Console/Commands e são carregados automaticamente.
 |
 */
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
-})->describe('Display an inspiring quote');
+})->purpose('Display an inspiring quote');
 
 Artisan::command('generate-admin-token', function () {
 
@@ -27,4 +28,4 @@ Artisan::command('generate-admin-token', function () {
       'api_token' => $token
     ]);
 
-})->describe('Generate/Update Admin API Token');
+})->purpose('Generate/Update Admin API Token');

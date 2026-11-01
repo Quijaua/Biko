@@ -6,9 +6,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\AmbienteVirtual;
 use App\Models\Quiz;
+use App\Services\AmbienteVirtualService;
 
 class QuestionarioController extends Controller
 {
+    /** Criar, editar e excluir questionários: só quem gerencia o Ambiente Virtual. */
+    private function autorizarGestao(): void
+    {
+        abort_unless(
+            in_array(auth()->user()->role, ['administrador', 'coordenador'], true)
+                || AmbienteVirtualService::canManageContent(),
+            403,
+            'Você não possui permissão para gerenciar questionários.'
+        );
+    }
+
     public function questionario(Request $request)
     {
         $ambiente_virtual = AmbienteVirtual::find($request->aula)->load('questionarios');
@@ -19,6 +31,8 @@ class QuestionarioController extends Controller
 
     public function create($id)
     {
+        $this->autorizarGestao();
+
         $aula = AmbienteVirtual::find($id);
         return view('ambiente-virtual.questionario.create')->with([
             'aula' => $aula,
@@ -27,6 +41,8 @@ class QuestionarioController extends Controller
 
     public function store(Request $request)
     {
+        $this->autorizarGestao();
+
         $aula_id = $request->input('ambiente_virtual_id');
 
         $quiz_data = [
@@ -89,6 +105,8 @@ class QuestionarioController extends Controller
 
     public function edit($id)
     {
+        $this->autorizarGestao();
+
         $aula = AmbienteVirtual::find($id)->load('questionarios');
         return view('ambiente-virtual.questionario.edit')->with([
             'quiz' => $aula->questionarios->first(),
@@ -98,6 +116,8 @@ class QuestionarioController extends Controller
 
     public function update(Request $request, $id)
     {
+        $this->autorizarGestao();
+
         $aula_id = $request->input('ambiente_virtual_id');
         $quiz_data = [
             'ambiente_virtual_id' => $request->input('ambiente_virtual_id'),
@@ -160,6 +180,8 @@ class QuestionarioController extends Controller
 
     public function destroy($id)
     {
+        $this->autorizarGestao();
+
         $quiz = Quiz::find($id);
         foreach ($quiz->questions as $existingQuestion) {
             foreach ($existingQuestion->question->options as $option) {

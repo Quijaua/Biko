@@ -30,10 +30,10 @@ class EmailFormularioSejaUmProfessor extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address(env('MAIL_FROM_ADDRESS'), "Biko"),
+            from: new Address(config('mail.from.address'), "Biko"),
             subject: "Notificação novo professor no seu nucleo",
             replyTo: [
-                new Address(env('MAIL_FROM_ADDRESS'), 'Biko')
+                new Address(config('mail.from.address'), 'Biko')
             ]
         );
     }

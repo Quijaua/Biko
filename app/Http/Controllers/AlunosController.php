@@ -15,7 +15,7 @@ use App\AlunoInfoFamiliares;
 use App\PovoIndigena;
 use App\TerraIndigena;
 use App\Acompanhamento;
-use Image;
+use App\Services\FotoPerfilService;
 use Session;
 use Carbon\Carbon;
 use App\Exports\AlunosExport;
@@ -146,7 +146,7 @@ class AlunosController extends Controller
             ]);
         }
 
-        $bolsista = $request->input('inputNucleo') == env('NUCLEO_AMBIENTE_VIRTUAL') ? $request->input('inputBolsista') : null;
+        $bolsista = $request->input('inputNucleo') == config('global.nucleo_ambiente_virtual') ? $request->input('inputBolsista') : null;
 
         Aluno::create([
             'id_user' => $user->id,
@@ -229,13 +229,7 @@ class AlunosController extends Controller
             $path = public_path('storage/' . $filename);
             $image = $request->file('inputFoto');
 
-            Image::make($image->getRealPath())
-                ->resize(150, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                })
-                ->crop(110, 110, null, null)
-                ->encode('jpg', 80)
-                ->save($path);
+            FotoPerfilService::salvar($image->getRealPath(), $path);
         }
 
         return back()->with('success', 'DADOS SALVOS COM SUCESSO.');
@@ -327,7 +321,7 @@ class AlunosController extends Controller
             $dados->CPF = $dados->CPF;
         }
         $dados->ListaEspera = $request->input('inputListaEspera');
-        $dados->Bolsista = $request->input('inputNucleo') == env('NUCLEO_AMBIENTE_VIRTUAL') ? $request->input('inputBolsista') : null;
+        $dados->Bolsista = $request->input('inputNucleo') == config('global.nucleo_ambiente_virtual') ? $request->input('inputBolsista') : null;
         $dados->RG = $request->input('inputRG');
         $dados->temFilhos = $request->input('temFilhos');
         $dados->filhosQt = $request->input('filhosQt');
@@ -405,13 +399,7 @@ class AlunosController extends Controller
             $path = public_path('storage/' . $filename);
             $image = $request->file('inputFoto');
 
-            Image::make($image->getRealPath())
-                ->resize(150, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                })
-                ->crop(110, 110, null, null)
-                ->encode('jpg', 80)
-                ->save($path);
+            FotoPerfilService::salvar($image->getRealPath(), $path);
         }
 
         Session::put('cpf', 'OK');
@@ -462,6 +450,10 @@ class AlunosController extends Controller
         $params = self::getParams($request);
 
         $alunos = DB::table('alunos')
+            ->when($user->role === 'aluno', function ($query) use ($user) {
+                // Aluno só enxerga o próprio cadastro (igual à listagem).
+                return $query->where('alunos.id_user', $user->id);
+            })
             ->when($params['inputQuery'], function ($query) use ($params) {
                 return $query->where(function ($q) use ($params) {
                     $q->where('alunos.NomeAluno', 'LIKE', '%' . $params['inputQuery'] . '%')
@@ -530,14 +522,22 @@ class AlunosController extends Controller
 
     public function searchByNucleoAPI(Request $request)
     {
-        $nucleos = $request->input('nucleos');
-        $aluno = $request->input('aluno');
+        $nucleos = collect((array) $request->input('nucleos'))->filter()->map(fn ($id) => (int) $id);
+        $aluno = (string) $request->input('aluno');
+
+        // Quem não é administrador só pesquisa nos núcleos em que atua.
+        if (Auth::user()->role !== 'administrador') {
+            $permitidos = Nucleo::whereUserAtuacao()->pluck('id');
+            $nucleos = $nucleos->intersect($permitidos);
+        }
 
         $alunos = Aluno::whereStatus()
-            ->whereIn('id_nucleo', $nucleos)
-            ->where('NomeAluno', 'LIKE', "%$aluno%")
-            ->orWhere('NomeSocial', 'LIKE', "%$aluno%")
-            ->get();
+            ->whereIn('id_nucleo', $nucleos->values())
+            ->where(function ($query) use ($aluno) {
+                $query->where('NomeAluno', 'LIKE', "%{$aluno}%")
+                    ->orWhere('NomeSocial', 'LIKE', "%{$aluno}%");
+            })
+            ->get(['id', 'NomeAluno', 'NomeSocial', 'id_nucleo']);
 
         return response()->json($alunos);
     }
@@ -554,7 +554,7 @@ class AlunosController extends Controller
 
         $acompanhamentos = [];
         if (in_array($user->role, ['administrador', 'coordenador', 'professor'])) {
-            if ($dados->id_nucleo == env('NUCLEO_AMBIENTE_VIRTUAL')) {
+            if ($dados->id_nucleo == config('global.nucleo_ambiente_virtual')) {
                 $acompanhamentos = Acompanhamento::with('aluno', 'autor')
                     ->where('aluno_id', $dados->id)
                     ->orderBy('created_at', 'desc')
@@ -640,7 +640,7 @@ class AlunosController extends Controller
         $user = Auth::user();
         $aluno = Aluno::findOrFail($aluno_id);
 
-        if (!in_array($user->role, ['administrador', 'coordenador', 'professor']) && $aluno->id_nucleo == env('NUCLEO_AMBIENTE_VIRTUAL')) {
+        if (!in_array($user->role, ['administrador', 'coordenador', 'professor']) && $aluno->id_nucleo == config('global.nucleo_ambiente_virtual')) {
             abort(403, 'Acesso não autorizado.');
         }
 

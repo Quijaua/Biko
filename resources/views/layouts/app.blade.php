@@ -15,7 +15,7 @@
     <title>@if($app_name != null){{ $app_name }}@else{{ config('app.name') }}@endif</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    @vite('resources/js/app.js')
     <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ asset('js/jquery.mask.min.js') }}"></script>
     <script src="{{ asset('js/jquery.maskMoney.min.js') }}"></script>
@@ -88,7 +88,7 @@
 
             if ($user->role === 'aluno') {
                 $aluno_nucleo_id = $user->aluno->id_nucleo ?? null;
-                $nucleoAmbienteVirtual = env('NUCLEO_AMBIENTE_VIRTUAL');
+                $nucleoAmbienteVirtual = config('global.nucleo_ambiente_virtual');
 
                 $ambiente_virtual = ($aluno_nucleo_id && $aluno_nucleo_id == $nucleoAmbienteVirtual);
             } elseif ($user->role !== 'aluno') {
@@ -186,6 +186,11 @@
                         <p class="h1 mb-0 fw-bold">@if($app_name != null){{ $app_name }}@else{{ config('app.name') }}@endif</p>
                     </div>
                 </div>
+                @if (($transfPendencias ?? collect())->isNotEmpty() || ! empty($transfPedidosPendentes))
+                    <div class="d-flex flex-wrap gap-2 mt-2">
+                        @include('transferencias._botao', ['compacto' => true])
+                    </div>
+                @endif
             </div>
 
             <!-- Sidebar OFFCANVAS para telas pequenas -->
@@ -1810,6 +1815,10 @@
                                     </div>
                                 </div>
 
+                                <div class="d-flex align-items-center">
+                                    @include('transferencias._botao')
+                                </div>
+
                                 <div>
                                     <div class="nav-link d-flex lh-1 text-reset p-0" aria-label="Dados do usuário">
                                         <span class="avatar avatar-sm"
@@ -1860,6 +1869,10 @@
   </div>
 
 </div>
+
+    @auth
+        @include('transferencias._modal')
+    @endauth
 
     <script src="{{ asset('dist/js/tabler.min.js?1738096684') }}"></script>
 

@@ -31,7 +31,8 @@ class AlunoController extends Controller
         'name' => $data['NomeAluno'],
         'email' => $data['email'],
         'password' => Hash::make($data['email']),
-        'role' => $data['role']
+        'role' => 'aluno', // nunca vindo da requisição
+        'first_login' => true
       ]);
 
       Aluno::create([
@@ -69,7 +70,7 @@ class AlunoController extends Controller
       \Log::info([
         'aluno CREATE ERROR' => $e->getMessage()
       ]);
-      return response()->json('Não foi possível realizar esta operação: ' . $e->getMessage(), 500);
+      return response()->json('Não foi possível realizar esta operação.', 500);
 
     }
   }

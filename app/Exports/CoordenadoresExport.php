@@ -14,9 +14,15 @@ class CoordenadoresExport implements FromQuery, WithHeadings
   /**
   * @return \Illuminate\Support\Collection
   */
-  public function __construct(int $nucleo)
+  /** @var int[] Núcleos a exportar; vazio = todos */
+  private array $nucleos;
+
+  /**
+   * @param int|int[]|null $nucleo id do núcleo, lista de ids ou 0/null para todos
+   */
+  public function __construct(int|array|null $nucleo = 0)
   {
-      $this->nucleo = $nucleo;
+      $this->nucleos = array_values(array_filter(array_map('intval', (array) $nucleo)));
   }
 
   public function headings(): array
@@ -94,8 +100,13 @@ class CoordenadoresExport implements FromQuery, WithHeadings
 
   public function query()
   {
-    if($this->nucleo === 0){
-      return Coordenadores::query()->select([
+    $query = Coordenadores::query();
+
+    if (! empty($this->nucleos)) {
+      $query->whereHas('nucleos', fn ($q) => $q->whereIn('nucleos.id', $this->nucleos));
+    }
+
+    return $query->select([
         /*'id_user',*/
         'Status',
         'NomeCoordenador',
@@ -164,76 +175,5 @@ class CoordenadoresExport implements FromQuery, WithHeadings
         'created_at',
         'updated_at'
       ]);
-    };
-
-    return Coordenadores::query()->where('id_nucleo', $this->nucleo)->select([
-      /*'id_user',*/
-      'Status',
-      'NomeCoordenador',
-      'NomeSocial',
-      /*'id_nucleo',*/
-      'FuncaoCoordenador',
-      'AnoIngresso',
-      /*'Foto',*/
-      'CPF',
-      'RG',
-      'Raca',
-      'Genero',
-      'concordaSexoDesignado',
-      'EstadoCivil',
-      'Nascimento',
-      'Escolaridade',
-      'FormacaoSuperior',
-      'AnoInicioUneafro',
-      'aulasForaUneafro',
-      'Endereco',
-      'Numero',
-      'Bairro',
-      'CEP',
-      'Cidade',
-      'Estado',
-      'Complemento',
-      'FoneComercial',
-      'FoneResidencial',
-      'FoneCelular',
-      'Email',
-      'Empresa',
-      'RamoAtuacao',
-      'RamoAtuacaoOutros',
-      'EnderecoEmpresa',
-      'NumeroEmpresa',
-      'ComplementoEmpresa',
-      'BairroEmpresa',
-      'CidadeEmpresa',
-      'EstadoEmpresa',
-      'CEPEmpresa',
-      'Cargo',
-      'HorarioFrom',
-      'HorarioTo',
-      'ProjetosRealizados',
-      'ProjetosNome',
-      'ProjetosFuncao',
-      'ComoSoube',
-      'ComoSoubeOutros',
-      'MotivoPrincipal',
-      'RepresentanteCGU',
-      'EnsinoSuperior',
-      'InstituicaoSuperior',
-      'CursoSuperior1',
-      'AnoCursoSuperior1',
-      'CursoSuperior2',
-      'AnoCursoSuperior2',
-      'Especializacao',
-      'InstEspecializacao',
-      'CursoEspecializacao',
-      'AnoCursoEspecializacao',
-      'Mestrado',
-      'InstMestrado',
-      'CursoMestrado',
-      'AnoCursoMestrado',
-      'FormacaoAcademicaRecente',
-      'created_at',
-      'updated_at'
-    ]);
   }
 }

@@ -51,7 +51,7 @@
             @if($texto_pre_cadastro)
             <div class="row">
                 <div class="col-12 text-center">
-                    <h3 class="text-center p-4">{!! $texto_pre_cadastro !!}</h3>
+                    <h3 class="text-center p-4">{!! \App\Support\HtmlSanitizer::clean($texto_pre_cadastro) !!}</h3>
                 </div>
             </div>
             @endif

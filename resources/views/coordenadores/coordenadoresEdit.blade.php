@@ -70,7 +70,7 @@
                         <div class="row mt-2">
                             <div class="col">
                                 <div class="alert alert-success text-center" role="alert">
-                                    {!! \Session::get('success') !!}
+                                    {{ \Session::get('success') }}
                                 </div>
                             </div>
                         </div>
@@ -79,7 +79,7 @@
                         <div class="row mt-2">
                             <div class="col">
                                 <div class="alert alert-danger text-center" role="alert">
-                                    {!! \Session::get('error') !!}
+                                    {{ \Session::get('error') }}
                                 </div>
                             </div>
                         </div>

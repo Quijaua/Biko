@@ -80,6 +80,19 @@ class Coordenadores extends Model implements Auditable
     'pessoa_com_deficiencia',
   ];
 
+  /**
+   * Quem volta a ficar ativo (por transferência, reativação do Núcleo ou
+   * edição manual) deixa de ter o aviso de "Núcleo desativado".
+   */
+  protected static function booted(): void
+  {
+      static::saving(function (self $registro) {
+          if ((int) $registro->Status === 1) {
+              $registro->inativado_por_nucleo_id = null;
+          }
+      });
+  }
+
   public function nucleos()
   {
     return $this->belongsToMany(

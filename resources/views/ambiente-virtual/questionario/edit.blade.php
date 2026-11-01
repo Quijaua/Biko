@@ -12,7 +12,7 @@
     <div class="row mt-2">
         <div class="col-6 m-auto">
             <div class="alert alert-success text-center" role="alert">
-                {!! session('success') !!}
+                {{ session('success') }}
             </div>
         </div>
     </div>
@@ -22,7 +22,7 @@
     <div class="row mt-2">
         <div class="col-6 m-auto">
             <div class="alert alert-danger text-center" role="alert">
-                {!! session('error') !!}
+                {{ session('error') }}
             </div>
         </div>
     </div>

@@ -100,4 +100,17 @@ return [
 
     'prefix' => env('CACHE_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_cache'),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Serializable Classes
+    |--------------------------------------------------------------------------
+    |
+    | Laravel 13: impede a desserialização de objetos PHP vindos do cache
+    | (proteção contra gadget chains). O Biko não guarda objetos no cache;
+    | se um dia precisar, liste aqui as classes permitidas.
+    |
+    */
+
+    'serializable_classes' => false,
+
 ];

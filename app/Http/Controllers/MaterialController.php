@@ -10,9 +10,12 @@ use App\Nucleo;
 use App\Material;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 class MaterialController extends Controller
 {
+  public const EXTENSOES_PERMITIDAS = 'pdf,doc,docx,odt,rtf,txt,ppt,pptx,odp,xls,xlsx,ods,csv,jpg,jpeg,png,gif,webp,mp3,mp4,zip';
+
   public function index()
   {
     $user = Auth::user();
@@ -80,11 +83,20 @@ class MaterialController extends Controller
       abort(403, 'Usuário não autenticado.');
     }
 
+    $request->validate([
+      'file' => 'required|file|max:51200|mimes:' . self::EXTENSOES_PERMITIDAS,
+    ], [
+      'file.mimes' => 'Tipo de arquivo não permitido.',
+      'file.max' => 'O arquivo deve ter no máximo 50 MB.',
+    ]);
+
     if ($request->hasFile('file')) {
       $file = $request->file('file');
-      $fileName = time() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
+      // Nome gerado aqui: só letras/números do nome original + extensão validada.
+      $base = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) ?: 'arquivo';
+      $fileName = time() . '_' . Str::limit($base, 80, '') . '.' . strtolower($file->getClientOriginalExtension());
       $file->move(public_path('uploads'), $fileName);
-      $nucleo_id = isset($request->nucleo_id) && !empty($request->nucleo_id) ? $request->nucleo_id : env('NUCLEO_AMBIENTE_VIRTUAL');
+      $nucleo_id = isset($request->nucleo_id) && !empty($request->nucleo_id) ? $request->nucleo_id : config('global.nucleo_ambiente_virtual');
 
       $stored_file = Material::create([
         'user_id' => $user->id,
@@ -165,7 +177,7 @@ class MaterialController extends Controller
       abort(403, 'Ops! Só é possível excluir materiais que você criou');
     }
 
-    $filePath = public_path('uploads/' . $file->file);
+    $filePath = public_path('uploads/' . basename((string) $file->file));
 
     if (!empty($file->file) && file_exists($filePath)) {
       unlink($filePath);
@@ -229,7 +241,7 @@ class MaterialController extends Controller
   public function download($id)
   {
     $material = Material::findOrFail($id);
-    $filePath = public_path('uploads/' . $material->file);
+    $filePath = public_path('uploads/' . basename((string) $material->file));
 
     if (empty($material->file) || !file_exists($filePath)) {
       abort(404, 'Arquivo não encontrado.');

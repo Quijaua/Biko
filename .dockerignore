@@ -1,0 +1,15 @@
+# Instalados dentro da imagem (composer install / npm ci)
+/vendor
+/node_modules
+
+# Arquivos locais que não devem ir para a imagem
+/.git
+/.env
+/.env.backup
+/.env_DEV
+/.phpunit.cache
+/storage/logs/*
+/storage/framework/cache/data/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/public/hot
