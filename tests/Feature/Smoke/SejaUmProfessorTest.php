@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Smoke;
 
+use App\Http\Repository\HcaptchaRepository;
 use App\Mail\EmailFormularioCoordenador;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\User;
@@ -14,6 +15,19 @@ class SejaUmProfessorTest extends TestCase
 {
     use CreatesBikoData;
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // Sem chamada real ao hCaptcha: só "token-valido" passa.
+        $this->app->instance(HcaptchaRepository::class, new class extends HcaptchaRepository {
+            public function validate($challenge, ?string $ip = null): bool
+            {
+                return $challenge === 'token-valido';
+            }
+        });
+    }
 
     public function test_email_check_endpoint(): void
     {
@@ -46,6 +60,7 @@ class SejaUmProfessorTest extends TestCase
             'raca_cor' => 'preta',
             'genero' => 'mulher',
             'nucleo_id' => $nucleo->id,
+            'h-captcha-response' => 'token-valido',
         ])->assertOk();
 
         $this->assertDatabaseHas('users', ['email' => 'voluntaria@biko.test', 'role' => 'professor']);
@@ -74,6 +89,7 @@ class SejaUmProfessorTest extends TestCase
             'estado' => 'SP',
             'raca_cor' => 'preta',
             'genero' => 'mulher',
+            'h-captcha-response' => 'token-valido',
         ], $sobrescrever);
     }
 
@@ -134,5 +150,24 @@ class SejaUmProfessorTest extends TestCase
             ->assertSee('Agradecemos o interesse');
 
         $this->assertDatabaseHas('professores', ['Email' => 'voluntaria@biko.test']);
+    }
+
+    public function test_signup_without_solving_hcaptcha_is_rejected(): void
+    {
+        Mail::fake();
+        $nucleo = $this->createNucleo();
+
+        foreach ([null, '', 'token-forjado'] as $token) {
+            $this->from('/seja-um-professor')
+                ->post('/seja-um-professor', $this->dadosDoFormulario([
+                    'nucleo_id' => $nucleo->id,
+                    'h-captcha-response' => $token,
+                ]))
+                ->assertRedirect('/seja-um-professor')
+                ->assertSessionHasErrors('hcaptcha');
+        }
+
+        $this->assertDatabaseMissing('users', ['email' => 'voluntaria@biko.test']);
+        Mail::assertNothingSent();
     }
 }

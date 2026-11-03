@@ -404,6 +404,14 @@ Route::post('/verifica-email-professor', function (Illuminate\Http\Request $requ
 })->middleware('throttle:20,1');
 
 Route::post('/seja-um-professor', function (Request $request) {
+    // O desafio também era conferido só no navegador: um envio direto ao servidor passava sem ele.
+    $hcaptcha = app(App\Http\Repository\HcaptchaRepository::class);
+    if (! $hcaptcha->validate($request->input('h-captcha-response'), $request->ip())) {
+        return back()->withInput()->withErrors([
+            'hcaptcha' => 'Confirme o desafio "Sou humano" (hCaptcha) antes de enviar o cadastro.',
+        ]);
+    }
+
     $request->merge(['email' => Str::lower(trim((string) $request->input('email')))]);
 
     $request->validate([

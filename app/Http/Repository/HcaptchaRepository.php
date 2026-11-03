@@ -2,40 +2,49 @@
 
 namespace App\Http\Repository;
 
-/*use Illuminate\Http\Request;*/
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
+use Throwable;
 
 class HcaptchaRepository
 {
-  public function validate($challenge)
-  {
-    if (config('app.env') === 'develop' || config('app.env') === 'local') {
-      return true;
+    /**
+     * Confere no hCaptcha se o desafio foi resolvido.
+     *
+     * Em local/develop sempre aceita. Resposta vazia, erro de rede ou
+     * resposta inesperada contam como desafio NÃO resolvido (antes, um erro
+     * de rede virava erro 500).
+     */
+    public function validate($challenge, ?string $ip = null): bool
+    {
+        if (in_array(config('app.env'), ['develop', 'local'], true)) {
+            return true;
+        }
+
+        if (! is_string($challenge) || $challenge === '') {
+            return false;
+        }
+
+        try {
+            $client = new Client([
+                'base_uri' => 'https://hcaptcha.com',
+                'timeout' => 10,
+            ]);
+
+            $response = $client->request('POST', '/siteverify', [
+                'form_params' => array_filter([
+                    'secret' => config('services.hcaptcha.secret'),
+                    'response' => $challenge,
+                    'remoteip' => $ip,
+                ]),
+            ]);
+
+            $body = json_decode((string) $response->getBody());
+
+            return (bool) ($body->success ?? false);
+        } catch (Throwable $e) {
+            report($e);
+
+            return false;
+        }
     }
-
-    $secret = config('services.hcaptcha.secret');
-
-    //dd($secret);
-    //dd($challenge);
-
-    $client = new Client([
-        'base_uri' => 'https://hcaptcha.com',
-    ]);
-
-    $response = $client->request('POST', '/siteverify', [
-       'form_params' => [
-            'secret'    =>  $secret,
-            'response'  =>  $challenge
-       ]
-    ]);
-
-    $body = $response->getBody();
-    $arr_body = json_decode($body);
-    if( $arr_body->success ) {
-      return true;
-    };
-    return false;
-    /*dd($arr_body->success);*/
-  }
 }
