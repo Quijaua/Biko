@@ -33,6 +33,9 @@ use App\Mail\EmailFormularioSejaUmProfessor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Session;
@@ -395,57 +398,84 @@ Route::get('/seja-um-professor', function () {
 });
 
 Route::post('/verifica-email-professor', function (Illuminate\Http\Request $request) {
-    $existe = App\User::where('email', $request->email)->exists();
+    $existe = App\User::where('email', Str::lower(trim((string) $request->email)))->exists();
 
     return response()->json(['existe' => $existe]);
 })->middleware('throttle:20,1');
 
 Route::post('/seja-um-professor', function (Request $request) {
+    $request->merge(['email' => Str::lower(trim((string) $request->input('email')))]);
 
-    $user_data = [
-        'name' => $request->nome_social,
-        'email' => $request->email,
-        // Senha inicial = e-mail; first_login obriga a troca no primeiro acesso.
-        'password' => Hash::make($request->email),
-        'role' => 'professor',
-        'first_login' => true,
-    ];
+    $request->validate([
+        'nome_social' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'email', 'max:255'],
+        'nucleo_id' => ['required', Rule::exists('nucleos', 'id')->where('Status', 1)],
+    ], [
+        'nome_social.required' => 'Informe seu nome ou nome social.',
+        'email.required' => 'Informe seu e-mail.',
+        'email.email' => 'Informe um e-mail válido.',
+        'nucleo_id.required' => 'Escolha um núcleo.',
+        'nucleo_id.exists' => 'Escolha um núcleo da lista.',
+    ]);
 
-    $user = App\User::create($user_data);
+    // E-mail já usado por outra conta (professor, aluno, coordenador...): em vez de erro 500,
+    // volta ao formulário com um aviso explicando como entrar ou recuperar a senha.
+    if (App\User::where('email', $request->email)->exists()) {
+        return back()->withInput()->with('email_ja_cadastrado', $request->email);
+    }
 
-    $professor_data = [
-        'id_user' => $user->id,
-        'NomeProfessor' => $request->nome_social,
-        'Status' => 0,
-        'Nascimento' => $request->data_nascimento,
-        'Email' => $request->email,
-        'FoneCelular' => $request->telefone,
-        'RamoAtuacaoOutros' => $request->profissao,
-        'Cidade' => $request->cidade_professor,
-        'Estado' => $request->estado,
-        'Raca' => $request->raca_cor,
-        'Genero' => $request->genero,
-        'id_nucleo' => $request->nucleo_id,
-        'povo_indigenas_id' => $request->povo_indigenas_id,
-        'terra_indigenas_id' => $request->terra_indigenas_id,
-        'Disciplinas' => $request->disciplinas,
-    ];
+    try {
+        $professor = DB::transaction(function () use ($request) {
+            $user = App\User::create([
+                'name' => $request->nome_social,
+                'email' => $request->email,
+                // Senha inicial = e-mail; first_login obriga a troca no primeiro acesso.
+                'password' => Hash::make($request->email),
+                'role' => 'professor',
+                'first_login' => true,
+            ]);
 
-    $professor = App\Professores::create($professor_data);
+            return App\Professores::create([
+                'id_user' => $user->id,
+                'NomeProfessor' => $request->nome_social,
+                'Status' => 0,
+                'Nascimento' => $request->data_nascimento,
+                'Email' => $request->email,
+                'FoneCelular' => $request->telefone,
+                'RamoAtuacaoOutros' => $request->profissao,
+                'Cidade' => $request->cidade_professor,
+                'Estado' => $request->estado,
+                'Raca' => $request->raca_cor,
+                'Genero' => $request->genero,
+                'id_nucleo' => $request->nucleo_id,
+                'povo_indigenas_id' => $request->povo_indigenas_id,
+                'terra_indigenas_id' => $request->terra_indigenas_id,
+                'Disciplinas' => $request->disciplinas,
+            ]);
+        });
+    } catch (Illuminate\Database\UniqueConstraintViolationException $e) {
+        // Dois envios quase simultâneos com o mesmo e-mail passam pela validação.
+        return back()->withInput()->with('email_ja_cadastrado', $request->email);
+    }
 
     // RECUPERA OS COORDENADORES DO NUCLEO SELECIONADO E ENVIA EMAIL
-    $myNucleo = Nucleo::find($request->nucleo_id);
-    $coordenadores = $myNucleo->coordenadores()->get();
+    $coordenadores = Nucleo::find($request->nucleo_id)->coordenadores()->get();
 
-    foreach($coordenadores as $coordenador) {
-        if($coordenador['Email']) {
-        Mail::to($coordenador['Email'])->send(new EmailFormularioCoordenador([
-            'message' => 'Olá, coordenador! Um novo professor foi inserido!',
-            'professor_name' => $professor->NomeProfessor,
-            'link_cadastro' => url('professores/details/' . $professor->id),
-        ]));
+    foreach ($coordenadores as $coordenador) {
+        if ($coordenador['Email']) {
+            // O cadastro já foi salvo: uma falha de e-mail não pode virar erro 500 para o voluntário.
+            try {
+                Mail::to($coordenador['Email'])->send(new EmailFormularioCoordenador([
+                    'message' => 'Olá, coordenador! Um novo professor foi inserido!',
+                    'professor_name' => $professor->NomeProfessor,
+                    'link_cadastro' => url('professores/details/' . $professor->id),
+                ]));
+            } catch (Throwable $e) {
+                report($e);
+            }
         }
     }
+
     return view('seja-um-professor.index')->with([
         'success' => true,
     ]);

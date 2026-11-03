@@ -34,6 +34,36 @@
                     <div class="col-12 col-md-9 d-flex flex-column">
                         <div class="card-body">
 
+                            @if (session('email_ja_cadastrado'))
+                                <div class="alert alert-warning" role="alert" id="aviso-email-cadastrado">
+                                    <h2 class="alert-title h3">Este e-mail já tem cadastro</h2>
+                                    <p class="mb-2">
+                                        Já existe uma conta no sistema com o e-mail <strong>{{ session('email_ja_cadastrado') }}</strong>,
+                                        por isso não foi possível concluir o cadastro.
+                                    </p>
+                                    <ul class="mb-3">
+                                        <li>Se você já se cadastrou antes (como professor, estudante ou coordenador), entre com esse e-mail e sua senha.</li>
+                                        <li>Se não lembra a senha, peça uma nova pelo link de recuperação.</li>
+                                        <li>Se digitou o e-mail errado, corrija no formulário abaixo e envie de novo.</li>
+                                    </ul>
+                                    <div class="btn-list">
+                                        <a href="{{ route('login') }}" class="btn btn-primary">Entrar no sistema</a>
+                                        <a href="{{ route('password.request') }}" class="btn btn-outline-primary">Recuperar senha</a>
+                                    </div>
+                                </div>
+                            @endif
+
+                            @if ($errors->any())
+                                <div class="alert alert-danger" role="alert">
+                                    <p class="mb-1"><strong>Não foi possível enviar o cadastro. Confira:</strong></p>
+                                    <ul class="mb-0">
+                                        @foreach ($errors->all() as $erro)
+                                            <li>{{ $erro }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
                             <div class="row d-flex">
                                 <div class="col-8">
                                     <h1 class="text-[34px]">Seja um professor</h1>
@@ -47,35 +77,37 @@
                                 <div class="row mt-3 mb-3">
                                     <div class="col-12 col-md-6">
                                         <label class="form-label mb-2" for="nome_social">Nome/Nome social(obrigatório)</label>
-                                        <input id="nome_social" name="nome_social" type="text" class="form-control" required>
+                                        <input id="nome_social" name="nome_social" value="{{ old('nome_social') }}" type="text" class="form-control" required>
                                     </div>
 
                                     <div class="col-12 col-md-6">
                                         <label class="form-label mb-2" for="data_nascimento">Data de nascimento</label>
-                                        <input id="data_nascimento" name="data_nascimento" type="date" class="form-control">
+                                        <input id="data_nascimento" name="data_nascimento" value="{{ old('data_nascimento') }}" type="date" class="form-control">
                                     </div>
 
                                     <div class="col-12 col-md-6 mt-2">
                                         <label class="form-label mb-2" for="email">Seu e-mail (obrigatório)</label>
-                                        <input id="email" name="email" type="email" class="form-control" required>
-                                        <div id="email-feedback" class="mt-1 text-danger small d-none">
+                                        <input id="email" name="email" value="{{ old('email') }}" type="email" class="form-control" required>
+                                        <div id="email-feedback" class="mt-1 text-danger small d-none" role="alert">
                                             Este e-mail já está cadastrado.
+                                            <a href="{{ route('login') }}">Entre no sistema</a> ou
+                                            <a href="{{ route('password.request') }}">recupere sua senha</a>.
                                         </div>
                                     </div>
 
                                     <div class="col-12 col-md-6 mt-2">
                                         <label class="form-label mb-2" for="telefone">Telefone (whatsapp - obrigatório)</label>
-                                        <input id="telefone" name="telefone" type="text" class="form-control" data-mask="(00) 00000-0000" data-mask-visible="true" placeholder="(00) 00000-0000" autocomplete="off" required>
+                                        <input id="telefone" name="telefone" value="{{ old('telefone') }}" type="text" class="form-control" data-mask="(00) 00000-0000" data-mask-visible="true" placeholder="(00) 00000-0000" autocomplete="off" required>
                                     </div>
 
                                     <div class="col-12 col-md-6 mt-2">
                                         <label class="form-label mb-2" for="profissao">Profissão (obrigatório)</label>
-                                        <input id="profissao" name="profissao" type="text" class="form-control" required>
+                                        <input id="profissao" name="profissao" value="{{ old('profissao') }}" type="text" class="form-control" required>
                                     </div>
 
                                     <div class="col-12 col-md-6 mt-2">
                                         <label class="form-label mb-2" for="cidade_professor">Cidade (obrigatório)</label>
-                                        <input id="cidade_professor" name="cidade_professor" type="text" class="form-control" required>
+                                        <input id="cidade_professor" name="cidade_professor" value="{{ old('cidade_professor') }}" type="text" class="form-control" required>
                                     </div>
 
                                     <div class="col-12 col-md-6 mt-2">
@@ -180,7 +212,7 @@
 
                                     <div class="col-12 col-md-6 mt-2">
                                         <label class="form-label mb-2" for="disciplinas">Qual matéria pode lecionar?</label>
-                                        <input id="disciplinas" name="disciplinas" type="text" class="form-control">
+                                        <input id="disciplinas" name="disciplinas" value="{{ old('disciplinas') }}" type="text" class="form-control">
                                     </div>
 
                                     <div class="col-12 mt-3">
@@ -269,6 +301,17 @@
 
             $(".alert").remove();
 
+            if ($('#email').hasClass('is-invalid')) {
+                e.preventDefault();
+                $('#email').trigger('focus');
+                $('#btn-submit').before(
+                    '<div class="alert alert-warning w-100" role="alert">' +
+                        'Este e-mail já está cadastrado. Entre no sistema ou recupere sua senha pelos links abaixo do campo de e-mail.' +
+                    '</div>'
+                );
+                return false;
+            }
+
             if (!hcaptchaVal) {
                 e.preventDefault();
 
@@ -289,6 +332,20 @@
                 return false;
             }
         });
+    });
+</script>
+<script>
+    // Depois de um envio recusado, devolve as escolhas feitas nas listas.
+    $(function() {
+        const anterior = @json(session()->getOldInput());
+        ['estado', 'raca_cor', 'genero', 'nucleo_id', 'povo_indigenas_id', 'terra_indigenas_id'].forEach(function (campo) {
+            if (anterior[campo] !== undefined && anterior[campo] !== null) {
+                $('[name="' + campo + '"]').val(String(anterior[campo])).trigger('change');
+            }
+        });
+        if (anterior.email) {
+            $('#email').trigger('input');
+        }
     });
 </script>
 @endsection

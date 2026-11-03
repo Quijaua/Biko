@@ -62,4 +62,77 @@ class SejaUmProfessorTest extends TestCase
 
         Mail::assertSent(EmailFormularioCoordenador::class, fn ($mail) => $mail->hasTo($coordenador->email));
     }
+
+    private function dadosDoFormulario(array $sobrescrever = []): array
+    {
+        return array_merge([
+            'nome_social' => 'Professora Voluntária',
+            'email' => 'voluntaria@biko.test',
+            'telefone' => '11988887777',
+            'profissao' => 'Historiadora',
+            'cidade_professor' => 'Campinas',
+            'estado' => 'SP',
+            'raca_cor' => 'preta',
+            'genero' => 'mulher',
+        ], $sobrescrever);
+    }
+
+    public function test_duplicate_email_shows_friendly_notice_instead_of_error_500(): void
+    {
+        Mail::fake();
+
+        $nucleo = $this->createNucleo();
+        $existente = $this->createAluno(null, ['email' => 'ja.existe@biko.test']);
+
+        $this->from('/seja-um-professor')
+            ->post('/seja-um-professor', $this->dadosDoFormulario([
+                'email' => '  JA.Existe@biko.test ',
+                'nucleo_id' => $nucleo->id,
+            ]))
+            ->assertRedirect('/seja-um-professor')
+            ->assertSessionHas('email_ja_cadastrado', 'ja.existe@biko.test')
+            ->assertSessionHasInput('nome_social', 'Professora Voluntária');
+
+        $this->assertSame(1, User::where('email', 'ja.existe@biko.test')->count());
+        $this->assertDatabaseMissing('professores', ['Email' => 'ja.existe@biko.test']);
+        Mail::assertNothingSent();
+
+        $this->get('/seja-um-professor')
+            ->assertOk()
+            ->assertSee('Este e-mail já tem cadastro')
+            ->assertSee(route('password.request'), false)
+            ->assertSee('value="Professora Voluntária"', false);
+
+        $this->assertSame('aluno', $existente->fresh()->role);
+    }
+
+    public function test_inactive_or_missing_nucleo_is_rejected_with_validation_message(): void
+    {
+        $inativo = $this->createNucleo(['Status' => 0]);
+
+        $this->from('/seja-um-professor')
+            ->post('/seja-um-professor', $this->dadosDoFormulario(['nucleo_id' => $inativo->id]))
+            ->assertRedirect('/seja-um-professor')
+            ->assertSessionHasErrors('nucleo_id');
+
+        $this->from('/seja-um-professor')
+            ->post('/seja-um-professor', $this->dadosDoFormulario())
+            ->assertSessionHasErrors('nucleo_id');
+
+        $this->assertDatabaseMissing('users', ['email' => 'voluntaria@biko.test']);
+    }
+
+    public function test_signup_still_succeeds_when_coordinator_email_fails(): void
+    {
+        $nucleo = $this->createNucleo();
+        $this->createCoordenador($nucleo);
+
+        Mail::shouldReceive('to')->andThrow(new \RuntimeException('SMTP fora do ar'));
+
+        $this->post('/seja-um-professor', $this->dadosDoFormulario(['nucleo_id' => $nucleo->id]))
+            ->assertOk()
+            ->assertSee('Agradecemos o interesse');
+
+        $this->assertDatabaseHas('professores', ['Email' => 'voluntaria@biko.test']);
+    }
 }
