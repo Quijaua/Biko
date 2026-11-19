@@ -151,11 +151,19 @@
   @endif
   <div class="container">
     <div class="rounded border border-gray-300">
-      <form action="/alunos/search" method="POST" class="p-4 bg-white" role="search">
+      {{-- GET para o termo ficar na URL e a paginação (withQueryString) mantê-lo --}}
+      <form action="/alunos/search" method="GET" class="p-4 bg-white" role="search">
         <div class="col-10 d-flex align-items-center gap-2">
-          @csrf
           <input type="text" name="inputQuery" class="form-control"
+            value="{{ request('inputQuery') }}"
             placeholder="Digite nome, sobrenome ou e-mail para encontrar um(a) estudante" required />
+
+          {{-- Mantém os filtros avançados já aplicados ao fazer uma nova busca --}}
+          @foreach (['nucleo', 'status', 'lista_espera'] as $filtro)
+            @if (request()->filled($filtro))
+              <input type="hidden" name="{{ $filtro }}" value="{{ request($filtro) }}">
+            @endif
+          @endforeach
 
           <button type="submit" class="btn btn-outline-primary d-flex align-items-center gap-1">
             <i class="fas fa-search"></i> Buscar

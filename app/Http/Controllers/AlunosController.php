@@ -455,9 +455,17 @@ class AlunosController extends Controller
                 return $query->where('alunos.id_user', $user->id);
             })
             ->when($params['inputQuery'], function ($query) use ($params) {
-                return $query->where(function ($q) use ($params) {
-                    $q->where('alunos.NomeAluno', 'LIKE', '%' . $params['inputQuery'] . '%')
-                    ->orWhere('alunos.Email', 'LIKE', '%' . $params['inputQuery'] . '%');
+                $termo = trim($params['inputQuery']);
+
+                // Busca por e-mail (tem "@"): só o endereço exato, para que
+                // "p@gmail.com" não traga "sp@gmail.com" ou "desp@gmail.com".
+                if (str_contains($termo, '@')) {
+                    return $query->where('alunos.Email', $termo);
+                }
+
+                return $query->where(function ($q) use ($termo) {
+                    $q->where('alunos.NomeAluno', 'LIKE', '%' . $termo . '%')
+                    ->orWhere('alunos.Email', 'LIKE', '%' . $termo . '%');
                 });
             });
 
