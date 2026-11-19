@@ -8,6 +8,8 @@ use App\Policies\AlunoPolicy;
 use App\Policies\ProfessorPolicy;
 use App\Professores;
 use App\Services\DesativacaoNucleoService;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\View;
@@ -38,6 +40,16 @@ class AppServiceProvider extends ServiceProvider
 
         View::composer('layouts.app', function ($view) {
             $this->compartilharAvisosDeTransferencia($view);
+        });
+
+        // E-mail de verificação em português. Definido aqui (e não no
+        // pt_BR.json) porque o Laravel 13 mudou as chaves do texto original.
+        VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
+            return (new MailMessage)
+                ->subject('Verifique o endereço de e-mail')
+                ->line('Clique no botão abaixo para verificar seu endereço de e-mail.')
+                ->action('Verificar endereço de e-mail', $url)
+                ->line('Se você não criou uma conta, nenhuma ação é necessária.');
         });
     }
 
