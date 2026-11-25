@@ -751,8 +751,8 @@
 
             const mapas = {
               raca: {
-                negra: 'Negra',
-                preta: 'Negra',
+                negra: 'Preta',
+                preta: 'Preta',
                 branca: 'Branca',
                 parda: 'Parda',
                 amarela: 'Amarela',
