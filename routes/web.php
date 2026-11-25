@@ -199,13 +199,18 @@ Route::post('nucleos/importar_alunos/{id}', [AlunosController::class, 'importar'
 Route::get('nucleos', [NucleoController::class, 'index'])->middleware('permissions');
 Route::get('nucleos/details/{id}', [NucleoController::class, 'details'])->middleware('permissions');
 Route::get('nucleos/add', [NucleoController::class, 'showForm'])->middleware('permissions');
+// Rota pública (usada no pré-cadastro): devolve só os campos que o
+// formulário exibe. Não incluir contato, endereço ou dados internos.
 Route::get("nucleo/estados/{estado}", function(Request $request, $estado) {
-    $query = DB::table('nucleos')->where('status', 1);
+    $query = DB::table('nucleos')
+        ->select(['id', 'NomeNucleo', 'Regiao', 'InfoInscricao'])
+        ->where('status', 1)
+        ->orderBy('NomeNucleo');
     if($estado != 'all') {
       $query->where('estado', $estado);
     }
     return response()->json($query->get());
-});
+})->where('estado', '[A-Za-z]{2}|all')->middleware('throttle:60,1');
 Route::post('nucleos/create', [NucleoController::class, 'create'])->middleware('permissions');
 Route::get('nucleos/edit/{id}', [NucleoController::class, 'edit'])->middleware('permissions');
 Route::post('nucleos/update/{id}', [NucleoController::class, 'update'])->middleware('permissions');

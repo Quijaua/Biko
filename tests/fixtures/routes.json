@@ -1240,6 +1240,7 @@
         "name": null,
         "action": "Closure",
         "middleware": [
+            "throttle:60,1",
             "web"
         ]
     },
