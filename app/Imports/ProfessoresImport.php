@@ -39,7 +39,7 @@ class ProfessoresImport implements ToModel, WithHeadingRow, WithValidation, Skip
         // 1. Verificar se já existe um User com este e-mail
         $email = trim($row['email']);
         $cpf   = null;
-        $raca = mb_strtolower($row['raca'] ?? '', 'UTF-8');
+        $raca = \App\Support\Raca::normalizar(mb_strtolower($row['raca'] ?? '', 'UTF-8'));
 
         $rawNascimento = $row['nascimento'] ?? null;
         if (is_numeric($rawNascimento)) {

@@ -157,7 +157,7 @@ class RegisterController extends Controller
             'id_nucleo' => $nucleoId,
             'NomeNucleo' => $nomeNucleo,
             'ListaEspera' => 'Sim',
-            'Raca' => $data['inputRaca'],
+            'Raca' => \App\Support\Raca::normalizar($data['inputRaca'] ?? null),
             'Genero' => $data['inputGenero'],
             'concordaSexoDesignado' => isset($data['concordaSexoDesignado']) ? $data['concordaSexoDesignado'] : NULL,
             'Nascimento' => $data['inputNascimento'],

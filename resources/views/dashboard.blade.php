@@ -31,7 +31,21 @@
       @php
         $cadastros = DB::select('select count(*) as qtd, DATE_FORMAT(created_at,"%Y-%m-%d") as dia FROM users GROUP BY dia');
         $meses = DB::select('select count(*) as qtd, DATE_FORMAT(created_at,"%Y-%m") as mes FROM users GROUP BY mes');
-        $racas = DB::select('select count(*) as qtd, IF(Raca IS NULL or Raca = "" or Raca = "Selecione", "Outros", Raca) as raca FROM alunos GROUP BY raca');
+        // "preta" (gravado pelo pré-cadastro antigo) e "negra" são a mesma categoria.
+        // Subquery porque "group by raca" agruparia pela coluna Raca, não pelo apelido.
+        $racas = DB::select("
+            select count(*) as qtd, r.categoria as raca
+            from (
+                select case
+                         when Raca is null or trim(Raca) in ('', 'Selecione') then 'Outros'
+                         when lower(trim(Raca)) in ('negra', 'preta') then 'negra'
+                         else lower(trim(Raca))
+                       end as categoria
+                from alunos
+            ) r
+            group by r.categoria
+            order by qtd desc
+        ");
         $generos = DB::select('select count(*) as qtd, IF(Genero IS NULL or Genero = "" or Genero = "Selecione", "Outros", Genero) as genero FROM alunos GROUP BY genero');
         $soubes = DB::select('select count(*) as qtd, IF(ComoSoube IS NULL or ComoSoube = "" or ComoSoube = "Selecione", "Outros", ComoSoube) as csoube from alunos group by csoube');
         $alunos = DB::table('alunos')->count();
@@ -737,7 +751,8 @@
 
             const mapas = {
               raca: {
-                negra: 'Preta',
+                negra: 'Negra',
+                preta: 'Negra',
                 branca: 'Branca',
                 parda: 'Parda',
                 amarela: 'Amarela',

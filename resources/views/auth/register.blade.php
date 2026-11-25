@@ -359,7 +359,7 @@
                                                                 Cor</label>
                                                             <select id="raca" name="inputRaca" class="form-select">
                                                                 <option value="" selected>Selecione</option>
-                                                                <option value="preta">Preta</option>
+                                                                <option value="negra">Negra</option>
                                                                 <option value="branca">Branca</option>
                                                                 <option value="parda">Parda</option>
                                                                 <option value="amarela">Amarela</option>

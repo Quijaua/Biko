@@ -40,7 +40,7 @@ class AlunoController extends Controller
         'Status' => 1,
         'NomeAluno' => $data['NomeAluno'],
         'id_nucleo' => $data['id_nucleo'],
-        'Raca' => $data['Raca'],
+        'Raca' => \App\Support\Raca::normalizar($data['Raca'] ?? null),
         'Genero' => $data['Genero'],
         'IdentificaGenero' => $data['IdentificaGenero'],
         'Nascimento' => $data['Nascimento'],

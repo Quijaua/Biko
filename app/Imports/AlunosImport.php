@@ -38,7 +38,7 @@ class AlunosImport implements ToModel, WithHeadingRow
             'FoneCelular' =>  $row['celular'],
             'Nascimento' => $row['data_de_nascimento'],
             'Escolaridade' =>  $row['escolaridade'],
-            'Raca' =>  $row['raca'],
+            'Raca' =>  \App\Support\Raca::normalizar($row['raca'] ?? null),
             'Genero' =>  $row['genero'],
             'TemFilhos' =>  $row['filhos'],
             'id_nucleo' => $nucleo->id ?? $this->id,

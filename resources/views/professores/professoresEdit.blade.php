@@ -240,7 +240,7 @@
                                                     <option selected>Selecione</option>
                                                     <option <?php if ($dados->Raca == 'negra') {
                                                         echo 'selected=selected';
-                                                    } ?> value="negra">Preta</option>
+                                                    } ?> value="negra">Negra</option>
                                                     <option <?php if ($dados->Raca == 'branca') {
                                                         echo 'selected=selected';
                                                     } ?> value="branca">Branca</option>

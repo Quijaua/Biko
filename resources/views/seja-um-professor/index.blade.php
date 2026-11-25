@@ -149,7 +149,7 @@
                                         <label class="form-label mb-2" for="raca_cor">Raça/Cor (obrigatório)</label>
                                         <select name="raca_cor" id="raca_cor" class="form-control" required>
                                             <option value="" selected>Selecione</option>
-                                            <option value="negra">Preta</option>
+                                            <option value="negra">Negra</option>
                                             <option value="branca">Branca</option>
                                             <option value="parda">Parda</option>
                                             <option value="amarela">Amarela</option>

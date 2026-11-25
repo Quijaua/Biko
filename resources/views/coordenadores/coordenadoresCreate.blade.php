@@ -201,7 +201,7 @@
                                               <label for="raca">Raça / Cor</label>
                                               <select id="raca" name="inputRaca" class="form-select">
                                                   <option selected>Selecione</option>
-                                                  <option   value="negra">Preta</option>
+                                                  <option   value="negra">Negra</option>
                                                   <option   value="branca">Branca</option>
                                                   <option   value="parda">Parda</option>
                                                   <option   value="amarela">Amarela</option>
